@@ -414,22 +414,27 @@
             navigator.clipboard.writeText(link).then(() => alert("تم نسخ رابط الموعد بنجاح! 🎉"));
         }
 
-        // تشغيل بروتوكول HLS الممرر عبر بروكسي وسيط آمن لحل مشكلة جيت هاب
-        function initLiveAudio() {
-            var audioObj = document.getElementById('live-audio');
-            // استخدام الـ Proxy المخصص لكسر حماية المحتوى المختلط وتجاوز القيود الأمنية
-            var rawSrc = 'http://m.live.net.sa:1935/live/quransa/playlist.m3u8';
-            var proxySrc = 'https://corsproxy.io/?' + encodeURIComponent(rawSrc);
+function initLiveAudio() {
+    const audio = document.getElementById('live-audio');
+    const src = 'https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8';
 
-            if (Hls.isSupported()) {
-                var hls = new Hls();
-                hls.loadSource(proxySrc);
-                hls.attachMedia(audioObj);
-            }
-            else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
-                audioObj.src = proxySrc;
-            }
-        }
+    if (Hls.isSupported()) {
+        const hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true
+        });
+
+        hls.loadSource(src);
+        hls.attachMedia(audio);
+
+        hls.on(Hls.Events.ERROR, function (event, data) {
+            console.log(data);
+        });
+
+    } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
+        audio.src = src;
+    }
+}
 
         window.onload = () => { initTelawat(); initCountdowns(); initDhikr(); initLiveAudio(); };
     </script>
