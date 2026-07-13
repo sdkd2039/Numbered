@@ -308,22 +308,31 @@
         <div class="box-card">
             <div class="box-header">
                 <i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i>
-                <h2 class="box-title">بث مباشر الحرم المكي الشريف</h2>
+                <h2 class="box-title">بث مباشر: قناة القرآن الكريم</h2>
             </div>
             <div class="live-stream-container">
-                <video id="makkah-video" class="live-video-player" controls autoplay muted></video>
+            <iframe
+            src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4"
+            style="width:100%;height:100%;border:0;"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+            </iframe>
             </div>
         </div>
 
         <div class="box-card">
             <div class="box-header">
                 <i class="fa-solid fa-gopuram" style="color: var(--accent-gold);"></i>
-                <h2 class="box-title">بث مباشر الحرم المدني الشريف</h2>
+                <h2 class="box-title">بث مباشر:قناة السنة النبوية</h2>
             </div>
             <div class="live-stream-container">
-                <video id="madinah-video" class="live-video-player" controls autoplay muted></video>
-            </div>
-        </div>
+            <iframe
+            src="https://www.elahmad.ru/tv/live/channels.php?id=326"
+            style="width:100%;height:100%;border:0;"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+            </iframe>            
+      </div>
     </div>
 
     <script>
@@ -586,27 +595,59 @@
             updateTimers(); setInterval(updateTimers, 1000);
         }
 
-        function shareTime(name, date) {
-            const link = `https://maadodat.github.io/share?event=${encodeURIComponent(name)}&date=${date}`;
-            navigator.clipboard.writeText(link).then(() => alert("تم نسخ رابط الموعد بنجاح! 🎉"));
-        }
+function shareTime(name, key) {
+
+    const mo = document.getElementById(`${key}-mo`)?.textContent || "0";
+    const d  = document.getElementById(`${key}-d`)?.textContent || "0";
+    const h  = document.getElementById(`${key}-h`)?.textContent || "0";
+    const m  = document.getElementById(`${key}-m`)?.textContent || "0";
+    const s  = document.getElementById(`${key}-s`)?.textContent || "0";
+
+    const text =
+`📿 ${name}
+
+⏳ المتبقي:
+
+🗓️ ${mo} شهر
+📅 ${d} يوم
+🕒 ${h} ساعة
+🕑 ${m} دقيقة
+⏱️ ${s} ثانية
+
+🌐 https://sdkd2039.github.io/Numbered/`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: name,
+            text: text
+        }).catch(()=>{});
+    } else {
+        navigator.clipboard.writeText(text);
+        alert("تم نسخ الوقت الحالي.");
+    }
+}
 
         // --- مشغل إذاعة القرآن والبث المباشر ---
         let hlsAudioInstance = null;
 
-        function initLiveStreams() {
-            // إعداد دفق البث الإذاعي الصوتي
-            var audioObj = document.getElementById('live-audio');
-            var rawSrc = 'http://m.live.net.sa:1935/live/quransa/playlist.m3u8';
-            var proxySrc = 'https://corsproxy.io/?' + encodeURIComponent(rawSrc);
+// إذاعة القرآن الكريم
+const audioObj = document.getElementById("live-audio");
+const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
 
-            if (Hls.isSupported()) {
-                hlsAudioInstance = new Hls(); 
-                hlsAudioInstance.loadSource(proxySrc); 
-                hlsAudioInstance.attachMedia(audioObj);
-            } else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
-                audioObj.src = proxySrc;
-            }
+if (Hls.isSupported()) {
+    hlsAudioInstance = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true
+    });
+
+    hlsAudioInstance.loadSource(radioUrl);
+    hlsAudioInstance.attachMedia(audioObj);
+
+} else if (audioObj.canPlayType("application/vnd.apple.mpegurl")) {
+
+    audioObj.src = radioUrl;
+
+}
 
             // بث الحرم المكي
             var makkahVideo = document.getElementById('makkah-video');
