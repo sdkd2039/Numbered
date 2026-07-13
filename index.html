@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معدودات</title>
+    <title>شبكة معدودات - الإصدار المتكامل</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- مكتبة HLS لتشغيل إذاعة القرآن الصوتية بنقاء -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     
     <style>
@@ -49,140 +48,52 @@
         }
 
         img { pointer-events: none; -webkit-touch-callout: none; }
-
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .main-logo {
-            max-width: 150px;
-            height: auto;
-        }
+        header { text-align: center; margin-bottom: 20px; }
+        .main-logo { max-width: 150px; height: auto; }
 
         /* شريط الأقسام المتمركز */
-        .tabs-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .tabs-container {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            scrollbar-width: none;
-        }
+        .tabs-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
+        .tabs-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
         .tabs-container::-webkit-scrollbar { display: none; }
 
         .tab-btn {
-            background: #21262d;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 12px 18px;
-            border-radius: 16px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-width: 95px;
-            transition: all 0.2s ease;
+            background: #21262d; border: 1px solid var(--border-color); color: var(--text-color);
+            padding: 12px 18px; border-radius: 16px; font-size: 14px; font-weight: 700; cursor: pointer;
+            white-space: nowrap; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-width: 95px; transition: all 0.2s ease;
         }
+        .tab-btn img, .tab-btn svg { width: 24px; height: 24px; object-fit: contain; }
+        .tab-btn.active { background: var(--tab-active); border-color: var(--tab-active); color: white; box-shadow: 0 0 12px rgba(0, 82, 204, 0.5); }
 
-        .tab-btn img, .tab-btn svg {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-        }
+        .panel-content { width: 100%; max-width: 650px; display: none; }
+        .panel-content.active { display: block; }
 
-        .tab-btn.active {
-            background: var(--tab-active);
-            border-color: var(--tab-active);
-            color: white;
-            box-shadow: 0 0 12px rgba(0, 82, 204, 0.5);
-        }
-
-        .panel-content {
-            width: 100%;
-            max-width: 650px;
-            display: none;
-        }
-        .panel-content.active {
-            display: block;
-        }
-
-        .box-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            margin-bottom: 20px;
-        }
-
-        .box-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-            margin-bottom: 18px;
-        }
-
+        .box-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 20px; }
+        .box-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px; }
         .box-icon { width: 32px; height: 32px; object-fit: contain; }
         .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* ستايل المشغل الاحترافي المطور لإذاعة القرآن والتلاوات */
-        .audio-player-card {
-            background: var(--player-bg);
-            border-radius: 18px;
-            padding: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            margin-bottom: 15px;
-        }
+        /* حقل البحث الذكي */
+        .search-container { position: relative; margin-bottom: 20px; width: 100%; }
+        .search-input { width: 100%; padding: 12px 45px 12px 15px; background: #21262d; border: 1px solid var(--border-color); border-radius: 12px; color: #fff; font-size: 0.95rem; outline: none; transition: all 0.3s; }
+        .search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(2, 132, 199, 0.3); }
+        .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-        .player-top-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .track-title { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        /* أزرار تصفية الأذكار الفرعية */
+        .sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .sub-tab-btn { background: #21262d; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .sub-tab-btn.active { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
 
-        /* شارة البث المباشر النابضة */
-        .live-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--live-red);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .pulse-dot {
-            width: 8px; height: 8px; background: var(--live-red); border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.4; }
-            100% { transform: scale(0.9); opacity: 1; }
-        }
+        /* ستايل المشغل المشترك لقسم التلاوات والإذاعة */
+        .audio-player-card { background: var(--player-bg); border-radius: 18px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.03); margin-bottom: 15px; }
+        .player-top-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .track-title { font-size: 1.05rem; font-weight: 700; color: #fff; line-height: 1.4; }
+
+        .live-badge { display: flex; align-items: center; gap: 6px; background: rgba(239, 68, 68, 0.1); color: var(--live-red); padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; }
+        .pulse-dot { width: 8px; height: 8px; background: var(--live-red); border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.4; } 100% { transform: scale(0.9); opacity: 1; } }
 
         .progress-container { width: 100%; margin-bottom: 12px; }
-        .timeline {
-            width: 100%; height: 5px; background: #334155; border-radius: 10px;
-            cursor: pointer; position: relative; transition: height 0.1s;
-        }
+        .timeline { width: 100%; height: 5px; background: #334155; border-radius: 10px; cursor: pointer; position: relative; }
         .timeline.live-timeline { cursor: default; background: linear-gradient(90deg, #334155, var(--primary-color)); }
         .progress-bar { height: 100%; width: 0%; background: linear-gradient(270deg, var(--primary-color), #0ea5e9); border-radius: 10px; }
         .time-stamps { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; }
@@ -198,10 +109,7 @@
         .btn-loop { width: 32px; height: 32px; font-size: 0.95rem; background: rgba(255,255,255,0.06); border-radius: 6px; color: var(--text-muted); }
 
         /* العداد التفاعلي */
-        .live-timer-grid {
-            display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; text-align: center;
-            direction: rtl;
-        }
+        .live-timer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; text-align: center; direction: rtl; }
         .time-box { background: rgba(255,255,255,0.03); padding: 10px 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02); }
         .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
         .time-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
@@ -214,18 +122,19 @@
         .share-btn { background: none; border: none; color: var(--accent-gold); cursor: pointer; font-size: 0.85rem; margin-top: 14px; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; }
 
         /* الأذكار */
-        .dhikr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.02); }
+        .dhikr-container-list { display: flex; flex-direction: column; gap: 10px; }
+        .dhikr-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.02); }
         .dhikr-text { font-size: 13.5px; line-height: 1.6; padding-left: 10px; }
         .mini-counter { background: #21262d; border: 1px solid var(--accent-gold); color: var(--accent-gold); width: 38px; height: 38px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .mini-counter.done { background: var(--green); color: white; border-color: var(--green); }
 
-        /* شاشات البث المباشر المطورة للأكواد الجديدة */
+        /* شاشات iframe البث المباشر */
         .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
         .live-iframe-player { width: 100%; height: 100%; display: block; background: #000; border: none; }
         .btn-dl { background: var(--green); color: white; padding: 5px 12px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: none; cursor: pointer; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
     <header>
         <img src="https://files.catbox.moe/h4bsrt.png" alt="معدودات" class="main-logo">
@@ -256,20 +165,24 @@
         </div>
     </div>
 
-    <!-- 1. قسم التلاوات -->
     <div id="panel-telawat" class="panel-content active">
         <div class="box-card">
             <div class="box-header">
                 <img src="https://files.catbox.moe/t2zfc7.png" class="box-icon">
                 <h2 class="box-title">تلاوات معدودات الخاشعة</h2>
             </div>
+            
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchAudio" class="search-input" placeholder="ابحث عن قارئ أو سورة..." oninput="filterTelawat()">
+            </div>
+
             <div id="telawat-list">
                 <p style="text-align:center; color:gray;">جاري جلب الملفات الصوتية...</p>
             </div>
         </div>
     </div>
 
-    <!-- 2. قسم المتبقي -->
     <div id="panel-remaining" class="panel-content">
         <div class="box-card">
             <div class="box-header">
@@ -306,23 +219,27 @@
         </div>
     </div>
 
-    <!-- 3. قسم الذكر -->
     <div id="panel-dhikr" class="panel-content">
         <div class="box-card">
             <div class="box-header">
                 <img src="https://files.catbox.moe/korzmc.png" class="box-icon">
                 <h2 class="box-title">الأذكار والعدادات اليومية</h2>
             </div>
-            <div id="dhikr-list">
+            
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="filterDhikrCategory('الكل', this)">الكل</button>
+                <button class="sub-tab-btn" onclick="filterDhikrCategory('الصباح', this)">أذكار الصباح</button>
+                <button class="sub-tab-btn" onclick="filterDhikrCategory('المساء', this)">أذكار المساء</button>
+                <button class="sub-tab-btn" onclick="filterDhikrCategory('منوع', this)">أذكار منوعة</button>
+            </div>
+
+            <div id="dhikr-list" class="dhikr-container-list">
                 <p style="text-align:center; color:gray;">جاري جلب الأذكار...</p>
             </div>
         </div>
     </div>
 
-    <!-- 4. قسم البث مباشر المكمل والمشغل المطور للإذاعة -->
     <div id="panel-live" class="panel-content">
-        
-        <!-- مشغل بث إذاعة القرآن الكريم بتصميم شارات دراما المجد الاحترافي -->
         <div class="box-card">
             <div class="box-header">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6V18M17 9V15M22 11V13M7 8V16M2 10V14" stroke="#c5a880" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -346,16 +263,13 @@
                 </div>
 
                 <div class="player-controls" style="justify-content: center;">
-                    <div class="center-playback-group">
-                        <button class="control-btn btn-play-pause" onclick="toggleLiveRadio()" style="width: 50px; height: 50px;">
-                            <i class="fa-solid fa-play" id="radio-live-icon"></i>
-                        </button>
-                    </div>
+                    <button class="control-btn btn-play-pause" onclick="toggleLiveRadio()" style="width: 50px; height: 50px;">
+                        <i class="fa-solid fa-play" id="radio-live-icon"></i>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- شاشة بث الحرم المكي الشريف المطورة (باستخدام الروابط المحدثة والمستقرة) -->
         <div class="box-card">
             <div class="box-header">
                 <i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i>
@@ -366,7 +280,6 @@
             </div>
         </div>
 
-        <!-- شاشة بث الحرم المدني الشريف المطورة (باستخدام الروابط المحدثة والمستقرة) -->
         <div class="box-card">
             <div class="box-header">
                 <i class="fa-solid fa-gopuram" style="color: var(--accent-gold);"></i>
@@ -383,9 +296,11 @@
         const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
         const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=أذكار`;
 
-        // رابط سيرفر البث الصوتي لإذاعة القرآن الكريم
-        const radioLiveUrl = "http://m.live.net.sa:1935/live/quransa/playlist.m3u8";
+        // تم التحديث إلى سيرفر بث آمن HTTPS متوافق تماماً مع حماية جيت هاب
+        const radioLiveUrl = "https://stream.radiosaudi.com/quran/index.m3u8";
         let hlsRadio;
+        let allTelawatRows = [];
+        let allDhikrRows = [];
 
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -394,7 +309,6 @@
             event.currentTarget.classList.add('active');
             document.getElementById(`panel-${tabName}`).classList.add('active');
             
-            // إيقاف التلاوات الصوتية عند مغادرة الأقسام
             if(tabName !== 'telawat') {
                 document.querySelectorAll('audio:not(#audio-live-quran)').forEach(audio => audio.pause());
             }
@@ -403,88 +317,137 @@
             }
         }
 
-        // تشغيل وإيقاف مشغل إذاعة القرآن الكريم المطور
         function toggleLiveRadio() {
             const radio = document.getElementById('audio-live-quran');
             const icon = document.getElementById('radio-live-icon');
-            
             document.querySelectorAll('audio:not(#audio-live-quran)').forEach(el => el.pause());
 
             if (radio.paused) {
                 if (Hls.isSupported() && !hlsRadio) {
-                    hlsRadio = new Hls();
-                    hlsRadio.loadSource(radioLiveUrl);
-                    hlsRadio.attachMedia(radio);
+                    hlsRadio = new Hls(); hlsRadio.loadSource(radioLiveUrl); hlsRadio.attachMedia(radio);
                     hlsRadio.on(Hls.Events.MANIFEST_PARSED, function() { radio.play(); });
                 } else if (!radio.src) {
-                    radio.src = radioLiveUrl;
-                    radio.play();
-                } else {
-                    radio.play();
-                }
+                    radio.src = radioLiveUrl; radio.play();
+                } else { radio.play(); }
                 icon.className = 'fa-solid fa-pause';
             } else {
-                radio.pause();
-                icon.className = 'fa-solid fa-play';
+                radio.pause(); icon.className = 'fa-solid fa-play';
             }
         }
 
         function stopRadioLive() {
-            const radio = document.getElementById('audio-live-quran');
-            const icon = document.getElementById('radio-live-icon');
-            if(radio && !radio.paused) {
-                radio.pause();
-                if(icon) icon.className = 'fa-solid fa-play';
-            }
+            const radio = document.getElementById('audio-live-quran'); const icon = document.getElementById('radio-live-icon');
+            if(radio && !radio.paused) { radio.pause(); if(icon) icon.className = 'fa-solid fa-play'; }
         }
 
         async function fetchSheet(url) {
             try {
-                const response = await fetch(url);
-                const text = await response.text();
+                const response = await fetch(url); const text = await response.text();
                 return JSON.parse(text.substr(47).slice(0, -2)).table.rows;
             } catch (e) { return []; }
         }
 
         async function initTelawat() {
-            const rows = await fetchSheet(urlTelawat);
+            allTelawatRows = await fetchSheet(urlTelawat);
+            renderTelawat(allTelawatRows);
+        }
+
+        function renderTelawat(rows) {
             const container = document.getElementById('telawat-list');
-            if(rows.length === 0) { container.innerHTML = "<p style='text-align:center;'>لا توجد تلاوات حالياً.</p>"; return; }
-            
+            if(rows.length === 0) { container.innerHTML = "<p style='text-align:center; color:gray;'>لا توجد نتائج مطابقة.</p>"; return; }
             container.innerHTML = '';
             rows.forEach((row, index) => {
                 const title = row.c[0] ? row.c[0].v : 'تلاوة مباركة';
                 const mp3Url = row.c[1] ? row.c[1].v : '#';
-
                 container.innerHTML += `
-                    <div class="audio-player-card">
+                    <div class="audio-player-card audio-item-box" data-title="${title.toLowerCase()}">
                         <div class="player-top-info">
                             <span class="track-title">${title}</span>
-                            <button class="btn-dl" onclick="downloadFile('${mp3Url}', '${title}')"><i class="fa-solid fa-cloud-arrow-down"></i> MP3</button>
+                            <a href="${mp3Url}" download="${title}.mp3" class="btn-dl" target="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> MP3</a>
                         </div>
                         <audio id="audio-${index}" src="${mp3Url}" preload="metadata"></audio>
                         <div class="progress-container">
-                            <div class="timeline" id="timeline-${index}" onclick="handleTimelineClick(event, ${index})"><div class="progress-bar" id="progress-${index}"></div></div>
-                            <div class="time-stamps"><span id="current-${index}">0:00</span><span id="dur-${index}">0:00</span></div>
+                            <div class="timeline" onclick="handleTimelineClick(event, ${index})"><div class="progress-bar" id="progress-${index}"></div></div>
+                            <div class="time-stamps"><span id="current-${index}">0:00</span></div>
                         </div>
-                        <div class="player-controls">
-                            <button class="control-btn btn-speed" id="speedBtn-${index}" onclick="toggleSpeedMenu(event, ${index})">1.0x</button>
-                            <div class="speed-menu" id="speedMenu-${index}" style="display:none;">
-                                <button onclick="setSpeed(${index}, 1.0)">1.0x</button><button onclick="setSpeed(${index}, 1.5)">1.5x</button>
-                            </div>
-                            <div class="center-playback-group">
-                                <button class="control-btn btn-skip" onclick="skipAudio(${index}, -10)"><i class="fa-solid fa-forward-fast"></i></button>
-                                <button class="control-btn btn-play-pause" onclick="togglePlay(${index})"><i class="fa-solid fa-play" id="icon-${index}"></i></button>
-                                <button class="control-btn btn-skip" onclick="skipAudio(${index}, 10)"><i class="fa-solid fa-backward-fast"></i></button>
-                            </div>
-                            <button class="control-btn btn-loop" id="loop-${index}" onclick="toggleLoop(${index})"><i class="fa-solid fa-arrows-rotate"></i></button>
+                        <div class="player-controls" style="justify-content:center;">
+                            <button class="control-btn btn-play-pause" onclick="togglePlay(${index})"><i class="fa-solid fa-play" id="icon-${index}"></i></button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
-        // دالة العدادات التنازلية للأيام والشهور
+        // محرك البحث الفوري في التلاوات
+        function filterTelawat() {
+            const query = document.getElementById('searchAudio').value.toLowerCase();
+            const filtered = allTelawatRows.filter(row => {
+                const title = row.c[0] ? row.c[0].v.toLowerCase() : '';
+                return title.includes(query);
+            });
+            renderTelawat(filtered);
+        }
+
+        function togglePlay(id) {
+            const audio = document.getElementById(`audio-${id}`); const icon = document.getElementById(`icon-${id}`);
+            if(audio.paused) {
+                document.querySelectorAll('audio').forEach(el => el.pause());
+                document.querySelectorAll('.btn-play-pause i').forEach(i => { if(i.id !== 'radio-live-icon') i.className = 'fa-solid fa-play'; });
+                audio.play(); icon.className = 'fa-solid fa-pause';
+                audio.ontimeupdate = () => {
+                    const progress = document.getElementById(`progress-${id}`);
+                    const current = document.getElementById(`current-${id}`);
+                    if(progress) progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+                    if(current) current.innerText = formatTime(audio.currentTime);
+                };
+            } else { audio.pause(); icon.className = 'fa-solid fa-play'; }
+        }
+
+        function formatTime(secs) {
+            let m = Math.floor(secs / 60), s = Math.floor(secs % 60);
+            return m + ':' + (s < 10 ? '0' : '') + s;
+        }
+
+        // جلب الأذكار ودعم الأقسام والتصنيفات
+        async function initDhikr() {
+            allDhikrRows = await fetchSheet(urlDhikr);
+            renderDhikr('الكل');
+        }
+
+        function renderDhikr(category) {
+            const container = document.getElementById('dhikr-list');
+            container.innerHTML = '';
+            let hasData = false;
+
+            allDhikrRows.forEach((row, index) => {
+                const text = row.c[0] ? row.c[0].v : '';
+                const count = row.c[1] ? parseInt(row.c[1].v) : 1;
+                // العمود الثالث (C) في جدول البيانات مخصص لتحديد القسم (الصباح، المساء، منوع)
+                const cat = row.c[2] ? row.c[2].v.trim() : 'منوع';
+
+                if(category === 'الكل' || cat === category) {
+                    hasData = true;
+                    container.innerHTML += `
+                        <div class="dhikr-row">
+                            <div class="dhikr-text">${text}</div>
+                            <div class="mini-counter" id="dk-${index}" onclick="countDhikr(${index})">${count}</div>
+                        </div>`;
+                }
+            });
+            if(!hasData) container.innerHTML = "<p style='text-align:center; color:gray;'>لا توجد أذكار في هذا القسم حالياً.</p>";
+        }
+
+        function filterDhikrCategory(category, element) {
+            document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            renderDhikr(category);
+        }
+
+        function countDhikr(id) {
+            const el = document.getElementById(`dk-${id}`); let val = parseInt(el.innerText);
+            if (val > 1) el.innerText = val - 1; else { el.innerText = "✓"; el.classList.add('done'); }
+        }
+
+        // العداد التنازلي للمواعيد
         const targetDates = { ramadan: new Date("February 8, 2027 00:00:00").getTime(), fitr: new Date("March 8, 2027 00:00:00").getTime() };
         function initCountdowns() {
             function updateTimers() {
@@ -503,21 +466,6 @@
                 }
             }
             updateTimers(); setInterval(updateTimers, 1000);
-        }
-
-        async function initDhikr() {
-            const rows = await fetchSheet(urlDhikr);
-            const container = document.getElementById('dhikr-list'); if (rows.length === 0) return;
-            container.innerHTML = '';
-            rows.forEach((row, index) => {
-                const text = row.c[0] ? row.c[0].v : ''; const count = row.c[1] ? parseInt(row.c[1].v) : 1; if(!text) return;
-                container.innerHTML += `<div class="dhikr-row"><div class="dhikr-text">${text}</div><div class="mini-counter" id="dk-${index}" onclick="countDhikr(${index})">${count}</div></div>`;
-            });
-        }
-
-        function countDhikr(id) {
-            const el = document.getElementById(`dk-${id}`); let val = parseInt(el.innerText);
-            if (val > 1) el.innerText = val - 1; else { el.innerText = "✓"; el.classList.add('done'); }
         }
 
         function shareTime(name, date) {
