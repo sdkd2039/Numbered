@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شبكة معدودات - الإصدار المتكامل المستقر</title>
+    <title>موقع معدودات</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
             --primary-color: #0284c7;
             --primary-hover: #0369a1;
             --text-muted: #94a3b8;
-            --accent-gold: #c5a880;
+            --accent-gold: #ffd700;
             --player-bg: #151f32;
             --border-color: #30363d;
             --tab-active: #0052cc;
@@ -68,7 +68,7 @@
         .panel-content { width: 100%; max-width: 650px; display: none; }
         .panel-content.active { display: block; }
 
-        .box-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 20px; }
+        .box-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 20px; position: relative; }
         .box-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px; }
         .box-icon { width: 32px; height: 32px; object-fit: contain; }
         .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
@@ -84,17 +84,12 @@
         .sub-tab-btn { background: #21262d; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
         .sub-tab-btn.active { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
 
-        /* تصميم المشغل الدائري المستوحى من دراما وشارات المجد */
+        /* تصميم المشغل الدائري لقسم التلاوات */
         .audio-player-card { 
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
             border-radius: 24px; padding: 25px; border: 2px solid var(--accent-gold); 
             margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.6); position: relative; overflow: hidden;
-        }
-        .audio-player-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(197, 168, 128, 0.05), transparent);
-            transform: rotate(45deg); pointer-events: none;
         }
         .drama-circle-wrapper { position: relative; width: 140px; height: 140px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; }
         .drama-svg-track { transform: rotate(-90deg); width: 100%; height: 100%; }
@@ -107,12 +102,60 @@
             font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; 
             box-shadow: inset 0 0 15px rgba(0,0,0,0.6), 0 4px 15px rgba(0,0,0,0.4); transition: all 0.3s ease;
         }
-        .btn-play-pause-center:hover { border-color: var(--accent-gold); color: #fff; transform: scale(1.03); }
         
         .drama-info-panel { text-align: center; width: 100%; margin-top: 10px; }
-        .track-title { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .time-stamps { font-size: 0.85rem; color: var(--accent-gold); font-weight: 700; margin-top: 5px; letter-spacing: 0.5px; }
+        .track-title { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 5px; }
+        .time-stamps { font-size: 0.85rem; color: var(--accent-gold); font-weight: 700; margin-top: 5px; }
         .player-action-row { width: 100%; display: flex; justify-content: center; margin-top: 15px; }
+
+        /* التصميم المحدث الفاخر الخاص بإذاعة القرآن الكريم المقتبس من دراما المجد */
+        .quran-modern-player {
+            background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
+            border-radius: 24px;
+            padding: 25px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .top-meta-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 20px; }
+        .meta-container { display: flex; align-items: center; gap: 20px; text-align: right; }
+        .poster-container { width: 85px; height: 85px; border-radius: 14px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); overflow: hidden; border: 2px solid var(--accent-gold); flex-shrink: 0; }
+        .poster-container img { width: 100%; height: 100%; object-fit: cover; }
+        .track-info-modern { display: flex; flex-direction: column; justify-content: center; }
+        .track-title-modern { font-size: 1.4rem; font-weight: 900; color: #fff; margin-bottom: 4px; }
+        .track-channel-modern { font-size: 0.9rem; color: var(--accent-gold); font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        
+        .live-status-badge {
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4);
+            color: var(--live-red); padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 900;
+            display: flex; align-items: center; gap: 6px; animation: pulseBadge 2s infinite;
+        }
+        @keyframes pulseBadge { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+
+        /* شريط التحكم المطور الخالي من مشغل المتصفح الافتراضي */
+        .audio-player-modern-controls {
+            background: #111827; border-radius: 18px; padding: 15px 20px;
+            border: 1px solid var(--border-color); width: 100%; display: flex; align-items: center; justify-content: space-between;
+        }
+        .center-playback-group { display: flex; align-items: center; gap: 20px; }
+        .control-btn { background: none; border: none; color: var(--text-color); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        
+        /* زر التشغيل الدائري المماثل لنمط شارات المجد */
+        .btn-play-pause-modern { 
+            width: 55px; height: 55px; border-radius: 50%; 
+            background: #1e293b; color: var(--accent-gold); font-size: 1.25rem; 
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); 
+            display: flex; align-items: center; justify-content: center;
+        }
+        .btn-play-pause-modern:hover { background: var(--accent-gold); color: #000; transform: scale(1.05); }
+        
+        .live-text-indicator { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .live-dot { width: 8px; height: 8px; background-color: var(--live-red); border-radius: 50%; display: inline-block; box-shadow: 0 0 8px var(--live-red); }
 
         /* العداد التفاعلي */
         .live-timer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; text-align: center; direction: rtl; }
@@ -135,7 +178,12 @@
         /* إطار مشغلات الأقسام وقنوات البث */
         .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
         .btn-dl { background: var(--green); color: white; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-        .native-audio-player { width: 100%; margin-top: 10px; accent-color: var(--primary-color); }
+        
+        @media (max-width: 540px) {
+            .top-meta-bar { flex-direction: column; text-align: center; gap: 12px; }
+            .meta-container { flex-direction: column; text-align: center; }
+            .track-info-modern { align-items: center; }
+        }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -193,7 +241,7 @@
         <div class="box-card">
             <div class="box-header">
                 <img src="https://files.catbox.moe/9am1q8.png" class="box-icon">
-                <h2 class="box-title">العد التنازلي (للعام 1448 هـ)</h2>
+                <h2 class="box-title">العد التنازلي التفاعلي المباشر (1448 هـ)</h2>
             </div>
             <div class="countdown-container">
                 <!-- رمضان -->
@@ -212,7 +260,7 @@
 
                 <!-- عيد الفطر -->
                 <div class="countdown-item">
-                    <div class="countdown-title">عيد الفطر المبارك</div>
+                    <div class="countdown-title">عيد الفطر السعيد</div>
                     <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                     <div class="live-timer-grid">
                         <div class="time-box"><div class="time-num" id="fitr-s">--</div><div class="time-label">ثواني</div></div>
@@ -226,7 +274,7 @@
 
                 <!-- عشر ذي الحجة -->
                 <div class="countdown-item">
-                    <div class="countdown-title">عشر ذي الحجة</div>
+                    <div class="countdown-title">عشر ذي الحجة المباركة</div>
                     <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 14 مايو 2027 م</div>
                     <div class="live-timer-grid">
                         <div class="time-box"><div class="time-num" id="hajj-s">--</div><div class="time-label">ثواني</div></div>
@@ -275,16 +323,44 @@
         </div>
     </div>
 
-    <!-- 4. قسم البث المباشر (المحدث بالرابط والـ iframes الجديدة) -->
+    <!-- 4. قسم البث المباشر (المحدث بالمشغل الفاخر والـ iframes) -->
     <div id="panel-live" class="panel-content">
-        <div class="box-card">
-            <div class="box-header">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6V18M17 9V15M22 11V13M7 8V16M2 10V14" stroke="#c5a880" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <h2 class="box-title">إذاعة القرآن الكريم من المملكة العربية السعودية</h2>
+        
+        <!-- مشغل إذاعة القرآن المطور والمدمج بالكامل (بدون عناصر تحكم المتصفح الافتراضية) -->
+        <div class="quran-modern-player">
+            <div class="top-meta-bar">
+                <div class="meta-container">
+                    <div class="poster-container">
+                        <img src="https://files.catbox.moe/aujln8.jpg" alt="إذاعة القرآن الكريم">
+                    </div>
+                    <div class="track-info-modern">
+                        <h2 class="track-title-modern">إذاعة القرآن الكريم</h2>
+                        <div class="track-channel-modern">
+                            <i class="fa-solid fa-radio"></i>
+                            <span>المملكة العربية السعودية</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="live-status-badge">
+                    <span class="live-dot"></span>
+                    <span>مباشر الآن</span>
+                </div>
             </div>
-            <div style="text-align: center; padding: 10px 0;">
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">البث المباشر المسرّع</p>
-                <audio id="live-audio" controls class="native-audio-player"></audio>
+
+            <!-- تمت إزالة خاصية controls تماماً للاعتماد على واجهة CSS مخصصة -->
+            <audio id="live-audio" preload="metadata"></audio>
+
+            <div class="audio-player-modern-controls">
+                <div class="live-text-indicator">
+                    <i class="fa-solid fa-tower-broadcast" style="color: var(--accent-gold); margin-left: 5px;"></i>
+                    <span>بث حي عالي الجودة بميزة lowLatency</span>
+                </div>
+                
+                <div class="center-playback-group">
+                    <button class="control-btn btn-play-pause-modern" id="playPauseBtn">
+                        <i class="fa-solid fa-play" id="playIcon"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -384,6 +460,10 @@
         function togglePlay(id) {
             const audio = document.getElementById(`audio-${id}`); const icon = document.getElementById(`icon-${id}`);
             if(audio.paused) {
+                // إيقاف بث الراديو إذا تم تشغيل تلاوة
+                const liveAudio = document.getElementById("live-audio");
+                if (!liveAudio.paused) { liveAudio.pause(); document.getElementById('playIcon').className = 'fa-solid fa-play'; }
+
                 document.querySelectorAll('audio').forEach(el => { if(el.id !== 'live-audio') el.pause(); });
                 document.querySelectorAll('.btn-play-pause-center i').forEach(i => i.className = 'fa-solid fa-play');
                 document.querySelectorAll('.drama-circle-progress').forEach(c => c.style.strokeDashoffset = '377');
@@ -485,9 +565,11 @@
             navigator.clipboard.writeText(link).then(() => alert("تم نسخ رابط الموعد بنجاح! 🎉"));
         }
 
-        // إعداد تشغيل البث المباشر الصوتي بالرابط المحدث وخصائص الـ Hls المتقدمة
+        // إعداد البث المباشر المطور للراديو مع ميزة التحكم بالزر المستقل
         function initLiveRadio() {
             const audio = document.getElementById("live-audio");
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const playIcon = document.getElementById('playIcon');
             const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
 
             if (Hls.isSupported()) {
@@ -500,6 +582,34 @@
             } else if (audio.canPlayType("application/vnd.apple.mpegurl")) {
                 audio.src = radioUrl;
             }
+
+            // مستمعات الأحداث لزر التشغيل
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    // إيقاف أي تلاوة صوتية أخرى تعمل حالياً
+                    document.querySelectorAll('audio:not(#live-audio)').forEach(el => el.pause());
+                    document.querySelectorAll('.btn-play-pause-center i').forEach(i => i.className = 'fa-solid fa-play');
+                    
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            });
+
+            audio.addEventListener('play', () => { playIcon.className = 'fa-solid fa-pause'; });
+            audio.addEventListener('pause', () => { playIcon.className = 'fa-solid fa-play'; });
+            
+            // دعم ميزة التحكم عبر كيبورد اللابتوب (زر المسافة)
+            document.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                if (e.key === ' ' || e.key === 'Spacebar') {
+                    e.preventDefault();
+                    if (document.activeElement) { document.activeElement.blur(); }
+                    if (document.getElementById('panel-live').classList.contains('active')) {
+                        if (audio.paused) audio.play(); else audio.pause();
+                    }
+                }
+            });
         }
 
         window.onload = () => { initTelawat(); initCountdowns(); initDhikr(); initLiveRadio(); };
