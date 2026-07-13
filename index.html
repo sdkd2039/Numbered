@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- تضمين مكتبة hls.js لتشغيل رابط إذاعة القرآن الكريم m3u8 بنجاح -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    
     <style>
         :root {
             --bg-color: #0d1117;
@@ -76,7 +79,7 @@
         .search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(2, 132, 199, 0.3); }
         .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-        /* أزرار تصفية الأذكار الفرعية بدون (الكل) */
+        /* أزرار تصفية الأذكار الفرعية */
         .sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
         .sub-tab-btn { background: #21262d; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
         .sub-tab-btn.active { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
@@ -86,13 +89,8 @@
         .player-top-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .track-title { font-size: 1.05rem; font-weight: 700; color: #fff; line-height: 1.4; }
 
-        .live-badge { display: flex; align-items: center; gap: 6px; background: rgba(239, 68, 68, 0.1); color: var(--live-red); padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; }
-        .pulse-dot { width: 8px; height: 8px; background: var(--live-red); border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.4; } 100% { transform: scale(0.9); opacity: 1; } }
-
         .progress-container { width: 100%; margin-bottom: 12px; }
         .timeline { width: 100%; height: 5px; background: #334155; border-radius: 10px; cursor: pointer; position: relative; }
-        .timeline.live-timeline { cursor: default; background: linear-gradient(90deg, #334155, var(--primary-color)); }
         .progress-bar { height: 100%; width: 0%; background: linear-gradient(270deg, var(--primary-color), #0ea5e9); border-radius: 10px; }
         .time-stamps { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; }
 
@@ -121,11 +119,13 @@
         .mini-counter { background: #21262d; border: 1px solid var(--accent-gold); color: var(--accent-gold); width: 38px; height: 38px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .mini-counter.done { background: var(--green); color: white; border-color: var(--green); }
 
-        /* شاشات iframe البث المباشر والصوتي */
+        /* شاشات iframe البث المباشر */
         .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
-        .radio-stream-container { position: relative; width: 100%; background: var(--player-bg); border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); height: 90px; }
         .live-iframe-player { width: 100%; height: 100%; display: block; background: #000; border: none; }
         .btn-dl { background: var(--green); color: white; padding: 5px 12px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: bold; border: none; cursor: pointer; }
+        
+        /* مشغل صوت الإذاعة */
+        .native-audio-player { width: 100%; margin-top: 10px; accent-color: var(--primary-color); }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -164,7 +164,7 @@
         <div class="box-card">
             <div class="box-header">
                 <img src="https://files.catbox.moe/t2zfc7.png" class="box-icon">
-                <h2 class="box-title">تلاوات معدودات الخاشعة</h2>
+                <h2 class="box-title">قسم التلاوات</h2>
             </div>
             
             <div class="search-container">
@@ -215,12 +215,12 @@
         </div>
     </div>
 
-    <!-- 3. قسم الذكر (تم حذف "الكل" ويبدأ بالصباح تلقائياً) -->
+    <!-- 3. قسم الذكر -->
     <div id="panel-dhikr" class="panel-content">
         <div class="box-card">
             <div class="box-header">
                 <img src="https://files.catbox.moe/korzmc.png" class="box-icon">
-                <h2 class="box-title">الأذكار والعدادات اليومية</h2>
+                <h2 class="box-title">قسم الذكر</h2>
             </div>
             
             <div class="sub-tabs">
@@ -235,33 +235,33 @@
         </div>
     </div>
 
-    <!-- 4. قسم البث مباشر المستقر والآمن تماماً -->
+    <!-- 4. قسم البث المباشر -->
     <div id="panel-live" class="panel-content">
         
-        <!-- مشغل بث إذاعة القرآن الكريم الصوتي المستقر عبر iframe الآمن -->
+        <!-- مشغل بث إذاعة القرآن الكريم الصوتي التفاعلي عبر السكريبت المباشر -->
         <div class="box-card">
             <div class="box-header">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6V18M17 9V15M22 11V13M7 8V16M2 10V14" stroke="#c5a880" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <h2 class="box-title">بث إذاعة القرآن الكريم المباشر</h2>
+                <h2 class="box-title">إذاعة القرآن الكريم من المملكة العربية السعودية</h2>
             </div>
-            <div class="radio-stream-container">
-                <!-- تم تضمين سيرفر elahmad الصوتي الآمن والمستقر المتوافق 100% مع جيت هاب -->
-                <iframe src="https://www.elahmad.ru/tv/live/channels.php?id=324" class="live-iframe-player" scrolling="no" allowfullscreen allow="autoplay; fullscreen"></i>
+            <div style="text-align: center; padding: 10px 0;">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">البث المباشر</p>
+                <audio id="live-audio" controls class="native-audio-player"></audio>
             </div>
         </div>
 
-        <!-- بث الحرم المكي الشريف المستقر -->
+        <!-- بث الحرم المكي الشريف المستقر المحدث -->
         <div class="box-card">
             <div class="box-header">
                 <i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i>
                 <h2 class="box-title">بث مباشر الحرم المكي الشريف</h2>
             </div>
             <div class="live-stream-container">
-                <iframe src="https://www.elahmad.ru/tv/live/channels.php?id=327" class="live-iframe-player" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media"></iframe>
+                <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" class="live-iframe-player" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media"></iframe>
             </div>
         </div>
 
-        <!-- بث الحرم المدني الشريف المستقر -->
+        <!-- بث الحرم المدني الشريف المستقر المحدث -->
         <div class="box-card">
             <div class="box-header">
                 <i class="fa-solid fa-gopuram" style="color: var(--accent-gold);"></i>
@@ -289,7 +289,7 @@
             document.getElementById(`panel-${tabName}`).classList.add('active');
             
             if(tabName !== 'telawat') {
-                document.querySelectorAll('audio').forEach(audio => audio.pause());
+                document.querySelectorAll('audio:not(#live-audio)').forEach(audio => audio.pause());
             }
         }
 
@@ -361,7 +361,7 @@
 
         async function initDhikr() {
             allDhikrRows = await fetchSheet(urlDhikr);
-            renderDhikr('الصباح'); // يتم تعيين أذكار الصباح افتراضياً بعد إزالة قسم الكل
+            renderDhikr('الصباح');
         }
 
         function renderDhikr(category) {
@@ -422,7 +422,22 @@
             navigator.clipboard.writeText(link).then(() => alert("تم نسخ رابط الموعد بنجاح! 🎉"));
         }
 
-        window.onload = () => { initTelawat(); initCountdowns(); initDhikr(); };
+        // تشغيل بروتوكول HLS لإذاعة القرآن الكريم عند تحميل الصفحة
+        function initLiveAudio() {
+            var audioObj = document.getElementById('live-audio');
+            var audioSrc = 'http://m.live.net.sa:1935/live/quransa/playlist.m3u8';
+
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(audioSrc);
+                hls.attachMedia(audioObj);
+            }
+            else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
+                audioObj.src = audioSrc;
+            }
+        }
+
+        window.onload = () => { initTelawat(); initCountdowns(); initDhikr(); initLiveAudio(); };
     </script>
 </body>
 </html>
