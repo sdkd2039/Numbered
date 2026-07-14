@@ -250,25 +250,24 @@
                 <div class="countdown-title">شهر رمضان المبارك</div>
                 <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                 <div class="live-timer-grid" id="timer-ramadan"></div>
-                <button class="share-btn" onclick="shareTime('رمضان', '2027-02-08')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-            </div>
+                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>            </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الفطر المبارك</div>
                 <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                 <div class="live-timer-grid" id="timer-fitr"></div>
-                <button class="share-btn" onclick="shareTime('عيد الفطر', '2027-03-08')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+                <button class="share-btn" onclick="shareTime('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عشر ذي الحجة</div>
                 <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
                 <div class="live-timer-grid" id="timer-hajj"></div>
-                <button class="share-btn" onclick="shareTime('عشر ذي الحجة', '2027-05-08')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+                <button class="share-btn" onclick="shareTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الأضحى المبارك</div>
                 <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
                <div class="live-timer-grid" id="timer-adha"></div>
-                <button class="share-btn" onclick="shareTime('عيد الأضحى', '2027-05-16')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+                <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
         </div>
     </div>
@@ -352,17 +351,19 @@
     }
 
 // 3. دالة مشاركة الموعد (المحدثة والمصححة)
-function shareTime(eventName, eventDate) {
-    const now = new Date().getTime();
-    const target = new Date(eventDate).getTime();
-    const diff = target - now;
+function shareTime(eventName, timerId) {
+    // نجلب العداد الذي ضغط عليه المستخدم
+    const element = document.getElementById(timerId);
+    if (!element) return;
 
-    // حساب الوحدات بدقة
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    // استخراج الأرقام المعروضة حالياً في العداد
+    const timeBoxes = element.querySelectorAll('.time-num');
     
-    // تأكد هنا أن المتغير h موجود في النص
+    // الترتيب حسب الكود الجديد (يوم، ساعة، دقيقة، ثواني)
+    const d = timeBoxes[0].innerText;
+    const h = timeBoxes[1].innerText;
+    const m = timeBoxes[2].innerText;
+    
     const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها لا فاقدين ولا مفقودين.`;
     
     if (navigator.share) {
