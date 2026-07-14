@@ -469,33 +469,45 @@ window.onload = () => {
     startCountdown('timer-adha', '2027-05-16T00:00:00');
 };
 
-// 8. دالة جلب وعرض البيانات
+// 8. المتغير العام لتخزين البيانات عند جلبها أول مرة
+let cachedTelawat = [];
+
+// 9. دالة الجلب المحدثة (تحفظ البيانات في المتغير العام)
 async function fetchAllSheetsData() {
     const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     const sheetName = 'التلاوات';
     const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
     try {
         const response = await fetch(url);
         const text = await response.text();
         const json = JSON.parse(text.substring(47).slice(0, -2));
-        const rows = json.table.rows.map(row => ({
+        
+        // جلب البيانات وعكس ترتيبها
+        cachedTelawat = json.table.rows.map(row => ({
             title: row.c[0]?.v || 'بدون عنوان',
             reader: row.c[1]?.v || 'قارئ غير معروف',
             downloadUrl: row.c[2]?.v || '#'
-        }));
-        renderTelawat(rows);
+        })).reverse(); // هنا الترتيب من الأقدم للأحدث
+
+        renderTelawat(cachedTelawat);
     } catch (err) { console.error('خطأ:', err); }
 }
 
-// 9. دالة البحث (مستقلة تماماً)
+// 10. دالة البحث الاحترافية (سريعة جداً لأنها تبحث في الذاكرة)
 function filterTelawat() {
-    const searchTerm = document.getElementById('searchAudio').value.toLowerCase();
-    // هنا تحتاج لتخزين البيانات في متغير عالمي أو إعادة جلبها لتتمكن من البحث
-    // مؤقتاً: التصفية تعتمد على DOM
-    console.log("جاري البحث عن:", searchTerm);
+    const searchTerm = document.getElementById('searchAudio').value.toLowerCase().trim();
+    
+    // تصفية البيانات من المتغير المخزن
+    const filtered = cachedTelawat.filter(item => 
+        item.title.toLowerCase().includes(searchTerm) || 
+        item.reader.toLowerCase().includes(searchTerm)
+    );
+    
+    renderTelawat(filtered);
 }
 
-// 10. دالة تحميل الملفات (مستقلة)
+// 11. دالة تحميل الملفات (مستقلة)
 function downloadAudio(btn) {
     const url = btn.getAttribute('data-url');
     const title = btn.getAttribute('data-title');
@@ -509,7 +521,7 @@ function downloadAudio(btn) {
     document.body.removeChild(a);
 }
 
-// 11. دالة العرض (مصححة لتعمل في كروم)
+// 12. دالة العرض (مصححة لتعمل في كروم)
 function renderTelawat(items) {
     const list = document.getElementById('telawat-list');
     if (!list) return;
