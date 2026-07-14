@@ -328,7 +328,6 @@
     // 1. الإعدادات والروابط
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
-    const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=الذكر`;
 
     // 2. تشغيل الإذاعة (الكود الخاص بك مع تعديلات الاستقرار)
     function initLiveAudio() {
@@ -351,61 +350,77 @@
         else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
-// 3. دالة مشاركة الموعد بأسلوب رائع
+// 3. دالة المشاركة بأسلوب رائع
     function shareTime(eventName, eventDate) {
-        // حساب الوقت المتبقي نصياً للمشاركة
         const now = new Date().getTime();
         const target = new Date(eventDate).getTime();
         const diff = target - now;
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        
         const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها لا فاقدين ولا مفقودين.`;
-        
-        if (navigator.share) {
-            navigator.share({ title: 'الموعد القادم', text: message });
-        } else {
-            alert(message);
-        }
+        if (navigator.share) { navigator.share({ title: 'الموعد القادم', text: message }); }
+        else { alert(message); }
     }
 
-    // 4. دالة العداد التنازلي التفاعلي
+    // 4. دالة العداد التنازلي الموحدة
     function startCountdown(id, targetDate) {
         setInterval(() => {
             const now = new Date().getTime();
             const diff = new Date(targetDate).getTime() - now;
             if (diff < 0) { document.getElementById(id).innerHTML = "تم الوصول"; return; }
-            
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-            
             document.getElementById(id).innerHTML = `
-                <div class="time-box"><div>${s}</div><small>ثواني</small></div>
-                <div class="time-box"><div>${m}</div><small>دقيقة</small></div>
-                <div class="time-box"><div>${h}</div><small>ساعات</small></div>
-                <div class="time-box"><div>${d}</div><small>أيام</small></div>
+                <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
+                <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
+                <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+                <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
             `;
         }, 1000);
     }
 
-    // 5. تهيئة كل شيء عند فتح الصفحة
+    // 5. تهيئة البيانات من Google Sheets
+    async function fetchData(url, callback) {
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            callback(json.table.rows);
+        } catch (error) { console.error("Error fetching data:", error); }
+    }
+
+    function renderTelawat(rows) {
+        const list = document.getElementById('telawat-list');
+        if(list) list.innerHTML = rows.map(r => `<div class="dhikr-row"><span>${r.c[0]?.v || ''}</span></div>`).join('');
+    }
+
+    function renderDhikr(rows) {
+        const list = document.getElementById('dhikr-list');
+        if(list) list.innerHTML = rows.map(r => `<div class="dhikr-row"><span class="dhikr-text">${r.c[0]?.v || ''}</span><div class="mini-counter" onclick="this.classList.toggle('done')">0</div></div>`).join('');
+    }
+
+    // 6. تشغيل الصفحة
     window.onload = () => {
         initLiveAudio();
+        fetchData(urlTelawat, renderTelawat);
+        fetchData(urlDhikr, renderDhikr);
         
-        // تشغيل العدادات لكل المناسبات
+        // تشغيل العدادات
         startCountdown('timer-ramadan', '2027-02-08T00:00:00');
         startCountdown('timer-fitr', '2027-03-08T00:00:00');
         startCountdown('timer-hajj', '2027-05-08T00:00:00');
         startCountdown('timer-adha', '2027-05-16T00:00:00');
     };
 
-    // 6. دالة تبديل الأقسام (مع الشعار)
+    // 7. دالة تبديل الأقسام
     function switchTab(tabId) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('panel-' + tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
         
         const logoMap = {
             'telawat': 'https://files.catbox.moe/t2zfc7.png',
@@ -415,28 +430,6 @@
         };
         const logo = document.getElementById('active-tab-logo');
         if (logo) logo.src = logoMap[tabId];
-    }
-}
-
-function startCountdown(id, targetDate) {
-        setInterval(() => {
-            const now = new Date().getTime();
-            const diff = new Date(targetDate).getTime() - now;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            const element = document.getElementById(id);
-            if(element) {
-                element.innerHTML = `
-                    <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
-                    <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
-                    <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
-                    <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
-                `;
-            }
-        }, 1000);
     }
     
     window.onload = () => {
