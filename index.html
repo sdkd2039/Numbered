@@ -188,7 +188,28 @@
         .live-video-player { width: 100%; height: 100%; display: block; background: #000; }
         .btn-dl { background: var(--green); color: white; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
         .native-audio-player { width: 100%; margin-top: 10px; accent-color: var(--primary-color); }
-    </style>
+
+        .download-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .btn-download-action {
+        padding: 8px 15px;
+        border-radius: 10px;
+        background: rgba(56, 189, 248, 0.08);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        color: var(--primary-color);
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .btn-download-action:hover {
+        background: var(--primary-color);
+        color: var(--bg-color);
+    }
+</style>
 </head>
 <body oncontextmenu="return false;">
 
@@ -409,37 +430,26 @@ function shareTime(eventName, timerId) {
 function renderTelawat(rows) {
     const list = document.getElementById('telawat-list');
     if (!list) return;
-
-    list.innerHTML = rows.map(r => {
-        const surah = r.c[0]?.v || 'سورة غير معروفة';
-        const reader = r.c[1]?.v || 'قارئ غير معروف';
-        const url = r.c[2]?.v || '#';
-
+    
+    list.innerHTML = rows.map(item => {
+        const title = item.title || 'بدون عنوان';
+        const url = item.downloadUrl || item.url;
+        
         return `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
-                <div style="text-align: right; margin-bottom: 15px;">
-                    <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">${surah}</div>
-                    <div style="font-size: 1rem; color: var(--accent-gold); font-weight: 700;">${reader}</div>
+            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px;">
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <div style="font-weight: 900; color: #fff;">${title}</div>
                 </div>
 
-                <div style="width: 100%; margin-bottom: 15px;">
-                    <video src="${url}" controls style="width: 100%; border-radius: 8px; background: #000;"></video>
-                </div>
+                <video src="${url}" controls controlsList="nodownload" style="width: 100%; border-radius: 8px;"></video>
 
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <button onclick="this.closest('.box-card').querySelector('video').play()" 
-                                style="background: var(--accent-gold); border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                            <i class="fa-solid fa-play" style="color: #000; font-size: 1.2rem;"></i>
-                        </button>
-                    </div>
-
-                    <div>
-                        <button onclick="downloadFile('${url}', '${surah}')" 
-                                style="background: var(--green); color: white; padding: 10px 20px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-download"></i> MP3 / MP4
-                        </button>
-                    </div>
+                <div class="download-container">
+                    <button class="btn-download-action" data-url="${url}" data-title="${title}" data-ext="mp3" onclick="downloadAudio(this)">
+                        <i class="fa-solid fa-download"></i> MP3
+                    </button>
+                    <button class="btn-download-action" data-url="${url}" data-title="${title}" data-ext="mp4" onclick="downloadAudio(this)">
+                        <i class="fa-solid fa-download"></i> MP4
+                    </button>
                 </div>
             </div>
         `;
@@ -482,13 +492,35 @@ function renderTelawat(rows) {
     };
 
     // دالة تحميل الملفات المباشرة
-function downloadFile(url, filename) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+function downloadAudio(btn) {
+    const url = btn.getAttribute('data-url');
+    const title = btn.getAttribute('data-title');
+    const ext = btn.getAttribute('data-ext');
+    const originalContent = btn.innerHTML;
+    
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
+    btn.disabled = true;
+    
+    fetch(url)
+        .then(response => response.blob())
+        .then(blob => {
+            const blobUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = blobUrl;
+            // التحميل بالصيغة التي ضغط عليها المستخدم
+            a.download = `${title}.${ext}`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(blobUrl);
+            btn.innerHTML = originalContent;
+            btn.disabled = false;
+        })
+        .catch(() => {
+            alert('فشل التحميل، يرجى المحاولة لاحقاً.');
+            btn.innerHTML = originalContent;
+            btn.disabled = false;
+        });
 }
 </script>
 </body>
