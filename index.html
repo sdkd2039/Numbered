@@ -418,42 +418,27 @@ function shareTime(eventName, timerId) {
     }
 
     // 5. تهيئة البيانات
-    async function fetchData(url, callback) {
-        try {
-            const response = await fetch(url);
-            const text = await response.text();
-            const json = JSON.parse(text.substr(47).slice(0, -2));
-            callback(json.table.rows);
-        } catch (error) { console.error("Error fetching data:", error); }
-    }
+async function fetchAllSheetsData() {
+    const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+    const sheetName = 'التلاوات'; // تأكد أن اسم الورقة في الشيت هو "التلاوات" بالضبط
+    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
-function renderTelawat(rows) {
-    const list = document.getElementById('telawat-list');
-    if (!list) return;
-    
-    list.innerHTML = rows.map(item => {
-        const title = item.title || 'بدون عنوان';
-        const url = item.downloadUrl || item.url;
+    try {
+        const response = await fetch(url);
+        const text = await response.text();
+        // تنظيف استجابة قوقل للحصول على JSON صحيح
+        const json = JSON.parse(text.substring(47).slice(0, -2));
         
-        return `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px;">
-                <div style="text-align: right; margin-bottom: 10px;">
-                    <div style="font-weight: 900; color: #fff;">${title}</div>
-                </div>
+        const rows = json.table.rows.map(row => ({
+            title: row.c[0]?.v || 'بدون عنوان',
+            reader: row.c[1]?.v || 'قارئ غير معروف',
+            downloadUrl: row.c[2]?.v || '#'
+        }));
 
-                <video src="${url}" controls controlsList="nodownload" style="width: 100%; border-radius: 8px;"></video>
-
-                <div class="download-container">
-                    <button class="btn-download-action" data-url="${url}" data-title="${title}" data-ext="mp3" onclick="downloadAudio(this)">
-                        <i class="fa-solid fa-download"></i> MP3
-                    </button>
-                    <button class="btn-download-action" data-url="${url}" data-title="${title}" data-ext="mp4" onclick="downloadAudio(this)">
-                        <i class="fa-solid fa-download"></i> MP4
-                    </button>
-                </div>
-            </div>
-        `;
-    }).join('');
+        renderTelawat(rows);
+    } catch (err) {
+        console.error('خطأ في جلب البيانات:', err);
+    }
 }
 
     function renderDhikr(rows) {
@@ -481,8 +466,8 @@ function renderTelawat(rows) {
     // 7. التشغيل النهائي (مكان واحد فقط)
     window.onload = () => {
         initLiveAudio();
-        fetchData(urlTelawat, renderTelawat);
-        fetchData(urlDhikr, renderDhikr);
+    // جلب بيانات التلاوات من الشيت
+    fetchData(urlTelawat, renderTelawat);
         
         // تشغيل العدادات
         startCountdown('timer-ramadan', '2027-02-08T00:00:00');
