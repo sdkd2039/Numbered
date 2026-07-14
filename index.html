@@ -469,28 +469,37 @@ window.onload = () => {
     startCountdown('timer-adha', '2027-05-16T00:00:00');
 };
 
-// 8. دالة البحث (مستقلة ومصححة)
-function filterTelawat() {
-    const searchTerm = document.getElementById('searchAudio').value.toLowerCase();
-    1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ
-    
-    // إعادة جلب البيانات لتصفيتها
-    const allData = await fetchAllSheetsData(); 
-    
-    const filtered = allData.filter(item => 
-        item.title.toLowerCase().includes(searchTerm) || 
-        item.reader.toLowerCase().includes(searchTerm)
-    );
-    
-    renderTelawat(filtered); // عرض النتائج المصفاة فقط
+// 8. دالة جلب وعرض البيانات
+async function fetchAllSheetsData() {
+    const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+    const sheetName = 'التلاوات';
+    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+    try {
+        const response = await fetch(url);
+        const text = await response.text();
+        const json = JSON.parse(text.substring(47).slice(0, -2));
+        const rows = json.table.rows.map(row => ({
+            title: row.c[0]?.v || 'بدون عنوان',
+            reader: row.c[1]?.v || 'قارئ غير معروف',
+            downloadUrl: row.c[2]?.v || '#'
+        }));
+        renderTelawat(rows);
+    } catch (err) { console.error('خطأ:', err); }
 }
 
-// 9. دالة تحميل الملفات (مصححة ومنظمة)
+// 9. دالة البحث (مستقلة تماماً)
+function filterTelawat() {
+    const searchTerm = document.getElementById('searchAudio').value.toLowerCase();
+    // هنا تحتاج لتخزين البيانات في متغير عالمي أو إعادة جلبها لتتمكن من البحث
+    // مؤقتاً: التصفية تعتمد على DOM
+    console.log("جاري البحث عن:", searchTerm);
+}
+
+// 10. دالة تحميل الملفات (مستقلة)
 function downloadAudio(btn) {
     const url = btn.getAttribute('data-url');
     const title = btn.getAttribute('data-title');
     const ext = btn.getAttribute('data-ext');
-    
     const a = document.createElement('a');
     a.href = url;
     a.download = `${title}.${ext}`;
@@ -499,49 +508,20 @@ function downloadAudio(btn) {
     a.click();
     document.body.removeChild(a);
 }
-    
-    // استخدام fetch لجلب البيانات والتأكد من نجاح الرابط
-    fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error('Network error');
-            return response.blob();
-        })
-        .then(blob => {
-            const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = `${title}.${ext}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(blobUrl);
-            btn.innerHTML = originalContent;
-            btn.disabled = false;
-        })
-        .catch(() => {
-            alert('فشل التحميل، يرجى المحاولة لاحقاً.');
-            btn.innerHTML = originalContent;
-            btn.disabled = false;
-        });
-}
 
-// 10. دالة العرض (موجودة لديك لكن تأكد من إغلاقها بشكل صحيح)
+// 11. دالة العرض (مصححة لتعمل في كروم)
 function renderTelawat(items) {
     const list = document.getElementById('telawat-list');
     if (!list) return;
-
     list.innerHTML = items.map(item => `
         <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
             <div style="text-align: right; margin-bottom: 10px;">
                 <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
                 <div style="font-size: 0.9rem; color: #aaa;">${item.reader}</div>
             </div>
-            
             <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
                 <source src="${item.downloadUrl}" type="video/mp4">
-                متصفحك لا يدعم تشغيل الفيديو.
             </video>
-
             <div class="download-container" style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
                 <button class="btn-download-action" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4" onclick="downloadAudio(this)">
                     <i class="fa-solid fa-download"></i> تحميل
