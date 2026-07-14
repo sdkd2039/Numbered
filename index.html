@@ -419,31 +419,26 @@ function shareTime(eventName, timerId) {
 
     // 5. تهيئة البيانات
 async function fetchAllSheetsData() {
-    const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-    const sheetName = 'التلاوات'; // تأكد أن اسم الورقة في الشيت هو "التلاوات" بالضبط
-    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+        const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+        const sheetName = 'التلاوات';
+        const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
-    try {
-        const response = await fetch(url);
-        const text = await response.text();
-        // تنظيف استجابة قوقل للحصول على JSON صحيح
-        const json = JSON.parse(text.substring(47).slice(0, -2));
-        
-        const rows = json.table.rows.map(row => ({
-            title: row.c[0]?.v || 'بدون عنوان',
-            reader: row.c[1]?.v || 'قارئ غير معروف',
-            downloadUrl: row.c[2]?.v || '#'
-        }));
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text.substring(47).slice(0, -2));
+            
+            const rows = json.table.rows.map(row => ({
+                title: row.c[0]?.v || 'بدون عنوان',
+                reader: row.c[1]?.v || 'قارئ غير معروف',
+                downloadUrl: row.c[2]?.v || '#'
+            }));
 
-        (rows);
-    } catch (err) {
-        console.error('خطأ في جلب البيانات:', err);
-    }
-}
-
-    function renderDhikr(rows) {
-        const list = document.getElementById('dhikr-list');
-        if(list) list.innerHTML = rows.map(r => `<div class="dhikr-row"><span class="dhikr-text">${r.c[0]?.v || ''}</span><div class="mini-counter" onclick="this.classList.toggle('done')">0</div></div>`).join('');
+            // هنا الخطأ كان: يجب استدعاء دالة العرض
+            renderTelawat(rows); 
+        } catch (err) {
+            console.error('خطأ في جلب البيانات:', err);
+        }
     }
 
     // 6. دالة تبديل الأقسام
@@ -463,18 +458,18 @@ async function fetchAllSheetsData() {
         if (logo) logo.src = logoMap[tabId];
     }
 
-    // 7. التشغيل النهائي (مكان واحد فقط)
-window.onload = () => {
-    initLiveAudio();
-    // جلب التلاوات فقط بما أن الذكر محذوف
-    fetchData(urlTelawat, renderTelawat);
-    
-    // تشغيل العدادات
-    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-    startCountdown('timer-fitr', '2027-03-08T00:00:00');
-    startCountdown('timer-hajj', '2027-05-08T00:00:00');
-    startCountdown('timer-adha', '2027-05-16T00:00:00');
-};
+// 7. التشغيل النهائي (مصحح)
+    window.onload = () => {
+        initLiveAudio();
+        // تم تغيير fetchData إلى اسم الدالة الصحيحة
+        fetchAllSheetsData();
+        
+        // تشغيل العدادات
+        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+        startCountdown('timer-fitr', '2027-03-08T00:00:00');
+        startCountdown('timer-hajj', '2027-05-08T00:00:00');
+        startCountdown('timer-adha', '2027-05-16T00:00:00');
+    };
 
     // دالة تحميل الملفات المباشرة
 function downloadAudio(btn) {
