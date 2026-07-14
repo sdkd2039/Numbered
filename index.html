@@ -408,19 +408,39 @@ function shareTime(eventName, timerId) {
 
 function renderTelawat(rows) {
     const list = document.getElementById('telawat-list');
-    if(!list) return;
-    
+    if (!list) return;
+
     list.innerHTML = rows.map(r => {
-        const title = r.c[0]?.v || 'بدون عنوان';
-        // قمنا بتغيير الفهرس إلى 2 ليقرأ الرابط من العمود الثالث
-        const url = r.c[2]?.v || '#'; 
-        
+        const surah = r.c[0]?.v || 'سورة غير معروفة';
+        const reader = r.c[1]?.v || 'قارئ غير معروف';
+        const url = r.c[2]?.v || '#';
+
         return `
-            <div class="dhikr-row">
-                <span>${title}</span>
-                <button onclick="downloadFile('${url}', '${title}')" class="mini-counter">
-                    <i class="fa-solid fa-download"></i>
-                </button>
+            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
+                <div style="text-align: right; margin-bottom: 15px;">
+                    <div style="font-size: 1.4rem; font-weight: 900; color: #fff;">${surah}</div>
+                    <div style="font-size: 1rem; color: var(--accent-gold); font-weight: 700;">${reader}</div>
+                </div>
+
+                <div style="width: 100%; margin-bottom: 15px;">
+                    <video src="${url}" controls style="width: 100%; border-radius: 8px; background: #000;"></video>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <button onclick="this.closest('.box-card').querySelector('video').play()" 
+                                style="background: var(--accent-gold); border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-play" style="color: #000; font-size: 1.2rem;"></i>
+                        </button>
+                    </div>
+
+                    <div>
+                        <button onclick="downloadFile('${url}', '${surah}')" 
+                                style="background: var(--green); color: white; padding: 10px 20px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-download"></i> MP3 / MP4
+                        </button>
+                    </div>
+                </div>
             </div>
         `;
     }).join('');
@@ -462,22 +482,13 @@ function renderTelawat(rows) {
     };
 
     // دالة تحميل الملفات المباشرة
-function downloadFile(url, title) {
-    const extension = url.split('.').pop().split(/[?#]/)[0] || 'mp3';
-    fetch(url)
-        .then(response => response.blob())
-        .then(blob => {
-            const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = blobUrl;
-            a.download = `${title}.${extension}`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(blobUrl);
-            a.remove();
-        })
-        .catch(() => alert('فشل تحميل الملف، يرجى المحاولة لاحقاً.'));
+function downloadFile(url, filename) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }
 </script>
 </body>
