@@ -304,54 +304,46 @@
     </div>
 
     <!-- 3. قسم الذكر -->
-    <div id="panel-dhikr" class="panel-content">
-        <div class="box-card">
-            <div class="box-header">
-                <img src="https://files.catbox.moe/korzmc.png" class="box-icon">
-                <h2 class="box-title">قسم الذكر</h2>
-            </div>
-            
-            <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="filterDhikrCategory('الصباح', this)">أذكار الصباح</button>
-                <button class="sub-tab-btn" onclick="filterDhikrCategory('المساء', this)">أذكار المساء</button>
-                <button class="sub-tab-btn" onclick="filterDhikrCategory('منوع', this)">أذكار منوعة</button>
-            </div>
-
-            <div id="dhikr-list" class="dhikr-container-list">
-                <p style="text-align:center; color:gray;">جاري جلب الأذكار...</p>
-            </div>
+<div id="panel-dhikr" class="panel-content">
+    <div class="box-card">
+        <div class="box-header">
+            <img src="https://files.catbox.moe/korzmc.png" class="box-icon">
+            <h2 class="box-title">قسم الذكر</h2>
+        </div>
+        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <i class="fa-solid fa-clock" style="font-size: 2rem; margin-bottom: 10px;"></i>
+            <p>سيتم إضافة الأذكار قريباً...</p>
         </div>
     </div>
-
-<!-- 4. قسم البث المباشر -->
-<div id="panel-live" class="panel-content">
-    
-<div class="box-card" style="border: 1px solid var(--accent-gold);">
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 45px; height: 45px; border-radius: 8px;">
-            <div style="text-align: right;">
-                <div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">المملكة العربية السعودية</div>
-            </div>
-        </div>
-        <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
-    </div>
-    <div style="text-align: center; margin-top: 15px;">
-        <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer;">
-            <i id="icon-live" class="fa-solid fa-play" style="color: #000;"></i>
-        </button>
-    </div>
-    <audio id="live-audio" style="display:none;"></audio>
 </div>
+
+<div id="panel-live" class="panel-content">
+    <div class="box-card" style="border: 1px solid var(--accent-gold);">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 45px; height: 45px; border-radius: 8px;">
+                <div style="text-align: right;">
+                    <div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم</div>
+                </div>
+            </div>
+            <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+            <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer;">
+                <i id="icon-live" class="fa-solid fa-play" style="color: #000;"></i>
+            </button>
+        </div>
+        <audio id="live-audio" style="display:none;"></audio>
     </div>
 
+    <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
         <div class="live-stream-container">
             <iframe src="https://www.elahmad.ru/tv/live/channels.php?id=327" allowfullscreen class="live-video-player"></iframe>
         </div>
     </div>
 
+    <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة السنة النبوية</h2></div>
         <div class="live-stream-container">
             <iframe src="https://www.elahmad.ru/tv/live/channels.php?id=326" allowfullscreen class="live-video-player"></iframe>
