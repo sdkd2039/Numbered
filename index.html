@@ -243,58 +243,34 @@
 <!-- قسم المتبقي -->
 <div id="panel-remaining" class="panel-content">
     <div class="box-card">
-        <div class="box-header"><h2 class="box-title">العد التنازلي للمناسبات 1448 هـ</h2></div>
-        <div id="countdown-wrapper" class="countdown-container">
-            <script>
-const events = [
-    { name: "رمضان", date: "2027-02-08T00:00:00" },
-    { name: "عيد الفطر", date: "2027-03-08T00:00:00" },
-    { name: "عشر ذو الحجة", date: "2027-05-08T00:00:00" },
-    { name: "عيد الأضحى", date: "2027-05-16T00:00:00" }
-];
-
-function updateCountdowns() {
-    const wrapper = document.getElementById('countdown-wrapper');
-    wrapper.innerHTML = events.map(event => {
-        const now = new Date().getTime();
-        const target = new Date(event.date).getTime();
-        const diff = target - now;
-
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-        return `
+        <div class="box-header">
+            <h2 class="box-title">العد التنازلي للمناسبات 1448 هـ</h2>
+        </div>
+        <div class="countdown-container">
             <div class="countdown-item">
-                <div style="font-weight:bold; color:var(--accent-gold); margin-bottom:5px;">${event.name}</div>
-                <div class="live-timer-grid">
-                    <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
-                    <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
-                    <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
-                    <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
-                </div>
-                <button class="share-btn" onclick="shareEvent('${event.name}', '${d} يوم و ${h} ساعة و ${m} دقيقة')">
-                    <i class="fa-solid fa-share-nodes"></i> مشاركة الموعد
-                </button>
+                <div class="countdown-title">شهر رمضان المبارك</div>
+                <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
+                <div class="live-timer-grid" id="timer-ramadan"></div>
+                <button class="share-btn" onclick="shareTime('رمضان', '2027-02-08')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
-        `;
-    }).join('');
-}
-
-function shareEvent(name, time) {
-    const text = `باقي على ${name} حوالي ${time}.`;
-    if (navigator.share) {
-        navigator.share({ title: 'الموعد القادم', text: text });
-    } else {
-        alert(text);
-    }
-}
-
-// تحديث العداد كل ثانية
-setInterval(updateCountdowns, 1000);
-updateCountdowns();
-</script>
+            <div class="countdown-item">
+                <div class="countdown-title">عيد الفطر المبارك</div>
+                <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
+                <div class="live-timer-grid" id="timer-fitr"></div>
+                <button class="share-btn" onclick="shareTime('عيد الفطر', '2027-03-08')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-title">عشر ذي الحجة</div>
+                <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div>
+                <div class="live-timer-grid" id="timer-hajj"></div>
+                <button class="share-btn" onclick="shareTime('عشر ذي الحجة', '2027-05-08')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-title">عيد الأضحى المبارك</div>
+                <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>
+                <div class="live-timer-grid" id="timer-adha"></div>
+                <button class="share-btn" onclick="shareTime('عيد الأضحى', '2027-05-16')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+            </div>
         </div>
     </div>
 </div>
@@ -425,6 +401,27 @@ function switchTab(tabId) {
     }
 }
 
+function startCountdown(id, targetDate) {
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = new Date(targetDate).getTime() - now;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            const element = document.getElementById(id);
+            if(element) {
+                element.innerHTML = `
+                    <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
+                    <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+                    <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
+                    <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
+                `;
+            }
+        }, 1000);
+    }
+    
     window.onload = () => {
         initLiveAudio();
         fetchData(urlTelawat, renderTelawat);
