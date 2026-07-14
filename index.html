@@ -406,10 +406,34 @@ function shareTime(eventName, timerId) {
         } catch (error) { console.error("Error fetching data:", error); }
     }
 
-    function renderTelawat(rows) {
-        const list = document.getElementById('telawat-list');
-        if(list) list.innerHTML = rows.map(r => `<div class="dhikr-row"><span>${r.c[0]?.v || ''}</span></div>`).join('');
-    }
+function renderTelawat(rows) {
+    const list = document.getElementById('telawat-list');
+    if (!list) return;
+
+    list.innerHTML = rows.map(r => {
+        // r.c[0] هو اسم السورة، r.c[1] اسم القارئ، r.c[2] رابط الفيديو
+        const surah = r.c[0]?.v || 'سورة غير معروفة';
+        const reader = r.c[1]?.v || 'قارئ غير معروف';
+        const videoUrl = r.c[2]?.v || '#';
+
+        return `
+            <div class="dhikr-row" style="flex-direction: column; align-items: flex-start; gap: 10px;">
+                <div style="width: 100%; display: flex; justify-content: space-between;">
+                    <span style="font-weight: bold; color: var(--accent-gold);">${surah}</span>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">${reader}</span>
+                </div>
+                <div style="width: 100%; display: flex; gap: 10px;">
+                    <a href="${videoUrl}" target="_blank" class="btn-dl" style="flex: 1; justify-content: center; background: var(--primary-color);">
+                        <i class="fa-solid fa-play"></i> تشغيل
+                    </a>
+                    <a href="${videoUrl}" download class="btn-dl" style="flex: 1; justify-content: center;">
+                        <i class="fa-solid fa-download"></i> تحميل
+                    </a>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
 
     function renderDhikr(rows) {
         const list = document.getElementById('dhikr-list');
