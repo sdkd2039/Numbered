@@ -408,28 +408,19 @@ function shareTime(eventName, timerId) {
 
 function renderTelawat(rows) {
     const list = document.getElementById('telawat-list');
-    if (!list) return;
-
+    if(!list) return;
+    
     list.innerHTML = rows.map(r => {
-        // r.c[0] هو اسم السورة، r.c[1] اسم القارئ، r.c[2] رابط الفيديو
-        const surah = r.c[0]?.v || 'سورة غير معروفة';
-        const reader = r.c[1]?.v || 'قارئ غير معروف';
-        const videoUrl = r.c[2]?.v || '#';
-
+        const title = r.c[0]?.v || 'بدون عنوان';
+        // قمنا بتغيير الفهرس إلى 2 ليقرأ الرابط من العمود الثالث
+        const url = r.c[2]?.v || '#'; 
+        
         return `
-            <div class="dhikr-row" style="flex-direction: column; align-items: flex-start; gap: 10px;">
-                <div style="width: 100%; display: flex; justify-content: space-between;">
-                    <span style="font-weight: bold; color: var(--accent-gold);">${surah}</span>
-                    <span style="font-size: 0.8rem; color: var(--text-muted);">${reader}</span>
-                </div>
-                <div style="width: 100%; display: flex; gap: 10px;">
-                    <a href="${videoUrl}" target="_blank" class="btn-dl" style="flex: 1; justify-content: center; background: var(--primary-color);">
-                        <i class="fa-solid fa-play"></i> تشغيل
-                    </a>
-                    <a href="${videoUrl}" download class="btn-dl" style="flex: 1; justify-content: center;">
-                        <i class="fa-solid fa-download"></i> تحميل
-                    </a>
-                </div>
+            <div class="dhikr-row">
+                <span>${title}</span>
+                <button onclick="downloadFile('${url}', '${title}')" class="mini-counter">
+                    <i class="fa-solid fa-download"></i>
+                </button>
             </div>
         `;
     }).join('');
@@ -469,6 +460,25 @@ function renderTelawat(rows) {
         startCountdown('timer-hajj', '2027-05-08T00:00:00');
         startCountdown('timer-adha', '2027-05-16T00:00:00');
     };
+
+    // دالة تحميل الملفات المباشرة
+function downloadFile(url, title) {
+    const extension = url.split('.').pop().split(/[?#]/)[0] || 'mp3';
+    fetch(url)
+        .then(response => response.blob())
+        .then(blob => {
+            const blobUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = blobUrl;
+            a.download = `${title}.${extension}`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(blobUrl);
+            a.remove();
+        })
+        .catch(() => alert('فشل تحميل الملف، يرجى المحاولة لاحقاً.'));
+}
 </script>
 </body>
 </html>
