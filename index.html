@@ -3,628 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معدودات</title>
-
-    <!-- تحسين ظهور صورة الموقع وأيقونته من الخارج عند المشاركة (واتساب، تليجرام، إلخ) -->
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
-    <meta property="og:title" content="موقع معدودات">
-    <meta property="og:description" content="موقع إسلامي يحتوي على عدادات المناسبات، الأذكار، والتلاوات المتميزة.">
-    <meta property="og:image" content="https://sdkd2039.github.io/Numbered/logo.png">
-    <meta property="og:url" content="https://sdkd2039.github.io/Numbered/">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://sdkd2039.github.io/Numbered/logo.png">
-
-    <!-- خطوط وأيقونات لتجميل المظهر -->
+    <title>شبكة معدودات - الإصدار الشامل</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     
     <style>
-        /* الثيم القديم المريح والغامق */
         :root {
-            --primary-color: #121212;
-            --accent-color: #d4af37; /* لون ذهبي هادئ مناسب للثيم الإسلامي القديم */
-            --bg-color: #1a1a1a;
-            --card-bg: #242424;
-            --text-color: #e0e0e0;
-            --text-muted: #aaaaaa;
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #f8fafc;
+            --accent-gold: #c5a880;
+            --border-color: #30363d;
+            --green: #238636;
         }
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; }
         
-        /* رأس الموقع مضاف إليه الصورة */
-        header {
-            width: 100%;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            border-bottom: 1px solid #333;
-        }
-        .header-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .site-logo {
-            max-width: 100px;
-            height: auto;
-            border-radius: 50%; /* شكل دائري أنيق للوجو */
-            object-fit: contain;
-            border: 2px solid var(--accent-color);
-        }
-        .site-title {
-            margin: 5px 0 0 0;
-            font-size: 24px;
-            color: var(--accent-color);
-            font-weight: bold;
-        }
+        /* التبويبات */
+        .tabs-container { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .tab-btn { background: #21262d; border: 1px solid var(--border-color); color: white; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: var(--accent-gold); color: black; }
+        .panel-content { display: none; }
+        .panel-content.active { display: block; }
 
-        /* حاويات وأزرار التحكم */
-        .container {
-            width: 90%;
-            max-width: 800px;
-            margin: 20px auto;
-        }
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            padding: 10px 20px;
-            border: 1px solid #444;
-            background-color: #222;
-            color: var(--text-color);
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .tab-btn.active {
-            background-color: var(--accent-color);
-            color: #000;
-            border-color: var(--accent-color);
-        }
-        .panel-content {
-            display: none;
-        }
-        .panel-content.active {
-            display: block;
-        }
-
-        /* كروت العدادات بالثيم القديم */
-        .countdown-card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #333;
-            text-align: center;
-        }
-        .countdown-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--accent-color);
-        }
-        .timer-grid {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            direction: ltr;
-        }
-        .timer-unit {
-            background: #1c1c1c;
-            padding: 10px 5px;
-            border-radius: 5px;
-            min-width: 60px;
-            border: 1px solid #333;
-        }
-        .timer-val {
-            font-size: 22px;
-            font-weight: bold;
-            display: block;
-            color: #fff;
-        }
-        .timer-lbl {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
+        /* البطاقات */
+        .box-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
+        h2 { color: var(--accent-gold); margin-bottom: 15px; }
+        
         /* البث المباشر */
-        .live-player {
-            background: var(--card-bg);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            border: 1px solid #333;
-        }
-        .live-player audio {
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        /* الأذكار والتلاوات */
-        .dhikr-row {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #333;
-        }
-        .dhikr-text {
-            flex-grow: 1;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        .mini-counter {
-            background: var(--accent-color);
-            color: #000;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            user-select: none;
-            min-width: 30px;
-            text-align: center;
-        }
-        .mini-counter.done {
-            background: #2ecc71;
-            color: #fff;
-        }
-        .sub-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-bottom: 15px;
-        }
-        .sub-tab-btn {
-            padding: 5px 15px;
-            border: 1px solid var(--accent-color);
-            background: transparent;
-            color: var(--accent-color);
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-        .sub-tab-btn.active, .sub-tab-btn:hover {
-            background: var(--accent-color);
-            color: #000;
-        }
-
-        /* التلاوات */
-        .audio-player-card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #333;
-        }
-        .track-title {
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-        .btn-dl {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .player-top-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .progress-container {
-            margin: 10px 0;
-        }
-        .timeline {
-            background: #333;
-            height: 6px;
-            border-radius: 3px;
-            cursor: pointer;
-            position: relative;
-        }
-        .progress-bar {
-            background: var(--accent-color);
-            height: 100%;
-            width: 0;
-            border-radius: 3px;
-        }
-        .time-stamps {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 3px;
-        }
-        .control-btn {
-            background: var(--accent-color);
-            color: #000;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .live-stream-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 14px; overflow: hidden; margin-top: 10px; }
+        .live-video-player { width: 100%; height: 100%; display: block; }
+        
+        /* الأذكار */
+        .dhikr-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid var(--border-color); }
+        .mini-counter { background: #21262d; border: 1px solid var(--accent-gold); color: var(--accent-gold); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .mini-counter.done { background: var(--green); color: white; border-color: var(--green); }
     </style>
 </head>
 <body>
 
-    <!-- رأس الموقع مع الصورة -->
-    <header>
-        <div class="header-container">
-            <img src="logo.png" alt="شعار معدودات" class="site-logo" onerror="this.style.display='none'">
-            <h1 class="site-title">معدودات</h1>
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="showPanel('telawat')">التلاوات</button>
+        <button class="tab-btn" onclick="showPanel('remaining')">المتبقي</button>
+        <button class="tab-btn" onclick="showPanel('dhikr')">الأذكار</button>
+        <button class="tab-btn" onclick="showPanel('live')">بث مباشر</button>
+    </div>
+
+    <div id="panel-telawat" class="panel-content active">
+        <div class="box-card"><h2>قائمة التلاوات</h2><div id="telawat-list">جاري تحميل التلاوات...</div></div>
+    </div>
+
+    <div id="panel-remaining" class="panel-content">
+        <div class="box-card"><h2>العد التنازلي</h2><div id="countdown-list">جاري التحميل...</div></div>
+    </div>
+
+    <div id="panel-dhikr" class="panel-content">
+        <div class="box-card"><h2>قسم الأذكار (تصفير تلقائي 12 ص)</h2><div id="dhikr-list">جاري تحميل الأذكار...</div></div>
+    </div>
+
+    <div id="panel-live" class="panel-content">
+        <div class="box-card">
+            <h2>إذاعة القرآن الكريم</h2>
+            <audio id="live-audio" controls style="width:100%"></audio>
         </div>
-    </header>
-
-    <div class="container">
-        <!-- البث المباشر -->
-        <div class="live-player">
-            <span style="font-weight: bold; color: var(--accent-color);"><i class="fa-solid fa-radio"></i> بث مباشر - إذاعة القرآن الكريم</span>
-            <audio id="live-audio" controls preload="none"></audio>
+        <div class="box-card">
+            <h2>الحرم المكي</h2>
+            <div class="live-stream-container"><video id="makkah-video" class="live-video-player" controls autoplay muted></video></div>
         </div>
-
-        <!-- أزرار التنقل الرئيسية -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('countdowns')">العدادات</button>
-            <button class="tab-btn" onclick="switchTab('dhikr')">الأذكار</button>
-            <button class="tab-btn" onclick="switchTab('telawat')">التلاوات</button>
-        </div>
-
-        <!-- قسم العدادات (يحتوي على الثواني في شاشة الموقع) -->
-        <div id="panel-countdowns" class="panel-content active">
-            <!-- رمضان -->
-            <div class="countdown-card">
-                <div class="countdown-title">
-                    <span>شهر رمضان المبارك</span>
-                    <button onclick="shareTime('شهر رمضان المبارك', '2027-02-08')" class="sub-tab-btn"><i class="fa-solid fa-share-nodes"></i> مشاركة</button>
-                </div>
-                <div class="timer-grid" id="timer-ramadan">
-                    <div class="timer-unit"><span class="timer-val" id="ramadan-mo">0</span><span class="timer-lbl">شهور</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="ramadan-d">0</span><span class="timer-lbl">أيام</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="ramadan-h">0</span><span class="timer-lbl">ساعات</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="ramadan-m">0</span><span class="timer-lbl">دقائق</span></div>
-                    <div class="timer-unit" style="border-color: var(--accent-color);"><span class="timer-val" id="ramadan-s" style="color: var(--accent-color);">0</span><span class="timer-lbl">ثواني</span></div>
-                </div>
-            </div>
-
-            <!-- عيد الفطر -->
-            <div class="countdown-card">
-                <div class="countdown-title">
-                    <span>عيد الفطر السعيد</span>
-                    <button onclick="shareTime('عيد الفطر السعيد', '2027-03-08')" class="sub-tab-btn"><i class="fa-solid fa-share-nodes"></i> مشاركة</button>
-                </div>
-                <div class="timer-grid" id="timer-fitr">
-                    <div class="timer-unit"><span class="timer-val" id="fitr-mo">0</span><span class="timer-lbl">شهور</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="fitr-d">0</span><span class="timer-lbl">أيام</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="fitr-h">0</span><span class="timer-lbl">ساعات</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="fitr-m">0</span><span class="timer-lbl">دقائق</span></div>
-                    <div class="timer-unit" style="border-color: var(--accent-color);"><span class="timer-val" id="fitr-s" style="color: var(--accent-color);">0</span><span class="timer-lbl">ثواني</span></div>
-                </div>
-            </div>
-
-            <!-- عشر ذي الحجة -->
-            <div class="countdown-card">
-                <div class="countdown-title">
-                    <span>عشر ذي الحجة</span>
-                    <button onclick="shareTime('عشر ذي الحجة', '2027-06-05')" class="sub-tab-btn"><i class="fa-solid fa-share-nodes"></i> مشاركة</button>
-                </div>
-                <div class="timer-grid" id="timer-hajj">
-                    <div class="timer-unit"><span class="timer-val" id="hajj-mo">0</span><span class="timer-lbl">شهور</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="hajj-d">0</span><span class="timer-lbl">أيام</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="hajj-h">0</span><span class="timer-lbl">ساعات</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="hajj-m">0</span><span class="timer-lbl">دقائق</span></div>
-                    <div class="timer-unit" style="border-color: var(--accent-color);"><span class="timer-val" id="hajj-s" style="color: var(--accent-color);">0</span><span class="timer-lbl">ثواني</span></div>
-                </div>
-            </div>
-
-            <!-- عيد الأضحى -->
-            <div class="countdown-card">
-                <div class="countdown-title">
-                    <span>عيد الأضحى المبارك</span>
-                    <button onclick="shareTime('عيد الأضحى المبارك', '2027-06-15')" class="sub-tab-btn"><i class="fa-solid fa-share-nodes"></i> مشاركة</button>
-                </div>
-                <div class="timer-grid" id="timer-adha">
-                    <div class="timer-unit"><span class="timer-val" id="adha-mo">0</span><span class="timer-lbl">شهور</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="adha-d">0</span><span class="timer-lbl">أيام</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="adha-h">0</span><span class="timer-lbl">ساعات</span></div>
-                    <div class="timer-unit"><span class="timer-val" id="adha-m">0</span><span class="timer-lbl">دقائق</span></div>
-                    <div class="timer-unit" style="border-color: var(--accent-color);"><span class="timer-val" id="adha-s" style="color: var(--accent-color);">0</span><span class="timer-lbl">ثواني</span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- قسم الأذكار -->
-        <div id="panel-dhikr" class="panel-content">
-            <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="filterDhikrCategory('الصباح', this)">أذكار الصباح</button>
-                <button class="sub-tab-btn" onclick="filterDhikrCategory('المساء', this)">أذكار المساء</button>
-                <button class="sub-tab-btn" onclick="filterDhikrCategory('النوم', this)">أذكار النوم</button>
-                <button class="sub-tab-btn" onclick="filterDhikrCategory('منوع', this)">منوع</button>
-            </div>
-            <div id="dhikr-list">
-                <p style="text-align:center; color:gray;">جاري تحميل الأذكار...</p>
-            </div>
-        </div>
-
-        <!-- قسم التلاوات -->
-        <div id="panel-telawat" class="panel-content">
-            <div style="margin-bottom: 15px;">
-                <input type="text" id="searchAudio" oninput="filterTelawat()" placeholder="ابحث عن تلاوة..." style="width:100%; padding:10px; border-radius:5px; background: #222; border:1px solid #444; color: #fff; box-sizing: border-box;">
-            </div>
-            <div id="telawat-list">
-                <p style="text-align:center; color:gray;">جاري تحميل التلاوات...</p>
-            </div>
+        <div class="box-card">
+            <h2>الحرم المدني</h2>
+            <div class="live-stream-container"><video id="madinah-video" class="live-video-player" controls autoplay muted></video>
         </div>
     </div>
 
     <script>
-        const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-        const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
-        const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=الذكر`;
-
-        let allTelawatRows = [];
-        let allDhikrRows = [];
-
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.panel-content').forEach(panel => panel.classList.remove('active'));
-            
+        // التبويبات
+        function showPanel(id) {
+            document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('panel-' + id).classList.add('active');
             event.currentTarget.classList.add('active');
-            document.getElementById(`panel-${tabName}`).classList.add('active');
+        }
+
+        // 1. الإذاعة
+        const audio = document.getElementById("live-audio");
+        const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
+        if (Hls.isSupported()) {
+            const hls = new Hls({ lowLatencyMode: true });
+            hls.loadSource(radioUrl);
+            hls.attachMedia(audio);
+        }
+
+        // 2. قنوات الحرمين (بدون iframe)
+        function initStream(url, videoId) {
+            const video = document.getElementById(videoId);
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+            } else {
+                video.src = url;
+            }
+        }
+        initStream("https://vdo.elahmad.com/live/qoransa.m3u8", "makkah-video");
+        initStream("https://vdo.elahmad.com/live/sunnahsa.m3u8", "madinah-video");
+
+        // 3. الأذكار (تصفير عند 12 ص)
+        async function loadDhikr() {
+            const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=أذكار`;
+            const res = await fetch(url);
+            const text = await res.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            const container = document.getElementById('dhikr-list');
             
-            if(tabName !== 'telawat') {
-                document.querySelectorAll('audio:not(#live-audio)').forEach(audio => audio.pause());
-            }
-        }
+            // نظام التصفير
+            const lastDate = localStorage.getItem('last_date');
+            const today = new Date().toDateString();
+            if(lastDate !== today) { localStorage.removeItem('dhikr_progress'); localStorage.setItem('last_date', today); }
+            
+            let progress = JSON.parse(localStorage.getItem('dhikr_progress') || '{}');
 
-        async function fetchSheet(url) {
-            try {
-                const response = await fetch(url);
-                const text = await response.text();
-                const jsonText = text.substring(text.indexOf("(") + 1, text.lastIndexOf(")"));
-                return JSON.parse(jsonText).table.rows;
-            } catch (e) { 
-                console.error("Error fetching data:", e);
-                return []; 
-            }
-        }
-
-        // جلب وعرض التلاوات
-        async function initTelawat() {
-            allTelawatRows = await fetchSheet(urlTelawat);
-            renderTelawat(allTelawatRows);
-        }
-
-        function renderTelawat(rows) {
-            const container = document.getElementById('telawat-list');
-            if(!rows || rows.length === 0) { 
-                container.innerHTML = "<p style='text-align:center; color:gray;'>لا توجد نتائج مطابقة.</p>"; 
-                return; 
-            }
-            container.innerHTML = '';
-            rows.forEach((row, index) => {
-                const title = row.c[0] ? row.c[0].v : 'تلاوة مباركة';
-                const mp3Url = row.c[1] ? row.c[1].v : '#';
+            container.innerHTML = "";
+            json.table.rows.forEach((row, i) => {
+                const txt = row.c[0]?.v;
+                const count = parseInt(row.c[1]?.v || 1);
+                const current = progress[i] !== undefined ? progress[i] : count;
+                
                 container.innerHTML += `
-                    <div class="audio-player-card">
-                        <div class="player-top-info">
-                            <span class="track-title">${title}</span>
-                            <a href="${mp3Url}" download="${title}.mp3" class="btn-dl" target="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> MP3</a>
-                        </div>
-                        <audio id="audio-${index}" src="${mp3Url}" preload="metadata"></audio>
-                        <div class="progress-container">
-                            <div class="timeline" onclick="handleTimelineClick(event, ${index})"><div class="progress-bar" id="progress-${index}"></div></div>
-                            <div class="time-stamps"><span id="current-${index}">0:00</span></div>
-                        </div>
-                        <div class="player-controls" style="text-align:center;">
-                            <button class="control-btn btn-play-pause" onclick="togglePlay(${index})"><i class="fa-solid fa-play" id="icon-${index}"></i></button>
+                    <div class="dhikr-row">
+                        <span>${txt}</span>
+                        <div class="mini-counter ${current === 0 ? 'done' : ''}" id="dk-${i}" onclick="count(${i}, ${count})">
+                            ${current === 0 ? '✓' : current}
                         </div>
                     </div>`;
             });
         }
 
-        function filterTelawat() {
-            const query = document.getElementById('searchAudio').value.toLowerCase();
-            const filtered = allTelawatRows.filter(row => {
-                const title = row.c[0] ? row.c[0].v.toLowerCase() : '';
-                return title.includes(query);
-            });
-            renderTelawat(filtered);
-        }
-
-        function togglePlay(id) {
-            const audio = document.getElementById(`audio-${id}`); 
-            const icon = document.getElementById(`icon-${id}`);
-            if(audio.paused) {
-                document.querySelectorAll('audio').forEach(el => { if(el.id !== 'live-audio') el.pause(); });
-                document.querySelectorAll('.btn-play-pause i').forEach(i => i.className = 'fa-solid fa-play');
-                audio.play(); 
-                icon.className = 'fa-solid fa-pause';
-                audio.ontimeupdate = () => {
-                    const progress = document.getElementById(`progress-${id}`);
-                    const current = document.getElementById(`current-${id}`);
-                    if(progress) progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
-                    if(current) current.innerText = formatTime(audio.currentTime);
-                };
-            } else { 
-                audio.pause(); 
-                icon.className = 'fa-solid fa-play'; 
-            }
-        }
-
-        function handleTimelineClick(e, id) {
-            const timeline = e.currentTarget;
-            const audio = document.getElementById(`audio-${id}`);
-            const clickPercent = (e.offsetX / timeline.offsetWidth);
-            audio.currentTime = clickPercent * audio.duration;
-        }
-
-        function formatTime(secs) {
-            let m = Math.floor(secs / 60), s = Math.floor(secs % 60);
-            return m + ':' + (s < 10 ? '0' : '') + s;
-        }
-
-        // جلب وعرض الأذكار
-        async function initDhikr() {
-            allDhikrRows = await fetchSheet(urlDhikr);
-            renderDhikr('الصباح');
-        }
-
-        function renderDhikr(category) {
-            const container = document.getElementById('dhikr-list');
-            container.innerHTML = '';
-            let hasData = false;
-
-            allDhikrRows.forEach((row, index) => {
-                const text = row.c[0] ? row.c[0].v : '';
-                const count = row.c[1] ? parseInt(row.c[1].v) : 1;
-                const cat = row.c[2] ? row.c[2].v.trim() : 'منوع';
-
-                if(cat === category) {
-                    hasData = true;
-                    container.innerHTML += `
-                        <div class="dhikr-row">
-                            <div class="dhikr-text">${text}</div>
-                            <div class="mini-counter" id="dk-${index}" onclick="countDhikr(${index})">${count}</div>
-                        </div>`;
-                }
-            });
-            if(!hasData) container.innerHTML = "<p style='text-align:center; color:gray;'>لا توجد أذكار في هذا القسم حالياً.</p>";
-        }
-
-        function filterDhikrCategory(category, element) {
-            document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            renderDhikr(category);
-        }
-
-        function countDhikr(id) {
-            const el = document.getElementById(`dk-${id}`); 
-            let val = parseInt(el.innerText);
-            if (val > 1) {
-                el.innerText = val - 1; 
-            } else { 
-                el.innerText = "✓"; 
-                el.classList.add('done'); 
-            }
-        }
-
-        // التواريخ المستهدفة لعام 2027
-        const targetDates = { 
-            ramadan: new Date("February 8, 2027 00:00:00").getTime(), 
-            fitr: new Date("March 8, 2027 00:00:00").getTime(),
-            hajj: new Date("June 5, 2027 00:00:00").getTime(),
-            adha: new Date("June 15, 2027 00:00:00").getTime()
-        };
-
-        // العداد الحي الذي يعرض الثواني على شاشة الموقع
-        function initCountdowns() {
-            function updateTimers() {
-                const now = new Date().getTime();
-                for (let key in targetDates) {
-                    const diff = targetDates[key] - now; 
-                    if (diff <= 0) {
-                        document.getElementById(`${key}-mo`).innerText = "0";
-                        document.getElementById(`${key}-d`).innerText = "0";
-                        document.getElementById(`${key}-h`).innerText = "0";
-                        document.getElementById(`${key}-m`).innerText = "0";
-                        document.getElementById(`${key}-s`).innerText = "0";
-                        continue;
-                    }
-                    const totalSeconds = Math.floor(diff / 1000);
-                    const totalMinutes = Math.floor(totalSeconds / 60);
-                    const totalHours = Math.floor(totalMinutes / 60);
-                    const totalDays = Math.floor(totalHours / 24);
-
-                    document.getElementById(`${key}-mo`).innerText = Math.floor(totalDays / 30);
-                    document.getElementById(`${key}-d`).innerText = totalDays % 30;
-                    document.getElementById(`${key}-h`).innerText = totalHours % 24;
-                    document.getElementById(`${key}-m`).innerText = totalMinutes % 60;
-                    document.getElementById(`${key}-s`).innerText = totalSeconds % 60; // إظهار الثواني في شاشة الموقع
-                }
-            }
-            updateTimers(); 
-            setInterval(updateTimers, 1000); // تحديث كل ثانية للحصول على العداد التنازلي الحي
-        }
-
-        // ميزة المشاركة: تضع الرابط تلقائياً وتتجاهل الثواني لتكون مرتبة
-        function shareTime(name, dateStr) {
-            const targetTime = new Date(dateStr + " 00:00:00").getTime();
-            const now = new Date().getTime();
-            const diff = targetTime - now;
-
-            if (diff <= 0) {
-                alert("هذه المناسبة بدأت بالفعل أو مرت!");
-                return;
-            }
-
-            const totalSeconds = Math.floor(diff / 1000);
-            const totalMinutes = Math.floor(totalSeconds / 60);
-            const totalHours = Math.floor(totalMinutes / 60);
-            const totalDays = Math.floor(totalHours / 24);
-
-            const months = Math.floor(totalDays / 30);
-            const days = totalDays % 30;
-            const hours = totalHours % 24;
-            const minutes = totalMinutes % 60;
-
-            // بناء نص المشاركة المطلوب مع إدراج رابط الموقع وبدون ثوانٍ
-            const shareText = `المتبقي لـ (${name}): ${months} شهور و ${days} أيام و ${hours} ساعات و ${minutes} دقائق.\n\nتابع العداد مباشرة عبر موقع معدودات:\nhttps://sdkd2039.github.io/Numbered/`;
+        function count(i, max) {
+            let el = document.getElementById('dk-'+i);
+            let val = el.innerText === '✓' ? 0 : parseInt(el.innerText);
+            if(val > 1) { val--; el.innerText = val; }
+            else { el.innerText = '✓'; el.classList.add('done'); val = 0; }
             
-            navigator.clipboard.writeText(shareText).then(() => {
-                alert("تم نسخ تفاصيل الموعد مع رابط الموقع بنجاح! 🎉\n\n" + shareText);
-            }).catch(err => {
-                alert("تفضل بنسخ الموعد يدوياً:\n" + shareText);
-            });
+            let progress = JSON.parse(localStorage.getItem('dhikr_progress') || '{}');
+            progress[i] = val;
+            localStorage.setItem('dhikr_progress', JSON.stringify(progress));
         }
 
-        // تشغيل بث إذاعة القرآن الكريم
-        function initLiveAudio() {
-            const audioObj = document.getElementById('live-audio');
-            const rawSrc = 'https://stream.qurango.net/radio/quran/playlist.m3u8';
+        loadDhikr();
 
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(rawSrc);
-                hls.attachMedia(audioObj);
-            } else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
-                audioObj.src = rawSrc;
-            } else {
-                audioObj.src = 'https://stream.radiojar.com/0tpy1knsc2zuv';
-            }
+        // 4. المشاركة بالثواني
+        function shareTime(name, date, s, m, h, d) {
+            const link = `https://maadodat.github.io/share?event=${encodeURIComponent(name)}&date=${date}&time=${s}s${m}m${h}h${d}d`;
+            navigator.clipboard.writeText(link).then(() => alert("تم نسخ رابط المشاركة (شامل الثواني)"));
         }
-
-        window.onload = () => { 
-            initTelawat(); 
-            initCountdowns(); 
-            initDhikr(); 
-            initLiveAudio(); 
-        };
     </script>
 </body>
 </html>
