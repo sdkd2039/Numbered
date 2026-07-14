@@ -315,86 +315,84 @@
 </div>
 
 <script>
+    // الإعدادات العامة
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
     const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=الذكر`;
 
-    // دالة مشاركة واحدة موحدة وشاملة للثواني
-function shareTime(name, key) {
+    // 1. تشغيل البث المباشر (الإذاعة)
+    let hlsAudioInstance;
+    function initLiveAudio() {
+        const audioObj = document.getElementById("live-audio");
+        const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
 
-    const mo = document.getElementById(`${key}-mo`)?.textContent || "0";
-    const d  = document.getElementById(`${key}-d`)?.textContent || "0";
-    const h  = document.getElementById(`${key}-h`)?.textContent || "0";
-    const m  = document.getElementById(`${key}-m`)?.textContent || "0";
-    const s  = document.getElementById(`${key}-s`)?.textContent || "0";
-
-    const text =
-`📿 ${name}
-
-⏳ المتبقي:
-
-🗓️ ${mo} شهر
-📅 ${d} يوم
-🕒 ${h} ساعة
-🕑 ${m} دقيقة
-⏱️ ${s} ثانية
-
-🌐 https://sdkd2039.github.io/Numbered/`;
-
-    if (navigator.share) {
-
-        navigator.share({
-            title: name,
-            text: text
-        });
-
-    } else {
-
-        navigator.clipboard.writeText(text);
-        alert("تم نسخ الوقت.");
-
+        if (Hls.isSupported()) {
+            hlsAudioInstance = new Hls({ enableWorker: true, lowLatencyMode: true });
+            hlsAudioInstance.loadSource(radioUrl);
+            hlsAudioInstance.attachMedia(audioObj);
+        } else if (audioObj.canPlayType("application/vnd.apple.mpegurl")) {
+            audioObj.src = radioUrl;
+        }
     }
 
-}
+    // 2. التحكم بالمشغل الدائري
+    function toggleLiveAudio() {
+        const audio = document.getElementById('live-audio');
+        const icon = document.getElementById('icon-live');
+        const statusText = document.getElementById('live-status-text');
+        const progress = document.getElementById('progress-circle');
 
-    // دالة تشغيل البث المباشر (الإذاعة)
-let hlsAudioInstance; // تعريف عام للمشغل
-
-function initLiveAudio() {
-    const audioObj = document.getElementById("live-audio");
-    const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
-
-    if (Hls.isSupported()) {
-        hlsAudioInstance = new Hls({
-            enableWorker: true,
-            lowLatencyMode: true
-        });
-        hlsAudioInstance.loadSource(radioUrl);
-        hlsAudioInstance.attachMedia(audioObj);
-    } else if (audioObj.canPlayType("application/vnd.apple.mpegurl")) {
-        audioObj.src = radioUrl;
+        if (audio.paused) {
+            audio.play();
+            icon.className = 'fa-solid fa-pause';
+            statusText.innerText = "جاري البث المباشر... 🔴";
+            statusText.style.color = "var(--green)";
+            progress.style.strokeDashoffset = "0";
+        } else {
+            audio.pause();
+            icon.className = 'fa-solid fa-play';
+            statusText.innerText = "متوقف الآن";
+            statusText.style.color = "var(--text-muted)";
+            progress.style.strokeDashoffset = "377";
+        }
     }
-}
 
-async function fetchData(url, callback) {
-    try {
-        const response = await fetch(url);
-        const text = await response.text();
-        // تصحيح صيغة الـ JSON القادم من Google Sheets
-        const json = JSON.parse(text.substr(47).slice(0, -2));
-        callback(json.table.rows);
-    } catch (error) {
-        console.error("خطأ في جلب البيانات:", error);
+    // 3. جلب البيانات من Google Sheets
+    async function fetchData(url, callback) {
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            callback(json.table.rows);
+        } catch (error) { console.error("خطأ في جلب البيانات:", error); }
     }
-}
 
-// استدعاء الدوال عند التحميل
-window.onload = () => {
-    fetchData(urlTelawat, renderTelawat);
-    fetchData(urlDhikr, renderDhikr);
-    initCountdowns();
-    initLiveAudio(); // دالة الإذاعة المحدثة
-};
+    function renderTelawat(rows) {
+        const list = document.getElementById('telawat-list');
+        list.innerHTML = rows.map(r => `<div class="dhikr-row"><span>${r.c[0]?.v || ''}</span></div>`).join('');
+    }
+
+    function renderDhikr(rows) {
+        const list = document.getElementById('dhikr-list');
+        list.innerHTML = rows.map(r => `<div class="dhikr-row"><span class="dhikr-text">${r.c[0]?.v || ''}</span><div class="mini-counter" onclick="this.classList.toggle('done')">0</div></div>`).join('');
+    }
+
+    // 4. التنقل بين التبويبات
+    function switchTab(tabId) {
+        document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('panel-' + tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // التشغيل الموحد عند التحميل
+    window.onload = () => {
+        initLiveAudio();
+        fetchData(urlTelawat, renderTelawat);
+        fetchData(urlDhikr, renderDhikr);
+        // تأكد أن initCountdowns موجودة في ملفك، إذا لم تكن موجودة احذف السطر التالي
+        if(typeof initCountdowns === 'function') initCountdowns();
+    };
 </script>
 </body>
 </html>
