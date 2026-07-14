@@ -470,8 +470,9 @@ window.onload = () => {
 };
 
 // 8. دالة البحث (مستقلة ومصححة)
-async function filterTelawat() {
+function filterTelawat() {
     const searchTerm = document.getElementById('searchAudio').value.toLowerCase();
+    1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ
     
     // إعادة جلب البيانات لتصفيتها
     const allData = await fetchAllSheetsData(); 
@@ -489,10 +490,15 @@ function downloadAudio(btn) {
     const url = btn.getAttribute('data-url');
     const title = btn.getAttribute('data-title');
     const ext = btn.getAttribute('data-ext');
-    const originalContent = btn.innerHTML;
     
-    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
-    btn.disabled = true;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title}.${ext}`;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
     
     // استخدام fetch لجلب البيانات والتأكد من نجاح الرابط
     fetch(url)
@@ -531,7 +537,10 @@ function renderTelawat(items) {
                 <div style="font-size: 0.9rem; color: #aaa;">${item.reader}</div>
             </div>
             
-            <video src="${item.downloadUrl}" controls controlsList="nodownload" style="width: 100%; border-radius: 8px;"></video>
+            <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
+                <source src="${item.downloadUrl}" type="video/mp4">
+                متصفحك لا يدعم تشغيل الفيديو.
+            </video>
 
             <div class="download-container" style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
                 <button class="btn-download-action" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4" onclick="downloadAudio(this)">
