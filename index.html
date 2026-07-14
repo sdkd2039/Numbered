@@ -460,20 +460,27 @@ async function fetchAllSheetsData() {
         if (logo) logo.src = logoMap[tabId];
     }
 
-// 7. التشغيل النهائي (مصحح)
-    window.onload = () => {
-        initLiveAudio();
-        // تم تغيير fetchData إلى اسم الدالة الصحيحة
-        fetchAllSheetsData();
-        
-        // تشغيل العدادات
-        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-        startCountdown('timer-fitr', '2027-03-08T00:00:00');
-        startCountdown('timer-hajj', '2027-05-08T00:00:00');
-        startCountdown('timer-adha', '2027-05-16T00:00:00');
-    };
+// 7. التشغيل النهائي
+window.onload = () => {
+    initLiveAudio();
+    fetchAllSheetsData();
+    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+    startCountdown('timer-fitr', '2027-03-08T00:00:00');
+    startCountdown('timer-hajj', '2027-05-08T00:00:00');
+    startCountdown('timer-adha', '2027-05-16T00:00:00');
+};
 
-    // دالة تحميل الملفات المباشرة
+// 8. دالة البحث (مستقلة ومصححة)
+function filterTelawat() {
+    const searchTerm = document.getElementById('searchAudio').value.toLowerCase();
+    const filtered = allTelawatData.filter(item => 
+        item.title.toLowerCase().includes(searchTerm) || 
+        item.reader.toLowerCase().includes(searchTerm)
+    );
+    renderTelawat(filtered); 
+}
+
+// 9. دالة تحميل الملفات (مصححة ومنظمة)
 function downloadAudio(btn) {
     const url = btn.getAttribute('data-url');
     const title = btn.getAttribute('data-title');
@@ -482,31 +489,21 @@ function downloadAudio(btn) {
     
     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
     btn.disabled = true;
-
-function filterTelawat() {
-    const searchTerm = document.getElementById('searchAudio').value.toLowerCase();
     
-    // البحث داخل المخزن العام
-    const filtered = allTelawatData.filter(item => 
-        item.title.toLowerCase().includes(searchTerm) || 
-        item.reader.toLowerCase().includes(searchTerm)
-    );
-    
-    renderTelawat(filtered); 
-}
-    
+    // استخدام fetch لجلب البيانات والتأكد من نجاح الرابط
     fetch(url)
-        .then(response => response.blob())
+        .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.blob();
+        })
         .then(blob => {
             const blobUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url;
+            a.href = blobUrl;
             a.download = `${title}.${ext}`;
-            a.target = '_blank'; // يفتح في نافذة جديدة لضمان عدم إغلاق الصفحة الحالية
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-        }
             window.URL.revokeObjectURL(blobUrl);
             btn.innerHTML = originalContent;
             btn.disabled = false;
@@ -518,7 +515,8 @@ function filterTelawat() {
         });
 }
 
-    function renderTelawat(items) {
+// 10. دالة العرض (موجودة لديك لكن تأكد من إغلاقها بشكل صحيح)
+function renderTelawat(items) {
     const list = document.getElementById('telawat-list');
     if (!list) return;
 
