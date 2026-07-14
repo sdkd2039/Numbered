@@ -351,18 +351,26 @@
         else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
-    // 3. دالة المشاركة بأسلوب رائع
-    function shareTime(eventName, eventDate) {
-        const now = new Date().getTime();
-        const target = new Date(eventDate).getTime();
-        const diff = target - now;
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها لا فاقدين ولا مفقودين.`;
-        if (navigator.share) { navigator.share({ title: 'الموعد القادم', text: message }); }
-        else { alert(message); }
+// 3. دالة مشاركة الموعد (المحدثة والمصححة)
+function shareTime(eventName, eventDate) {
+    const now = new Date().getTime();
+    const target = new Date(eventDate).getTime();
+    const diff = target - now;
+
+    // حساب الوحدات بدقة
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    // تأكد هنا أن المتغير h موجود في النص
+    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها لا فاقدين ولا مفقودين.`;
+    
+    if (navigator.share) {
+        navigator.share({ title: 'الموعد القادم', text: message });
+    } else {
+        alert(message);
     }
+}
 
     // 4. دالة العداد التنازلي
     function startCountdown(id, targetDate) {
