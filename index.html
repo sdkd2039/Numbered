@@ -276,54 +276,79 @@
         </div>
     </div>
 
-    <!-- 4. قسم البث المباشر (المصلح كلياً ليعمل بدون حماية وساندبوكس وبدون انتظار) -->
-    <div id="panel-live" class="panel-content">
-        <div class="box-card">
-            <div class="box-header">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6V18M17 9V15M22 11V13M7 8V16M2 10V14" stroke="#c5a880" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <h2 class="box-title">إذاعة القرآن الكريم من المملكة العربية السعودية</h2>
+<!-- إذاعة القرآن -->
+<div class="box-card" style="background: linear-gradient(145deg, #161b22, #0d1117); border: 2px solid var(--accent-gold);">
+    <div class="audio-player-card" style="margin-bottom: 0;">
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 15px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 50px; height: 50px; border-radius: 12px; border: 1px solid var(--accent-gold);">
+                <div style="text-align: right;">
+                    <div style="font-weight: 800; color: #fff;">إذاعة القرآن الكريم</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">المملكة العربية السعودية</div>
+                </div>
             </div>
-            <div style="text-align: center; padding: 10px 0;">
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">البث المباشر المسرّع</p>
-                <audio id="live-audio" controls class="native-audio-player"></audio>
+            <div style="background: #111827; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--live-red); color: var(--live-red); font-size: 0.75rem; font-weight: bold; animation: pulse 2s infinite;">
+                مباشر 🔴
             </div>
         </div>
 
-        <div class="box-card">
-            <div class="box-header">
-                <i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i>
-                <h2 class="box-title">بث مباشر الحرم المكي الشريف</h2>
-            </div>
-            <div class="live-stream-container">
+        <div class="drama-circle-wrapper">
+            <svg class="drama-svg-track">
+                <circle class="drama-circle-bg" cx="70" cy="70" r="60"></circle>
+                <circle id="progress-circle" class="drama-circle-progress" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <button class="btn-play-pause-center" onclick="toggleLiveAudio()">
+                <i id="icon-live" class="fa-solid fa-play"></i>
+            </button>
+        </div>
+        
+        <audio id="live-audio" style="display:none;"></audio>
+        <div id="live-status-text" class="track-title" style="font-size: 0.9rem;">متوقف الآن</div>
+    </div>
+</div>
+
+<!-- الحرم المكي -->
+
+<div class="live-card">
+
+<div class="live-title">
+<i class="fa-solid fa-kaaba"></i>
+<span>بث مباشر: قناة القرآن الكريم</span>
+</div>
+
 <iframe
-src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4"
-style="width:100%;height:450px;border:none;border-radius:12px;"
+class="live-frame"
+src="https://www.elahmad.ru/tv/live/channels.php?id=327"
 allowfullscreen
-allow="autoplay; fullscreen">
+allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media">
 </iframe>
-            </div>
-        </div>
 
-        <div class="box-card">
-            <div class="box-header">
-                <i class="fa-solid fa-gopuram" style="color: var(--accent-gold);"></i>
-                <h2 class="box-title">بث مباشر الحرم المدني الشريف</h2>
-            </div>
-            <div class="live-stream-container">
+</div>
+
+<!-- الحرم المدني -->
+
+<div class="live-card">
+
+<div class="live-title">
+<i class="fa-solid fa-mosque"></i>
+<span>بث مباشر: قناة السنة النبوية</span>
+</div>
+
 <iframe
+class="live-frame"
 src="https://www.elahmad.ru/tv/live/channels.php?id=326"
-style="width:100%;height:450px;border:none;border-radius:12px;"
 allowfullscreen
-allow="autoplay; fullscreen">
+allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media">
 </iframe>
-            </div>
+
+</div>
         </div>
     </div>
 
 <script>
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
-    const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=أذكار`;
+    const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=الذكر`;
 
     // دالة مشاركة واحدة موحدة وشاملة للثواني
 function shareTime(name, key) {
@@ -363,33 +388,29 @@ function shareTime(name, key) {
 
 }
 
-    // دالة تشغيل البث المباشر (الإذاعة + الحرمين)
-    function initLiveStreams() {
-        // 1. الإذاعة
-const audioObj = document.getElementById('live-audio');
-const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
+    // دالة تشغيل البث المباشر (الإذاعة)
+function toggleLiveAudio() {
+    const audio = document.getElementById('live-audio');
+    const icon = document.getElementById('icon-live');
+    const statusText = document.getElementById('live-status-text');
+    const progress = document.getElementById('progress-circle');
 
-if (Hls.isSupported()) {
-
-    const hls = new Hls({
-        enableWorker: true,
-        lowLatencyMode: true,
-        maxBufferLength: 10,
-        liveSyncDurationCount: 3
-    });
-
-    hls.loadSource(radioUrl);
-
-    hls.attachMedia(audioObj);
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        audioObj.play().catch(() => {});
-    });
-
-} else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
-
-    audioObj.src = radioUrl;
-
+    if (audio.paused) {
+        audio.play().catch(e => console.log("خطأ في التشغيل", e));
+        icon.className = 'fa-solid fa-pause';
+        statusText.innerText = "جاري البث المباشر... 🔴";
+        statusText.style.color = "var(--green)";
+        progress.style.strokeDashoffset = "0"; // تفعيل دائرة التقدم
+    } else {
+        audio.pause();
+        icon.className = 'fa-solid fa-play';
+        statusText.innerText = "متوقف الآن";
+        statusText.style.color = "var(--text-muted)";
+        progress.style.strokeDashoffset = "377"; // إيقاف دائرة التقدم
+    }
 }
+
+// تأكد من دمج كود تشغيل HLS الموجود في دالة initLiveStreams التي كتبناها سابقاً داخل الـ window.onload
 
     // باقي الدوال الخاصة بك (initTelawat, initDhikr, initCountdowns) تبقى كما هي...
     
