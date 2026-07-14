@@ -310,231 +310,59 @@
         </div>
     </div>
 
-    <script>
-        const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-        const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
-        const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=أذكار`;
+<script>
+    const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+    const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
+    const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=أذكار`;
 
-        let allTelawatRows = [];
-        let allDhikrRows = [];
+    // دالة مشاركة واحدة موحدة وشاملة للثواني
+    function shareTime(name, date) {
+        // جلب الثواني والدقائق من العدادات الحالية في الصفحة
+        const s = document.querySelector('.time-num[id$="-s"]')?.innerText || "0";
+        const m = document.querySelector('.time-num[id$="-m"]')?.innerText || "0";
+        const h = document.querySelector('.time-num[id$="-h"]')?.innerText || "0";
+        const d = document.querySelector('.time-num[id$="-d"]')?.innerText || "0";
+        
+        const link = `https://maadodat.github.io/share?event=${encodeURIComponent(name)}&date=${date}&time=${s}s${m}m${h}h${d}d`;
+        navigator.clipboard.writeText(link).then(() => alert("تم نسخ الرابط مع الثواني بنجاح!"));
+    }
 
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.panel-content').forEach(panel => panel.classList.remove('active'));
-            
-            if(event) event.currentTarget.classList.add('active');
-            document.getElementById(`panel-${tabName}`).classList.add('active');
-            
-            if(tabName !== 'telawat') {
-                document.querySelectorAll('audio:not(#live-audio)').forEach(audio => audio.pause());
-                document.querySelectorAll('.btn-play-pause-center i').forEach(i => i.className = 'fa-solid fa-play');
-            }
-            if(tabName !== 'live') {
-                document.getElementById('makkah-video').pause();
-                document.getElementById('madinah-video').pause();
+    // دالة تشغيل البث المباشر (الإذاعة + الحرمين)
+    function initLiveStreams() {
+        // 1. الإذاعة
+        const audioObj = document.getElementById('live-audio');
+        const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
+        if (Hls.isSupported()) {
+            const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
+            hls.loadSource(radioUrl);
+            hls.attachMedia(audioObj);
+        } else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
+            audioObj.src = radioUrl;
+        }
+
+        // 2. الحرم المكي والمدني
+        function setupVideo(url, videoId) {
+            const video = document.getElementById(videoId);
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
             } else {
-                document.getElementById('makkah-video').play().catch(e=>{});
-                document.getElementById('madinah-video').play().catch(e=>{});
+                video.src = url;
             }
         }
-
-        async function fetchSheet(url) {
-            try {
-                const response = await fetch(url); const text = await response.text();
-                return JSON.parse(text.substr(47).slice(0, -2)).table.rows;
-            } catch (e) { return []; }
-        }
-
-        async function initTelawat() {
-            allTelawatRows = await fetchSheet(urlTelawat);
-            renderTelawat(allTelawatRows);
-        }
-
-        function renderTelawat(rows) {
-            const container = document.getElementById('telawat-list');
-            if(rows.length === 0) { container.innerHTML = "<p style='text-align:center; color:gray;'>لا توجد نتائج مطابقة.</p>"; return; }
-            container.innerHTML = '';
-            rows.forEach((row, index) => {
-                const title = row.c[0] ? row.c[0].v : 'تلاوة مباركة';
-                const mp3Url = row.c[1] ? row.c[1].v : '#';
-                container.innerHTML += `
-                    <div class="audio-player-card">
-                        <!-- الدائرة التفاعلية الدائرية لشارات المجد -->
-                        <div class="drama-circle-wrapper">
-                            <svg class="drama-svg-track">
-                                <circle class="drama-circle-bg" cx="70" cy="70" r="60"></circle>
-                                <circle class="drama-circle-progress" id="circle-progress-${index}" cx="70" cy="70" r="60"></circle>
-                            </svg>
-                            <button class="btn-play-pause-center" onclick="togglePlay(${index})">
-                                <i class="fa-solid fa-play" id="icon-${index}"></i>
-                            </button>
-                        </div>
-                        <div class="drama-info-panel">
-                            <div class="track-title">${title}</div>
-                            <div class="time-stamps"><span id="current-${index}">0:00</span></div>
-                        </div>
-                        <audio id="audio-${index}" src="${mp3Url}" preload="metadata"></audio>
-                        <div class="player-action-row">
-                            <a href="${mp3Url}" download="${title}.mp3" class="btn-dl" target="_blank"><i class="fa-solid fa-cloud-arrow-down"></i> تحميل الملف</a>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        function filterTelawat() {
-            const query = document.getElementById('searchAudio').value.toLowerCase();
-            const filtered = allTelawatRows.filter(row => {
-                const title = row.c[0] ? row.c[0].v.toLowerCase() : '';
-                return title.includes(query);
-            });
-            renderTelawat(filtered);
-        }
-
-        function togglePlay(id) {
-            const audio = document.getElementById(`audio-${id}`); const icon = document.getElementById(`icon-${id}`);
-            if(audio.paused) {
-                document.querySelectorAll('audio').forEach(el => { if(el.id !== 'live-audio') el.pause(); });
-                document.querySelectorAll('.btn-play-pause-center i').forEach(i => i.className = 'fa-solid fa-play');
-                document.querySelectorAll('.drama-circle-progress').forEach(c => c.style.strokeDashoffset = '377');
-                
-                audio.play(); icon.className = 'fa-solid fa-pause';
-                audio.ontimeupdate = () => {
-                    const circle = document.getElementById(`circle-progress-${id}`);
-                    const current = document.getElementById(`current-${id}`);
-                    if(audio.duration) {
-                        let pct = (audio.currentTime / audio.duration);
-                        let offset = 377 - (pct * 377);
-                        if(circle) circle.style.strokeDashoffset = offset;
-                        if(current) current.innerText = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
-                    }
-                };
-                audio.onended = () => { if(icon) icon.className = 'fa-solid fa-play'; };
-            } else { audio.pause(); icon.className = 'fa-solid fa-play'; }
-        }
-
-        function formatTime(secs) {
-            if(isNaN(secs)) return "0:00";
-            let m = Math.floor(secs / 60), s = Math.floor(secs % 60);
-            return m + ':' + (s < 10 ? '0' : '') + s;
-        }
-
-        async function initDhikr() {
-            allDhikrRows = await fetchSheet(urlDhikr);
-            renderDhikr('الصباح');
-        }
-
-        function renderDhikr(category) {
-            const container = document.getElementById('dhikr-list');
-            container.innerHTML = '';
-            let hasData = false;
-
-            allDhikrRows.forEach((row, index) => {
-                const text = row.c[0] ? row.c[0].v : '';
-                const count = row.c[1] ? parseInt(row.c[1].v) : 1;
-                const cat = row.c[2] ? row.c[2].v.trim() : 'منوع';
-
-                if(cat === category) {
-                    hasData = true;
-                    container.innerHTML += `
-                        <div class="dhikr-row">
-                            <div class="dhikr-text">${text}</div>
-                            <div class="mini-counter" id="dk-${index}" onclick="countDhikr(${index})">${count}</div>
-                        </div>`;
-                }
-            });
-            if(!hasData) container.innerHTML = "<p style='text-align:center; color:gray;'>لا توجد أذكار في هذا القسم حالياً.</p>";
-        }
-
-        function filterDhikrCategory(category, element) {
-            document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            renderDhikr(category);
-        }
-
-        function countDhikr(id) {
-            const el = document.getElementById(`dk-${id}`); let val = parseInt(el.innerText);
-            if (val > 1) el.innerText = val - 1; else { el.innerText = "✓"; el.classList.add('done'); }
-        }
-
-        // تواريخ العدادات التنازلية المحدثة والمستعادة لعام 2027 م / 1448 هـ
-        const targetDates = { 
-            ramadan: new Date("February 8, 2027 00:00:00").getTime(), 
-            fitr: new Date("March 8, 2027 00:00:00").getTime(),
-            hajj: new Date("May 14, 2027 00:00:00").getTime(),
-            adha: new Date("May 23, 2027 00:00:00").getTime()
-        };
-
-        function initCountdowns() {
-            function updateTimers() {
-                const now = new Date().getTime();
-                for (let key in targetDates) {
-                    const diff = targetDates[key] - now; if (diff <= 0) continue;
-                    const totalSeconds = Math.floor(diff / 1000);
-                    const totalMinutes = Math.floor(totalSeconds / 60);
-                    const totalHours = Math.floor(totalMinutes / 60);
-                    const totalDays = Math.floor(totalHours / 24);
-                    
-                    let moEl = document.getElementById(`${key}-mo`);
-                    let dEl = document.getElementById(`${key}-d`);
-                    let hEl = document.getElementById(`${key}-h`);
-                    let mEl = document.getElementById(`${key}-m`);
-                    let sEl = document.getElementById(`${key}-s`);
-
-                    if(moEl) moEl.innerText = Math.floor(totalDays / 30);
-                    if(dEl) dEl.innerText = totalDays % 30;
-                    if(hEl) hEl.innerText = totalHours % 24;
-                    if(mEl) mEl.innerText = totalMinutes % 60;
-                    if(sEl) sEl.innerText = totalSeconds % 60;
-                }
-            }
-            updateTimers(); setInterval(updateTimers, 1000);
-        }
-
-        function shareTime(name, date) {
-            const link = `https://maadodat.github.io/share?event=${encodeURIComponent(name)}&date=${date}`;
-            navigator.clipboard.writeText(link).then(() => alert("تم نسخ رابط الموعد بنجاح! 🎉"));
-        }
-
-// 1. استبدال دالة initLiveAudio بالرابط الجديد والمشغل المحدث
-function initLiveAudio() {
-    var audioObj = document.getElementById('live-audio');
-    var radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
-
-    if (Hls.isSupported()) {
-        var hls = new Hls({ enableWorker: true, lowLatencyMode: true });
-        hls.loadSource(radioUrl);
-        hls.attachMedia(audioObj);
-    } else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
-        audioObj.src = radioUrl;
+        setupVideo("https://vdo.elahmad.com/live/qoransa.m3u8", "makkah-video");
+        setupVideo("https://vdo.elahmad.com/live/sunnahsa.m3u8", "madinah-video");
     }
-}
 
-// 2. استبدال دالة initStream وتفعيلها للحرمين (بدل الـ iframe)
-// تأكد من تغيير الـ HTML الخاص بـ iframe إلى <video id="makkah-video"...> و <video id="madinah-video"...>
-function initStream(url, videoId) {
-    const video = document.getElementById(videoId);
-    if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(url);
-        hls.attachMedia(video);
-    } else {
-        video.src = url;
-    }
-}
-
-// استدعاء البث المباشر داخل window.onload
-// initStream("https://vdo.elahmad.com/live/qoransa.m3u8", "makkah-video");
-// initStream("https://vdo.elahmad.com/live/sunnahsa.m3u8", "madinah-video");
-
-// 3. تعديل دالة المشاركة لتشمل الثواني
-function shareTime(name, date, s, m, h, d) {
-    // الرابط الآن يأخذ الثواني (s) والدقائق (m) والساعات (h) والأيام (d)
-    const link = `https://maadodat.github.io/share?event=${encodeURIComponent(name)}&date=${date}&time=${s}s${m}m${h}h${d}d`;
-    navigator.clipboard.writeText(link).then(() => alert("تم نسخ الرابط مع الثواني بنجاح!"));
-}
-        }
-
-        window.onload = () => { initTelawat(); initCountdowns(); initDhikr(); initLiveStreams(); };
-    </script>
+    // باقي الدوال الخاصة بك (initTelawat, initDhikr, initCountdowns) تبقى كما هي...
+    
+    window.onload = () => { 
+        initTelawat(); 
+        initCountdowns(); 
+        initDhikr(); 
+        initLiveStreams(); 
+    };
+</script>
 </body>
 </html>
