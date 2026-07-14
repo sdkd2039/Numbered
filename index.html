@@ -192,9 +192,9 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <header>
-        <img src="https://files.catbox.moe/h4bsrt.png" alt="معدودات" class="main-logo">
-    </header>
+<header>
+    <img id="active-tab-logo" src="https://files.catbox.moe/h4bsrt.png" class="main-logo" alt="القسم الحالي">
+</header>
 
     <div class="tabs-wrapper">
         <div class="tabs-container">
@@ -240,67 +240,64 @@
         </div>
     </div>
 
-    <!-- 2. قسم المتبقي (مستعاد بالكامل مع ذو الحجة وعيد الأضحى) -->
-    <div id="panel-remaining" class="panel-content">
-        <div class="box-card">
-            <div class="box-header">
-                <img src="https://files.catbox.moe/9am1q8.png" class="box-icon">
-                <h2 class="box-title">العد التنازلي التفاعلي المباشر (1448 هـ)</h2>
+<!-- قسم المتبقي -->
+<div id="panel-remaining" class="panel-content">
+    <div class="box-card">
+        <div class="box-header"><h2 class="box-title">العد التنازلي للمناسبات 1448 هـ</h2></div>
+        <div id="countdown-wrapper" class="countdown-container">
+            <script>
+const events = [
+    { name: "رمضان", date: "2027-02-08T00:00:00" },
+    { name: "عيد الفطر", date: "2027-03-08T00:00:00" },
+    { name: "عشر ذو الحجة", date: "2027-05-08T00:00:00" },
+    { name: "عيد الأضحى", date: "2027-05-16T00:00:00" }
+];
+
+function updateCountdowns() {
+    const wrapper = document.getElementById('countdown-wrapper');
+    wrapper.innerHTML = events.map(event => {
+        const now = new Date().getTime();
+        const target = new Date(event.date).getTime();
+        const diff = target - now;
+
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        return `
+            <div class="countdown-item">
+                <div style="font-weight:bold; color:var(--accent-gold); margin-bottom:5px;">${event.name}</div>
+                <div class="live-timer-grid">
+                    <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
+                    <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
+                    <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+                    <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
+                </div>
+                <button class="share-btn" onclick="shareEvent('${event.name}', '${d} يوم و ${h} ساعة و ${m} دقيقة')">
+                    <i class="fa-solid fa-share-nodes"></i> مشاركة الموعد
+                </button>
             </div>
-            <div class="countdown-container">
-                <!-- رمضان -->
-                <div class="countdown-item ramadan-special">
-                    <div class="countdown-title">شهر رمضان المبارك</div>
-                    <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
-                    <div class="live-timer-grid">
-                        <div class="time-box"><div class="time-num" id="ramadan-s">--</div><div class="time-label">ثواني</div></div>
-                        <div class="time-box"><div class="time-num" id="ramadan-m">--</div><div class="time-label">دقائق</div></div>
-                        <div class="time-box"><div class="time-num" id="ramadan-h">--</div><div class="time-label">ساعات</div></div>
-                        <div class="time-box"><div class="time-num" id="ramadan-d">--</div><div class="time-label">أيام</div></div>
-                    </div>
-                    <button class="share-btn" onclick="shareTime('رمضان', '2027-02-08')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-                </div>
+        `;
+    }).join('');
+}
 
-                <!-- عيد الفطر -->
-                <div class="countdown-item">
-                    <div class="countdown-title">عيد الفطر المبارك</div>
-                    <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
-                    <div class="live-timer-grid">
-                        <div class="time-box"><div class="time-num" id="fitr-s">--</div><div class="time-label">ثواني</div></div>
-                        <div class="time-box"><div class="time-num" id="fitr-m">--</div><div class="time-label">دقائق</div></div>
-                        <div class="time-box"><div class="time-num" id="fitr-h">--</div><div class="time-label">ساعات</div></div>
-                        <div class="time-box"><div class="time-num" id="fitr-d">--</div><div class="time-label">أيام</div></div>
-                    </div>
-                    <button class="share-btn" onclick="shareTime('عيد الفطر', '2027-03-08')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-                </div>
+function shareEvent(name, time) {
+    const text = `باقي على ${name} حوالي ${time}.`;
+    if (navigator.share) {
+        navigator.share({ title: 'الموعد القادم', text: text });
+    } else {
+        alert(text);
+    }
+}
 
-                <!-- عشر ذي الحجة (جديد مستعاد) -->
-                <div class="countdown-item">
-                    <div class="countdown-title">عشر ذي الحجة</div>
-                    <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 14 مايو 2027 م</div>
-                    <div class="live-timer-grid">
-                        <div class="time-box"><div class="time-num" id="hajj-s">--</div><div class="time-label">ثواني</div></div>
-                        <div class="time-box"><div class="time-num" id="hajj-m">--</div><div class="time-label">دقائق</div></div>
-                        <div class="time-box"><div class="time-num" id="hajj-h">--</div><div class="time-label">ساعات</div></div>
-                        <div class="time-box"><div class="time-num" id="hajj-d">--</div><div class="time-label">أيام</div></div>
-                    </div>
-                    <button class="share-btn" onclick="shareTime('عشر ذي الحجة', '2027-05-14')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-                </div>
-
-                <!-- عيد الأضحى المبارك (جديد مستعاد) -->
-                <div class="countdown-item">
-                    <div class="countdown-title">عيد الأضحى المبارك</div>
-                    <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 23 مايو 2027 م</div>
-                    <div class="live-timer-grid">
-                        <div class="time-box"><div class="time-num" id="adha-s">--</div><div class="time-label">ثواني</div></div>
-                        <div class="time-box"><div class="time-num" id="adha-m">--</div><div class="time-label">دقائق</div></div>
-                        <div class="time-box"><div class="time-num" id="adha-h">--</div><div class="time-label">ساعات</div></div>
-                        <div class="time-box"><div class="time-num" id="adha-d">--</div><div class="time-label">أيام</div></div>
-                    </div>
-                    <button class="share-btn" onclick="shareTime('عيد الأضحى', '2027-05-23')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-                </div>
-            </div>
+// تحديث العداد كل ثانية
+setInterval(updateCountdowns, 1000);
+updateCountdowns();
+</script>
         </div>
+    </div>
+</div>
     </div>
 
     <!-- 3. قسم الذكر -->
@@ -407,12 +404,26 @@
     }
 
     // 5. التنقل والتهيئة
-    function switchTab(tabId) {
-        document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('panel-' + tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+function switchTab(tabId) {
+    // 1. تغيير المحتوى النشط
+    document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
+
+    // 2. تحديث الشعار بناءً على القسم
+    const logoMap = {
+        'telawat': 'https://files.catbox.moe/t2zfc7.png',
+        'remaining': 'https://files.catbox.moe/9am1q8.png',
+        'dhikr': 'https://files.catbox.moe/korzmc.png',
+        'live': 'https://files.catbox.moe/h4bsrt.png'
+    };
+    
+    const logoElement = document.getElementById('active-tab-logo');
+    if (logoElement && logoMap[tabId]) {
+        logoElement.src = logoMap[tabId];
     }
+}
 
     window.onload = () => {
         initLiveAudio();
