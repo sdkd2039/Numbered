@@ -495,38 +495,43 @@
             navigator.clipboard.writeText(link).then(() => alert("تم نسخ رابط الموعد بنجاح! 🎉"));
         }
 
-        // تشغيل وإعداد البثوث المباشرة والقنوات بدون iframe الأحمد
-        function initLiveStreams() {
-            // 1. إذاعة القرآن الكريمة
-            var audioObj = document.getElementById('live-audio');
-            var rawSrc = 'http://m.live.net.sa:1935/live/quransa/playlist.m3u8';
-            var proxySrc = 'https://corsproxy.io/?' + encodeURIComponent(rawSrc);
+// 1. استبدال دالة initLiveAudio بالرابط الجديد والمشغل المحدث
+function initLiveAudio() {
+    var audioObj = document.getElementById('live-audio');
+    var radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
 
-            if (Hls.isSupported()) {
-                var hlsAudio = new Hls(); hlsAudio.loadSource(proxySrc); hlsAudio.attachMedia(audioObj);
-            } else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
-                audioObj.src = proxySrc;
-            }
+    if (Hls.isSupported()) {
+        var hls = new Hls({ enableWorker: true, lowLatencyMode: true });
+        hls.loadSource(radioUrl);
+        hls.attachMedia(audioObj);
+    } else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
+        audioObj.src = radioUrl;
+    }
+}
 
-            // 2. بث الحرم المكي الشريف (مباشر)
-            var makkahVideo = document.getElementById('makkah-video');
-            var makkahSrc = 'https://vdo.elahmad.com/live/qoransa.m3u8'; 
+// 2. استبدال دالة initStream وتفعيلها للحرمين (بدل الـ iframe)
+// تأكد من تغيير الـ HTML الخاص بـ iframe إلى <video id="makkah-video"...> و <video id="madinah-video"...>
+function initStream(url, videoId) {
+    const video = document.getElementById(videoId);
+    if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+    } else {
+        video.src = url;
+    }
+}
 
-            if (Hls.isSupported()) {
-                var hlsMakkah = new Hls(); hlsMakkah.loadSource(makkahSrc); hlsMakkah.attachMedia(makkahVideo);
-            } else if (makkahVideo.canPlayType('application/vnd.apple.mpegurl')) {
-                makkahVideo.src = makkahSrc;
-            }
+// استدعاء البث المباشر داخل window.onload
+// initStream("https://vdo.elahmad.com/live/qoransa.m3u8", "makkah-video");
+// initStream("https://vdo.elahmad.com/live/sunnahsa.m3u8", "madinah-video");
 
-            // 3. بث الحرم المدني الشريف (مباشر)
-            var madinahVideo = document.getElementById('madinah-video');
-            var madinahSrc = 'https://vdo.elahmad.com/live/sunnahsa.m3u8'; 
-
-            if (Hls.isSupported()) {
-                var hlsMadinah = new Hls(); hlsMadinah.loadSource(madinahSrc); hlsMadinah.attachMedia(madinahVideo);
-            } else if (madinahVideo.canPlayType('application/vnd.apple.mpegurl')) {
-                madinahVideo.src = madinahSrc;
-            }
+// 3. تعديل دالة المشاركة لتشمل الثواني
+function shareTime(name, date, s, m, h, d) {
+    // الرابط الآن يأخذ الثواني (s) والدقائق (m) والساعات (h) والأيام (d)
+    const link = `https://maadodat.github.io/share?event=${encodeURIComponent(name)}&date=${date}&time=${s}s${m}m${h}h${d}d`;
+    navigator.clipboard.writeText(link).then(() => alert("تم نسخ الرابط مع الثواني بنجاح!"));
+}
         }
 
         window.onload = () => { initTelawat(); initCountdowns(); initDhikr(); initLiveStreams(); };
