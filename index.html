@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شبكة معدودات - الإصدار المتكامل المستقر</title>
+    <title>معدودات</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -295,7 +295,12 @@
                 <h2 class="box-title">بث مباشر الحرم المكي الشريف</h2>
             </div>
             <div class="live-stream-container">
-                <video id="makkah-video" class="live-video-player" controls autoplay muted></video>
+<iframe
+src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4"
+style="width:100%;height:450px;border:none;border-radius:12px;"
+allowfullscreen
+allow="autoplay; fullscreen">
+</iframe>
             </div>
         </div>
 
@@ -305,7 +310,12 @@
                 <h2 class="box-title">بث مباشر الحرم المدني الشريف</h2>
             </div>
             <div class="live-stream-container">
-                <video id="madinah-video" class="live-video-player" controls autoplay muted></video>
+<iframe
+src="https://www.elahmad.ru/tv/live/channels.php?id=326"
+style="width:100%;height:450px;border:none;border-radius:12px;"
+allowfullscreen
+allow="autoplay; fullscreen">
+</iframe>
             </div>
         </div>
     </div>
@@ -316,44 +326,70 @@
     const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=أذكار`;
 
     // دالة مشاركة واحدة موحدة وشاملة للثواني
-    function shareTime(name, date) {
-        // جلب الثواني والدقائق من العدادات الحالية في الصفحة
-        const s = document.querySelector('.time-num[id$="-s"]')?.innerText || "0";
-        const m = document.querySelector('.time-num[id$="-m"]')?.innerText || "0";
-        const h = document.querySelector('.time-num[id$="-h"]')?.innerText || "0";
-        const d = document.querySelector('.time-num[id$="-d"]')?.innerText || "0";
-        
-        const link = `https://maadodat.github.io/share?event=${encodeURIComponent(name)}&date=${date}&time=${s}s${m}m${h}h${d}d`;
-        navigator.clipboard.writeText(link).then(() => alert("تم نسخ الرابط مع الثواني بنجاح!"));
+function shareTime(name, key) {
+
+    const mo = document.getElementById(`${key}-mo`)?.textContent || "0";
+    const d  = document.getElementById(`${key}-d`)?.textContent || "0";
+    const h  = document.getElementById(`${key}-h`)?.textContent || "0";
+    const m  = document.getElementById(`${key}-m`)?.textContent || "0";
+    const s  = document.getElementById(`${key}-s`)?.textContent || "0";
+
+    const text =
+`📿 ${name}
+
+⏳ المتبقي:
+
+🗓️ ${mo} شهر
+📅 ${d} يوم
+🕒 ${h} ساعة
+🕑 ${m} دقيقة
+⏱️ ${s} ثانية
+
+🌐 https://sdkd2039.github.io/Numbered/`;
+
+    if (navigator.share) {
+
+        navigator.share({
+            title: name,
+            text: text
+        });
+
+    } else {
+
+        navigator.clipboard.writeText(text);
+        alert("تم نسخ الوقت.");
+
     }
+
+}
 
     // دالة تشغيل البث المباشر (الإذاعة + الحرمين)
     function initLiveStreams() {
         // 1. الإذاعة
-        const audioObj = document.getElementById('live-audio');
-        const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
-        if (Hls.isSupported()) {
-            const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
-            hls.loadSource(radioUrl);
-            hls.attachMedia(audioObj);
-        } else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
-            audioObj.src = radioUrl;
-        }
+const audioObj = document.getElementById('live-audio');
+const radioUrl = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
 
-        // 2. الحرم المكي والمدني
-        function setupVideo(url, videoId) {
-            const video = document.getElementById(videoId);
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-            } else {
-                video.src = url;
-            }
-        }
-        setupVideo("https://vdo.elahmad.com/live/qoransa.m3u8", "makkah-video");
-        setupVideo("https://vdo.elahmad.com/live/sunnahsa.m3u8", "madinah-video");
-    }
+if (Hls.isSupported()) {
+
+    const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true,
+        maxBufferLength: 10,
+        liveSyncDurationCount: 3
+    });
+
+    hls.loadSource(radioUrl);
+
+    hls.attachMedia(audioObj);
+    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        audioObj.play().catch(() => {});
+    });
+
+} else if (audioObj.canPlayType('application/vnd.apple.mpegurl')) {
+
+    audioObj.src = radioUrl;
+
+}
 
     // باقي الدوال الخاصة بك (initTelawat, initDhikr, initCountdowns) تبقى كما هي...
     
