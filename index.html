@@ -431,10 +431,10 @@ function startCountdown(id, targetDate) {
             const element = document.getElementById(id);
             if(element) {
                 element.innerHTML = `
-                    <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
-                    <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
-                    <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
                     <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
+                    <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
+                    <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+                    <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
                 `;
             }
         }, 1000);
