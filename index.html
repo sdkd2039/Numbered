@@ -288,24 +288,34 @@
     </div>
 </div>
 
-<div id="panel-live" class="panel-content">
-    <div class="box-card" style="border: 1px solid var(--accent-gold);">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 45px; height: 45px; border-radius: 8px;">
-                <div style="text-align: right;">
-                    <div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم</div>
+<div class="box-card" style="border: 1px solid var(--accent-gold);">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 45px; height: 45px; border-radius: 8px;">
+            <div style="text-align: right;">
+                <div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم</div>
+                
+                <div style="display: flex; align-items: center; gap: 5px; margin-top: 4px; color: var(--accent-gold); font-size: 0.75rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 16.59l-3.3-3.3a5.5 5.5 0 1 1-1.42 1.42l3.3 3.3"></path>
+                        <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                        <path d="M19 12a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></path>
+                    </svg>
+                    <span>المملكة العربية السعودية</span>
                 </div>
+                
             </div>
-            <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
         </div>
-        <div style="text-align: center; margin-top: 15px;">
-            <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer;">
-                <i id="icon-live" class="fa-solid fa-play" style="color: #000;"></i>
-            </button>
-        </div>
-        <audio id="live-audio" style="display:none;"></audio>
+        <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
     </div>
+    
+    <div style="text-align: center; margin-top: 15px;">
+        <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer;">
+            <i id="icon-live" class="fa-solid fa-play" style="color: #000;"></i>
+        </button>
+    </div>
+    <audio id="live-audio" style="display:none;"></audio>
+</div>
 
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
