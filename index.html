@@ -434,9 +434,11 @@ async function fetchAllSheetsData() {
             downloadUrl: row.c[2]?.v || '#'
         }));
 
-        renderTelawat(rows); // تمرير البيانات مباشرة للعرض
+        renderTelawat(rows); // عرض القائمة كاملة عند التحميل
+        return rows; // إرجاع البيانات لاستخدامها في البحث
     } catch (err) {
         console.error('خطأ في جلب البيانات:', err);
+        return [];
     }
 }
 
@@ -468,13 +470,18 @@ window.onload = () => {
 };
 
 // 8. دالة البحث (مستقلة ومصححة)
-function filterTelawat() {
+async function filterTelawat() {
     const searchTerm = document.getElementById('searchAudio').value.toLowerCase();
-    const filtered = allTelawatData.filter(item => 
+    
+    // إعادة جلب البيانات لتصفيتها
+    const allData = await fetchAllSheetsData(); 
+    
+    const filtered = allData.filter(item => 
         item.title.toLowerCase().includes(searchTerm) || 
         item.reader.toLowerCase().includes(searchTerm)
     );
-    renderTelawat(filtered); 
+    
+    renderTelawat(filtered); // عرض النتائج المصفاة فقط
 }
 
 // 9. دالة تحميل الملفات (مصححة ومنظمة)
