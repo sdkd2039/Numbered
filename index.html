@@ -12,7 +12,7 @@
     
     <!-- مكتبة HLS لتشغيل البثوث المباشرة على جميع المتصفحات -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    
+
     <style>
         :root {
             --bg-color: #0d1117;
@@ -217,6 +217,8 @@
     <img id="active-tab-logo" src="https://files.catbox.moe/h4bsrt.png" class="main-logo" alt="القسم الحالي">
 </header>
 
+    let allTelawatData = []; // هذا المخزن العام
+    
     <div class="tabs-wrapper">
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('telawat')">
@@ -419,27 +421,27 @@ function shareTime(eventName, timerId) {
 
     // 5. تهيئة البيانات
 async function fetchAllSheetsData() {
-        const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-        const sheetName = 'التلاوات';
-        const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+    const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+    const sheetName = 'التلاوات';
+    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
-        try {
-            const response = await fetch(url);
-            const text = await response.text();
-            const json = JSON.parse(text.substring(47).slice(0, -2));
-            
-            const rows = json.table.rows.map(row => ({
-                title: row.c[0]?.v || 'بدون عنوان',
-                reader: row.c[1]?.v || 'قارئ غير معروف',
-                downloadUrl: row.c[2]?.v || '#'
-            }));
+    try {
+        const response = await fetch(url);
+        const text = await response.text();
+        const json = JSON.parse(text.substring(47).slice(0, -2));
+        
+        // حفظ البيانات في المتغير العام
+        allTelawatData = json.table.rows.map(row => ({
+            title: row.c[0]?.v || 'بدون عنوان',
+            reader: row.c[1]?.v || 'قارئ غير معروف',
+            downloadUrl: row.c[2]?.v || '#'
+        }));
 
-            // هنا الخطأ كان: يجب استدعاء دالة العرض
-            renderTelawat(rows); 
-        } catch (err) {
-            console.error('خطأ في جلب البيانات:', err);
-        }
+        renderTelawat(allTelawatData); // عرض البيانات لأول مرة
+    } catch (err) {
+        console.error('خطأ في جلب البيانات:', err);
     }
+}
 
     // 6. دالة تبديل الأقسام
     function switchTab(tabId) {
@@ -480,18 +482,31 @@ function downloadAudio(btn) {
     
     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
     btn.disabled = true;
+
+function filterTelawat() {
+    const searchTerm = document.getElementById('searchAudio').value.toLowerCase();
+    
+    // البحث داخل المخزن العام
+    const filtered = allTelawatData.filter(item => 
+        item.title.toLowerCase().includes(searchTerm) || 
+        item.reader.toLowerCase().includes(searchTerm)
+    );
+    
+    renderTelawat(filtered); 
+}
     
     fetch(url)
         .then(response => response.blob())
         .then(blob => {
             const blobUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = blobUrl;
-            // التحميل بالصيغة التي ضغط عليها المستخدم
+            a.href = url;
             a.download = `${title}.${ext}`;
+            a.target = '_blank'; // يفتح في نافذة جديدة لضمان عدم إغلاق الصفحة الحالية
             document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
+        }
             window.URL.revokeObjectURL(blobUrl);
             btn.innerHTML = originalContent;
             btn.disabled = false;
