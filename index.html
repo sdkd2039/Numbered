@@ -216,8 +216,6 @@
 <header>
     <img id="active-tab-logo" src="https://files.catbox.moe/h4bsrt.png" class="main-logo" alt="القسم الحالي">
 </header>
-
-    let allTelawatData = []; // هذا المخزن العام
     
     <div class="tabs-wrapper">
         <div class="tabs-container">
@@ -430,14 +428,13 @@ async function fetchAllSheetsData() {
         const text = await response.text();
         const json = JSON.parse(text.substring(47).slice(0, -2));
         
-        // حفظ البيانات في المتغير العام
-        allTelawatData = json.table.rows.map(row => ({
+        const rows = json.table.rows.map(row => ({
             title: row.c[0]?.v || 'بدون عنوان',
             reader: row.c[1]?.v || 'قارئ غير معروف',
             downloadUrl: row.c[2]?.v || '#'
         }));
 
-        renderTelawat(allTelawatData); // عرض البيانات لأول مرة
+        renderTelawat(rows); // تمرير البيانات مباشرة للعرض
     } catch (err) {
         console.error('خطأ في جلب البيانات:', err);
     }
@@ -530,11 +527,8 @@ function renderTelawat(items) {
             <video src="${item.downloadUrl}" controls controlsList="nodownload" style="width: 100%; border-radius: 8px;"></video>
 
             <div class="download-container" style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
-                <button class="btn-download-action" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp3" onclick="downloadAudio(this)">
-                    <i class="fa-solid fa-download"></i> MP3
-                </button>
                 <button class="btn-download-action" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4" onclick="downloadAudio(this)">
-                    <i class="fa-solid fa-download"></i> MP4
+                    <i class="fa-solid fa-download"></i> تحميل
                 </button>
             </div>
         </div>
