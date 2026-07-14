@@ -435,7 +435,7 @@ async function fetchAllSheetsData() {
             downloadUrl: row.c[2]?.v || '#'
         }));
 
-        renderTelawat(rows);
+        (rows);
     } catch (err) {
         console.error('خطأ في جلب البيانات:', err);
     }
@@ -464,17 +464,17 @@ async function fetchAllSheetsData() {
     }
 
     // 7. التشغيل النهائي (مكان واحد فقط)
-    window.onload = () => {
-        initLiveAudio();
-    // جلب بيانات التلاوات من الشيت
+window.onload = () => {
+    initLiveAudio();
+    // جلب التلاوات فقط بما أن الذكر محذوف
     fetchData(urlTelawat, renderTelawat);
-        
-        // تشغيل العدادات
-        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-        startCountdown('timer-fitr', '2027-03-08T00:00:00');
-        startCountdown('timer-hajj', '2027-05-08T00:00:00');
-        startCountdown('timer-adha', '2027-05-16T00:00:00');
-    };
+    
+    // تشغيل العدادات
+    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+    startCountdown('timer-fitr', '2027-03-08T00:00:00');
+    startCountdown('timer-hajj', '2027-05-08T00:00:00');
+    startCountdown('timer-adha', '2027-05-16T00:00:00');
+};
 
     // دالة تحميل الملفات المباشرة
 function downloadAudio(btn) {
@@ -506,6 +506,31 @@ function downloadAudio(btn) {
             btn.innerHTML = originalContent;
             btn.disabled = false;
         });
+}
+
+    function renderTelawat(items) {
+    const list = document.getElementById('telawat-list');
+    if (!list) return;
+
+    list.innerHTML = items.map(item => `
+        <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
+            <div style="text-align: right; margin-bottom: 10px;">
+                <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
+                <div style="font-size: 0.9rem; color: #aaa;">${item.reader}</div>
+            </div>
+            
+            <video src="${item.downloadUrl}" controls controlsList="nodownload" style="width: 100%; border-radius: 8px;"></video>
+
+            <div class="download-container" style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                <button class="btn-download-action" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp3" onclick="downloadAudio(this)">
+                    <i class="fa-solid fa-download"></i> MP3
+                </button>
+                <button class="btn-download-action" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4" onclick="downloadAudio(this)">
+                    <i class="fa-solid fa-download"></i> MP4
+                </button>
+            </div>
+        </div>
+    `).join('');
 }
 </script>
 </body>
