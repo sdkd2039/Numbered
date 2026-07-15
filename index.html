@@ -393,6 +393,24 @@
         } catch (err) { console.error(err); }
     }
 
+   function switchTab(tabId) {
+    // إخفاء جميع الأقسام
+    document.querySelectorAll('.panel-content').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    
+    // إزالة التحديد عن جميع الأزرار
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // إظهار القسم المطلوب
+    document.getElementById('panel-' + tabId).classList.add('active');
+    
+    // تحديد الزر الذي تم الضغط عليه
+    event.currentTarget.classList.add('active');
+}
+    
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
