@@ -340,56 +340,6 @@
     </div>
 </div>
 
-</script>   
-// 1. المتغيرات العامة
-const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-let cachedTelawat = [];
-
-// 2. تشغيل الإذاعة
-function initLiveAudio() {
-    const audio = document.getElementById("live-audio");
-    const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
-    if (!audio) return;
-    if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(url);
-        hls.attachMedia(audio);
-    } else if (audio.canPlayType("application/vnd.apple.mpegurl")) {
-        audio.src = url;
-    }
-}
-
-function toggleLiveAudio() {
-    const audio = document.getElementById('live-audio');
-    const icon = document.getElementById('icon-live');
-    if (!audio || !icon) return;
-    if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
-    else { audio.pause(); icon.className = 'fa-solid fa-play'; }
-}
-
-// 3. العداد التنازلي
-function startCountdown(id, targetDate) {
-    setInterval(() => {
-        const now = new Date().getTime();
-        const diff = new Date(targetDate).getTime() - now;
-        const element = document.getElementById(id);
-        if (!element) return;
-        if (diff < 0) { element.innerHTML = "تم الوصول"; return; }
-        
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((diff % (1000 * 60)) / 1000);
-        
-        element.innerHTML = `
-            <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
-            <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
-            <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
-            <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
-        `;
-    }, 1000);
-}
-
 <script>
     // 1. المتغيرات العامة
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
