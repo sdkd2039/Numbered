@@ -440,15 +440,55 @@ async function fetchAllData() {
 }
 
 function renderTelawat(items) {
-        const list = document.getElementById('telawat-list');
-        if (!list) return;
-        list.innerHTML = items.map(item => `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
-                <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
-                <div style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
-                <video controls style="width: 100%; border-radius: 8px;"><source src="${item.downloadUrl}" type="video/mp4"></video>
-            </div>`).join('');
-    }
+    const list = document.getElementById('telawat-list');
+    if (!list) return;
+    list.innerHTML = items.map(item => `
+        <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
+            <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
+            <div style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
+            <video controls style="width: 100%; border-radius: 8px;"><source src="${item.downloadUrl}" type="video/mp4"></video>
+            <button class="btn-download-action" 
+                    onclick="downloadAudio(this)" 
+                    data-url="${item.downloadUrl}" 
+                    data-title="${item.title}" 
+                    data-ext="mp4">
+                <i class="fa-solid fa-download"></i> تحميل
+            </button>
+        </div>`).join('');
+}
+
+    function downloadAudio(btn) {
+    const url = btn.getAttribute('data-url');
+    const title = btn.getAttribute('data-title');
+    const ext = btn.getAttribute('data-ext') || 'mp3';
+    
+    const originalIcon = btn.innerHTML;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...`;
+    btn.disabled = true;
+
+    fetch(url)
+        .then(response => response.blob())
+        .then(blob => {
+            const blobUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = blobUrl;
+            a.download = `${title}.${ext}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(blobUrl);
+            
+            btn.innerHTML = originalIcon;
+            btn.disabled = false;
+        })
+        .catch(err => {
+            console.error("خطأ في التحميل:", err);
+            window.open(url, '_blank');
+            btn.innerHTML = originalIcon;
+            btn.disabled = false;
+        });
+}
 
     function shareTime(eventName, timerId) {
     // نجلب العداد الذي ضغط عليه المستخدم
