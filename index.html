@@ -271,25 +271,32 @@
                 <div class="countdown-title">شهر رمضان المبارك</div>
                 <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                 <div class="live-timer-grid" id="timer-ramadan"></div>
-                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>            </div>
+                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+            </div>
+
             <div class="countdown-item">
                 <div class="countdown-title">عيد الفطر المبارك</div>
                 <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                 <div class="live-timer-grid" id="timer-fitr"></div>
                 <button class="share-btn" onclick="shareTime('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+            </div>
+
             <div class="countdown-item">
                 <div class="countdown-title">عشر ذي الحجة</div>
                 <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
                 <div class="live-timer-grid" id="timer-hajj"></div>
                 <button class="share-btn" onclick="shareTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+            </div>
+
             <div class="countdown-item">
                 <div class="countdown-title">عيد الأضحى المبارك</div>
                 <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
-               <div class="live-timer-grid" id="timer-adha"></div>
+                <div class="live-timer-grid" id="timer-adha"></div>
                 <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
         </div>
     </div>
+</div>
             
 <!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
@@ -397,11 +404,14 @@
             </div>`).join('');
     }
 
-    window.onload = () => {
-        initLiveAudio();
-        fetchAllSheetsData();
-        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-    };
+window.onload = () => {
+    initLiveAudio();
+    fetchAllSheetsData();
+    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+    startCountdown('timer-fitr', '2027-03-08T00:00:00');
+    startCountdown('timer-hajj', '2027-05-08T00:00:00');
+    startCountdown('timer-adha', '2027-05-16T00:00:00');
+};
 </script>
 <script src="dhikr.js"></script>
 </body>
