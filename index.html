@@ -489,6 +489,17 @@ async function fetchAllSheetsData() {
         renderTelawat(cachedTelawat);
     } catch (err) { console.error('خطأ:', err); }
 }
+        
+        // جلب البيانات وعكس ترتيبها
+        cachedTelawat = json.table.rows.map(row => ({
+            title: row.c[0]?.v || 'بدون عنوان',
+            reader: row.c[1]?.v || 'قارئ غير معروف',
+            downloadUrl: row.c[2]?.v || '#'
+        })).reverse(); // هنا الترتيب من الأقدم للأحدث
+
+        renderTelawat(cachedTelawat);
+    } catch (err) { console.error('خطأ:', err); }
+}
 
 // 10. دالة البحث الاحترافية (سريعة جداً لأنها تبحث في الذاكرة)
 function filterTelawat() {
