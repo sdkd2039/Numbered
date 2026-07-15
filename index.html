@@ -468,9 +468,9 @@ function renderTelawat(items) {
             <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
             <div style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
             
-            <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
-                <source src="${item.downloadUrl}" type="video/mp4">
-            </video>
+<video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
+    <source src="${item.downloadUrl}" type="video/mp4">
+</video>
             
             <button class="btn-download-action" 
                     onclick="downloadAudio(this)" 
