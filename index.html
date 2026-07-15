@@ -339,32 +339,27 @@
         </div>
     </div>
 </div>
-
+    
+</script>
+// 1. المتغيرات العامة
 // 1. المتغيرات العامة
 const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
 let cachedTelawat = [];
 
 // 2. تشغيل الإذاعة (البث المباشر)
-    function initLiveAudio() {
-        const audio = document.getElementById("live-audio");
-        const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
+function initLiveAudio() {
+    const audio = document.getElementById("live-audio");
+    const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
+    if (audio) {
         if (Hls.isSupported()) {
             const hls = new Hls();
             hls.loadSource(url);
             hls.attachMedia(audio);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => console.log("Radio Ready"));
-        } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
+        } else if (audio.canPlayType("application/vnd.apple.mpegurl")) {
             audio.src = url;
         }
     }
-
-    function toggleLiveAudio() {
-        const audio = document.getElementById('live-audio');
-        const icon = document.getElementById('icon-live');
-        if (!audio || !icon) return;
-        if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
-        else { audio.pause(); icon.className = 'fa-solid fa-play'; }
-    }
+}
 
 // 3. دالة العداد التنازلي
 function startCountdown(id, targetDate) {
@@ -389,15 +384,79 @@ function startCountdown(id, targetDate) {
     }, 1000);
 }
 
-// 4. دالة مشاركة الموعد
+<script>
+    // 1. الإعدادات والروابط
+    const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+    const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
+    const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=الذكر`;
+
+    // 2. تشغيل الإذاعة
+    function initLiveAudio() {
+        const audio = document.getElementById("live-audio");
+        const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(url);
+            hls.attachMedia(audio);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => console.log("Radio Ready"));
+        } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
+            audio.src = url;
+        }
+    }
+
+    function toggleLiveAudio() {
+        const audio = document.getElementById('live-audio');
+        const icon = document.getElementById('icon-live');
+        if (!audio || !icon) return;
+        if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
+        else { audio.pause(); icon.className = 'fa-solid fa-play'; }
+    }
+
+// 3. دالة مشاركة الموعد (المحدثة والمصححة)
 function shareTime(eventName, timerId) {
+    // نجلب العداد الذي ضغط عليه المستخدم
     const element = document.getElementById(timerId);
     if (!element) return;
+
+    // استخراج الأرقام المعروضة حالياً في العداد
     const timeBoxes = element.querySelectorAll('.time-num');
-    const message = `⏳ المتبقي على ${eventName}:\n${timeBoxes[0].innerText} يوم و ${timeBoxes[1].innerText} ساعة و ${timeBoxes[2].innerText} دقيقة.`;
-    if (navigator.share) navigator.share({ title: 'الموعد القادم', text: message });
-    else alert(message);
+    
+    // الترتيب حسب الكود الجديد (يوم، ساعة، دقيقة، ثواني)
+    const d = timeBoxes[0].innerText;
+    const h = timeBoxes[1].innerText;
+    const m = timeBoxes[2].innerText;
+    
+    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها لا فاقدين ولا مفقودين.`;
+    
+    if (navigator.share) {
+        navigator.share({ title: 'الموعد القادم', text: message });
+    } else {
+        alert(message);
+    }
 }
+
+    // 4. دالة العداد التنازلي
+    function startCountdown(id, targetDate) {
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = new Date(targetDate).getTime() - now;
+            const element = document.getElementById(id);
+            if (!element) return;
+            if (diff < 0) { element.innerHTML = "تم الوصول"; return; }
+            
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            element.innerHTML = `
+                <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
+                <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+                <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
+                <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
+            `;
+        }, 1000);
+    }
 
 // 5. جلب وعرض التلاوات
 async function fetchAllSheetsData() {
@@ -476,7 +535,8 @@ window.onload = () => {
     startCountdown('timer-hajj', '2027-05-08T00:00:00');
     startCountdown('timer-adha', '2027-05-16T00:00:00');
 };
-</script> <script src="dhikr.js"></script>
+            
+<script src="dhikr.js"></script>
 </script>
 </body>
 </html>
