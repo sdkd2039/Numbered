@@ -349,14 +349,22 @@
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
         const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
-        if (!audio) return;
         if (Hls.isSupported()) {
             const hls = new Hls();
             hls.loadSource(url);
             hls.attachMedia(audio);
-        } else if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+            hls.on(Hls.Events.MANIFEST_PARSED, () => console.log("Radio Ready"));
+        } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
             audio.src = url;
         }
+    }
+
+    function toggleLiveAudio() {
+        const audio = document.getElementById('live-audio');
+        const icon = document.getElementById('icon-live');
+        if (!audio || !icon) return;
+        if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
+        else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
     // 3. العداد التنازلي
@@ -382,7 +390,26 @@
         }, 1000);
     }
 
-    // 4. جلب البيانات
+    // 4. التبديل بين الأقسام
+function switchTab(tabId) {
+    // إخفاء كل الصفحات
+    document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
+    // إزالة تفعيل كل الأزرار
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    // تفعيل الصفحة المطلوبة
+    document.getElementById('panel-' + tabId).classList.add('active');
+    
+    // تفعيل الزر الذي ضغطت عليه
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(btn => {
+        if(btn.getAttribute('onclick').includes(tabId)) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+    // 5. جلب البيانات
     async function fetchAllSheetsData() {
         const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=التلاوات`;
         try {
@@ -398,14 +425,14 @@
         } catch (err) { console.error('خطأ في الجلب:', err); }
     }
 
-    // 5. البحث
+    // 6. البحث
     function filterTelawat() {
         const term = document.getElementById('searchAudio').value.toLowerCase().trim();
         const filtered = cachedTelawat.filter(i => i.title.toLowerCase().includes(term) || i.reader.toLowerCase().includes(term));
         renderTelawat(filtered);
     }
 
-    // 6. دالة تحميل الملفات (المطورة)
+    // 7. دالة تحميل الملفات (المطورة)
     function downloadAudio(btn) {
         const url = btn.getAttribute('data-url');
         const title = btn.getAttribute('data-title');
@@ -438,7 +465,7 @@
             });
     }
 
-    // 7. دالة العرض (المحدثة)
+    // 8. دالة العرض (المحدثة)
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
@@ -460,15 +487,15 @@
         `).join('');
     }
 
-    // 8. التشغيل عند التحميل
-    window.onload = () => {
+    // 9. التشغيل (تعديل بسيط لضمان العمل)
+    window.addEventListener('DOMContentLoaded', () => {
         initLiveAudio();
         fetchAllSheetsData();
         startCountdown('timer-ramadan', '2027-02-08T00:00:00');
         startCountdown('timer-fitr', '2027-03-08T00:00:00');
         startCountdown('timer-hajj', '2027-05-08T00:00:00');
         startCountdown('timer-adha', '2027-05-16T00:00:00');
-    };
+    });
 </script>
 <script src="dhikr.js"></script>
 </body>
