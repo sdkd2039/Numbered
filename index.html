@@ -207,6 +207,19 @@
         background: var(--primary-color);
         color: var(--bg-color);
     }
+
+     /* إخفاء زر التنزيل في مشغل الفيديو الافتراضي */
+video::-internal-media-controls-download-button {
+    display: none !important;
+}
+
+video::-webkit-media-controls-download-button {
+    display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+    overflow: hidden !important;
+}   
 </style>
 </head>
 <body oncontextmenu="return false;">
