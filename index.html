@@ -79,30 +79,6 @@
         .search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(2, 132, 199, 0.3); }
         .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-/* تنسيق قسم الأذكار الاحترافي */
-.sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
-
-.sub-tab-btn { 
-    background: #21262d; border: 1px solid #333; color: #94a3b8; 
-    padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; 
-}
-.sub-tab-btn.active { background: #c5a880; color: #000; border-color: #c5a880; }
-
-.dhikr-card { 
-    background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 16px; 
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; 
-}
-
-.dhikr-text { font-size: 1.1rem; margin-bottom: 8px; color: #fff; }
-.progress-bar { width: 120px; height: 6px; background: #0d1117; border-radius: 3px; margin-bottom: 5px; overflow: hidden; }
-.progress-fill { height: 100%; background: #c5a880; transition: 0.3s; }
-
-.counter-btn { 
-    background: #c5a880; border: none; width: 55px; height: 55px; 
-    border-radius: 50%; color: #000; font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
-.counter-btn:active { transform: scale(0.9); }
-
         /* تصميم المشغل الدائري المستوحى من دراما وشارات المجد */
         .audio-player-card { 
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
@@ -196,11 +172,28 @@
 }
 
         /* الأذكار */
-        .dhikr-container-list { display: flex; flex-direction: column; gap: 10px; }
-        .dhikr-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.02); }
-        .dhikr-text { font-size: 13.5px; line-height: 1.6; padding-left: 10px; }
-        .mini-counter { background: #21262d; border: 1px solid var(--accent-gold); color: var(--accent-gold); width: 38px; height: 38px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .mini-counter.done { background: var(--green); color: white; border-color: var(--green); }
+.sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
+
+.sub-tab-btn { 
+    background: #21262d; border: 1px solid #333; color: #94a3b8; 
+    padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; 
+}
+.sub-tab-btn.active { background: #c5a880; color: #000; border-color: #c5a880; }
+
+.dhikr-card { 
+    background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 16px; 
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; 
+}
+
+.dhikr-text { font-size: 1.1rem; margin-bottom: 8px; color: #fff; }
+.progress-bar { width: 120px; height: 6px; background: #0d1117; border-radius: 3px; margin-bottom: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: #c5a880; transition: 0.3s; }
+
+.counter-btn { 
+    background: #c5a880; border: none; width: 55px; height: 55px; 
+    border-radius: 50%; color: #000; font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.counter-btn:active { transform: scale(0.9); }
 
         /* مشغلات قنوات البث المباشر (فيديو خام) */
         .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
