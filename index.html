@@ -382,22 +382,44 @@ function startCountdown(id, targetDate) {
     }                              
 
 function showDhikr(cat, btn) {
-        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-        if (btn) btn.classList.add('active');
-        const container = document.getElementById('dhikr-container');
-        if (!container) return;
-        const list = dhikrData.filter(d => d.cat === cat);
-        container.innerHTML = list.map(d => {
-            let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-            return `<div class="dhikr-card"><div><h3 class="dhikr-text">${d.text}</h3><small>${count} من ${d.target}</small></div><button class="counter-btn" onclick="inc('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button></div>`;
-        }).join('');
-    }
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const container = document.getElementById('dhikr-container');
+    if (!container) return;
+    
+    const list = dhikrData.filter(d => d.cat === cat);
+    container.innerHTML = list.map(d => {
+        let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
+        let target = parseInt(d.target);
+        // زر معطل إذا وصلنا للهدف
+        let isDone = count >= target;
+        
+        return `
+        <div class="dhikr-card">
+            <div style="flex: 1;">
+                <h3 class="dhikr-text">${d.text}</h3>
+                <div style="font-size: 1.2rem; font-weight: bold; color: #c5a880;">
+                    ${count} / ${target}
+                </div>
+            </div>
+            <button class="counter-btn" onclick="inc('${d.id}', '${cat}')" ${isDone ? 'disabled style="opacity:0.3"' : ''}>
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>`;
+    }).join('');
+}
 
-        function inc(id, cat) {
-        let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+function inc(id, cat) {
+    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+    // نجد الذكر لنعرف هدفه
+    let dhikr = dhikrData.find(d => d.id === id);
+    let target = parseInt(dhikr.target);
+    
+    if (count < target) {
         localStorage.setItem(`c_${id}`, count + 1);
-        showDhikr(cat, document.querySelector('.sub-tab-btn.active'));
     }
+    showDhikr(cat, document.querySelector('.sub-tab-btn.active'));
+}
 
 async function fetchAllData() {
     const sheets = ['التلاوات', 'الأذكار'];
