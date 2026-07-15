@@ -1,16 +1,26 @@
-// بيانات الأذكار (أضف أو عدل كما تشاء يدوياً هنا)
+// 1. بيانات الأذكار (أضف أذكارك هنا يدوياً)
 const dhikrData = [
     { cat: 'الصباح', id: 's1', text: 'أستغفر الله', target: 100 },
     { cat: 'الصباح', id: 's2', text: 'سبحان الله وبحمده', target: 100 },
     { cat: 'المساء', id: 'm1', text: 'اللهم صل وسلم على نبينا محمد', target: 100 },
     { cat: 'المساء', id: 'm2', text: 'لا إله إلا الله وحده لا شريك له', target: 10 },
-    { cat: 'منوع', id: 'n1', text: 'لا حول ولا قوة إلا بالله', target: 50 }
+    { cat: 'منوع', id: 'n1', text: 'آية الكرسي', target: 1 },
+    { cat: 'منوع', id: 'n2', text: 'لا حول ولا قوة إلا بالله', target: 50 }
 ];
 
-// دالة عرض الأذكار
+// 2. التصفير الذكي عند بداية يوم جديد
+function checkReset() {
+    const today = new Date().toDateString();
+    if (localStorage.getItem('lastDate') !== today) {
+        dhikrData.forEach(d => localStorage.setItem(`c_${d.id}`, 0));
+        localStorage.setItem('lastDate', today);
+    }
+}
+
+// 3. دالة العرض (تحديث الواجهة)
 function showDhikr(cat, btn) {
-    // تحديث تفعيل الأزرار
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    // تفعيل الزر المختار
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
     const container = document.getElementById('dhikr-container');
@@ -19,39 +29,35 @@ function showDhikr(cat, btn) {
     const list = dhikrData.filter(d => d.cat === cat);
     
     container.innerHTML = list.map(d => {
-        let count = localStorage.getItem(`c_${d.id}`) || 0;
+        let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
+        let progress = Math.min((count / d.target) * 100, 100);
+        
         return `
             <div class="dhikr-card">
-                <div>
-                    <h3 style="font-size: 1rem;">${d.text}</h3>
-                    <small style="color: #94a3b8;">${count} / ${d.target}</small>
+                <div class="dhikr-info">
+                    <h3 class="dhikr-text">${d.text}</h3>
+                    <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
+                    <small class="counter-display">${count} من ${d.target}</small>
                 </div>
-                <button class="counter-btn" onclick="inc('${d.id}', '${cat}')">+</button>
+                <button class="counter-btn" onclick="inc('${d.id}', '${cat}')">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
             </div>
         `;
     }).join('');
 }
 
-// دالة زيادة العداد
+// 4. دالة الزيادة
 function inc(id, cat) {
     let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
     localStorage.setItem(`c_${id}`, count + 1);
-    
-    // إعادة عرض نفس القسم
-    const buttons = document.querySelectorAll('.tab-btn');
-    let activeBtn = Array.from(buttons).find(b => b.innerText === cat);
+    const activeBtn = document.querySelector('.sub-tab-btn.active');
     showDhikr(cat, activeBtn);
 }
 
-// التصفير التلقائي عند بداية يوم جديد
-if(localStorage.getItem('lastDate') !== new Date().toDateString()){
-    dhikrData.forEach(d => localStorage.setItem(`c_${d.id}`, 0));
-    localStorage.setItem('lastDate', new Date().toDateString());
-}
-
-// تشغيل الأذكار عند فتح الصفحة
-window.onload = () => {
-    // تشغيل الصباح كافتراضي
-    const defaultBtn = document.querySelector('.tab-btn');
-    if(defaultBtn) showDhikr('الصباح', defaultBtn);
-};
+// 5. التشغيل عند التحميل
+document.addEventListener('DOMContentLoaded', () => {
+    checkReset();
+    const firstBtn = document.querySelector('.sub-tab-btn');
+    if(firstBtn) showDhikr('الصباح', firstBtn);
+});
