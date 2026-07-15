@@ -79,6 +79,17 @@
         .search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(2, 132, 199, 0.3); }
         .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
+         /* تنسيق قسم الأذكار الاحترافي */
+         .sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
+         .sub-tab-btn { background: #21262d; border: 1px solid #333; color: #94a3b8; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+         .sub-tab-btn.active { background: #c5a880; color: #000; border-color: #c5a880; }
+         .dhikr-card { background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+         .dhikr-text { font-size: 1.1rem; margin-bottom: 8px; color: #fff; }
+         .progress-bar { width: 120px; height: 6px; background: #0d1117; border-radius: 3px; margin-bottom: 5px; overflow: hidden; }
+         .progress-fill { height: 100%; background: #c5a880; transition: 0.3s; }
+         .counter-btn { background: #c5a880; border: none; width: 55px; height: 55px; border-radius: 50%; color: #000; font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+         .counter-btn:active { transform: scale(0.9); } 
+        
         /* تصميم المشغل الدائري المستوحى من دراما وشارات المجد */
         .audio-player-card { 
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
@@ -170,31 +181,6 @@
     gap: 6px; 
     width: 100%;
 }
-
-        /* الأذكار */
-.sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
-
-.sub-tab-btn { 
-    background: #21262d; border: 1px solid #333; color: #94a3b8; 
-    padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; 
-}
-.sub-tab-btn.active { background: #c5a880; color: #000; border-color: #c5a880; }
-
-.dhikr-card { 
-    background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 16px; 
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; 
-}
-
-.dhikr-text { font-size: 1.1rem; margin-bottom: 8px; color: #fff; }
-.progress-bar { width: 120px; height: 6px; background: #0d1117; border-radius: 3px; margin-bottom: 5px; overflow: hidden; }
-.progress-fill { height: 100%; background: #c5a880; transition: 0.3s; }
-
-.counter-btn { 
-    background: #c5a880; border: none; width: 55px; height: 55px; 
-    border-radius: 50%; color: #000; font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
-.counter-btn:active { transform: scale(0.9); }
-
         /* مشغلات قنوات البث المباشر (فيديو خام) */
         .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
         .live-video-player { width: 100%; height: 100%; display: block; background: #000; }
@@ -309,14 +295,19 @@
             
 <!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
-        <div class="box-card">
-            <div class="box-header">
-                <img src="https://files.catbox.moe/korzmc.png" class="box-icon">
-                <h2 class="box-title">قسم الذكر</h2>
-            </div>
-            <div id="dhikr-container" class="dhikr-section"></div>
+    <div class="box-card">
+        <div class="box-header">
+            <img src="https://files.catbox.moe/korzmc.png" class="box-icon">
+            <h2 class="box-title">قسم الذكر</h2>
         </div>
+        <div class="sub-tabs">
+            <button class="sub-tab-btn active" onclick="showDhikr('أذكار الصباح', this)">الصباح</button>
+            <button class="sub-tab-btn" onclick="showDhikr('أذكار المساء', this)">المساء</button>
+            <button class="sub-tab-btn" onclick="showDhikr('أذكار منوعة', this)">منوعة</button>
+        </div>
+        <div id="dhikr-container" class="dhikr-section"></div>
     </div>
+</div>
 
 <div id="panel-live" class="panel-content">
     <div class="box-card" style="border: 1px solid var(--accent-gold);">
@@ -402,6 +393,48 @@
         }, 1000);
     }
 
+        // 4. كتابة الأذكار بشكل يدوي
+const dhikrData = [
+    { cat: 'الصباح', id: 's1', text: 'أستغفر الله', target: 100 },
+    { cat: 'الصباح', id: 's2', text: 'سبحان الله وبحمده', target: 100 },
+    { cat: 'المساء', id: 'm1', text: 'اللهم صل وسلم على نبينا محمد', target: 100 },
+    id: 'n2', text: 'لا حول ولا قوة إلا بالله', target: 50 }
+];
+
+function showDhikr(cat, btn) {
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const container = document.getElementById('dhikr-container');
+    const list = dhikrData.filter(d => d.cat === cat);
+    container.innerHTML = list.map(d => {
+        let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
+        let progress = Math.min((count / d.target) * 100, 100);
+        return `
+            <div class="dhikr-card">
+                <div>
+                    <h3 class="dhikr-text">${d.text}</h3>
+                    <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
+                    <small style="color: #94a3b8;">${count} من ${d.target}</small>
+                </div>
+                <button class="counter-btn" onclick="inc('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        `;
+    }).join('');
+}
+
+function inc(id, cat) {
+    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+    localStorage.setItem(`c_${id}`, count + 1);
+    const activeBtn = document.querySelector('.sub-tab-btn.active');
+    showDhikr(cat, activeBtn);
+}
+
+// التصفير اليومي
+if(localStorage.getItem('lastDate') !== new Date().toDateString()){
+    dhikrData.forEach(d => localStorage.setItem(`c_${d.id}`, 0));
+    localStorage.setItem('lastDate', new Date().toDateString());
+}
+    
     // 4. التبديل بين الأقسام
 function switchTab(tabId) {
     // إخفاء كل الصفحات
@@ -524,8 +557,9 @@ function switchTab(tabId) {
         startCountdown('timer-fitr', '2027-03-08T00:00:00');
         startCountdown('timer-hajj', '2027-05-08T00:00:00');
         startCountdown('timer-adha', '2027-05-16T00:00:00');
+        // عرض الصباح تلقائياً
+        document.addEventListener('DOMContentLoaded', () => showDhikr('الصباح', document.querySelector('.sub-tab-btn')));
     });
 </script>
-<script src="dhikr.js"></script>
 </body>
 </html>
