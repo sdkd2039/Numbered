@@ -208,18 +208,26 @@
         color: var(--bg-color);
     }
 
-     /* إخفاء زر التنزيل في مشغل الفيديو الافتراضي */
+/* إخفاء القائمة الثلاثية تماماً داخل الفيديو */
+video::-webkit-media-controls-enclosure {
+    display: none !important;
+}
+
+/* إخفاء زر التنزيل في المتصفحات التي تدعم Shadow DOM */
 video::-internal-media-controls-download-button {
     display: none !important;
 }
 
-video::-webkit-media-controls-download-button {
-    display: none !important;
+/* منع أي تفاعل مع قائمة المتصفح الافتراضية فوق الفيديو */
+video {
+    pointer-events: auto; /* للسماح بالتشغيل والإيقاف */
 }
 
-video::-webkit-media-controls-enclosure {
-    overflow: hidden !important;
-}   
+/* الخدعة الكبرى: منع القائمة من الظهور نهائياً */
+video:not([controls]) {
+    pointer-events: none;
+}
+        
 </style>
 </head>
 <body oncontextmenu="return false;">
@@ -459,7 +467,11 @@ function renderTelawat(items) {
         <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
             <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
             <div style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
-            <video controls style="width: 100%; border-radius: 8px;"><source src="${item.downloadUrl}" type="video/mp4"></video>
+            
+            <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
+                <source src="${item.downloadUrl}" type="video/mp4">
+            </video>
+            
             <button class="btn-download-action" 
                     onclick="downloadAudio(this)" 
                     data-url="${item.downloadUrl}" 
@@ -468,7 +480,7 @@ function renderTelawat(items) {
                 <i class="fa-solid fa-download"></i> تحميل
             </button>
         </div>`).join('');
-}
+}}
 
     function downloadAudio(btn) {
     const url = btn.getAttribute('data-url');
