@@ -208,25 +208,20 @@
         color: var(--bg-color);
     }
 
-/* إخفاء القائمة الثلاثية تماماً داخل الفيديو */
+/* إخفاء زر التنزيل في كافة المتصفحات */
+video::-webkit-media-controls-download-button {
+    display: none !important;
+}
+
 video::-webkit-media-controls-enclosure {
-    display: none !important;
+    overflow: hidden !important;
 }
 
-/* إخفاء زر التنزيل في المتصفحات التي تدعم Shadow DOM */
-video::-internal-media-controls-download-button {
-    display: none !important;
-}
-
-/* منع أي تفاعل مع قائمة المتصفح الافتراضية فوق الفيديو */
+/* هذا السطر يمنع ظهور خيار "حفظ الفيديو باسم" عند الضغط بالزر الأيمن */
 video {
-    pointer-events: auto; /* للسماح بالتشغيل والإيقاف */
+    pointer-events: auto;
 }
 
-/* الخدعة الكبرى: منع القائمة من الظهور نهائياً */
-video:not([controls]) {
-    pointer-events: none;
-}
         
 </style>
 </head>
@@ -467,10 +462,12 @@ function renderTelawat(items) {
         <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
             <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
             <div style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
-            
+          
+  
 <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
     <source src="${item.downloadUrl}" type="video/mp4">
 </video>
+
             
             <button class="btn-download-action" 
                     onclick="downloadAudio(this)" 
