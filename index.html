@@ -345,36 +345,12 @@
 
 <script>
     // 1. المتغيرات العامة
+<script>
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
+    let dhikrData = []; // متغير عام للأذكار
 
-    // 2. بيانات الأذكار
-    const dhikrData = [
-        { cat: 'الصباح', id: 's1', text: 'أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ 
-اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ.  [آية الكرسى - البقرة 255].', target: 1 },
-        { cat: 'الصباح', id: 's2', text: 'بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
-قُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ.', target: 3 },
-        { cat: 'الصباح', id: 's3', text: 'بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
-قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ.', target: 3 },
-        { cat: 'الصباح', id: 's4', text: 'بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
-قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ.', target: 3 },
-        { cat: 'الصباح', id: 's5', text: 'أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.', target: 1 },
-        { cat: 'الصباح', id: 's6', text: 'اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ .', target: 1 },
-        { cat: 'الصباح', id: 's7', text: 'رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً.', target: 3 },
-        { cat: 'الصباح', id: 's8', text: 'اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك ، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك ، وَمَلَائِكَتَكَ ، وَجَمـيعَ خَلْـقِك ، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك ، وَأَنَّ ُ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك.', target: 4 },
-        { cat: 'الصباح', id: 's9', text: 'اللّهُـمَّ ما أَصْبَـَحَ بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك ، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك ، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر.', target: 1 },
-        { cat: 'الصباح', id: 's10', text: 'حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم.', target: 7 },
-        { cat: 'الصباح', id: 's11', text: 'اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا ، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور.', target: 1 },
-        { cat: 'الصباح', id: 's12', text: 'أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إبْرَاهِيمَ حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ المُشْرِكِينَ.', target: 1 },
-        { cat: 'الصباح', id: 's13', text: 'سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه ، وَرِضـا نَفْسِـه ، وَزِنَـةَ عَـرْشِـه ، وَمِـدادَ كَلِمـاتِـه.', target: 3 },
-        { cat: 'الصباح', id: 's13', text: 'اللّهُـمَّ عافِـني في بَدَنـي ، اللّهُـمَّ عافِـني في سَمْـعي ، اللّهُـمَّ عافِـني في بَصَـري ، لا إلهَ إلاّ أَنْـتَ.', target: 3 },         
-        { cat: 'المساء', id: 'm1', text: 'اللهم صل وسلم على نبينا محمد', target: 100 },
-        { cat: 'المساء', id: 'm2', text: 'لا إله إلا الله', target: 10 },
-        { cat: 'منوعة', id: 'n1', text: 'آية الكرسي', target: 1 },
-        { cat: 'منوعة', id: 'n2', text: 'لا حول ولا قوة إلا بالله', target: 50 }
-    ];
-
-    // 3. الدوال الأساسية (خارج النطاق المحلي لكي تعمل الأزرار)
+    // 2. الدوال الأساسية (خارج النطاق المحلي لكي تعمل الأزرار)
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
         const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
@@ -393,22 +369,20 @@
         else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
-    function startCountdown(id, targetDate) {
+function startCountdown(id, targetDate) {
         setInterval(() => {
-            const now = new Date().getTime();
-            const diff = new Date(targetDate).getTime() - now;
+            const diff = new Date(targetDate).getTime() - new Date().getTime();
             const element = document.getElementById(id);
-            if (!element) return;
-            if (diff < 0) { element.innerHTML = "تم الوصول"; return; }
+            if (!element || diff < 0) return;
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-            element.innerHTML = `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div><div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div><div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div><div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>`;
+            element.innerHTML = `<div class="time-box">${d}<span>يوم</span></div><div class="time-box">${h}<span>ساعة</span></div><div class="time-box">${m}<span>دقيقة</span></div><div class="time-box">${s}<span>ثانية</span></div>`;
         }, 1000);
-    }
+    }                              
 
-    function showDhikr(cat, btn) {
+function showDhikr(cat, btn) {
         document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
         if (btn) btn.classList.add('active');
         const container = document.getElementById('dhikr-container');
@@ -416,37 +390,41 @@
         const list = dhikrData.filter(d => d.cat === cat);
         container.innerHTML = list.map(d => {
             let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-            let progress = Math.min((count / d.target) * 100, 100);
-            return `<div class="dhikr-card"><div><h3 class="dhikr-text">${d.text}</h3><div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div><small style="color: #94a3b8;">${count} من ${d.target}</small></div><button class="counter-btn" onclick="inc('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button></div>`;
+            return `<div class="dhikr-card"><div><h3 class="dhikr-text">${d.text}</h3><small>${count} من ${d.target}</small></div><button class="counter-btn" onclick="inc('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button></div>`;
         }).join('');
     }
 
-    function inc(id, cat) {
+        function inc(id, cat) {
         let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
         localStorage.setItem(`c_${id}`, count + 1);
         showDhikr(cat, document.querySelector('.sub-tab-btn.active'));
     }
 
-    async function fetchAllSheetsData() {
-        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=التلاوات`;
-        try {
-            const response = await fetch(url);
-            const text = await response.text();
-            const json = JSON.parse(text.substring(47).slice(0, -2));
-            cachedTelawat = json.table.rows.map(row => ({
-                title: row.c[0]?.v || 'بدون عنوان', reader: row.c[1]?.v || 'قارئ غير معروف', downloadUrl: row.c[2]?.v || '#'
-            })).reverse();
-            renderTelawat(cachedTelawat);
-        } catch (err) { console.error('Error:', err); }
+async function fetchAllData() {
+        const sheets = ['التلاوات', 'الأذكار'];
+        for (const sheet of sheets) {
+            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
+            const res = await fetch(url).then(r => r.text());
+            const json = JSON.parse(res.substring(47).slice(0, -2));
+            
+            if (sheet === 'التلاوات') {
+                cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
+                renderTelawat(cachedTelawat);
+            } else {
+                dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
+                showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
+            }
+        }
     }
 
-    function renderTelawat(items) {
+function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
         list.innerHTML = items.map(item => `
             <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
-                <div style="text-align: right; margin-bottom: 10px;"><div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div><div style="font-size: 0.9rem; color: #aaa;">${item.reader}</div></div>
-                <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;"><source src="${item.downloadUrl}" type="video/mp4"></video>
+                <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
+                <div style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
+                <video controls style="width: 100%; border-radius: 8px;"><source src="${item.downloadUrl}" type="video/mp4"></video>
             </div>`).join('');
     }
 
@@ -462,12 +440,12 @@
 
     // 6. تشغيل الموقع (الحدث الوحيد الذي نحتاجه)
     window.addEventListener('DOMContentLoaded', () => {
-        if(localStorage.getItem('lastDate') !== new Date().toDateString()){
+    if(localStorage.getItem('lastDate') !== new Date().toDateString()){
             dhikrData.forEach(d => localStorage.setItem(`c_${d.id}`, 0));
             localStorage.setItem('lastDate', new Date().toDateString());
         }
         initLiveAudio();
-        fetchAllSheetsData();
+        fetchAllData(); // تشغيل الجلب الموحد
         startCountdown('timer-ramadan', '2027-02-08T00:00:00');
         startCountdown('timer-fitr', '2027-03-08T00:00:00');
         startCountdown('timer-hajj', '2027-05-08T00:00:00');
