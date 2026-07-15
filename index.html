@@ -345,7 +345,6 @@
 
 <script>
     // 1. المتغيرات العامة
-<script>
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
     let dhikrData = []; // متغير عام للأذكار
@@ -401,21 +400,22 @@ function showDhikr(cat, btn) {
     }
 
 async function fetchAllData() {
-        const sheets = ['التلاوات', 'الأذكار'];
-        for (const sheet of sheets) {
-            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
-            const res = await fetch(url).then(r => r.text());
-            const json = JSON.parse(res.substring(47).slice(0, -2));
-            
-            if (sheet === 'التلاوات') {
-                cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
-                renderTelawat(cachedTelawat);
-            } else {
-                dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
-                showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
-            }
+    const sheets = ['التلاوات', 'الأذكار'];
+    for (const sheet of sheets) {
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
+        const res = await fetch(url).then(r => r.text());
+        const json = JSON.parse(res.substring(47).slice(0, -2));
+        
+        if (sheet === 'التلاوات') {
+            cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
+            renderTelawat(cachedTelawat);
+        } else {
+            // تحديث مصفوفة الأذكار من الشيت
+            dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
+            showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
         }
     }
+}
 
 function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
@@ -439,19 +439,14 @@ function renderTelawat(items) {
     }
 
     // 6. تشغيل الموقع (الحدث الوحيد الذي نحتاجه)
-    window.addEventListener('DOMContentLoaded', () => {
-    if(localStorage.getItem('lastDate') !== new Date().toDateString()){
-            dhikrData.forEach(d => localStorage.setItem(`c_${d.id}`, 0));
-            localStorage.setItem('lastDate', new Date().toDateString());
-        }
-        initLiveAudio();
-        fetchAllData(); // تشغيل الجلب الموحد
-        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-        startCountdown('timer-fitr', '2027-03-08T00:00:00');
-        startCountdown('timer-hajj', '2027-05-08T00:00:00');
-        startCountdown('timer-adha', '2027-05-16T00:00:00');
-        showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
-    });
+window.addEventListener('DOMContentLoaded', () => {
+    initLiveAudio();
+    fetchAllData(); // هذا السطر هو المهم لاستدعاء البيانات
+    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+    startCountdown('timer-fitr', '2027-03-08T00:00:00');
+    startCountdown('timer-hajj', '2027-05-08T00:00:00');
+    startCountdown('timer-adha', '2027-05-16T00:00:00');
+});
 </script>
 </body>
 </html>
