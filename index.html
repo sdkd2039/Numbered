@@ -297,12 +297,14 @@
 
     <!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
-    <div class="box-card">
-        <div class="box-header">
-            <img src="https://files.catbox.moe/korzmc.png" class="box-icon">
-            <h2 class="box-title">قسم الذكر</h2>
-<div id="dhikr-container" class="dhikr-section"></div>
-</div>
+        <div class="box-card">
+            <div class="box-header">
+                <img src="https://files.catbox.moe/korzmc.png" class="box-icon">
+                <h2 class="box-title">قسم الذكر</h2>
+            </div>
+            <div id="dhikr-container" class="dhikr-section"></div>
+        </div>
+    </div>
 
 <div id="panel-live" class="panel-content">
     <div class="box-card" style="border: 1px solid var(--accent-gold);">
@@ -339,12 +341,7 @@
 </div>
 
 <script>
-    // 1. الإعدادات والروابط
-    const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-    const urlTelawat = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=تلاوات`;
-    const urlDhikr = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=الذكر`;
-
-    // 2. تشغيل الإذاعة
+    // الدوال الأساسية
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
         const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
@@ -352,276 +349,64 @@
             const hls = new Hls();
             hls.loadSource(url);
             hls.attachMedia(audio);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => console.log("Radio Ready"));
-        } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
-            audio.src = url;
         }
     }
 
     function toggleLiveAudio() {
         const audio = document.getElementById('live-audio');
         const icon = document.getElementById('icon-live');
-        if (!audio || !icon) return;
         if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
         else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
-// 3. دالة مشاركة الموعد (المحدثة والمصححة)
-function shareTime(eventName, timerId) {
-    // نجلب العداد الذي ضغط عليه المستخدم
-    const element = document.getElementById(timerId);
-    if (!element) return;
-
-    // استخراج الأرقام المعروضة حالياً في العداد
-    const timeBoxes = element.querySelectorAll('.time-num');
-    
-    // الترتيب حسب الكود الجديد (يوم، ساعة، دقيقة، ثواني)
-    const d = timeBoxes[0].innerText;
-    const h = timeBoxes[1].innerText;
-    const m = timeBoxes[2].innerText;
-    
-    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها لا فاقدين ولا مفقودين.`;
-    
-    if (navigator.share) {
-        navigator.share({ title: 'الموعد القادم', text: message });
-    } else {
-        alert(message);
-    }
-}
-
-    // 4. دالة العداد التنازلي
     function startCountdown(id, targetDate) {
         setInterval(() => {
             const now = new Date().getTime();
             const diff = new Date(targetDate).getTime() - now;
             const element = document.getElementById(id);
             if (!element) return;
-            if (diff < 0) { element.innerHTML = "تم الوصول"; return; }
-            
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            element.innerHTML = `
-                <div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
-                <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
-                <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
-                <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثواني</div></div>
-            `;
+            element.innerHTML = `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
+                                 <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+                                 <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>`;
         }, 1000);
     }
 
-    // 5. تهيئة البيانات
-<script>
-    // 1. المتغير العام لتخزين البيانات
     let cachedTelawat = [];
-
-    // 2. دالة جلب البيانات (مرة واحدة فقط)
     async function fetchAllSheetsData() {
-        const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-        const sheetName = 'التلاوات';
-        const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-
+        const url = `https://docs.google.com/spreadsheets/d/1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ/gviz/tq?tqx=out:json&sheet=التلاوات`;
         try {
             const response = await fetch(url);
             const text = await response.text();
             const json = JSON.parse(text.substring(47).slice(0, -2));
-            
             cachedTelawat = json.table.rows.map(row => ({
                 title: row.c[0]?.v || 'بدون عنوان',
                 reader: row.c[1]?.v || 'قارئ غير معروف',
                 downloadUrl: row.c[2]?.v || '#'
             })).reverse();
-
             renderTelawat(cachedTelawat);
-        } catch (err) { console.error('خطأ في الجلب:', err); }
+        } catch (err) { console.error(err); }
     }
 
-    // 3. دالة تبديل الأقسام
-    function switchTab(tabId) {
-        document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('panel-' + tabId).classList.add('active');
-        
-        if(event && event.currentTarget) event.currentTarget.classList.add('active');
-        
-        const logoMap = {
-            'telawat': 'https://files.catbox.moe/t2zfc7.png',
-            'remaining': 'https://files.catbox.moe/9am1q8.png',
-            'dhikr': 'https://files.catbox.moe/korzmc.png',
-            'live': 'https://files.catbox.moe/h4bsrt.png'
-        };
-        const logo = document.getElementById('active-tab-logo');
-        if (logo) logo.src = logoMap[tabId];
-    }
-
-    // 4. دالة البحث
-    function filterTelawat() {
-        const searchTerm = document.getElementById('searchAudio').value.toLowerCase().trim();
-        const filtered = cachedTelawat.filter(item => 
-            item.title.toLowerCase().includes(searchTerm) || 
-            item.reader.toLowerCase().includes(searchTerm)
-        );
-        renderTelawat(filtered);
-    }
-
-    // 5. دالة التحميل
-    function downloadAudio(btn) {
-        const url = btn.getAttribute('data-url');
-        const title = btn.getAttribute('data-title');
-        const ext = btn.getAttribute('data-ext');
-        const originalIcon = btn.innerHTML;
-        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...`;
-        btn.disabled = true;
-
-        fetch(url).then(response => response.blob()).then(blob => {
-            const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = `${title}.${ext}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(blobUrl);
-            btn.innerHTML = originalIcon;
-            btn.disabled = false;
-        }).catch(err => {
-            window.open(url, '_blank');
-            btn.innerHTML = originalIcon;
-            btn.disabled = false;
-        });
-    }
-
-    // 6. دالة العرض
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
         list.innerHTML = items.map(item => `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
-                <div style="text-align: right; margin-bottom: 10px;">
-                    <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
-                    <div style="font-size: 0.9rem; color: #aaa;">${item.reader}</div>
-                </div>
-                <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
-                    <source src="${item.downloadUrl}" type="video/mp4">
-                </video>
-                <div class="download-container" style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
-                    <button class="btn-download-action" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4" onclick="downloadAudio(this)">
-                        <i class="fa-solid fa-download"></i> تحميل
-                    </button>
-                </div>
-            </div>
-        `).join('');
+            <div class="box-card" style="margin-bottom: 20px; padding: 15px; background: #1a1a1a; border-radius: 12px;">
+                <div style="color: #fff; font-weight: 900;">${item.title}</div>
+                <div style="color: #aaa;">${item.reader}</div>
+                <video controls style="width: 100%;"><source src="${item.downloadUrl}" type="video/mp4"></video>
+            </div>`).join('');
     }
 
-    // 7. التشغيل النهائي
     window.onload = () => {
-    initLiveAudio();
-    fetchAllSheetsData();
-    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-    startCountdown('timer-fitr', '2027-03-08T00:00:00');
-    startCountdown('timer-hajj', '2027-05-08T00:00:00');
-    startCountdown('timer-adha', '2027-05-16T00:00:00');
-};
-
-// 8. المتغير العام لتخزين البيانات عند جلبها أول مرة
-let cachedTelawat = [];
-
-// 9. دالة الجلب المحدثة (تحفظ البيانات في المتغير العام)
-async function fetchAllSheetsData() {
-    const spreadsheetId = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-    const sheetName = 'التلاوات';
-    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-
-    try {
-        const response = await fetch(url);
-        const text = await response.text();
-        const json = JSON.parse(text.substring(47).slice(0, -2));
-        
-        // جلب البيانات وعكس ترتيبها
-        cachedTelawat = json.table.rows.map(row => ({
-            title: row.c[0]?.v || 'بدون عنوان',
-            reader: row.c[1]?.v || 'قارئ غير معروف',
-            downloadUrl: row.c[2]?.v || '#'
-        })).reverse(); // هنا الترتيب من الأقدم للأحدث
-
-        renderTelawat(cachedTelawat);
-    } catch (err) { console.error('خطأ:', err); }
-}
-
-// 10. دالة البحث الاحترافية (سريعة جداً لأنها تبحث في الذاكرة)
-function filterTelawat() {
-    const searchTerm = document.getElementById('searchAudio').value.toLowerCase().trim();
-    
-    // تصفية البيانات من المتغير المخزن
-    const filtered = cachedTelawat.filter(item => 
-        item.title.toLowerCase().includes(searchTerm) || 
-        item.reader.toLowerCase().includes(searchTerm)
-    );
-    
-    renderTelawat(filtered);
-}
-
-// 11. دالة تحميل الملفات (مستقلة)
-function downloadAudio(btn) {
-    const url = btn.getAttribute('data-url');
-    const title = btn.getAttribute('data-title');
-    const ext = btn.getAttribute('data-ext');
-    
-    // إضافة أيقونة التحميل ليعرف المستخدم أن العملية بدأت
-    const originalIcon = btn.innerHTML;
-    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...`;
-    btn.disabled = true;
-
-    fetch(url)
-        .then(response => response.blob())
-        .then(blob => {
-            const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = blobUrl;
-            a.download = `${title}.${ext}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(blobUrl);
-            
-            // إعادة الزر لحالته الأصلية
-            btn.innerHTML = originalIcon;
-            btn.disabled = false;
-        })
-        .catch(err => {
-            console.error("خطأ في التحميل:", err);
-            // في حال فشل التحميل التلقائي، نفتح الرابط في نافذة جديدة كخيار بديل
-            window.open(url, '_blank');
-            btn.innerHTML = originalIcon;
-            btn.disabled = false;
-        });
-}
-
-// 12. دالة العرض (مصححة لتعمل في كروم)
-function renderTelawat(items) {
-    const list = document.getElementById('telawat-list');
-    if (!list) return;
-    list.innerHTML = items.map(item => `
-        <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
-            <div style="text-align: right; margin-bottom: 10px;">
-                <div style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</div>
-                <div style="font-size: 0.9rem; color: #aaa;">${item.reader}</div>
-            </div>
-            <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
-                <source src="${item.downloadUrl}" type="video/mp4">
-            </video>
-            <div class="download-container" style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
-                <button class="btn-download-action" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4" onclick="downloadAudio(this)">
-                    <i class="fa-solid fa-download"></i> تحميل
-                </button>
-            </div>
-        </div>
-    `).join('');
+        initLiveAudio();
+        fetchAllSheetsData();
+        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+    };
 </script>
-
 <script src="dhikr.js"></script>
 </body>
 </html>
