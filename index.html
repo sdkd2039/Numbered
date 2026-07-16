@@ -546,8 +546,18 @@ function renderTelawat(items) {
 
     // 6. تشغيل الموقع (الحدث الوحيد الذي نحتاجه)
 window.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toDateString();
+    const lastDate = localStorage.getItem('lastDate');
+
+    if (lastDate !== today) {
+        dhikrData.forEach(d => {
+            localStorage.setItem(`c_${d.id}`, 0);
+        });
+        localStorage.setItem('lastDate', today);
+    }
+
     initLiveAudio();
-    fetchAllData(); // هذا السطر هو المهم لاستدعاء البيانات
+    fetchAllData();
     startCountdown('timer-ramadan', '2027-02-08T00:00:00');
     startCountdown('timer-fitr', '2027-03-08T00:00:00');
     startCountdown('timer-hajj', '2027-05-08T00:00:00');
