@@ -414,7 +414,6 @@ video {
         }, 1000);
     }
 
-    // --- قسم الأذكار ---
     function showDhikr(cat, btn) {
         document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
         if (btn) btn.classList.add('active');
@@ -447,7 +446,6 @@ video {
         showDhikr(cat, document.querySelector('.sub-tab-btn.active'));
     }
 
-    // --- قسم التلاوات مع البحث الذكي ---
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
@@ -490,7 +488,6 @@ video {
         }
     }
 
-    // --- أدوات عامة ---
     function downloadAudio(btn) {
         const url = btn.getAttribute('data-url');
         const title = btn.getAttribute('data-title');
@@ -506,20 +503,22 @@ video {
         }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
 
-    const timeBoxes = element.querySelectorAll('.time-box');
-    
-    // استخراج النص وتنظيفه من الكلمات (يوم، ساعة، دقيقة) للحصول على الرقم فقط
-    const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-    const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-    const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-    
-    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
-    if (navigator.share) {
-        navigator.share({ title: 'الموعد القادم', text: message });
-    } else {
-        alert(message);
+    // تم إصلاح دالة المشاركة هنا
+    function shareTime(eventName, timerId) {
+        const element = document.getElementById(timerId);
+        if (!element) return;
+        const timeBoxes = element.querySelectorAll('.time-box');
+        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
+        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
+        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
+        
+        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+        if (navigator.share) {
+            navigator.share({ title: 'الموعد القادم', text: message });
+        } else {
+            alert(message);
+        }
     }
-}
 
     function switchTab(tabId) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
