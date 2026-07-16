@@ -274,24 +274,23 @@ video {
     </div>
 
     <!-- 1. قسم التلاوات -->
-    <div id="panel-telawat" class="panel-content active">
-        <div class="box-card">
-            <div class="box-header">
-                <img src="https://files.catbox.moe/t2zfc7.png" class="box-icon">
-                <h2 class="box-title">قسم التلاوات</h2>
-            </div>
-            
-<div class="search-container">
-    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو سورة..." oninput="searchTelawat()">
-</div>
-<div id="telawat-list"> 
-    </div>
-            <div id="telawat-list">
-                <p style="text-align:center; color:gray;">جاري جلب الملفات...</p>
-            </div>
+<div id="panel-telawat" class="panel-content active">
+    <div class="box-card">
+        <div class="box-header">
+            <img src="https://files.catbox.moe/t2zfc7.png" class="box-icon">
+            <h2 class="box-title">قسم التلاوات</h2>
+        </div>
+        
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو سورة..." oninput="searchTelawat()">
+        </div>
+
+        <div id="telawat-list">
+            <p style="text-align:center; color:gray; padding: 20px;">جاري جلب التلاوات...</p>
         </div>
     </div>
+</div>
 
 <!-- قسم المتبقي -->
 <div id="panel-remaining" class="panel-content">
@@ -446,21 +445,25 @@ video {
         showDhikr(cat, document.querySelector('.sub-tab-btn.active'));
     }
 
-    function renderTelawat(items) {
-        const list = document.getElementById('telawat-list');
-        if (!list) return;
-        list.innerHTML = items.map(item => `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
-                <h3 class="search-title" style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
-                <div class="search-reader" style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
-                <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
-                    <source src="${item.downloadUrl}" type="video/mp4">
-                </video>
-                <button class="btn-download-action" onclick="downloadAudio(this)" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4">
-                    <i class="fa-solid fa-download"></i> تحميل
-                </button>
-            </div>`).join('');
-    }
+function renderTelawat(items) {
+    const list = document.getElementById('telawat-list');
+    if (!list) return;
+    
+    // هنا نقوم بمسح جملة "جاري الجلب" بمجرد وصول البيانات
+    list.innerHTML = ''; 
+    
+    list.innerHTML = items.map(item => `
+        <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #30363d; border-radius: 12px; background: #1a1a1a;">
+            <h3 class="search-title" style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
+            <div class="search-reader" style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
+            <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
+                <source src="${item.downloadUrl}" type="video/mp4">
+            </video>
+            <button class="btn-download-action" onclick="downloadAudio(this)" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4">
+                <i class="fa-solid fa-download"></i> تحميل
+            </button>
+        </div>`).join('');
+}
 
     function searchTelawat() {
         const filter = document.getElementById('searchInput').value.toUpperCase();
