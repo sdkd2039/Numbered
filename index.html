@@ -404,23 +404,26 @@ function showDhikr(cat, btn) {
     if (!container) return;
     
     const list = dhikrData.filter(d => d.cat === cat);
-container.innerHTML = list.map(d => {
-    let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-    let target = parseInt(d.target);
-    // نتحقق إذا كانت المعلومة موجودة
-    let infoBtn = d.info ? `<i class="fa-solid fa-circle-info" onclick="showInfo('${d.info}')" style="cursor:pointer; color:#c5a880; margin-right:10px;"></i>` : '';
-
-    return `
-    <div class="dhikr-card">
-        <div>
-            <h3 class="dhikr-text">${d.text} ${infoBtn}</h3>
-            <div style="font-size: 1.2rem; font-weight: bold; color: #c5a880;">${count} / ${target}</div>
-        </div>
-        <button class="counter-btn" onclick="inc('${d.id}', '${cat}')" ${count >= target ? 'disabled' : ''}>
-            <i class="fa-solid fa-plus"></i>
-        </button>
-    </div>`;
-}).join('');
+    container.innerHTML = list.map(d => {
+        let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
+        let target = parseInt(d.target);
+        // زر معطل إذا وصلنا للهدف
+        let isDone = count >= target;
+        
+        return `
+        <div class="dhikr-card">
+            <div style="flex: 1;">
+                <h3 class="dhikr-text">${d.text}</h3>
+                <div style="font-size: 1.2rem; font-weight: bold; color: #c5a880;">
+                    ${count} / ${target}
+                </div>
+            </div>
+            <button class="counter-btn" onclick="inc('${d.id}', '${cat}')" ${isDone ? 'disabled style="opacity:0.3"' : ''}>
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>`;
+    }).join('');
+}
 
 function inc(id, cat) {
     let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
@@ -540,11 +543,6 @@ function renderTelawat(items) {
         const logo = document.getElementById('active-tab-logo');
         if (logo) logo.src = logoMap[tabId];
     }
-
-    function showInfo(text) {
-    // يمكنك استخدام alert بسيط أو مكتبة SweetAlert لشكل أجمل
-    alert(text);
-}
 
     // 6. تشغيل الموقع (الحدث الوحيد الذي نحتاجه)
 window.addEventListener('DOMContentLoaded', () => {
