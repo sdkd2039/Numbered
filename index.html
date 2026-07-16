@@ -74,10 +74,27 @@
         .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
 
         /* حقل البحث الذكي */
-        .search-container { position: relative; margin-bottom: 20px; width: 100%; }
-         #search-input { width: 100%; padding: 12px 45px 12px 15px; background: #21262d; border: 1px solid var(--border-color); border-radius: 12px; color: #fff; font-size: 0.95rem; outline: none; transition: all 0.3s; }
-         search-input:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(2, 132, 199, 0.3); }
-        .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+.search-container { position: relative; margin-bottom: 25px; width: 100%; }
+.search-input {
+    width: 100%;
+    background: #161b22; /* نفس خلفية البطاقات عندك */
+    border: 1px solid #30363d;
+    border-radius: 14px;
+    padding: 15px 45px 15px 15px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+.search-input:focus { border-color: #c5a880; box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2); }
+.search-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
 
 /* تنسيق قسم الأذكار */
 .sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
@@ -264,11 +281,12 @@ video {
                 <h2 class="box-title">قسم التلاوات</h2>
             </div>
             
-            <div class="search-container">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-<input type="text" id="search-input" onkeyup="searchTelawat()" placeholder="ابحث عن قارئ أو سورة..." style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #333; background: #161b22; color: #fff;">
-            </div>
-
+<div class="search-container">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو سورة..." oninput="searchTelawat()">
+</div>
+<div id="telawat-list"> 
+    </div>
             <div id="telawat-list">
                 <p style="text-align:center; color:gray;">جاري جلب الملفات...</p>
             </div>
@@ -479,8 +497,8 @@ function renderTelawat(items) {
         </div>`).join('');
 }
 
-    function searchTelawat() {
-    const input = document.getElementById('search-input');
+function searchTelawat() {
+    const input = document.getElementById('searchInput');
     const filter = input.value.toUpperCase();
     const list = document.getElementById('telawat-list');
     const cards = list.getElementsByClassName('box-card');
@@ -488,12 +506,10 @@ function renderTelawat(items) {
     for (let i = 0; i < cards.length; i++) {
         let title = cards[i].getElementsByTagName("h3")[0];
         let txtValue = title.textContent || title.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            cards[i].style.display = "";
-        } else {
-            cards[i].style.display = "none";
-        }
+        // البحث عن النص داخل العنوان
+        cards[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
     }
+  }
 }
     
     function downloadAudio(btn) {
