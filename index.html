@@ -381,9 +381,9 @@ video {
     // 1. المتغيرات العامة
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
-    let dhikrData = [];
+    let dhikrData = []; // متغير عام للأذكار
 
-    // 2. الدوال الأساسية
+    // 2. الدوال الأساسية (خارج النطاق المحلي لكي تعمل الأزرار)
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
         const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
@@ -402,7 +402,7 @@ video {
         else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
-    function startCountdown(id, targetDate) {
+function startCountdown(id, targetDate) {
         setInterval(() => {
             const diff = new Date(targetDate).getTime() - new Date().getTime();
             const element = document.getElementById(id);
@@ -413,38 +413,91 @@ video {
             const s = Math.floor((diff % (1000 * 60)) / 1000);
             element.innerHTML = `<div class="time-box">${d}<span>يوم</span></div><div class="time-box">${h}<span>ساعة</span></div><div class="time-box">${m}<span>دقيقة</span></div><div class="time-box">${s}<span>ثانية</span></div>`;
         }, 1000);
-    }
+    }                              
 
-    function showDhikr(cat, btn) {
-        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-        if (btn) btn.classList.add('active');
-        const container = document.getElementById('dhikr-container');
-        if (!container) return;
-        const list = dhikrData.filter(d => d.cat === cat);
-        container.innerHTML = list.map(d => {
-            let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-            let target = parseInt(d.target);
-            let isDone = count >= target;
-            return `
-            <div class="dhikr-card">
-                <div style="flex: 1;">
-                    <h3 class="dhikr-text">${d.text}</h3>
-                    <div style="font-size: 1.2rem; font-weight: bold; color: #c5a880;">${count} / ${target}</div>
+function showDhikr(cat, btn) {
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const container = document.getElementById('dhikr-container');
+    if (!container) return;
+    
+    const list = dhikrData.filter(d => d.cat === cat);
+    container.innerHTML = list.map(d => {
+        let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
+        let target = parseInt(d.target);
+        // زر معطل إذا وصلنا للهدف
+        let isDone = count >= target;
+        
+        return `
+        <div class="dhikr-card">
+            <div style="flex: 1;">
+                <h3 class="dhikr-text">${d.text}</h3>
+                <div style="font-size: 1.2rem; font-weight: bold; color: #c5a880;">
+                    ${count} / ${target}
                 </div>
-                <button class="counter-btn" onclick="inc('${d.id}', '${cat}')" ${isDone ? 'disabled style="opacity:0.3"' : ''}>
-                    <i class="fa-solid fa-plus"></i>
+            </div>
+            <button class="counter-btn" onclick="inc('${d.id}', '${cat}')" ${isDone ? 'disabled style="opacity:0.3"' : ''}>
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>`;
+    }).join('');
+}
+
+function inc(id, cat) {
+    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+    // نجد الذكر لنعرف هدفه
+    let dhikr = dhikrData.find(d => d.id === id);
+    let target = parseInt(dhikr.target);
+    
+    if (count < target) {
+        localStorage.setItem(`c_${id}`, count + 1);
+    }
+    showDhikr(cat, document.querySelector('.sub-tab-btn.active'));
+}
+
+async function fetchAllData() {
+    const sheets = ['التلاوات', 'الأذكار'];
+    for (const sheet of sheets) {
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
+        const res = await fetch(url).then(r => r.text());
+        const json = JSON.parse(res.substring(47).slice(0, -2));
+        
+        if (sheet === 'التلاوات') {
+            cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
+            renderTelawat(cachedTelawat);
+        } else {
+            // تحديث مصفوفة الأذكار من الشيت
+            dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
+            showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
+        }
+    }
+}
+
+    // --- قسم التلاوات مع البحث الذكي ---
+    function renderTelawat(items) {
+        const list = document.getElementById('telawat-list');
+        if (!list) return;
+        list.innerHTML = items.map(item => `
+            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
+                <h3 class="search-title" style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
+                <div class="search-reader" style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
+                <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
+                    <source src="${item.downloadUrl}" type="video/mp4">
+                </video>
+                <button class="btn-download-action" onclick="downloadAudio(this)" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4">
+                    <i class="fa-solid fa-download"></i> تحميل
                 </button>
-            </div>`;
-        }).join('');
+            </div>`).join('');
     }
 
-    function inc(id, cat) {
-        let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
-        let dhikr = dhikrData.find(d => d.id === id);
-        if (count < parseInt(dhikr.target)) {
-            localStorage.setItem(`c_${id}`, count + 1);
+    function searchTelawat() {
+        const filter = document.getElementById('searchInput').value.toUpperCase();
+        const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
+        for (let i = 0; i < cards.length; i++) {
+            let title = cards[i].querySelector('.search-title').innerText;
+            let reader = cards[i].querySelector('.search-reader').innerText;
+            cards[i].style.display = (title.toUpperCase().indexOf(filter) > -1 || reader.toUpperCase().indexOf(filter) > -1) ? "" : "none";
         }
-        showDhikr(cat, document.querySelector('.sub-tab-btn.active'));
     }
 
     async function fetchAllData() {
@@ -463,57 +516,33 @@ video {
         }
     }
 
-    function renderTelawat(items) {
-        const list = document.getElementById('telawat-list');
-        if (!list) return;
-        list.innerHTML = items.map(item => `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #333; border-radius: 12px; background: #1a1a1a;">
-                <h3 style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
-                <div style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
-                <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
-                    <source src="${item.downloadUrl}" type="video/mp4">
-                </video>
-                <button class="btn-download-action" onclick="downloadAudio(this)" data-url="${item.downloadUrl}" data-title="${item.title}" data-ext="mp4">
-                    <i class="fa-solid fa-download"></i> تحميل
-                </button>
-            </div>`).join('');
-    }
-
-    function searchTelawat() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toUpperCase();
-        const list = document.getElementById('telawat-list');
-        const cards = list.getElementsByClassName('box-card');
-        for (let i = 0; i < cards.length; i++) {
-            let title = cards[i].getElementsByTagName("h3")[0];
-            let txtValue = title.textContent || title.innerText;
-            cards[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
-        }
-    }
-
+    // --- أدوات عامة ---
     function downloadAudio(btn) {
         const url = btn.getAttribute('data-url');
         const title = btn.getAttribute('data-title');
-        const ext = btn.getAttribute('data-ext') || 'mp3';
-        const originalIcon = btn.innerHTML;
         btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...`;
         btn.disabled = true;
         fetch(url).then(r => r.blob()).then(blob => {
             const a = document.createElement('a');
             a.href = window.URL.createObjectURL(blob);
-            a.download = `${title}.${ext}`;
+            a.download = `${title}.mp4`;
             a.click();
-            btn.innerHTML = originalIcon;
+            btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
             btn.disabled = false;
-        }).catch(() => { window.open(url, '_blank'); btn.innerHTML = originalIcon; btn.disabled = false; });
+        }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
 
-    function shareTime(eventName, timerId) {
-        const element = document.getElementById(timerId);
-        const timeBoxes = element.querySelectorAll('.time-box');
-        const msg = `⏳ المتبقي على ${eventName}: ${timeBoxes[0].innerText} ${timeBoxes[1].innerText} ${timeBoxes[2].innerText}`;
-        navigator.share ? navigator.share({ title: 'الموعد', text: msg }) : alert(msg);
+    const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
+    const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
+    const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
+    
+    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+    if (navigator.share) {
+        navigator.share({ title: 'الموعد القادم', text: message });
+    } else {
+        alert(message);
     }
+}
 
     function switchTab(tabId) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
@@ -524,14 +553,24 @@ video {
         document.getElementById('active-tab-logo').src = logoMap[tabId];
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        initLiveAudio();
-        fetchAllData();
-        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-        startCountdown('timer-fitr', '2027-03-08T00:00:00');
-        startCountdown('timer-hajj', '2027-05-08T00:00:00');
-        startCountdown('timer-adha', '2027-05-16T00:00:00');
-    });
+window.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toDateString();
+    const lastDate = localStorage.getItem('lastDate');
+
+    if (lastDate !== today) {
+        dhikrData.forEach(d => {
+            localStorage.setItem(`c_${d.id}`, 0);
+        });
+        localStorage.setItem('lastDate', today);
+    }
+
+    initLiveAudio();
+    fetchAllData();
+    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+    startCountdown('timer-fitr', '2027-03-08T00:00:00');
+    startCountdown('timer-hajj', '2027-05-08T00:00:00');
+    startCountdown('timer-adha', '2027-05-16T00:00:00');
+});
 </script>
 </body>
 </html>
