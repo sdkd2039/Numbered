@@ -530,18 +530,32 @@ function renderTelawat(items) {
         document.getElementById('active-tab-logo').src = logoMap[tabId];
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const today = new Date().toDateString();
-        if (localStorage.getItem('lastDate') !== today) {
-            dhikrData.forEach(d => localStorage.setItem(`c_${d.id}`, 0));
-            localStorage.setItem('lastDate', today);
+window.addEventListener('DOMContentLoaded', () => {
+    // منطق التصفير اليومي (Daily Reset)
+    const today = new Date().toLocaleDateString('en-GB'); // تنسيق التاريخ لضمان المقارنة الدقيقة
+    const lastDate = localStorage.getItem('lastDate');
+
+    if (lastDate !== today) {
+        // إذا كان يوم جديد، نقوم بتصفير جميع عدادات الأذكار المخزنة
+        // نستخدم مفاتيح localStorage التي تبدأ بـ 'c_'
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            if (key.startsWith('c_')) {
+                localStorage.setItem(key, 0);
+            }
         }
-        initLiveAudio();
-        fetchAllData();
-        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-        startCountdown('timer-fitr', '2027-03-08T00:00:00');
-        startCountdown('timer-hajj', '2027-05-08T00:00:00');
-        startCountdown('timer-adha', '2027-05-16T00:00:00');
+        localStorage.setItem('lastDate', today);
+    }
+
+    initLiveAudio();
+    fetchAllData();
+    
+    // إعدادات العد التنازلي
+    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+    startCountdown('timer-fitr', '2027-03-08T00:00:00');
+    startCountdown('timer-hajj', '2027-05-08T00:00:00');
+    startCountdown('timer-adha', '2027-05-16T00:00:00');
+});
     });
 </script>
 </body>
