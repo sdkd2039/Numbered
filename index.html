@@ -508,61 +508,47 @@ function renderTelawat(items) {
         }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
 
-    // دالة المشاركة
+/* دالة مشاركة الموعد (نسخ مباشر للحافظة) */
 function shareTime(eventName, timerId) {
     const element = document.getElementById(timerId);
     if (!element) return;
     
+    // استخراج القيم من واجهة العداد
     const timeBoxes = element.querySelectorAll('.time-box');
-    // استخراج القيم بنفس ترتيب العرض الجديد
     const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
     const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
     const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
     const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
     
+    // إعداد نص الرسالة
     const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
     
-    // محاولة استخدام مشاركة النظام، إذا فشلت يتم النسخ للحافظة
-    if (navigator.share) {
-        navigator.share({ title: 'الموعد القادم', text: message }).catch(() => copyToClipboard(message));
-    } else {
-        copyToClipboard(message);
-    }
-}
-
-// دالة مساعدة لنسخ النص
-function copyToClipboard(text) {
-    // محاولة استخدام الميزة الحديثة أولاً
+    /* تنفيذ عملية النسخ المباشر دون فتح واجهة المشاركة */
     if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
+        navigator.clipboard.writeText(message).then(() => {
             alert("تم نسخ الموعد بنجاح!");
         }).catch(() => {
-            fallbackCopyText(text); // الانتقال للطريقة البديلة في حال حدوث خطأ
+            fallbackCopyText(message);
         });
     } else {
-        // للمتصفحات التي لا تدعم الميزة الحديثة أو تعمل بدون HTTPS
-        fallbackCopyText(text);
+        fallbackCopyText(message);
     }
 }
 
+/* دالة احتياطية لضمان عمل النسخ في كل الأجهزة */
 function fallbackCopyText(text) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
-    // جعل العنصر غير مرئي تماماً
     textArea.style.position = "fixed";
     textArea.style.left = "-9999px";
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
     try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-            alert("تم نسخ الموعد بنجاح!");
-        } else {
-            throw new Error('فشل النسخ');
-        }
+        document.execCommand('copy');
+        alert("تم نسخ الموعد بنجاح!");
     } catch (err) {
-        alert("تعذر النسخ التلقائي، يرجى تحديد النص ونسخه يدوياً.");
+        alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
     }
     document.body.removeChild(textArea);
 }
