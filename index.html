@@ -159,12 +159,12 @@
     max-width: 400px;
 }
 
-/* التنسيق الخاص بالعدادات (ثواني، دقائق، الخ) */
+/* الترتيب المطلوب: يوم - ساعة - دقيقة - ثانية */
 .live-timer-grid { 
     display: flex; 
     justify-content: center; 
     gap: 12px; 
-    direction: ltr; 
+    direction: rtl; /* لجعل الترتيب من اليمين لليسار */
     margin-top: 15px;
 }
 
@@ -398,18 +398,22 @@ video {
         else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
-    function startCountdown(id, targetDate) {
-        setInterval(() => {
-            const diff = new Date(targetDate).getTime() - new Date().getTime();
-            const element = document.getElementById(id);
-            if (!element || diff < 0) return;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            element.innerHTML = `<div class="time-box">${d}<span>يوم</span></div><div class="time-box">${h}<span>ساعة</span></div><div class="time-box">${m}<span>دقيقة</span></div><div class="time-box">${s}<span>ثانية</span></div>`;
-        }, 1000);
-    }
+function startCountdown(id, targetDate) {
+    setInterval(() => {
+        const diff = new Date(targetDate).getTime() - new Date().getTime();
+        const element = document.getElementById(id);
+        if (!element || diff < 0) return;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        // الترتيب الجديد: يوم -> ساعة -> دقيقة -> ثانية
+        element.innerHTML = `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
+                             <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+                             <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
+                             <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثانية</div></div>`;
+    }, 1000);
+}
 
     function showDhikr(cat, btn) {
         document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
@@ -509,20 +513,30 @@ function shareTime(eventName, timerId) {
     const element = document.getElementById(timerId);
     if (!element) return;
     
-    // استخراج القيم بناءً على الترتيب الجديد (يوم، ساعة، دقيقة، ثانية)
     const timeBoxes = element.querySelectorAll('.time-box');
-    const d = timeBoxes[0].innerText.replace(/[^0-9]/g, ''); // يوم
-    const h = timeBoxes[1].innerText.replace(/[^0-9]/g, ''); // ساعة
-    const m = timeBoxes[2].innerText.replace(/[^0-9]/g, ''); // دقيقة
-    const s = timeBoxes[3].innerText.replace(/[^0-9]/g, ''); // ثانية
+    // استخراج القيم بنفس ترتيب العرض الجديد
+    const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
+    const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
+    const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
+    const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
     
-    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
     
+    // محاولة استخدام مشاركة النظام، إذا فشلت يتم النسخ للحافظة
     if (navigator.share) {
-        navigator.share({ title: 'الموعد القادم', text: message });
+        navigator.share({ title: 'الموعد القادم', text: message }).catch(() => copyToClipboard(message));
     } else {
-        alert(message);
+        copyToClipboard(message);
     }
+}
+
+// دالة مساعدة لنسخ النص
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert("تم نسخ الموعد بنجاح! يمكنك الآن لصقه في أي مكان.");
+    }).catch(err => {
+        alert("خطأ في النسخ، يرجى إعادة المحاولة يدوياً.");
+    });
 }
 
     function switchTab(tabId) {
