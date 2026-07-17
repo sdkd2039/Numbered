@@ -504,21 +504,26 @@ function renderTelawat(items) {
         }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
 
-    // تم إصلاح دالة المشاركة هنا
-    function shareTime(eventName, timerId) {
-        const element = document.getElementById(timerId);
-        if (!element) return;
-        const timeBoxes = element.querySelectorAll('.time-box');
-        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-        
-const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;        if (navigator.share) {
-            navigator.share({ title: 'الموعد القادم', text: message });
-        } else {
-            alert(message);
-        }
+    // دالة المشاركة
+function shareTime(eventName, timerId) {
+    const element = document.getElementById(timerId);
+    if (!element) return;
+    
+    // استخراج القيم بناءً على الترتيب الجديد (يوم، ساعة، دقيقة، ثانية)
+    const timeBoxes = element.querySelectorAll('.time-box');
+    const d = timeBoxes[0].innerText.replace(/[^0-9]/g, ''); // يوم
+    const h = timeBoxes[1].innerText.replace(/[^0-9]/g, ''); // ساعة
+    const m = timeBoxes[2].innerText.replace(/[^0-9]/g, ''); // دقيقة
+    const s = timeBoxes[3].innerText.replace(/[^0-9]/g, ''); // ثانية
+    
+    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+    
+    if (navigator.share) {
+        navigator.share({ title: 'الموعد القادم', text: message });
+    } else {
+        alert(message);
     }
+}
 
     function switchTab(tabId) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
