@@ -513,7 +513,7 @@ function renderTelawat(items) {
         const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
         
-        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+        const message = `⏳ المتبقي على ${eventName}:\n${m} يوم و ${d} ساعة و ${h} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
         if (navigator.share) {
             navigator.share({ title: 'الموعد القادم', text: message });
         } else {
