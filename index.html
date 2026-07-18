@@ -247,6 +247,14 @@ video {
 <header>
     <img id="active-tab-logo" src="https://files.catbox.moe/h4bsrt.png" class="main-logo" alt="القسم الحالي">
 </header>
+
+    <!-- زر تحميل التطبيق الثابت -->
+<div style="text-align: center; margin: 20px 0;">
+    <a href="https://n9.cl/hwtsjr" style="display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; border: 1px solid #30363d; transition: 0.3s;">
+        <img src="https://files.catbox.moe/t2zfc7.png" alt="تحميل" style="width: 24px; height: 24px; filter: brightness(0);">
+        تحميل التطبيق
+    </a>
+</div>
     
     <div class="tabs-wrapper">
         <div class="tabs-container">
@@ -551,24 +559,6 @@ function fallbackCopyText(text) {
         alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
     }
     document.body.removeChild(textArea);
-}
-
-/* دالة إظهار رسالة التنبيه لتحميل التطبيق بحد أقصى مرتين */
-function showAppAlert() {
-    let count = parseInt(localStorage.getItem('alertCount') || 0);
-    
-    if (count < 2) {
-        // نستخدم confirm ليعطي خيار موافق أو إلغاء (❌)
-        const userConfirmation = confirm("هل تود تحميل تطبيقنا الخاص للأندرويد؟\nاضغط 'موافق' للتحميل أو 'إلغاء' للإغلاق.");
-        
-        if (userConfirmation) {
-            window.location.href = "https://n9.cl/hwtsjr";
-        }
-        
-        // زيادة العداد وتخزينه في كلتا الحالتين سواء ضغط موافق أو إلغاء
-        count++;
-        localStorage.setItem('alertCount', count);
-    }
 }
     
     function switchTab(tabId) {
