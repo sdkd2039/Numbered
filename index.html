@@ -245,21 +245,21 @@ video {
 <body oncontextmenu="return false;">
 
 <header>
-    <img id="active-tab-logo" src="https://files.catbox.moe/h4bsrt.png" class="main-logo" alt="القسم الحالي">
+    <img id="active-tab-logo" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="main-logo" alt="القسم الحالي">
 </header>
    
     <div class="tabs-wrapper">
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('telawat')">
-                <img src="https://files.catbox.moe/t2zfc7.png" alt="تلاوات">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات">
                 <span>تلاوات</span>
             </button>
             <button class="tab-btn" onclick="switchTab('remaining')">
-                <img src="https://files.catbox.moe/9am1q8.png" alt="المتبقي">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png" alt="المتبقي">
                 <span>المتبقي</span>
             </button>
             <button class="tab-btn" onclick="switchTab('dhikr')">
-                <img src="https://files.catbox.moe/korzmc.png" alt="الذكر">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" alt="الذكر">
                 <span>الذكر</span>
             </button>
             <button class="tab-btn" onclick="switchTab('live')">
@@ -558,7 +558,7 @@ function fallbackCopyText(text) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('panel-' + tabId).classList.add('active');
         event.currentTarget.classList.add('active');
-        const logoMap = { 'telawat': 'https://files.catbox.moe/t2zfc7.png', 'remaining': 'https://files.catbox.moe/9am1q8.png', 'dhikr': 'https://files.catbox.moe/korzmc.png', 'live': 'https://files.catbox.moe/h4bsrt.png' };
+        const logoMap = { 'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' };
         document.getElementById('active-tab-logo').src = logoMap[tabId];
     }
 
