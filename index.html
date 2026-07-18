@@ -552,6 +552,18 @@ function fallbackCopyText(text) {
     }
     document.body.removeChild(textArea);
 }
+
+    function showAppAlert() {
+    let count = localStorage.getItem('alertCount') || 0;
+    if (count < 2) {
+        const userConfirmation = confirm("هل تود تحميل تطبيقنا الخاص للأندرويد؟\nاضغط 'موافق' للتحميل.");
+        if (userConfirmation) {
+            window.location.href = "https://n9.cl/hwtsjr";
+        }
+        count++;
+        localStorage.setItem('alertCount', count);
+    }
+}
     
     function switchTab(tabId) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
