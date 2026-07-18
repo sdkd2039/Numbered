@@ -553,13 +553,19 @@ function fallbackCopyText(text) {
     document.body.removeChild(textArea);
 }
 
-    function showAppAlert() {
-    let count = localStorage.getItem('alertCount') || 0;
+/* دالة إظهار رسالة التنبيه لتحميل التطبيق بحد أقصى مرتين */
+function showAppAlert() {
+    let count = parseInt(localStorage.getItem('alertCount') || 0);
+    
     if (count < 2) {
-        const userConfirmation = confirm("هل تود تحميل تطبيقنا الخاص للأندرويد؟\nاضغط 'موافق' للتحميل.");
+        // نستخدم confirm ليعطي خيار موافق أو إلغاء (❌)
+        const userConfirmation = confirm("هل تود تحميل تطبيقنا الخاص للأندرويد؟\nاضغط 'موافق' للتحميل أو 'إلغاء' للإغلاق.");
+        
         if (userConfirmation) {
             window.location.href = "https://n9.cl/hwtsjr";
         }
+        
+        // زيادة العداد وتخزينه في كلتا الحالتين سواء ضغط موافق أو إلغاء
         count++;
         localStorage.setItem('alertCount', count);
     }
