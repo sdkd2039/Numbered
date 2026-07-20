@@ -96,7 +96,7 @@
     pointer-events: none;
 }
 
-/* تنسيق قسم الأذكار */
+/* قسم الأذكار */
 .sub-tabs { 
     display: flex; 
     gap: 10px; 
@@ -122,16 +122,17 @@
     border-color: #c5a880; 
 }
 
-/* تحسين الكارد ليكون عمودياً والنص يأخذ كامل العرض */
+/* تنسيق الكارد ليكون عمودياً ومنظماً */
 .dhikr-card { 
     background: #161b22; 
     border: 1px solid #30363d; 
     padding: 20px; 
     border-radius: 16px; 
     display: flex; 
-    flex-direction: column; /* جعل العناصر فوق بعضها */
+    flex-direction: column; 
     align-items: center; 
-    margin-bottom: 80px; /* مساحة إضافية في الأسفل لمنع التداخل */
+    margin-bottom: 30px; 
+    text-align: center;
 }
 
 .dhikr-text { 
@@ -139,26 +140,25 @@
     color: #fff; 
     line-height: 2.2; 
     font-weight: 500; 
-    text-align: center; 
     margin-bottom: 25px; 
     width: 100%;
 }
 
-/* تنسيق منطقة التحكم بالعداد */
 .counter-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     width: 100%;
 }
 
 .progress-bar { 
-    width: 80%; /* شريط تقدم متناسق */
+    width: 80%; 
     height: 6px; 
     background: #0d1117; 
     border-radius: 3px; 
     overflow: hidden; 
+    margin-bottom: 10px;
 }
 
 .progress-fill { 
@@ -182,9 +182,7 @@
     transition: 0.2s; 
 }
 
-.counter-btn:active { 
-    transform: scale(0.9); 
-}
+.counter-btn:active { transform: scale(0.9); }
         
         /* تصميم المشغل الدائري */
         .audio-player-card { 
@@ -494,28 +492,59 @@ function startCountdown(id, targetDate) {
     }, 1000);
 }
 
-    function showDhikr(cat, btn) {
-        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-        if (btn) btn.classList.add('active');
-        const container = document.getElementById('dhikr-container');
-        if (!container) return;
-        const list = dhikrData.filter(d => d.cat === cat);
-container.innerHTML = list.map(d => {
+// دالة عرض الذكر الواحد (المحدثة)
+function renderDhikrCard(cat) {
+    const container = document.getElementById('dhikr-container');
+    const list = dhikrData.filter(d => d.cat === cat);
+    if (list.length === 0) return;
+    
+    // التأكد من أن المؤشر في نطاق القائمة
+    if (currentDhikrIndex >= list.length) currentDhikrIndex = 0;
+    
+    const d = list[currentDhikrIndex];
     let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
     let target = parseInt(d.target);
-    let isDone = count >= target;
-    return `
-    <div class="dhikr-card">
+    let progress = (count / target) * 100;
+
+    container.innerHTML = `
+    <div class="dhikr-card animate-fade">
         <h3 class="dhikr-text">${d.text}</h3>
         <div class="counter-controls">
-            <div style="font-size: 1.2rem; font-weight: bold; color: #c5a880; margin-bottom: 10px;">${count} / ${target}</div>
-            <button class="counter-btn" onclick="inc('${d.id}', '${cat}')" ${isDone ? 'disabled style="opacity:0.3"' : ''}>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width:${progress}%"></div>
+            </div>
+            <div style="font-weight: bold; color: #c5a880; margin-bottom: 10px;">
+                ${count} / ${target}
+            </div>
+            <button class="counter-btn" onclick="incDhikr('${d.id}', '${cat}')">
                 <i class="fa-solid fa-plus"></i>
             </button>
         </div>
+        <div style="display:flex; gap:10px; margin-top: 15px;">
+            <button class="sub-tab-btn" onclick="navDhikr(-1, '${cat}')" ${currentDhikrIndex === 0 ? 'disabled':''}>السابق</button>
+            <button class="sub-tab-btn" onclick="navDhikr(1, '${cat}')" ${currentDhikrIndex === list.length-1 ? 'disabled':''}>التالي</button>
+        </div>
     </div>`;
-}).join('');
+}
+
+// دالة التنقل بين الأذكار
+function navDhikr(dir, cat) {
+    const list = dhikrData.filter(d => d.cat === cat);
+    currentDhikrIndex += dir;
+    if (currentDhikrIndex < 0) currentDhikrIndex = 0;
+    if (currentDhikrIndex >= list.length) currentDhikrIndex = list.length - 1;
+    renderDhikrCard(cat);
+}
+
+// دالة زيادة العداد
+function incDhikr(id, cat) {
+    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+    let target = parseInt(dhikrData.find(d => d.id === id).target);
+    if (count < target) {
+        localStorage.setItem(`c_${id}`, count + 1);
+        renderDhikrCard(cat);
     }
+}
 
     function inc(id, cat) {
         let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
