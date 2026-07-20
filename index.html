@@ -455,7 +455,6 @@ video {
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
     let dhikrData = [];
-    let currentDhikrIndex = 0;
 
     // --- الدوال الأساسية ---
     function initLiveAudio() {
@@ -493,69 +492,48 @@ function startCountdown(id, targetDate) {
     }, 1000);
 }
 
-// دالة عرض الذكر الواحد (المحدثة)
+let currentDhikrIndex = 0;
+
+function showDhikr(cat, btn) {
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    
+    currentDhikrIndex = 0; // إعادة التعيين عند تغيير الفئة
+    renderDhikrCard(cat);
+}
+
 function renderDhikrCard(cat) {
     const container = document.getElementById('dhikr-container');
     const list = dhikrData.filter(d => d.cat === cat);
-    if (list.length === 0) return;
-    
-    if (currentDhikrIndex >= list.length) currentDhikrIndex = 0;
-    
     const d = list[currentDhikrIndex];
     let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-    let target = parseInt(d.target);
-    let progress = (count / target) * 100;
+    let progress = (count / parseInt(d.target)) * 100;
 
     container.innerHTML = `
     <div class="dhikr-card animate-fade">
-        <h3 class="dhikr-text">${d.text}</h3>
-        <div class="counter-controls">
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:${progress}%"></div>
-            </div>
-            <div style="font-weight: bold; color: #c5a880; margin-bottom: 10px;">
-                ${count} / ${target}
-            </div>
-            <button class="counter-btn" onclick="incDhikr('${d.id}', '${cat}')">
-                <i class="fa-solid fa-plus"></i>
-            </button>
-        </div>
-        <div style="display:flex; gap:10px; margin-top: 15px;">
+        <div style="text-align:center; margin-bottom:10px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
+        <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
+        <div class="progress-bar" style="width:100%; height:8px; margin: 20px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
+        <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
+        <button class="counter-btn" style="margin: 0 auto 20px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
+        <div style="display:flex; justify-content:space-between; gap:10px;">
             <button class="sub-tab-btn" onclick="navDhikr(-1, '${cat}')" ${currentDhikrIndex === 0 ? 'disabled':''}>السابق</button>
             <button class="sub-tab-btn" onclick="navDhikr(1, '${cat}')" ${currentDhikrIndex === list.length-1 ? 'disabled':''}>التالي</button>
         </div>
     </div>`;
 }
 
-// دالة الزيادة الموحدة
-function incDhikr(id, cat) {
-    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
-    let dhikrObj = dhikrData.find(d => d.id === id);
-    let target = parseInt(dhikrObj.target);
-    
-    if (count < target) {
-        localStorage.setItem(`c_${id}`, count + 1);
-        renderDhikrCard(cat);
-    }
-}
-
-// دالة التنقل
 function navDhikr(dir, cat) {
-    const list = dhikrData.filter(d => d.cat === cat);
     currentDhikrIndex += dir;
-    if (currentDhikrIndex < 0) currentDhikrIndex = 0;
-    if (currentDhikrIndex >= list.length) currentDhikrIndex = list.length - 1;
     renderDhikrCard(cat);
 }
 
-    function inc(id, cat) {
-        let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
-        let dhikr = dhikrData.find(d => d.id === id);
-        if (count < parseInt(dhikr.target)) {
-            localStorage.setItem(`c_${id}`, count + 1);
-        }
-        showDhikr(cat, document.querySelector('.sub-tab-btn.active'));
-    }
+function incDhikr(id, cat) {
+    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+    let dhikr = dhikrData.find(d => d.id === id);
+    if (count < parseInt(dhikr.target)) localStorage.setItem(`c_${id}`, count + 1);
+    renderDhikrCard(cat);
+}
 
 function renderTelawat(items) {
     const list = document.getElementById('telawat-list');
