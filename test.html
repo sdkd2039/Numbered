@@ -74,117 +74,115 @@
         .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
 
         /* حقل البحث الذكي */
-.search-container { position: relative; margin-bottom: 25px; width: 100%; }
-.search-input {
-    width: 100%;
-    background: #161b22; /* نفس خلفية البطاقات عندك */
-    border: 1px solid #30363d;
-    border-radius: 14px;
-    padding: 15px 45px 15px 15px;
-    color: #fff;
-    font-size: 0.95rem;
-    outline: none;
-    transition: all 0.2s ease;
-}
-.search-input:focus { border-color: #c5a880; box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2); }
-.search-icon {
-    position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-    pointer-events: none;
-}
+        .search-container { position: relative; margin-bottom: 25px; width: 100%; }
+        .search-input {
+            width: 100%;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            padding: 15px 45px 15px 15px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .search-input:focus { border-color: #c5a880; box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2); }
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+        }
 
-/* تنسيق قسم الأذكار المحسن */
-.sub-tabs { 
-    display: flex; 
-    gap: 10px; 
-    margin-bottom: 20px; 
-    justify-content: center; 
-    flex-wrap: wrap; 
-}
+        /* تنسيق قسم الأذكار المحسن */
+        .sub-tabs { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+        }
 
-.sub-tab-btn { 
-    background: #21262d; 
-    border: 1px solid #333; 
-    color: #94a3b8; 
-    padding: 8px 16px; 
-    border-radius: 20px; 
-    cursor: pointer; 
-    font-weight: bold; 
-    transition: 0.3s; 
-}
+        .sub-tab-btn { 
+            background: #21262d; 
+            border: 1px solid #333; 
+            color: #94a3b8; 
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: 0.3s; 
+        }
 
-.sub-tab-btn.active { 
-    background: #c5a880; 
-    color: #000; 
-    border-color: #c5a880; 
-}
+        .sub-tab-btn.active { 
+            background: #c5a880; 
+            color: #000; 
+            border-color: #c5a880; 
+        }
 
-/* تحسين الكارد ليكون عمودياً والنص يأخذ كامل العرض */
-.dhikr-card { 
-    background: #161b22; 
-    border: 1px solid #30363d; 
-    padding: 20px; 
-    border-radius: 16px; 
-    display: flex; 
-    flex-direction: column; /* جعل العناصر فوق بعضها */
-    align-items: center; 
-    margin-bottom: 80px; /* مساحة إضافية في الأسفل لمنع التداخل */
-}
+        .dhikr-card { 
+            background: #161b22; 
+            border: 1px solid #30363d; 
+            padding: 20px; 
+            border-radius: 16px; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            margin-bottom: 80px;
+        }
 
-.dhikr-text { 
-    font-size: 1.4rem; 
-    color: #fff; 
-    line-height: 2.2; 
-    font-weight: 500; 
-    text-align: center; 
-    margin-bottom: 25px; 
-    width: 100%;
-}
+        .dhikr-text { 
+            font-size: 1.4rem; 
+            color: #fff; 
+            line-height: 2.2; 
+            font-weight: 500; 
+            text-align: center; 
+            margin-bottom: 25px; 
+            width: 100%;
+        }
 
-/* تنسيق منطقة التحكم بالعداد */
-.counter-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-}
+        .counter-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
 
-.progress-bar { 
-    width: 80%; /* شريط تقدم متناسق */
-    height: 6px; 
-    background: #0d1117; 
-    border-radius: 3px; 
-    overflow: hidden; 
-}
+        .progress-bar { 
+            width: 80%; 
+            height: 6px; 
+            background: #0d1117; 
+            border-radius: 3px; 
+            overflow: hidden; 
+        }
 
-.progress-fill { 
-    height: 100%; 
-    background: #c5a880; 
-    transition: 0.3s; 
-}
+        .progress-fill { 
+            height: 100%; 
+            background: #c5a880; 
+            transition: 0.3s; 
+        }
 
-.counter-btn { 
-    background: #c5a880; 
-    border: none; 
-    width: 60px; 
-    height: 60px; 
-    border-radius: 50%; 
-    color: #000; 
-    font-size: 1.8rem; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    transition: 0.2s; 
-}
+        .counter-btn { 
+            background: #c5a880; 
+            border: none; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            color: #000; 
+            font-size: 1.8rem; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: 0.2s; 
+        }
 
-.counter-btn:active { 
-    transform: scale(0.9); 
-}}
+        .counter-btn:active { 
+            transform: scale(0.9); 
+        }
         
         /* تصميم المشغل الدائري */
         .audio-player-card { 
@@ -217,109 +215,102 @@
         .player-action-row { width: 100%; display: flex; justify-content: center; margin-top: 15px; }
 
         /* العداد التفاعلي */
-/* تنسيق الحاوية الرئيسية (توسيط كامل) */
-.countdown-container { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
-    gap: 20px; /* مسافة بين كل عداد وآخر */
-    width: 100%;
-}
+        .countdown-container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            gap: 20px; 
+            width: 100%;
+        }
 
-/* تنسيق الصندوق الفردي للعداد */
-.countdown-item { 
-    background: rgba(0,0,0,0.25); 
-    border: 1px solid var(--border-color, #30363d); 
-    padding: 18px; 
-    border-radius: 14px; 
-    border-right: 5px solid var(--accent-gold); 
-    width: 90%; /* عرض مناسب للموبايل */
-    max-width: 400px;
-}
+        .countdown-item { 
+            background: rgba(0,0,0,0.25); 
+            border: 1px solid var(--border-color, #30363d); 
+            padding: 18px; 
+            border-radius: 14px; 
+            border-right: 5px solid var(--accent-gold); 
+            width: 90%; 
+            max-width: 400px;
+        }
 
-/* الترتيب المطلوب: يوم - ساعة - دقيقة - ثانية */
-.live-timer-grid { 
-    display: flex; 
-    justify-content: center; 
-    gap: 12px; 
-    direction: rtl; /* لجعل الترتيب من اليمين لليسار */
-    margin-top: 15px;
-}
+        .live-timer-grid { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            direction: rtl; 
+            margin-top: 15px;
+        }
 
-/* شكل خانة الرقم الواحدة */
-.time-box { 
-    background: rgba(255,255,255,0.05); 
-    padding: 8px 12px; 
-    border-radius: 8px; 
-    border: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 50px;
-}
+        .time-box { 
+            background: rgba(255,255,255,0.05); 
+            padding: 8px 12px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+        }
 
-.time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
-.time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
+        .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
+        .time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
 
-/* زر المشاركة */
-.share-btn { 
-    background: none; 
-    border: none; 
-    color: var(--accent-gold); 
-    cursor: pointer; 
-    font-size: 0.85rem; 
-    margin-top: 14px; 
-    font-weight: bold; 
-    display: flex; 
-    justify-content: center;
-    align-items: center; 
-    gap: 6px; 
-    width: 100%;
-}
-        /* مشغلات قنوات البث المباشر (فيديو خام) */
+        .share-btn { 
+            background: none; 
+            border: none; 
+            color: var(--accent-gold); 
+            cursor: pointer; 
+            font-size: 0.85rem; 
+            margin-top: 14px; 
+            font-weight: bold; 
+            display: flex; 
+            justify-content: center;
+            align-items: center; 
+            gap: 6px; 
+            width: 100%;
+        }
+        
         .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
         .live-video-player { width: 100%; height: 100%; display: block; background: #000; }
         .btn-dl { background: var(--green); color: white; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
         .native-audio-player { width: 100%; margin-top: 10px; accent-color: var(--primary-color); }
 
         .download-container {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-        margin-top: 10px;
-    }
-    .btn-download-action {
-        padding: 8px 15px;
-        border-radius: 10px;
-        background: rgba(56, 189, 248, 0.08);
-        border: 1px solid rgba(56, 189, 248, 0.2);
-        color: var(--primary-color);
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .btn-download-action:hover {
-        background: var(--primary-color);
-        color: var(--bg-color);
-    }
-
-    /* تحسينات عامة للجوال */
-@media (max-width: 600px) {
-    body { padding: 10px; }
-    .box-card { padding: 15px; border-radius: 16px; }
-    .tab-btn { min-width: 80px; padding: 10px; }
-    .dhikr-text { font-size: 1.1rem !important; }
-}
-
-/* إضافة أنيميشن الانتقال */
-.animate-fade { animation: fadeIn 0.3s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* تحسينات اللمس */
-button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.counter-btn:active { transform: scale(0.95); }
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
         
+        .btn-download-action {
+            padding: 8px 15px;
+            border-radius: 10px;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn-download-action:hover {
+            background: var(--primary-color);
+            color: var(--bg-color);
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .box-card { padding: 15px; border-radius: 16px; }
+            .tab-btn { min-width: 80px; padding: 10px; }
+            .dhikr-text { font-size: 1.1rem !important; }
+        }
+
+        .animate-fade { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .counter-btn:active { transform: scale(0.95); }
 </style>
 </head>
 <body oncontextmenu="return false;">
@@ -353,7 +344,7 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
         </div>
     </div>
 
-    <!-- 1. قسم التلاوات -->
+<!-- 1. قسم التلاوات -->
 <div id="panel-telawat" class="panel-content active">
     <div class="box-card">
         <div class="box-header">
@@ -381,7 +372,8 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
                 <div class="countdown-title">شهر رمضان المبارك</div>
                 <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                 <div class="live-timer-grid" id="timer-ramadan"></div>
-                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>            </div>
+                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+            </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الفطر المبارك</div>
                 <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
@@ -403,7 +395,6 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
         </div>
     </div>
 </div>
-    </div>
             
 <!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
@@ -456,12 +447,12 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
         </a>
      </div>
   </div>
-</div>
 
 <script>
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
     let dhikrData = [];
+    let currentDhikrIndex = 0;
 
     // --- الدوال الأساسية ---
     function initLiveAudio() {
@@ -482,86 +473,80 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
         else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
-function startCountdown(id, targetDate) {
-    setInterval(() => {
-        const diff = new Date(targetDate).getTime() - new Date().getTime();
-        const element = document.getElementById(id);
-        if (!element || diff < 0) return;
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((diff % (1000 * 60)) / 1000);
-        // الترتيب الجديد: يوم -> ساعة -> دقيقة -> ثانية
-        element.innerHTML = `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
-                             <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
-                             <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
-                             <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثانية</div></div>`;
-    }, 1000);
-}
+    function startCountdown(id, targetDate) {
+        setInterval(() => {
+            const diff = new Date(targetDate).getTime() - new Date().getTime();
+            const element = document.getElementById(id);
+            if (!element || diff < 0) return;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            element.innerHTML = `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
+                                 <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+                                 <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
+                                 <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثانية</div></div>`;
+        }, 1000);
+    }
 
-// يجب إضافة متغير لتتبع الذكر الحالي (خارج الدالة)
-let currentDhikrIndex = 0;
+    function showDhikr(cat, btn) {
+        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        currentDhikrIndex = 0;
+        renderDhikrCard(cat);
+    }
 
-function showDhikr(cat, btn) {
-    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    
-    currentDhikrIndex = 0; // إعادة التعيين عند تغيير الفئة
-    renderDhikrCard(cat);
-}
+    function renderDhikrCard(cat) {
+        const container = document.getElementById('dhikr-container');
+        const list = dhikrData.filter(d => d.cat === cat);
+        const d = list[currentDhikrIndex];
+        let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
+        let progress = (count / parseInt(d.target)) * 100;
 
-function renderDhikrCard(cat) {
-    const container = document.getElementById('dhikr-container');
-    const list = dhikrData.filter(d => d.cat === cat);
-    const d = list[currentDhikrIndex];
-    let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-    let progress = (count / parseInt(d.target)) * 100;
+        container.innerHTML = `
+        <div class="dhikr-card animate-fade">
+            <div style="text-align:center; margin-bottom:10px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
+            <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
+            <div class="progress-bar" style="width:100%; height:8px; margin: 20px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
+            <button class="counter-btn" style="margin: 0 auto 20px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
+            <div style="display:flex; justify-content:space-between; gap:10px;">
+                <button class="sub-tab-btn" onclick="navDhikr(-1, '${cat}')" ${currentDhikrIndex === 0 ? 'disabled':''}>السابق</button>
+                <button class="sub-tab-btn" onclick="navDhikr(1, '${cat}')" ${currentDhikrIndex === list.length-1 ? 'disabled':''}>التالي</button>
+            </div>
+        </div>`;
+    }
 
-    container.innerHTML = `
-    <div class="dhikr-card animate-fade">
-        <div style="text-align:center; margin-bottom:10px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
-        <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
-        <div class="progress-bar" style="width:100%; height:8px; margin: 20px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
-        <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
-        <button class="counter-btn" style="margin: 0 auto 20px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
-        <div style="display:flex; justify-content:space-between; gap:10px;">
-            <button class="sub-tab-btn" onclick="navDhikr(-1, '${cat}')" ${currentDhikrIndex === 0 ? 'disabled':''}>السابق</button>
-            <button class="sub-tab-btn" onclick="navDhikr(1, '${cat}')" ${currentDhikrIndex === list.length-1 ? 'disabled':''}>التالي</button>
-        </div>
-    </div>`;
-}
+    function navDhikr(dir, cat) {
+        currentDhikrIndex += dir;
+        renderDhikrCard(cat);
+    }
 
-function navDhikr(dir, cat) {
-    currentDhikrIndex += dir;
-    renderDhikrCard(cat);
-}
+    function incDhikr(id, cat) {
+        let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+        let dhikr = dhikrData.find(d => d.id === id);
+        if (count < parseInt(dhikr.target)) localStorage.setItem(`c_${id}`, count + 1);
+        renderDhikrCard(cat);
+    }
 
-function incDhikr(id, cat) {
-    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
-    let dhikr = dhikrData.find(d => d.id === id);
-    if (count < parseInt(dhikr.target)) localStorage.setItem(`c_${id}`, count + 1);
-    renderDhikrCard(cat);
-}
-
-function renderTelawat(items) {
-    const list = document.getElementById('telawat-list');
-    list.innerHTML = items.map(item => `
-        <div class="box-card" style="margin-bottom: 20px; padding: 20px; border-radius: 20px;">
-            <h3 class="search-title" style="margin-bottom:5px;">${item.title}</h3>
-            <div style="color:var(--text-muted); margin-bottom:15px;">${item.reader}</div>
-            <video controls style="width: 100%; border-radius: 12px; background: #000;">
-                <source src="${item.downloadUrl}" type="video/mp4">
-            </video>
-        </div>`).join('');
-}
+    function renderTelawat(items) {
+        const list = document.getElementById('telawat-list');
+        list.innerHTML = items.map(item => `
+            <div class="box-card" style="margin-bottom: 20px; padding: 20px; border-radius: 20px;">
+                <h3 class="search-title" style="margin-bottom:5px;">${item.title}</h3>
+                <div style="color:var(--text-muted); margin-bottom:15px;">${item.reader}</div>
+                <video controls style="width: 100%; border-radius: 12px; background: #000;">
+                    <source src="${item.downloadUrl}" type="video/mp4">
+                </video>
+            </div>`).join('');
+    }
 
     function searchTelawat() {
         const filter = document.getElementById('searchInput').value.toUpperCase();
         const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
         for (let i = 0; i < cards.length; i++) {
             let title = cards[i].querySelector('.search-title').innerText;
-            let reader = cards[i].querySelector('.search-reader').innerText;
-            cards[i].style.display = (title.toUpperCase().indexOf(filter) > -1 || reader.toUpperCase().indexOf(filter) > -1) ? "" : "none";
+            cards[i].style.display = (title.toUpperCase().indexOf(filter) > -1) ? "" : "none";
         }
     }
 
@@ -581,107 +566,86 @@ function renderTelawat(items) {
         }
     }
 
-    function downloadAudio(btn) {
-        const url = btn.getAttribute('data-url');
-        const title = btn.getAttribute('data-title');
-        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...`;
-        btn.disabled = true;
-        fetch(url).then(r => r.blob()).then(blob => {
-            const a = document.createElement('a');
-            a.href = window.URL.createObjectURL(blob);
-            a.download = `${title}.mp4`;
-            a.click();
-            btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
-            btn.disabled = false;
-        }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
-    }
-
-/* دالة مشاركة الموعد (نسخ مباشر للحافظة) */
-function shareTime(eventName, timerId) {
-    const element = document.getElementById(timerId);
-    if (!element) return;
-    
-    // استخراج القيم من واجهة العداد
-    const timeBoxes = element.querySelectorAll('.time-box');
-    const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-    const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-    const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-    const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
-    
-    // إعداد نص الرسالة
-    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
-    
-    /* تنفيذ عملية النسخ المباشر دون فتح واجهة المشاركة */
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(message).then(() => {
-            showToast("تم نسخ الموعد بنجاح!");
-        }).catch(() => {
+    function shareTime(eventName, timerId) {
+        const element = document.getElementById(timerId);
+        if (!element) return;
+        
+        const timeBoxes = element.querySelectorAll('.time-box');
+        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
+        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
+        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
+        const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
+        
+        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(message).then(() => {
+                showToast("تم نسخ الموعد بنجاح!");
+            }).catch(() => {
+                fallbackCopyText(message);
+            });
+        } else {
             fallbackCopyText(message);
-        });
-    } else {
-        fallbackCopyText(message);
+        }
     }
-}
 
-/* دالة احتياطية لضمان عمل النسخ في كل الأجهزة */
-function fallbackCopyText(text) {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = "fixed";
-    textArea.style.left = "-9999px";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    try {
-        document.execCommand('copy');
-        alert("تم نسخ الموعد بنجاح!");
-    } catch (err) {
-        alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
+    function fallbackCopyText(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast("تم نسخ الموعد بنجاح!");
+        } catch (err) {
+            showToast("تعذر النسخ التلقائي.");
+        }
+        document.body.removeChild(textArea);
     }
-    document.body.removeChild(textArea);
-}
     
     function switchTab(tabId) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('panel-' + tabId).classList.add('active');
         event.currentTarget.classList.add('active');
-        const logoMap = { 'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' };
+        const logoMap = { 'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%Bاشعارات%20الصور/T401783950030084.png', 'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D2%A4%D8%B5%D9%88%D8%B1/T401783946895526.png', 'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' };
         document.getElementById('active-tab-logo').src = logoMap[tabId];
     }
 
-window.addEventListener('DOMContentLoaded', () => {
-    // منطق التصفير اليومي (Daily Reset)
-    const today = new Date().toLocaleDateString('en-GB'); 
-    const lastDate = localStorage.getItem('lastDate');
+    window.addEventListener('DOMContentLoaded', () => {
+        const today = new Date().toLocaleDateString('en-GB'); 
+        const lastDate = localStorage.getItem('lastDate');
 
-    if (lastDate !== today) {
-        for (let i = 0; i < localStorage.length; i++) {
-            let key = localStorage.key(i);
-            if (key.startsWith('c_')) {
-                localStorage.setItem(key, 0);
+        if (lastDate !== today) {
+            for (let i = 0; i < localStorage.length; i++) {
+                let key = localStorage.key(i);
+                if (key && key.startsWith('c_')) {
+                    localStorage.setItem(key, 0);
+                }
             }
+            localStorage.setItem('lastDate', today);
         }
-        localStorage.setItem('lastDate', today);
-    }
 
-    initLiveAudio();
-    fetchAllData();
-    
-    startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-    startCountdown('timer-fitr', '2027-03-08T00:00:00');
-    startCountdown('timer-hajj', '2027-05-08T00:00:00');
-    startCountdown('timer-adha', '2027-05-16T00:00:00');
-});      
+        initLiveAudio();
+        fetchAllData();
+        
+        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+        startCountdown('timer-fitr', '2027-03-08T00:00:00');
+        startCountdown('timer-hajj', '2027-05-08T00:00:00');
+        startCountdown('timer-adha', '2027-05-16T00:00:00');
+    });      
     
     function showToast(msg) {
-    const toast = document.createElement('div');
-    toast.innerText = msg;
-    toast.style = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#c5a880; color:#000; padding:10px 20px; border-radius:20px; z-index:9999; font-weight:bold;";
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2000);
-}
-    
+        const toast = document.createElement('div');
+        toast.innerText = msg;
+        toast.className = 'animate-fade';
+        toast.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#c5a880; color:#000; padding:10px 24px; border-radius:20px; z-index:9999; font-weight:bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3);";
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
 </script>
 </body>
 </html>
