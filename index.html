@@ -455,6 +455,7 @@ video {
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
     let dhikrData = [];
+    let currentDhikrIndex = 0;
 
     // --- الدوال الأساسية ---
     function initLiveAudio() {
@@ -498,7 +499,6 @@ function renderDhikrCard(cat) {
     const list = dhikrData.filter(d => d.cat === cat);
     if (list.length === 0) return;
     
-    // التأكد من أن المؤشر في نطاق القائمة
     if (currentDhikrIndex >= list.length) currentDhikrIndex = 0;
     
     const d = list[currentDhikrIndex];
@@ -527,7 +527,7 @@ function renderDhikrCard(cat) {
     </div>`;
 }
 
-// 3. دالة الزيادة الموحدة (احذف دالة inc القديمة واستخدم هذه فقط)
+// دالة الزيادة الموحدة
 function incDhikr(id, cat) {
     let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
     let dhikrObj = dhikrData.find(d => d.id === id);
@@ -535,27 +535,17 @@ function incDhikr(id, cat) {
     
     if (count < target) {
         localStorage.setItem(`c_${id}`, count + 1);
-        renderDhikrCard(cat); // تحديث الواجهة فوراً
+        renderDhikrCard(cat);
     }
 }
 
-// 4. دالة التنقل
+// دالة التنقل
 function navDhikr(dir, cat) {
     const list = dhikrData.filter(d => d.cat === cat);
     currentDhikrIndex += dir;
     if (currentDhikrIndex < 0) currentDhikrIndex = 0;
     if (currentDhikrIndex >= list.length) currentDhikrIndex = list.length - 1;
     renderDhikrCard(cat);
-}
-
-// دالة زيادة العداد
-function incDhikr(id, cat) {
-    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
-    let target = parseInt(dhikrData.find(d => d.id === id).target);
-    if (count < target) {
-        localStorage.setItem(`c_${id}`, count + 1);
-        renderDhikrCard(cat);
-    }
 }
 
     function inc(id, cat) {
