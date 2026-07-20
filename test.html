@@ -96,18 +96,97 @@
     pointer-events: none;
 }
 
-/* تنسيق قسم الأذكار */
-.sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
-.sub-tab-btn { background: #21262d; border: 1px solid #333; color: #94a3b8; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-.sub-tab-btn.active { background: #c5a880; color: #000; border-color: #c5a880; }
-.dhikr-card { background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.dhikr-text { font-size: 1.2rem; margin-bottom: 12px; color: #fff; line-height: 2.5; font-weight: 500; }
-}}.progress-bar { width: 120px; height: 6px; background: #0d1117; border-radius: 3px; margin-bottom: 5px; overflow: hidden; }
-.progress-fill { height: 100%; background: #c5a880; transition: 0.3s; }
-.counter-btn { background: #c5a880; border: none; width: 55px; height: 55px; border-radius: 50%; color: #000; font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-.counter-btn:active { transform: scale(0.9); }
+/* تنسيق قسم الأذكار المحسن */
+.sub-tabs { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 20px; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+}
+
+.sub-tab-btn { 
+    background: #21262d; 
+    border: 1px solid #333; 
+    color: #94a3b8; 
+    padding: 8px 16px; 
+    border-radius: 20px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    transition: 0.3s; 
+}
+
+.sub-tab-btn.active { 
+    background: #c5a880; 
+    color: #000; 
+    border-color: #c5a880; 
+}
+
+/* تحسين الكارد ليكون عمودياً والنص يأخذ كامل العرض */
+.dhikr-card { 
+    background: #161b22; 
+    border: 1px solid #30363d; 
+    padding: 20px; 
+    border-radius: 16px; 
+    display: flex; 
+    flex-direction: column; /* جعل العناصر فوق بعضها */
+    align-items: center; 
+    margin-bottom: 80px; /* مساحة إضافية في الأسفل لمنع التداخل */
+}
+
+.dhikr-text { 
+    font-size: 1.4rem; 
+    color: #fff; 
+    line-height: 2.2; 
+    font-weight: 500; 
+    text-align: center; 
+    margin-bottom: 25px; 
+    width: 100%;
+}
+
+/* تنسيق منطقة التحكم بالعداد */
+.counter-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.progress-bar { 
+    width: 80%; /* شريط تقدم متناسق */
+    height: 6px; 
+    background: #0d1117; 
+    border-radius: 3px; 
+    overflow: hidden; 
+}
+
+.progress-fill { 
+    height: 100%; 
+    background: #c5a880; 
+    transition: 0.3s; 
+}
+
+.counter-btn { 
+    background: #c5a880; 
+    border: none; 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    color: #000; 
+    font-size: 1.8rem; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: 0.2s; 
+}
+
+.counter-btn:active { 
+    transform: scale(0.9); 
+}}
         
-        /* تصميم المشغل الدائري المستوحى من دراما وشارات المجد */
+        /* تصميم المشغل الدائري */
         .audio-player-card { 
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
             border-radius: 24px; padding: 25px; border: 2px solid var(--accent-gold); 
