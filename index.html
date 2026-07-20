@@ -527,7 +527,19 @@ function renderDhikrCard(cat) {
     </div>`;
 }
 
-// دالة التنقل بين الأذكار
+// 3. دالة الزيادة الموحدة (احذف دالة inc القديمة واستخدم هذه فقط)
+function incDhikr(id, cat) {
+    let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+    let dhikrObj = dhikrData.find(d => d.id === id);
+    let target = parseInt(dhikrObj.target);
+    
+    if (count < target) {
+        localStorage.setItem(`c_${id}`, count + 1);
+        renderDhikrCard(cat); // تحديث الواجهة فوراً
+    }
+}
+
+// 4. دالة التنقل
 function navDhikr(dir, cat) {
     const list = dhikrData.filter(d => d.cat === cat);
     currentDhikrIndex += dir;
