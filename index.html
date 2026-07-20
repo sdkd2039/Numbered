@@ -122,17 +122,16 @@
     border-color: #c5a880; 
 }
 
-/* تحسين الكارد ليكون عمودياً لضمان عدم التداخل */
+/* تحسين الكارد ليكون عمودياً والنص يأخذ كامل العرض */
 .dhikr-card { 
     background: #161b22; 
     border: 1px solid #30363d; 
     padding: 20px; 
     border-radius: 16px; 
     display: flex; 
-    flex-direction: column; /* ترتيب عمودي */
+    flex-direction: column; /* جعل العناصر فوق بعضها */
     align-items: center; 
-    margin-bottom: 25px; 
-    text-align: center;
+    margin-bottom: 80px; /* مساحة إضافية في الأسفل لمنع التداخل */
 }
 
 .dhikr-text { 
@@ -140,7 +139,8 @@
     color: #fff; 
     line-height: 2.2; 
     font-weight: 500; 
-    margin-bottom: 20px; 
+    text-align: center; 
+    margin-bottom: 25px; 
     width: 100%;
 }
 
@@ -149,16 +149,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     width: 100%;
 }
 
 .progress-bar { 
-    width: 100%; 
-    max-width: 200px;
-    height: 8px; 
+    width: 80%; /* شريط تقدم متناسق */
+    height: 6px; 
     background: #0d1117; 
-    border-radius: 4px; 
+    border-radius: 3px; 
     overflow: hidden; 
 }
 
