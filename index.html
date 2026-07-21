@@ -318,7 +318,6 @@ video {
 
         
 </style>
-<!-- استدعاء ملف OneSignal مرة واحدة فقط -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 
 <script>
@@ -327,11 +326,14 @@ video {
     await OneSignal.init({
       appId: "7675fe53-98cb-40f9-a010-bfb13948c277",
       safari_web_id: "web.onesignal.auto.32866db8-e87d-48d6-8bf4-a7b54cca5ee4",
-      // تحديد المسار الصحيح للملف على GitHub Pages
       serviceWorkerPath: "Numbered/OneSignalSDKWorker.js",
       serviceWorkerParam: { scope: "/Numbered/" },
       notifyButton: {
         enable: true,
+        displayPredicate: function() {
+          // إخفاء الجرس تلقائياً إذا كان المستخدم مشتركاً بالفعل في الإشعارات
+          return OneSignal.Notifications.permission !== "granted";
+        }
       },
     });
   });
