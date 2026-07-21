@@ -318,6 +318,19 @@ video {
 
         
 </style>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "78394a12-b4a4-4118-8eda-2d8b4da6826e",
+      safari_web_id: "web.onesignal.auto.2fc72fe0-a0df-475b-ad9a-b2dac840a493",
+      notifyButton: {
+        enable: true,
+      },
+    });
+  });
+</script>
 </head>
 <body oncontextmenu="return false;">
 
