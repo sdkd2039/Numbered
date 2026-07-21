@@ -70,7 +70,6 @@
 
         .box-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 20px; }
         .box-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px; }
-        .box-icon { width: 32px; height: 32px; object-fit: contain; }
         .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
 
         /* حقل البحث الذكي */
@@ -143,14 +142,6 @@
             width: 100%;
         }
 
-        .counter-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-        }
-
         .progress-bar { 
             width: 80%; 
             height: 6px; 
@@ -179,40 +170,6 @@
             justify-content: center; 
             transition: 0.2s; 
         }
-
-        .counter-btn:active { 
-            transform: scale(0.9); 
-        }
-        
-        /* تصميم المشغل الدائري */
-        .audio-player-card { 
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
-            border-radius: 24px; padding: 25px; border: 2px solid var(--accent-gold); 
-            margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6); position: relative; overflow: hidden;
-        }
-        .audio-player-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(197, 168, 128, 0.05), transparent);
-            transform: rotate(45deg); pointer-events: none;
-        }
-        .drama-circle-wrapper { position: relative; width: 140px; height: 140px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; }
-        .drama-svg-track { transform: rotate(-90deg); width: 100%; height: 100%; }
-        .drama-circle-bg { fill: none; stroke: #1e293b; stroke-width: 6; }
-        .drama-circle-progress { fill: none; stroke: var(--accent-gold); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 377; stroke-dashoffset: 377; transition: stroke-dashoffset 0.1s linear; }
-        
-        .btn-play-pause-center { 
-            position: absolute; width: 90px; height: 90px; border-radius: 50%; 
-            background: #111827; border: 3px solid var(--border-color); color: var(--accent-gold); 
-            font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; 
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.6), 0 4px 15px rgba(0,0,0,0.4); transition: all 0.3s ease;
-        }
-        .btn-play-pause-center:hover { border-color: var(--accent-gold); color: #fff; transform: scale(1.03); }
-        
-        .drama-info-panel { text-align: center; width: 100%; margin-top: 10px; }
-        .track-title { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .time-stamps { font-size: 0.85rem; color: var(--accent-gold); font-weight: 700; margin-top: 5px; letter-spacing: 0.5px; }
-        .player-action-row { width: 100%; display: flex; justify-content: center; margin-top: 15px; }
 
         /* العداد التفاعلي */
         .countdown-container { 
@@ -270,34 +227,6 @@
             gap: 6px; 
             width: 100%;
         }
-        
-        .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
-        .live-video-player { width: 100%; height: 100%; display: block; background: #000; }
-        .btn-dl { background: var(--green); color: white; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-        .native-audio-player { width: 100%; margin-top: 10px; accent-color: var(--primary-color); }
-
-        .download-container {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        
-        .btn-download-action {
-            padding: 8px 15px;
-            border-radius: 10px;
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        
-        .btn-download-action:hover {
-            background: var(--primary-color);
-            color: var(--bg-color);
-        }
 
         @media (max-width: 600px) {
             body { padding: 10px; }
@@ -311,29 +240,30 @@
 
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .counter-btn:active { transform: scale(0.95); }
-</style>
+    </style>
 </head>
 <body oncontextmenu="return false;">
 
 <header>
-    <img id="active-tab-logo" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="main-logo" alt="القسم الحالي">
+    <img id="active-tab-logo" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" class="main-logo" alt="القسم الحالي">
 </header>
     
     <div class="tabs-wrapper">
         <div class="tabs-container">
-            <button class="tab-btn active" onclick="switchTab('telawat')">
+            <!-- نمرر (this) لنضمن الإشارة إلى الزر المحدود بدقة -->
+            <button class="tab-btn active" onclick="switchTab('telawat', this)">
                 <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات">
                 <span>تلاوات</span>
             </button>
-            <button class="tab-btn" onclick="switchTab('remaining')">
+            <button class="tab-btn" onclick="switchTab('remaining', this)">
                 <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png" alt="المتبقي">
                 <span>المتبقي</span>
             </button>
-            <button class="tab-btn" onclick="switchTab('dhikr')">
+            <button class="tab-btn" onclick="switchTab('dhikr', this)">
                 <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" alt="الذكر">
                 <span>الذكر</span>
             </button>
-            <button class="tab-btn" onclick="switchTab('live')">
+            <button class="tab-btn" onclick="switchTab('live', this)">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="#f8fafc" stroke-width="2"/>
                     <circle cx="12" cy="12" r="3" fill="#ef4444"/>
@@ -362,7 +292,7 @@
     </div>
 </div>
 
-<!-- قسم المتبقي -->
+<!-- 2. قسم المتبقي -->
 <div id="panel-remaining" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
@@ -402,7 +332,7 @@
         <div class="box-header">
             <h2 class="box-title">قسم الذكر</h2>
         </div>
-            <div class="sub-tabs">
+        <div class="sub-tabs">
             <button class="sub-tab-btn active" onclick="showDhikr('الصباح', this)">الصباح</button>
             <button class="sub-tab-btn" onclick="showDhikr('المساء', this)">المساء</button>
             <button class="sub-tab-btn" onclick="showDhikr('منوعة', this)">منوعة</button>
@@ -411,9 +341,8 @@
     </div>
 </div>
 
-<!-- قسم البث المباشر المحدث -->
+<!-- 4. قسم البث المباشر -->
 <div id="panel-live" class="panel-content">
-    <!-- إذاعة القرآن الكريم -->
     <div class="box-card" style="border: 1px solid var(--accent-gold);">
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -432,7 +361,6 @@
         <audio id="live-audio" style="display:none;"></audio>
     </div>
 
-    <!-- أزرار القنوات الخارجية -->
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
         <a href="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" target="_blank" style="display: block; width: 100%; padding: 15px; background: var(--accent-gold); color: #000; text-align: center; border-radius: 12px; text-decoration: none; font-weight: bold;">
@@ -446,7 +374,7 @@
             للمشاهدة بث قناة السنة النبوية <i class="fa-solid fa-external-link-alt"></i>
         </a>
      </div>
-  </div>
+</div>
 
 <script>
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
@@ -454,7 +382,6 @@
     let dhikrData = [];
     let currentDhikrIndex = 0;
 
-    // --- الدوال الأساسية ---
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
         const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
@@ -606,13 +533,33 @@
         document.body.removeChild(textArea);
     }
     
-    function switchTab(tabId) {
+    // --- دالة التنقل المعدلة والمصححة بالكامل ---
+    function switchTab(tabId, btnElement) {
+        // إخفاء وإلغاء تنشيط جميع الأقسام والأزرار
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('panel-' + tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
-        const logoMap = { 'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' };
-        document.getElementById('active-tab-logo').src = logoMap[tabId];
+        
+        // إظهار القسم المطلوب
+        const targetPanel = document.getElementById('panel-' + tabId);
+        if (targetPanel) targetPanel.classList.add('active');
+        
+        // تنشيط الزر المستهدف بصورة آمنة
+        if (btnElement) {
+            btnElement.classList.add('active');
+        }
+        
+        // تحديث شعار التبويب العلوي
+        const logoMap = { 
+            'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 
+            'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 
+            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 
+            'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' 
+        };
+        
+        const logoImg = document.getElementById('active-tab-logo');
+        if (logoImg && logoMap[tabId]) {
+            logoImg.src = logoMap[tabId];
+        }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
