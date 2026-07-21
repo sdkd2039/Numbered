@@ -330,11 +330,27 @@ video {
       serviceWorkerParam: { scope: "/Numbered/" },
       notifyButton: {
         enable: true,
-        displayPredicate: function() {
-          // إخفاء الجرس تلقائياً إذا كان المستخدم مشتركاً بالفعل في الإشعارات
-          return OneSignal.Notifications.permission !== "granted";
-        }
       },
+    });
+
+    // دالة لإخفاء عنصر الجرس من الصفحة
+    function hideBell() {
+      const bellLauncher = document.getElementById('onesignal-bell-container');
+      if (bellLauncher) {
+        bellLauncher.style.display = 'none';
+      }
+    }
+
+    // التحقق فور تحميل الصفحة: إذا كان المشترك مفعل الإشعارات يتم إخفاء الجرس
+    if (OneSignal.Notifications.permission) {
+      hideBell();
+    }
+
+    // الاستماع لحدث تغيير حالة الإشعار: إخفاء الجرس فوراً عند الضغط على "سماح"
+    OneSignal.Notifications.addEventListener('permissionChange', function(permission) {
+      if (permission) {
+        hideBell();
+      }
     });
   });
 </script>
