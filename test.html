@@ -594,5 +594,49 @@
         setTimeout(() => toast.remove(), 2000);
     }
 </script>
+
+    <footer class="site-footer">
+    <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link" title="منصة X">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        <span>تابعنا على منصة X</span>
+    </a>
+</footer>
+
+<style>
+/* تنسيق تذييل الصفحة بقيم مسافات صغيرة ومتقاربة */
+.site-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 20px 0;
+    margin-top: 5px;
+}
+
+.x-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.x-link:hover {
+    color: #ffffff;
+    background: #000000;
+    border-color: #555;
+    transform: translateY(-2px);
+}
+</style>
+    
 </body>
 </html>
