@@ -92,7 +92,7 @@
 .search-container { position: relative; margin-bottom: 25px; width: 100%; }
 .search-input {
     width: 100%;
-    background: #161b22; /* نفس خلفية البطاقات عندك */
+    background: #161b22;
     border: 1px solid #30363d;
     border-radius: 14px;
     padding: 15px 45px 15px 15px;
@@ -137,7 +137,7 @@
     border-color: #c5a880; 
 }
 
-/* تنسيق الكارد ليكون عمودياً ومنظماً */
+/* تصميم بطاقة الذكر */
 .dhikr-card { 
     background: #161b22; 
     border: 1px solid #30363d; 
@@ -267,19 +267,20 @@
 
 .share-card-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 8px;
+    margin-bottom: 10px;
 }
 
 .share-logo {
-    width: 45px;
-    height: 45px;
+    width: 70px;
+    height: auto;
     object-fit: contain;
 }
 
-.share-app-title {
-    font-size: 1.3rem;
+.share-category-title {
+    font-size: 1.15rem;
     font-weight: 800;
     color: #c5a880;
 }
@@ -289,13 +290,24 @@
     line-height: 2.1;
     font-weight: 500;
     color: #f8fafc;
-    margin: 20px 0;
+    margin: 15px 0;
     word-break: break-word;
+}
+
+.share-repeat-count {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #c5a880;
+    background: rgba(197, 168, 128, 0.15);
+    padding: 6px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    margin-bottom: 10px;
 }
 
 .share-card-footer {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 15px;
     padding-top: 15px;
     border-top: 1px dashed #30363d;
     display: flex;
@@ -354,37 +366,33 @@
         .player-action-row { width: 100%; display: flex; justify-content: center; margin-top: 15px; }
 
         /* العداد التفاعلي */
-/* تنسيق الحاوية الرئيسية (توسيط كامل) */
 .countdown-container { 
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     justify-content: center;
-    gap: 20px; /* مسافة بين كل عداد وآخر */
+    gap: 20px; 
     width: 100%;
 }
 
-/* تنسيق الصندوق الفردي للعداد */
 .countdown-item { 
     background: rgba(0,0,0,0.25); 
     border: 1px solid var(--border-color, #30363d); 
     padding: 18px; 
     border-radius: 14px; 
     border-right: 5px solid var(--accent-gold); 
-    width: 90%; /* عرض مناسب للموبايل */
+    width: 90%; 
     max-width: 400px;
 }
 
-/* الترتيب المطلوب: يوم - ساعة - دقيقة - ثانية */
 .live-timer-grid { 
     display: flex; 
     justify-content: center; 
     gap: 12px; 
-    direction: rtl; /* لجعل الترتيب من اليمين لليسار */
+    direction: rtl; 
     margin-top: 15px;
 }
 
-/* شكل خانة الرقم الواحدة */
 .time-box { 
     background: rgba(255,255,255,0.05); 
     padding: 8px 12px; 
@@ -399,7 +407,6 @@
 .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
 .time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
 
-/* زر المشاركة */
 .share-btn { 
     background: none; 
     border: none; 
@@ -414,7 +421,8 @@
     gap: 6px; 
     width: 100%;
 }
-        /* مشغلات قنوات البث المباشر (فيديو خام) */
+
+        /* مشغلات قنوات البث المباشر */
         .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
         .live-video-player { width: 100%; height: 100%; display: block; background: #000; }
         .btn-dl { background: var(--green); color: white; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
@@ -441,22 +449,11 @@
         color: var(--bg-color);
     }
 
-/* إخفاء زر التنزيل في كافة المتصفحات */
-video::-webkit-media-controls-download-button {
-    display: none !important;
-}
-
-video::-webkit-media-controls-enclosure {
-    overflow: hidden !important;
-}
-
-/* هذا السطر يمنع ظهور خيار "حفظ الفيديو باسم" عند الضغط بالزر الأيمن */
-video {
-    pointer-events: auto;
-}
-
-        
+video::-webkit-media-controls-download-button { display: none !important; }
+video::-webkit-media-controls-enclosure { overflow: hidden !important; }
+video { pointer-events: auto; }
 </style>
+
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 
 <script>
@@ -467,29 +464,17 @@ video {
       safari_web_id: "web.onesignal.auto.32866db8-e87d-48d6-8bf4-a7b54cca5ee4",
       serviceWorkerPath: "Numbered/OneSignalSDKWorker.js",
       serviceWorkerParam: { scope: "/Numbered/" },
-      notifyButton: {
-        enable: true,
-      },
+      notifyButton: { enable: true },
     });
 
-    // دالة لإخفاء عنصر الجرس من الصفحة
     function hideBell() {
       const bellLauncher = document.getElementById('onesignal-bell-container');
-      if (bellLauncher) {
-        bellLauncher.style.display = 'none';
-      }
+      if (bellLauncher) { bellLauncher.style.display = 'none'; }
     }
 
-    // التحقق فور تحميل الصفحة: إذا كان المشترك مفعل الإشعارات يتم إخفاء الجرس
-    if (OneSignal.Notifications.permission) {
-      hideBell();
-    }
-
-    // الاستماع لحدث تغيير حالة الإشعار: إخفاء الجرس فوراً عند الضغط على "سماح"
+    if (OneSignal.Notifications.permission) { hideBell(); }
     OneSignal.Notifications.addEventListener('permissionChange', function(permission) {
-      if (permission) {
-        hideBell();
-      }
+      if (permission) { hideBell(); }
     });
   });
 </script>
@@ -543,7 +528,7 @@ video {
     </div>
 </div>
 
-<!-- قسم المتبقي -->
+<!-- 2. قسم المتبقي -->
 <div id="panel-remaining" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
@@ -553,7 +538,8 @@ video {
                 <div class="countdown-title">شهر رمضان المبارك</div>
                 <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                 <div class="live-timer-grid" id="timer-ramadan"></div>
-                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>            </div>
+                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+            </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الفطر المبارك</div>
                 <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
@@ -582,7 +568,7 @@ video {
         <div class="box-header">
             <h2 class="box-title">قسم الذكر</h2>
         </div>
-            <div class="sub-tabs">
+        <div class="sub-tabs">
             <button class="sub-tab-btn active" onclick="showDhikr('الصباح', this)">الصباح</button>
             <button class="sub-tab-btn" onclick="showDhikr('المساء', this)">المساء</button>
             <button class="sub-tab-btn" onclick="showDhikr('منوعة', this)">منوعة</button>
@@ -591,13 +577,14 @@ video {
     </div>
 </div>
 
-<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع باركود الموقع -->
+<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع الشعار واسم القسم وباركود الموقع -->
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
-        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" class="share-logo" alt="شعار الذكر">
-        <span class="share-app-title">معدودات</span>
+        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار الموقع">
+        <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
     </div>
     <div id="share-card-text" class="share-card-text"></div>
+    <div id="share-repeat-count" class="share-repeat-count">تكرار: 1 مرات</div>
     <div class="share-card-footer">
         <div class="share-qr-container">
             <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
@@ -606,6 +593,7 @@ video {
     </div>
 </div>
 
+<!-- 4. قسم البث المباشر -->
 <div id="panel-live" class="panel-content">
     <div class="box-card" style="border: 1px solid var(--accent-gold);">
         <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -644,8 +632,9 @@ video {
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
     let dhikrData = [];
+    let currentCategory = 'الصباح';
+    let currentDhikrIndex = 0;
 
-    // --- الدوال الأساسية ---
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
         const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
@@ -673,7 +662,6 @@ function startCountdown(id, targetDate) {
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const s = Math.floor((diff % (1000 * 60)) / 1000);
-        // الترتيب الجديد: يوم -> ساعة -> دقيقة -> ثانية
         element.innerHTML = `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
                              <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
                              <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
@@ -681,13 +669,12 @@ function startCountdown(id, targetDate) {
     }, 1000);
 }
 
-let currentDhikrIndex = 0;
-
 function showDhikr(cat, btn) {
     document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
     
-    currentDhikrIndex = 0; // إعادة التعيين عند تغيير الفئة
+    currentCategory = cat;
+    currentDhikrIndex = 0;
     renderDhikrCard(cat);
 }
 
@@ -713,7 +700,7 @@ function renderDhikrCard(cat) {
         </div>
         <div class="dhikr-share-actions">
             <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
-            <button class="dhikr-share-btn" onclick="shareDhikrImage()"><i class="fa-solid fa-image"></i> مشاركة كصورة</button>
+            <button class="dhikr-share-btn" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
         </div>
     </div>`;
 }
@@ -732,16 +719,26 @@ function incDhikr(id, cat) {
     renderDhikrCard(cat);
 }
 
-/* دالة مشاركة الذكر نصاً */
+/* دالة الحصول على اسم الفئة بالكامل للعرض */
+function getCategoryFullName(cat) {
+    if (cat === 'الصباح') return 'أذكار الصباح';
+    if (cat === 'المساء') return 'أذكار المساء';
+    return 'أذكار منوعة';
+}
+
+/* دالة مشاركة الذكر نصاً (تنسيق محدث بدون نجمة ومزود بالتكرار ونوع الذكر) */
 function shareDhikrText() {
-    const dhikrText = document.querySelector('.dhikr-text');
-    if (!dhikrText) return;
+    const list = dhikrData.filter(d => d.cat === currentCategory);
+    if (!list || list.length === 0) return;
+
+    const d = list[currentDhikrIndex];
+    const categoryTitle = getCategoryFullName(currentCategory);
     
-    const message = `✨ ${dhikrText.innerText}\n\n🔗 من تطبيق معدودات: https://sdkd2039.github.io/Numbered/`;
+    const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://sdkd2039.github.io/Numbered/`;
     
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(message).then(() => {
-            alert("تم نسخ الذكر بنجاح!");
+            alert("تم نسخ النص بنجاح!");
         }).catch(() => {
             fallbackCopyText(message);
         });
@@ -750,16 +747,23 @@ function shareDhikrText() {
     }
 }
 
-/* دالة مشاركة الذكر كصورة مدمجة بالباركود */
+/* دالة حفظ الذكر كصورة سريعة التنزيل */
 async function shareDhikrImage() {
-    const activeDhikrText = document.querySelector('.dhikr-text');
+    const list = dhikrData.filter(d => d.cat === currentCategory);
+    if (!list || list.length === 0) return;
+
+    const d = list[currentDhikrIndex];
     const hiddenCard = document.getElementById('hidden-share-card');
     const shareTextElement = document.getElementById('share-card-text');
+    const shareCatElement = document.getElementById('share-category-title');
+    const shareRepeatElement = document.getElementById('share-repeat-count');
 
-    if (!activeDhikrText || !hiddenCard || !shareTextElement) return;
+    if (!hiddenCard || !shareTextElement) return;
 
-    // تعبئة نص الذكر في البطاقة المخفية
-    shareTextElement.innerText = activeDhikrText.innerText;
+    // تعبئة البيانات في البطاقة المخفية
+    shareCatElement.innerText = getCategoryFullName(currentCategory);
+    shareTextElement.innerText = d.text;
+    shareRepeatElement.innerText = `عدد التكرار: ${d.target} مرات`;
 
     try {
         const canvas = await html2canvas(hiddenCard, {
@@ -768,25 +772,14 @@ async function shareDhikrImage() {
             backgroundColor: '#0d1117'
         });
 
-        canvas.toBlob(async (blob) => {
-            if (!blob) return;
-
-            const file = new File([blob], 'dhikr.png', { type: 'image/png' });
-
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                    title: 'ذكر',
-                    text: '✨ من تطبيق معدودات',
-                    files: [file]
-                });
-            } else {
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'dhikr.png';
-                a.click();
-                alert("تم تحميل صورة الذكر بنجاح!");
-            }
-        }, 'image/png');
+        // تنزيل الصورة فوراً وبسرعة دون فتح خيارات المشاركة المعقدة
+        const imageURI = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = imageURI;
+        a.download = `${getCategoryFullName(currentCategory)}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
     } catch (err) {
         console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
@@ -797,8 +790,6 @@ async function shareDhikrImage() {
 function renderTelawat(items) {
     const list = document.getElementById('telawat-list');
     if (!list) return;
-    
-    // هنا نقوم بمسح جملة "جاري الجلب" بمجرد وصول البيانات
     list.innerHTML = ''; 
     
     list.innerHTML = items.map(item => `
@@ -855,22 +846,18 @@ function renderTelawat(items) {
         }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
 
-/* دالة مشاركة الموعد (نسخ مباشر للحافظة) */
 function shareTime(eventName, timerId) {
     const element = document.getElementById(timerId);
     if (!element) return;
     
-    // استخراج القيم من واجهة العداد
     const timeBoxes = element.querySelectorAll('.time-box');
     const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
     const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
     const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
     const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
     
-    // إعداد نص الرسالة
     const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
     
-    /* تنفيذ عملية النسخ المباشر دون فتح واجهة المشاركة */
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(message).then(() => {
             alert("تم نسخ الموعد بنجاح!");
@@ -882,7 +869,6 @@ function shareTime(eventName, timerId) {
     }
 }
 
-/* دالة احتياطية لضمان عمل النسخ في كل الأجهزة */
 function fallbackCopyText(text) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -910,7 +896,6 @@ function fallbackCopyText(text) {
     }
 
 window.addEventListener('DOMContentLoaded', () => {
-    // منطق التصفير اليومي (Daily Reset)
     const today = new Date().toLocaleDateString('en-GB'); 
     const lastDate = localStorage.getItem('lastDate');
 
@@ -953,7 +938,6 @@ window.addEventListener('DOMContentLoaded', () => {
 </footer>
 
 <style>
-/* تنسيق تذييل الصفحة بقيم مسافات صغيرة ومتقاربة */
 .site-footer {
     width: 100%;
     display: flex;
