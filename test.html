@@ -6,12 +6,8 @@
     <title>معدودات</title>
     
     <!-- أيقونة المتصفح العادية -->
-    <link rel="icon" href="https://github.com/sdkd2039/Numbered/blob/main/T401783946968724.png?raw=true">
-    
-    <!-- أيقونة الآيفون للشاشة الرئيسية -->
-    <link rel="apple-touch-icon" href="https://github.com/sdkd2039/Numbered/blob/main/T401783946968724.png?raw=true">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://github.com/sdkd2039/Numbered/blob/main/T401783946968724.png?raw=true">
-    
+    <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -102,7 +98,7 @@
             pointer-events: none;
         }
 
-        /* تنسيق قسم الأذكار المحسن */
+        /* قسم الأذكار */
         .sub-tabs { 
             display: flex; 
             gap: 10px; 
@@ -134,9 +130,10 @@
             padding: 20px; 
             border-radius: 16px; 
             display: flex; 
-            flex-direction: column;
+            flex-direction: column; 
             align-items: center; 
-            margin-bottom: 80px;
+            margin-bottom: 30px; 
+            text-align: center;
         }
 
         .dhikr-text { 
@@ -144,7 +141,6 @@
             color: #fff; 
             line-height: 2.2; 
             font-weight: 500; 
-            text-align: center; 
             margin-bottom: 25px; 
             width: 100%;
         }
@@ -155,6 +151,7 @@
             background: #0d1117; 
             border-radius: 3px; 
             overflow: hidden; 
+            margin-bottom: 10px;
         }
 
         .progress-fill { 
@@ -177,6 +174,8 @@
             justify-content: center; 
             transition: 0.2s; 
         }
+
+        .counter-btn:active { transform: scale(0.9); }
 
         /* العداد التفاعلي */
         .countdown-container { 
@@ -235,19 +234,58 @@
             width: 100%;
         }
 
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            .box-card { padding: 15px; border-radius: 16px; }
-            .tab-btn { min-width: 80px; padding: 10px; }
-            .dhikr-text { font-size: 1.1rem !important; }
+        .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
+        .live-video-player { width: 100%; height: 100%; display: block; background: #000; }
+
+        /* إخفاء زر التنزيل في مشغلات الفيديو */
+        video::-webkit-media-controls-download-button {
+            display: none !important;
+        }
+        video::-webkit-media-controls-enclosure {
+            overflow: hidden !important;
+        }
+        video {
+            pointer-events: auto;
         }
 
         .animate-fade { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-        .counter-btn:active { transform: scale(0.95); }
     </style>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "7675fe53-98cb-40f9-a010-bfb13948c277",
+          safari_web_id: "web.onesignal.auto.32866db8-e87d-48d6-8bf4-a7b54cca5ee4",
+          serviceWorkerPath: "Numbered/OneSignalSDKWorker.js",
+          serviceWorkerParam: { scope: "/Numbered/" },
+          notifyButton: {
+            enable: true,
+          },
+        });
+
+        function hideBell() {
+          const bellLauncher = document.getElementById('onesignal-bell-container');
+          if (bellLauncher) {
+            bellLauncher.style.display = 'none';
+          }
+        }
+
+        if (OneSignal.Notifications.permission) {
+          hideBell();
+        }
+
+        OneSignal.Notifications.addEventListener('permissionChange', function(permission) {
+          if (permission) {
+            hideBell();
+          }
+        });
+      });
+    </script>
 </head>
 <body oncontextmenu="return false;">
 
@@ -257,7 +295,6 @@
     
     <div class="tabs-wrapper">
         <div class="tabs-container">
-            <!-- نمرر (this) لنضمن الإشارة إلى الزر المحدود بدقة -->
             <button class="tab-btn active" onclick="switchTab('telawat', this)">
                 <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات">
                 <span>تلاوات</span>
@@ -370,17 +407,17 @@
 
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
-        <a href="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" target="_blank" style="display: block; width: 100%; padding: 15px; background: var(--accent-gold); color: #000; text-align: center; border-radius: 12px; text-decoration: none; font-weight: bold;">
-            للمشاهدة بث قناة القرآن الكريم <i class="fa-solid fa-external-link-alt"></i>
-        </a>
+        <div class="live-stream-container">
+            <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" allowfullscreen class="live-video-player"></iframe>
+        </div>
     </div>
 
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة السنة النبوية</h2></div>
-        <a href="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=suna_tv4" target="_blank" style="display: block; width: 100%; padding: 15px; background: var(--accent-gold); color: #000; text-align: center; border-radius: 12px; text-decoration: none; font-weight: bold;">
-            للمشاهدة بث قناة السنة النبوية <i class="fa-solid fa-external-link-alt"></i>
-        </a>
-     </div>
+        <div class="live-stream-container">
+            <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=suna_tv4" allowfullscreen class="live-video-player"></iframe>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -444,7 +481,7 @@
             <div class="progress-bar" style="width:100%; height:8px; margin: 20px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
             <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
             <button class="counter-btn" style="margin: 0 auto 20px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
-            <div style="display:flex; justify-content:space-between; gap:10px;">
+            <div style="display:flex; justify-content:space-between; gap:10px; width:100%;">
                 <button class="sub-tab-btn" onclick="navDhikr(-1, '${cat}')" ${currentDhikrIndex === 0 ? 'disabled':''}>السابق</button>
                 <button class="sub-tab-btn" onclick="navDhikr(1, '${cat}')" ${currentDhikrIndex === list.length-1 ? 'disabled':''}>التالي</button>
             </div>
@@ -463,13 +500,16 @@
         renderDhikrCard(cat);
     }
 
+    /* دالة عرض التلاوات (بدون زر أو خيار التحميل) */
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
+        if (!list) return;
+        
         list.innerHTML = items.map(item => `
             <div class="box-card" style="margin-bottom: 20px; padding: 20px; border-radius: 20px;">
                 <h3 class="search-title" style="margin-bottom:5px;">${item.title}</h3>
-                <div style="color:var(--text-muted); margin-bottom:15px;">${item.reader}</div>
-                <video controls style="width: 100%; border-radius: 12px; background: #000;">
+                <div class="search-reader" style="color:var(--text-muted); margin-bottom:15px;">${item.reader}</div>
+                <video controls controlsList="nodownload" style="width: 100%; border-radius: 12px; background: #000;">
                     <source src="${item.downloadUrl}" type="video/mp4">
                 </video>
             </div>`).join('');
@@ -480,7 +520,8 @@
         const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
         for (let i = 0; i < cards.length; i++) {
             let title = cards[i].querySelector('.search-title').innerText;
-            cards[i].style.display = (title.toUpperCase().indexOf(filter) > -1) ? "" : "none";
+            let reader = cards[i].querySelector('.search-reader') ? cards[i].querySelector('.search-reader').innerText : '';
+            cards[i].style.display = (title.toUpperCase().indexOf(filter) > -1 || reader.toUpperCase().indexOf(filter) > -1) ? "" : "none";
         }
     }
 
@@ -540,22 +581,19 @@
         document.body.removeChild(textArea);
     }
     
-    // --- دالة التنقل المعدلة والمصححة بالكامل ---
     function switchTab(tabId, btnElement) {
-        // إخفاء وإلغاء تنشيط جميع الأقسام والأزرار
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         
-        // إظهار القسم المطلوب
         const targetPanel = document.getElementById('panel-' + tabId);
         if (targetPanel) targetPanel.classList.add('active');
         
-        // تنشيط الزر المستهدف بصورة آمنة
         if (btnElement) {
             btnElement.classList.add('active');
+        } else if (event && event.currentTarget) {
+            event.currentTarget.classList.add('active');
         }
         
-        // تحديث شعار التبويب العلوي
         const logoMap = { 
             'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 
             'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 
@@ -602,7 +640,16 @@
     }
 </script>
 
-    <footer class="site-footer">
+<!-- زر تحميل التطبيق (الأندرويد) -->
+<div style="text-align: center; margin: 25px 0 10px 0; padding: 15px 0 10px 0; border-top: 1px solid #30363d;">
+    <a href="https://n9.cl/hwtsjr" style="display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s;">
+        <img src="https://files.catbox.moe/zv7ga4.png" alt="تحميل" style="width: 20px; height: 20px; filter: brightness(0);">
+        تحميل التطبيق (الأندرويد)
+    </a>
+</div>
+
+<!-- تذييل الصفحة Footer -->
+<footer class="site-footer">
     <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link" title="منصة X">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -612,7 +659,6 @@
 </footer>
 
 <style>
-/* تنسيق تذييل الصفحة بقيم مسافات صغيرة ومتقاربة */
 .site-footer {
     width: 100%;
     display: flex;
