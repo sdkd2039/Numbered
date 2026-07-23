@@ -252,6 +252,38 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+        /* تذييل الصفحة Footer */
+        .site-footer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .x-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .x-link:hover {
+            color: #ffffff;
+            background: #000000;
+            border-color: #555;
+            transform: translateY(-2px);
+        }
     </style>
 
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -386,6 +418,8 @@
 </div>
 
 <!-- 4. قسم البث المباشر -->
+<div id="panel-live" class="panel-content">
+    <audio id="live-audio" style="display:none;"></audio>
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
         <a href="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" target="_blank" style="display: block; width: 100%; padding: 15px; background: var(--accent-gold); color: #000; text-align: center; border-radius: 12px; text-decoration: none; font-weight: bold;">
@@ -398,8 +432,8 @@
         <a href="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=suna_tv4" target="_blank" style="display: block; width: 100%; padding: 15px; background: var(--accent-gold); color: #000; text-align: center; border-radius: 12px; text-decoration: none; font-weight: bold;">
             للمشاهدة بث قناة السنة النبوية <i class="fa-solid fa-external-link-alt"></i>
         </a>
-     </div>
-  </div>
+    </div>
+</div>
 
 <script>
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
@@ -451,6 +485,8 @@
     function renderDhikrCard(cat) {
         const container = document.getElementById('dhikr-container');
         const list = dhikrData.filter(d => d.cat === cat);
+        if (!list || list.length === 0) return;
+        
         const d = list[currentDhikrIndex];
         let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
         let progress = (count / parseInt(d.target)) * 100;
@@ -477,7 +513,9 @@
     function incDhikr(id, cat) {
         let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
         let dhikr = dhikrData.find(d => d.id === id);
-        if (count < parseInt(dhikr.target)) localStorage.setItem(`c_${id}`, count + 1);
+        if (dhikr && count < parseInt(dhikr.target)) {
+            localStorage.setItem(`c_${id}`, count + 1);
+        }
         renderDhikrCard(cat);
     }
 
@@ -509,15 +547,19 @@
     async function fetchAllData() {
         const sheets = ['التلاوات', 'الأذكار'];
         for (const sheet of sheets) {
-            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
-            const res = await fetch(url).then(r => r.text());
-            const json = JSON.parse(res.substring(47).slice(0, -2));
-            if (sheet === 'التلاوات') {
-                cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
-                renderTelawat(cachedTelawat);
-            } else {
-                dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
-                showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
+            try {
+                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
+                const res = await fetch(url).then(r => r.text());
+                const json = JSON.parse(res.substring(47).slice(0, -2));
+                if (sheet === 'التلاوات') {
+                    cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
+                    renderTelawat(cachedTelawat);
+                } else {
+                    dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
+                    showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
+                }
+            } catch (err) {
+                console.error("خطأ في جلب البيانات:", err);
             }
         }
     }
@@ -527,6 +569,8 @@
         if (!element) return;
         
         const timeBoxes = element.querySelectorAll('.time-box');
+        if (timeBoxes.length < 4) return;
+
         const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
         const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
@@ -571,8 +615,8 @@
         
         if (btnElement) {
             btnElement.classList.add('active');
-        } else if (event && event.currentTarget) {
-            event.currentTarget.classList.add('active');
+        } else if (window.event && window.event.currentTarget) {
+            window.event.currentTarget.classList.add('active');
         }
         
         const logoMap = { 
@@ -593,12 +637,11 @@
         const lastDate = localStorage.getItem('lastDate');
 
         if (lastDate !== today) {
-            for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
-                if (key && key.startsWith('c_')) {
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('c_')) {
                     localStorage.setItem(key, 0);
                 }
-            }
+            });
             localStorage.setItem('lastDate', today);
         }
 
@@ -631,38 +674,5 @@
     </a>
 </footer>
 
-<style>
-.site-footer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 0 20px 0;
-    margin-top: 5px;
-}
-
-.x-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: bold;
-    padding: 8px 16px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-}
-
-.x-link:hover {
-    color: #ffffff;
-    background: #000000;
-    border-color: #555;
-    transform: translateY(-2px);
-}
-</style>
-    
 </body>
 </html>
