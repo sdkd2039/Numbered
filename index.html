@@ -25,6 +25,8 @@
     
     <!-- مكتبة HLS لتشغيل البثوث المباشرة على جميع المتصفحات -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- مكتبة تحويل العناصر إلى صور للالتقاط والمشاركة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root {
@@ -148,6 +150,22 @@
     text-align: center;
 }
 
+/* حركة الانزلاق والظهور البطيء (Slow Motion) */
+.animate-slowmo {
+    animation: slowMoFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes slowMoFade {
+    0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.97);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 .dhikr-text { 
     font-size: 1.4rem; 
     color: #fff; 
@@ -196,7 +214,115 @@
 }
 
 .counter-btn:active { transform: scale(0.9); }
-        
+
+/* أزرار المشاركة في الذكر */
+.dhikr-share-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #30363d;
+}
+
+.dhikr-share-btn {
+    background: rgba(197, 168, 128, 0.1);
+    border: 1px solid #c5a880;
+    color: #c5a880;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.dhikr-share-btn:hover {
+    background: #c5a880;
+    color: #000;
+}
+
+/* قالب بطاقة المشاركة المخفية المخصصة للصورة */
+.hidden-share-card {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    width: 450px;
+    background: #0d1117;
+    border: 2px solid #c5a880;
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    color: #ffffff;
+}
+
+.share-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.share-logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.share-app-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #c5a880;
+}
+
+.share-card-text {
+    font-size: 1.35rem;
+    line-height: 2.1;
+    font-weight: 500;
+    color: #f8fafc;
+    margin: 20px 0;
+    word-break: break-word;
+}
+
+.share-card-footer {
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #30363d;
+    display: flex;
+    justify-content: center;
+}
+
+.share-qr-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.share-qr-img {
+    width: 85px;
+    height: 85px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 4px;
+}
+
+.share-qr-label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: bold;
+}
+
         /* تصميم المشغل الدائري */
         .audio-player-card { 
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
@@ -449,8 +575,7 @@ video {
         </div>
     </div>
 </div>
-    </div>
-            
+
 <!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
     <div class="box-card">
@@ -463,6 +588,21 @@ video {
             <button class="sub-tab-btn" onclick="showDhikr('منوعة', this)">منوعة</button>
         </div>
         <div id="dhikr-container" class="dhikr-section"></div>
+    </div>
+</div>
+
+<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع باركود الموقع -->
+<div id="hidden-share-card" class="hidden-share-card">
+    <div class="share-card-header">
+        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" class="share-logo" alt="شعار الذكر">
+        <span class="share-app-title">معدودات</span>
+    </div>
+    <div id="share-card-text" class="share-card-text"></div>
+    <div class="share-card-footer">
+        <div class="share-qr-container">
+            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
+            <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
+        </div>
     </div>
 </div>
 
@@ -554,20 +694,26 @@ function showDhikr(cat, btn) {
 function renderDhikrCard(cat) {
     const container = document.getElementById('dhikr-container');
     const list = dhikrData.filter(d => d.cat === cat);
+    if (!list || list.length === 0) return;
+
     const d = list[currentDhikrIndex];
     let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
     let progress = (count / parseInt(d.target)) * 100;
 
     container.innerHTML = `
-    <div class="dhikr-card animate-fade">
+    <div class="dhikr-card animate-slowmo">
         <div style="text-align:center; margin-bottom:10px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
         <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
         <div class="progress-bar" style="width:100%; height:8px; margin: 20px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
         <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
         <button class="counter-btn" style="margin: 0 auto 20px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
-        <div style="display:flex; justify-content:space-between; gap:10px;">
+        <div style="display:flex; justify-content:space-between; gap:10px; width:100%;">
             <button class="sub-tab-btn" onclick="navDhikr(-1, '${cat}')" ${currentDhikrIndex === 0 ? 'disabled':''}>السابق</button>
             <button class="sub-tab-btn" onclick="navDhikr(1, '${cat}')" ${currentDhikrIndex === list.length-1 ? 'disabled':''}>التالي</button>
+        </div>
+        <div class="dhikr-share-actions">
+            <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
+            <button class="dhikr-share-btn" onclick="shareDhikrImage()"><i class="fa-solid fa-image"></i> مشاركة كصورة</button>
         </div>
     </div>`;
 }
@@ -580,8 +726,72 @@ function navDhikr(dir, cat) {
 function incDhikr(id, cat) {
     let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
     let dhikr = dhikrData.find(d => d.id === id);
-    if (count < parseInt(dhikr.target)) localStorage.setItem(`c_${id}`, count + 1);
+    if (dhikr && count < parseInt(dhikr.target)) {
+        localStorage.setItem(`c_${id}`, count + 1);
+    }
     renderDhikrCard(cat);
+}
+
+/* دالة مشاركة الذكر نصاً */
+function shareDhikrText() {
+    const dhikrText = document.querySelector('.dhikr-text');
+    if (!dhikrText) return;
+    
+    const message = `✨ ${dhikrText.innerText}\n\n🔗 من تطبيق معدودات: https://sdkd2039.github.io/Numbered/`;
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(message).then(() => {
+            alert("تم نسخ الذكر بنجاح!");
+        }).catch(() => {
+            fallbackCopyText(message);
+        });
+    } else {
+        fallbackCopyText(message);
+    }
+}
+
+/* دالة مشاركة الذكر كصورة مدمجة بالباركود */
+async function shareDhikrImage() {
+    const activeDhikrText = document.querySelector('.dhikr-text');
+    const hiddenCard = document.getElementById('hidden-share-card');
+    const shareTextElement = document.getElementById('share-card-text');
+
+    if (!activeDhikrText || !hiddenCard || !shareTextElement) return;
+
+    // تعبئة نص الذكر في البطاقة المخفية
+    shareTextElement.innerText = activeDhikrText.innerText;
+
+    try {
+        const canvas = await html2canvas(hiddenCard, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#0d1117'
+        });
+
+        canvas.toBlob(async (blob) => {
+            if (!blob) return;
+
+            const file = new File([blob], 'dhikr.png', { type: 'image/png' });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: 'ذكر',
+                    text: '✨ من تطبيق معدودات',
+                    files: [file]
+                });
+            } else {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'dhikr.png';
+                a.click();
+                alert("تم تحميل صورة الذكر بنجاح!");
+            }
+        }, 'image/png');
+
+    } catch (err) {
+        console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
+        alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
+    }
 }
 
 function renderTelawat(items) {
@@ -683,7 +893,7 @@ function fallbackCopyText(text) {
     textArea.select();
     try {
         document.execCommand('copy');
-        alert("تم نسخ الموعد بنجاح!");
+        alert("تم نسخ النص بنجاح!");
     } catch (err) {
         alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
     }
