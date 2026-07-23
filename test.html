@@ -219,6 +219,7 @@
         .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
         .time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
 
+        /* أزرار المشاركة */
         .share-actions-group {
             display: flex;
             gap: 10px;
@@ -230,7 +231,7 @@
             background: none; 
             border: 1px solid rgba(197, 168, 128, 0.3);
             border-radius: 8px;
-            padding: 6px 12px;
+            padding: 8px 12px;
             color: var(--accent-gold); 
             cursor: pointer; 
             font-size: 0.85rem; 
@@ -393,7 +394,7 @@
                 <div class="live-timer-grid" id="timer-ramadan"></div>
                 <div class="share-actions-group">
                     <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="share-btn" onclick="shareCard('شهر رمضان المبارك', 'timer-ramadan')"><i class="fa-solid fa-image"></i> مشاركة صورة ونص</button>
+                    <button class="share-btn" onclick="shareImageAndText('شهر رمضان المبارك', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة صورة ونص</button>
                 </div>
             </div>
             <div class="countdown-item">
@@ -402,7 +403,7 @@
                 <div class="live-timer-grid" id="timer-fitr"></div>
                 <div class="share-actions-group">
                     <button class="share-btn" onclick="shareTime('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="share-btn" onclick="shareCard('عيد الفطر المبارك', 'timer-fitr')"><i class="fa-solid fa-image"></i> مشاركة صورة ونص</button>
+                    <button class="share-btn" onclick="shareImageAndText('عيد الفطر المبارك', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة صورة ونص</button>
                 </div>
             </div>
             <div class="countdown-item">
@@ -411,7 +412,7 @@
                 <div class="live-timer-grid" id="timer-hajj"></div>
                 <div class="share-actions-group">
                     <button class="share-btn" onclick="shareTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="share-btn" onclick="shareCard('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-image"></i> مشاركة صورة ونص</button>
+                    <button class="share-btn" onclick="shareImageAndText('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة صورة ونص</button>
                 </div>
             </div>
             <div class="countdown-item">
@@ -420,7 +421,7 @@
                <div class="live-timer-grid" id="timer-adha"></div>
                 <div class="share-actions-group">
                     <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="share-btn" onclick="shareCard('عيد الأضحى المبارك', 'timer-adha')"><i class="fa-solid fa-image"></i> مشاركة صورة ونص</button>
+                    <button class="share-btn" onclick="shareImageAndText('عيد الأضحى المبارك', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة صورة ونص</button>
                 </div>
             </div>
         </div>
@@ -475,14 +476,6 @@
         } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
             audio.src = url;
         }
-    }
-
-    function toggleLiveAudio() {
-        const audio = document.getElementById('live-audio');
-        const icon = document.getElementById('icon-live');
-        if (!audio || !icon) return;
-        if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
-        else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
     function startCountdown(id, targetDate) {
@@ -545,7 +538,6 @@
         renderDhikrCard(cat);
     }
 
-    /* دالة عرض التلاوات (بدون زر أو خيار التحميل) */
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
@@ -590,6 +582,7 @@
         }
     }
 
+    /* 1. دالة نسخ النص فقط */
     function shareTime(eventName, timerId) {
         const element = document.getElementById(timerId);
         if (!element) return;
@@ -597,17 +590,15 @@
         const timeBoxes = element.querySelectorAll('.time-box');
         if (timeBoxes.length < 3) return;
 
-        // استخراج الأيام والساعات والدقائق وتجاهل الثواني
         const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
         const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
         
-        // صياغة الرسالة بدون الثواني
         const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
-                showToast("تم نسخ الموعد بنجاح!");
+                showToast("تم نسخ النص بنجاح!");
             }).catch(() => {
                 fallbackCopyText(message);
             });
@@ -616,9 +607,9 @@
         }
     }
 
-    /* دالة إنشاء صورة وبطاقة وتأكيد المشاركة */
-    async function shareCard(eventName, timerId) {
-        showToast("جاري تجهيز الصورة...");
+    /* 2. دالة مشاركة/نسخ النص والصورة معاً */
+    async function shareImageAndText(eventName, timerId) {
+        showToast("جاري تجهيز الصورة والنص...");
         const element = document.getElementById(timerId);
         if (!element) return;
 
@@ -629,92 +620,38 @@
         const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
 
-        const canvas = document.createElement('canvas');
-        canvas.width = 600;
-        canvas.height = 600;
-        const ctx = canvas.getContext('2d');
+        const messageText = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;
 
-        // خلفية البطاقة
-        ctx.fillStyle = '#161b22';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        try {
+            // جلب صورة الباركود الأصلية مباشرة
+            const response = await fetch(BARCODE_IMAGE_URL);
+            const blob = await response.blob();
+            const file = new File([blob], 'barcode.png', { type: blob.type });
 
-        // إطار البطاقة
-        ctx.strokeStyle = '#c5a880';
-        ctx.lineWidth = 6;
-        ctx.strokeRect(15, 15, canvas.width - 30, canvas.height - 30);
-
-        // العنوان
-        ctx.fillStyle = '#c5a880';
-        ctx.font = 'bold 32px Tajawal, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(`المتبقي على ${eventName}`, canvas.width / 2, 80);
-
-        // تفاصيل العداد
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 24px Tajawal, sans-serif';
-        ctx.fillText(`${d} يوم - ${h} ساعة - ${m} دقيقة`, canvas.width / 2, 160);
-
-        // النص الدعائي
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '20px Tajawal, sans-serif';
-        ctx.fillText("نسأل الله أن يبلغنا إياها ونحن بصحة وعافية", canvas.width / 2, 220);
-
-        // رسم رابط ورسالة أسفل البطاقة
-        ctx.fillStyle = '#c5a880';
-        ctx.font = 'bold 18px Tajawal, sans-serif';
-        ctx.fillText("موقع تطبيق معدودات", canvas.width / 2, 280);
-
-        // تحميل ورسم الباركود في البطاقة
-        const barcodeImg = new Image();
-        barcodeImg.crossOrigin = "anonymous";
-        barcodeImg.src = BARCODE_IMAGE_URL;
-
-        barcodeImg.onload = async () => {
-            ctx.drawImage(barcodeImg, canvas.width / 2 - 100, 320, 200, 200);
-
-            canvas.toBlob(async (blob) => {
-                const file = new File([blob], `${eventName}.png`, { type: 'image/png' });
-                const messageText = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;
-
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    try {
-                        await navigator.share({
-                            title: `المتبقي على ${eventName}`,
-                            text: messageText,
-                            files: [file]
-                        });
-                        showToast("تمت المشاركة بنجاح!");
-                    } catch (err) {
-                        if (err.name !== 'AbortError') {
-                            downloadImageFallback(canvas, eventName);
-                        }
-                    }
-                } else {
-                    downloadImageFallback(canvas, eventName);
+            // التحقق مما إذا كان الجهاز يدعم مشاركة الملفات والنصوص معاً (جوالات / تطبيقات)
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: `المتبقي على ${eventName}`,
+                    text: messageText,
+                    files: [file]
+                });
+                showToast("تمت المشاركة بنجاح!");
+            } else {
+                // بديل للمتصفحات التي لا تدعم مشاركة الملفات المباشرة: نسخ النص وتحميل الصورة
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(messageText);
                 }
-            }, 'image/png');
-        };
-
-        barcodeImg.onerror = () => {
-            showToast("تعذر تحميل الباركود، جاري المشاركة بدون الباركود");
-            canvas.toBlob(async (blob) => {
-                const file = new File([blob], `${eventName}.png`, { type: 'image/png' });
-                const messageText = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\n\n🔗 https://sdkd2039.github.io/Numbered/`;
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({ title: `المتبقي على ${eventName}`, text: messageText, files: [file] });
-                } else {
-                    downloadImageFallback(canvas, eventName);
-                }
-            }, 'image/png');
-        };
-    }
-
-    function downloadImageFallback(canvas, name) {
-        const a = document.createElement('a');
-        a.href = canvas.toDataURL('image/png');
-        a.download = `${name}.png`;
-        a.click();
-        showToast("تم تنزيل صورة البطاقة لحفظها ومشاركتها!");
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `${eventName}_barcode.png`;
+                link.click();
+                showToast("تم نسخ النص وتنزيل الصورة الحاملة للرمز!");
+            }
+        } catch (error) {
+            console.error("خطأ بالمشاركة:", error);
+            // في حال فشل جلب الصورة لأي سبب، نكتفي بنسخ النص
+            shareTime(eventName, timerId);
+        }
     }
 
     function fallbackCopyText(text) {
@@ -727,9 +664,9 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            showToast("✅ تم نسخ الموعد بنجاح!");
+            showToast("تم نسخ النص بنجاح!");
         } catch (err) {
-            showToast("❎ تعذر النسخ التلقائي.");
+            showToast("تعذر النسخ التلقائي.");
         }
         document.body.removeChild(textArea);
     }
