@@ -577,17 +577,22 @@
 
 <!-- 4. قسم البث المباشر -->
 <div id="panel-live" class="panel-content">
-    <audio id="live-audio" style="display:none;"></audio>
-
-    <div class="box-card">
-        <div class="box-header">
-            <i class="fa-solid fa-radio" style="color: var(--accent-gold);"></i>
-            <h2 class="box-title">إذاعة القرآن الكريم</h2>
+    <div class="box-card" style="border: 1px solid var(--accent-gold);">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 45px; height: 45px; border-radius: 8px;">
+                <div style="text-align: right;">
+                    <div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم</div>
+                </div>
+            </div>
+            <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
         </div>
-        <button class="radio-live-btn" onclick="toggleLiveAudio()">
-            <span>تشغيل / إيقاف البث المباشر</span>
-            <i id="icon-live" class="fa-solid fa-play" style="font-size: 1.2rem;"></i>
-        </button>
+        <div style="text-align: center; margin-top: 15px;">
+            <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer;">
+                <i id="icon-live" class="fa-solid fa-play" style="color: #000;"></i>
+            </button>
+        </div>
+        <audio id="live-audio" style="display:none;"></audio>
     </div>
 
     <div class="box-card">
