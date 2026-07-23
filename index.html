@@ -810,7 +810,7 @@
                 <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
                     <source src="${item.downloadUrl}" type="video/mp4">
                 </video>
-                <button class="sub-tab-btn" style="margin-top: 10px; width: 100%;" onclick="downloadAudio(this)" data-url="${item.downloadUrl}" data-title="${item.title}">
+                <button class="sub-tab-btn" style="margin-top: 10px; width: 100%; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);" onclick="downloadAudio(this)" data-url="${item.downloadUrl}" data-title="${item.title}">
                     <i class="fa-solid fa-download"></i> تحميل
                 </button>
             </div>`).join('');
