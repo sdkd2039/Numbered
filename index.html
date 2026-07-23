@@ -273,8 +273,16 @@
     margin-bottom: 10px;
 }
 
+.share-logos-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
 .share-logo {
-    width: 70px;
+    width: 50px;
     height: auto;
     object-fit: contain;
 }
@@ -577,17 +585,20 @@ video { pointer-events: auto; }
     </div>
 </div>
 
-<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع الشعار واسم القسم وباركود الموقع -->
+<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع الشعارين جنباً إلى جنب واسم القسم وباركود الموقع -->
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
-        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار الموقع">
+        <div class="share-logos-row">
+            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" class="share-logo" alt="شعار الذكر">
+            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
+        </div>
         <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
     </div>
     <div id="share-card-text" class="share-card-text"></div>
     <div id="share-repeat-count" class="share-repeat-count">تكرار: 1 مرات</div>
     <div class="share-card-footer">
         <div class="share-qr-container">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
+            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B7%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
             <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
         </div>
     </div>
@@ -726,7 +737,7 @@ function getCategoryFullName(cat) {
     return 'أذكار منوعة';
 }
 
-/* دالة مشاركة الذكر نصاً (تنسيق محدث بدون نجمة ومزود بالتكرار ونوع الذكر) */
+/* دالة مشاركة الذكر نصاً */
 function shareDhikrText() {
     const list = dhikrData.filter(d => d.cat === currentCategory);
     if (!list || list.length === 0) return;
@@ -772,7 +783,7 @@ async function shareDhikrImage() {
             backgroundColor: '#0d1117'
         });
 
-        // تنزيل الصورة فوراً وبسرعة دون فتح خيارات المشاركة المعقدة
+        // تنزيل الصورة فوراً وبسرعة
         const imageURI = canvas.toDataURL('image/png');
         const a = document.createElement('a');
         a.href = imageURI;
@@ -891,7 +902,7 @@ function fallbackCopyText(text) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('panel-' + tabId).classList.add('active');
         event.currentTarget.classList.add('active');
-        const logoMap = { 'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' };
+        const logoMap = { 'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' };
         document.getElementById('active-tab-logo').src = logoMap[tabId];
     }
 
