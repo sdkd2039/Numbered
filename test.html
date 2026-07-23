@@ -15,6 +15,8 @@
     
     <!-- مكتبة HLS لتشغيل البثوث المباشرة على جميع المتصفحات -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- مكتبة تحويل العناصر إلى صور للالتقاط والمشاركة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root {
@@ -177,6 +179,136 @@
 
         .counter-btn:active { transform: scale(0.9); }
 
+        /* أزرار المشاركة في الذكر */
+        .dhikr-share-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #30363d;
+        }
+
+        .dhikr-share-btn {
+            background: rgba(197, 168, 128, 0.1);
+            border: 1px solid #c5a880;
+            color: #c5a880;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+        }
+
+        .dhikr-share-btn:hover {
+            background: #c5a880;
+            color: #000;
+        }
+
+        /* قالب بطاقة المشاركة المخفية المخصصة للصورة */
+        .hidden-share-card {
+            position: fixed;
+            top: -9999px;
+            left: -9999px;
+            width: 450px;
+            background: #0d1117;
+            border: 2px solid #c5a880;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .share-card-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .share-logos-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .share-logo {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .share-category-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #c5a880;
+        }
+
+        .share-card-text {
+            font-size: 1.35rem;
+            line-height: 2.1;
+            font-weight: 500;
+            color: #f8fafc;
+            margin: 15px 0;
+            word-break: break-word;
+        }
+
+        .share-repeat-count {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #c5a880;
+            background: rgba(197, 168, 128, 0.15);
+            padding: 6px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(197, 168, 128, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .share-card-footer {
+            width: 100%;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #30363d;
+            display: flex;
+            justify-content: center;
+        }
+
+        .share-qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .share-qr-img {
+            width: 95px;
+            height: 95px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #ffffff;
+            padding: 4px;
+        }
+
+        .share-qr-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
         /* العداد التفاعلي */
         .countdown-container { 
             display: flex; 
@@ -219,33 +351,19 @@
         .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
         .time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
 
-        /* أزرار المشاركة */
-        .share-actions-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-            width: 100%;
-        }
-
         .share-btn { 
             background: none; 
-            border: 1px solid rgba(197, 168, 128, 0.3);
-            border-radius: 8px;
-            padding: 8px 12px;
+            border: none; 
             color: var(--accent-gold); 
             cursor: pointer; 
             font-size: 0.85rem; 
+            margin-top: 14px; 
             font-weight: bold; 
             display: flex; 
             justify-content: center;
             align-items: center; 
             gap: 6px; 
-            flex: 1;
-            transition: all 0.2s ease;
-        }
-
-        .share-btn:hover {
-            background: rgba(197, 168, 128, 0.1);
+            width: 100%;
         }
 
         .live-stream-container { position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--border-color); aspect-ratio: 16/9; }
@@ -392,37 +510,25 @@
                 <div class="countdown-title">شهر رمضان المبارك</div>
                 <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                 <div class="live-timer-grid" id="timer-ramadan"></div>
-                <div class="share-actions-group">
-                    <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="share-btn" onclick="shareImageAndText('شهر رمضان المبارك', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة صورة ونص</button>
-                </div>
+                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الفطر المبارك</div>
                 <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                 <div class="live-timer-grid" id="timer-fitr"></div>
-                <div class="share-actions-group">
-                    <button class="share-btn" onclick="shareTime('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="share-btn" onclick="shareImageAndText('عيد الفطر المبارك', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة صورة ونص</button>
-                </div>
+                <button class="share-btn" onclick="shareTime('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عشر ذي الحجة</div>
                 <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
                 <div class="live-timer-grid" id="timer-hajj"></div>
-                <div class="share-actions-group">
-                    <button class="share-btn" onclick="shareTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="share-btn" onclick="shareImageAndText('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة صورة ونص</button>
-                </div>
+                <button class="share-btn" onclick="shareTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الأضحى المبارك</div>
                 <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
                <div class="live-timer-grid" id="timer-adha"></div>
-                <div class="share-actions-group">
-                    <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="share-btn" onclick="shareImageAndText('عيد الأضحى المبارك', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة صورة ونص</button>
-                </div>
+                <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
         </div>
     </div>
@@ -440,6 +546,25 @@
             <button class="sub-tab-btn" onclick="showDhikr('منوعة', this)">منوعة</button>
         </div>
         <div id="dhikr-container" class="dhikr-section"></div>
+    </div>
+</div>
+
+<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع الشعارين واسم القسم وباركود الموقع -->
+<div id="hidden-share-card" class="hidden-share-card">
+    <div class="share-card-header">
+        <div class="share-logos-container">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" class="share-logo" alt="شعار الذكر">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
+        </div>
+        <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
+    </div>
+    <div id="share-card-text" class="share-card-text"></div>
+    <div id="share-repeat-count" class="share-repeat-count">تكرار: 1 مرات</div>
+    <div class="share-card-footer">
+        <div class="share-qr-container">
+            <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
+            <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
+        </div>
     </div>
 </div>
 
@@ -463,9 +588,9 @@
 
 <script>
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-    const BARCODE_IMAGE_URL = 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Download%20barcode.png';
     let cachedTelawat = [];
     let dhikrData = [];
+    let currentCategory = 'الصباح';
     let currentDhikrIndex = 0;
 
     function initLiveAudio() {
@@ -476,6 +601,14 @@
         } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
             audio.src = url;
         }
+    }
+
+    function toggleLiveAudio() {
+        const audio = document.getElementById('live-audio');
+        const icon = document.getElementById('icon-live');
+        if (!audio || !icon) return;
+        if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
+        else { audio.pause(); icon.className = 'fa-solid fa-play'; }
     }
 
     function startCountdown(id, targetDate) {
@@ -497,6 +630,7 @@
     function showDhikr(cat, btn) {
         document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
         if (btn) btn.classList.add('active');
+        currentCategory = cat;
         currentDhikrIndex = 0;
         renderDhikrCard(cat);
     }
@@ -521,6 +655,10 @@
                 <button class="sub-tab-btn" onclick="navDhikr(-1, '${cat}')" ${currentDhikrIndex === 0 ? 'disabled':''}>السابق</button>
                 <button class="sub-tab-btn" onclick="navDhikr(1, '${cat}')" ${currentDhikrIndex === list.length-1 ? 'disabled':''}>التالي</button>
             </div>
+            <div class="dhikr-share-actions">
+                <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
+                <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
+            </div>
         </div>`;
     }
 
@@ -538,6 +676,103 @@
         renderDhikrCard(cat);
     }
 
+    function getCategoryFullName(cat) {
+        if (cat === 'الصباح') return 'أذكار الصباح';
+        if (cat === 'المساء') return 'أذكار المساء';
+        return 'أذكار منوعة';
+    }
+
+    function shareDhikrText() {
+        const list = dhikrData.filter(d => d.cat === currentCategory);
+        if (!list || list.length === 0) return;
+
+        const d = list[currentDhikrIndex];
+        const categoryTitle = getCategoryFullName(currentCategory);
+        
+        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://sdkd2039.github.io/Numbered/`;
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(message).then(() => {
+                showToast("تم نسخ النص بنجاح!");
+            }).catch(() => {
+                fallbackCopyText(message);
+            });
+        } else {
+            fallbackCopyText(message);
+        }
+    }
+
+    /* دالة مساعدة لتحميل الصورة بأمان ودعم CORS لتفادي خروج المربع أبيض */
+    function loadImageSafely(imgElement) {
+        return new Promise((resolve) => {
+            if (imgElement.complete && imgElement.naturalWidth !== 0) {
+                resolve();
+            } else {
+                imgElement.onload = () => resolve();
+                imgElement.onerror = () => resolve();
+            }
+        });
+    }
+
+    /* دالة حفظ الذكر كصورة وضمان ظهور الباركود والشعارين */
+    async function shareDhikrImage() {
+        const list = dhikrData.filter(d => d.cat === currentCategory);
+        if (!list || list.length === 0) return;
+
+        const saveBtn = document.getElementById('btn-save-img');
+        if(saveBtn) {
+            saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...`;
+            saveBtn.disabled = true;
+        }
+
+        const d = list[currentDhikrIndex];
+        const hiddenCard = document.getElementById('hidden-share-card');
+        const shareTextElement = document.getElementById('share-card-text');
+        const shareCatElement = document.getElementById('share-category-title');
+        const shareRepeatElement = document.getElementById('share-repeat-count');
+
+        if (!hiddenCard || !shareTextElement) return;
+
+        // 1. تعبئة البيانات في البطاقة المخفية
+        shareCatElement.innerText = getCategoryFullName(currentCategory);
+        shareTextElement.innerText = d.text;
+        shareRepeatElement.innerText = `عدد التكرار: ${d.target} مرات`;
+
+        // 2. الانتظار حتى التأكد من تحميل جميع الصور (الباركود والشعارات)
+        const images = hiddenCard.querySelectorAll('img');
+        await Promise.all(Array.from(images).map(img => loadImageSafely(img)));
+
+        try {
+            // 3. التقاط البطاقة مع تفعيل التغلب على قيود الخادم
+            const canvas = await html2canvas(hiddenCard, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#0d1117'
+            });
+
+            // 4. تنزيل الصورة
+            const imageURI = canvas.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = imageURI;
+            a.download = `${getCategoryFullName(currentCategory)}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            showToast("تم حفظ الصورة بنجاح!");
+        } catch (err) {
+            console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
+            showToast("تعذر إنشاء الصورة، حاول مرة أخرى.");
+        } finally {
+            if(saveBtn) {
+                saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`;
+                saveBtn.disabled = false;
+            }
+        }
+    }
+
+    /* دالة عرض التلاوات */
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
@@ -582,7 +817,6 @@
         }
     }
 
-    /* 1. دالة نسخ النص فقط */
     function shareTime(eventName, timerId) {
         const element = document.getElementById(timerId);
         if (!element) return;
@@ -598,59 +832,12 @@
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
-                showToast("تم نسخ النص بنجاح!");
+                showToast("تم نسخ الموعد بنجاح!");
             }).catch(() => {
                 fallbackCopyText(message);
             });
         } else {
             fallbackCopyText(message);
-        }
-    }
-
-    /* 2. دالة مشاركة/نسخ النص والصورة معاً */
-    async function shareImageAndText(eventName, timerId) {
-        showToast("جاري تجهيز الصورة والنص...");
-        const element = document.getElementById(timerId);
-        if (!element) return;
-
-        const timeBoxes = element.querySelectorAll('.time-box');
-        if (timeBoxes.length < 3) return;
-
-        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-
-        const messageText = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;
-
-        try {
-            // جلب صورة الباركود الأصلية مباشرة
-            const response = await fetch(BARCODE_IMAGE_URL);
-            const blob = await response.blob();
-            const file = new File([blob], 'barcode.png', { type: blob.type });
-
-            // التحقق مما إذا كان الجهاز يدعم مشاركة الملفات والنصوص معاً (جوالات / تطبيقات)
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                    title: `المتبقي على ${eventName}`,
-                    text: messageText,
-                    files: [file]
-                });
-                showToast("تمت المشاركة بنجاح!");
-            } else {
-                // بديل للمتصفحات التي لا تدعم مشاركة الملفات المباشرة: نسخ النص وتحميل الصورة
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    await navigator.clipboard.writeText(messageText);
-                }
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = `${eventName}_barcode.png`;
-                link.click();
-                showToast("تم نسخ النص وتنزيل الصورة الحاملة للرمز!");
-            }
-        } catch (error) {
-            console.error("خطأ بالمشاركة:", error);
-            // في حال فشل جلب الصورة لأي سبب، نكتفي بنسخ النص
-            shareTime(eventName, timerId);
         }
     }
 
@@ -664,9 +851,9 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            showToast("تم نسخ النص بنجاح!");
+            showToast("✅ تم النسخ بنجاح!");
         } catch (err) {
-            showToast("تعذر النسخ التلقائي.");
+            showToast("❎ تعذر النسخ التلقائي.");
         }
         document.body.removeChild(textArea);
     }
