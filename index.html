@@ -331,10 +331,11 @@
 }
 
 .share-qr-img {
-    width: 85px;
-    height: 85px;
+    width: 95px;
+    height: 95px;
+    object-fit: contain;
     border-radius: 8px;
-    background: #fff;
+    background: #ffffff;
     padding: 4px;
 }
 
@@ -590,8 +591,8 @@ video { pointer-events: auto; }
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
         <div class="share-logos-container">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" class="share-logo" alt="شعار الذكر">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" class="share-logo" alt="شعار الذكر">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
         </div>
         <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
     </div>
@@ -599,7 +600,7 @@ video { pointer-events: auto; }
     <div id="share-repeat-count" class="share-repeat-count">تكرار: 1 مرات</div>
     <div class="share-card-footer">
         <div class="share-qr-container">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
+            <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
             <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
         </div>
     </div>
@@ -712,7 +713,7 @@ function renderDhikrCard(cat) {
         </div>
         <div class="dhikr-share-actions">
             <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
-            <button class="dhikr-share-btn" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
+            <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
         </div>
     </div>`;
 }
@@ -731,14 +732,12 @@ function incDhikr(id, cat) {
     renderDhikrCard(cat);
 }
 
-/* دالة الحصول على اسم الفئة بالكامل للعرض */
 function getCategoryFullName(cat) {
     if (cat === 'الصباح') return 'أذكار الصباح';
     if (cat === 'المساء') return 'أذكار المساء';
     return 'أذكار منوعة';
 }
 
-/* دالة مشاركة الذكر نصاً */
 function shareDhikrText() {
     const list = dhikrData.filter(d => d.cat === currentCategory);
     if (!list || list.length === 0) return;
@@ -759,10 +758,28 @@ function shareDhikrText() {
     }
 }
 
-/* دالة حفظ الذكر كصورة مع الشعارين معاً بالمنتصف */
+/* دالة مساعدة لتحميل الصورة بأمان ودعم CORS لتفادي خروج المربع أبيض */
+function loadImageSafely(imgElement) {
+    return new Promise((resolve) => {
+        if (imgElement.complete && imgElement.naturalWidth !== 0) {
+            resolve();
+        } else {
+            imgElement.onload = () => resolve();
+            imgElement.onerror = () => resolve();
+        }
+    });
+}
+
+/* دالة حفظ الذكر كصورة وضمان ظهور الباركود */
 async function shareDhikrImage() {
     const list = dhikrData.filter(d => d.cat === currentCategory);
     if (!list || list.length === 0) return;
+
+    const saveBtn = document.getElementById('btn-save-img');
+    if(saveBtn) {
+        saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...`;
+        saveBtn.disabled = true;
+    }
 
     const d = list[currentDhikrIndex];
     const hiddenCard = document.getElementById('hidden-share-card');
@@ -772,19 +789,25 @@ async function shareDhikrImage() {
 
     if (!hiddenCard || !shareTextElement) return;
 
-    // تعبئة البيانات في البطاقة المخفية
+    // 1. تعبئة البيانات في البطاقة المخفية
     shareCatElement.innerText = getCategoryFullName(currentCategory);
     shareTextElement.innerText = d.text;
     shareRepeatElement.innerText = `عدد التكرار: ${d.target} مرات`;
 
+    // 2. الانتظار حتى التأكد من تحميل جميع الصور (بما فيها الباركود)
+    const images = hiddenCard.querySelectorAll('img');
+    await Promise.all(Array.from(images).map(img => loadImageSafely(img)));
+
     try {
+        // 3. التقاط البطاقة مع تفعيل التغلب على قيود الخادم
         const canvas = await html2canvas(hiddenCard, {
             scale: 2,
             useCORS: true,
+            allowTaint: true,
             backgroundColor: '#0d1117'
         });
 
-        // تنزيل الصورة فوراً وسريعاً
+        // 4. تنزيل الصورة
         const imageURI = canvas.toDataURL('image/png');
         const a = document.createElement('a');
         a.href = imageURI;
@@ -796,6 +819,11 @@ async function shareDhikrImage() {
     } catch (err) {
         console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
         alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
+    } finally {
+        if(saveBtn) {
+            saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`;
+            saveBtn.disabled = false;
+        }
     }
 }
 
