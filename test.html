@@ -563,31 +563,31 @@
             }
         }
     }
+function shareTime(eventName, timerId) {
+    const element = document.getElementById(timerId);
+    if (!element) return;
+    
+    const timeBoxes = element.querySelectorAll('.time-box');
+    if (timeBoxes.length < 3) return;
 
-    function shareTime(eventName, timerId) {
-        const element = document.getElementById(timerId);
-        if (!element) return;
-        
-        const timeBoxes = element.querySelectorAll('.time-box');
-        if (timeBoxes.length < 4) return;
-
-        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-        const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
-        
-        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
-        
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(message).then(() => {
-                showToast("تم نسخ الموعد بنجاح!");
-            }).catch(() => {
-                fallbackCopyText(message);
-            });
-        } else {
+    // استخراج الأيام والساعات والدقائق وتجاهل الثواني
+    const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
+    const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
+    const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
+    
+    // صياغة الرسالة بدون الثواني
+    const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(message).then(() => {
+            showToast("تم نسخ الموعد بنجاح!");
+        }).catch(() => {
             fallbackCopyText(message);
-        }
+        });
+    } else {
+        fallbackCopyText(message);
     }
+}
 
     function fallbackCopyText(text) {
         const textArea = document.createElement("textarea");
@@ -599,9 +599,9 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            showToast("تم نسخ الموعد بنجاح!");
+            showToast("✅ تم نسخ الموعد بنجاح!");
         } catch (err) {
-            showToast("تعذر النسخ التلقائي.");
+            showToast("❎ تعذر النسخ التلقائي.");
         }
         document.body.removeChild(textArea);
     }
