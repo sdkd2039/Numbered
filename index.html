@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معدودات</title>
     <!-- أيقونة المتصفح العادية -->
-    <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
+    <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%A3%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
 
     <!-- أيقونات الآيفون والآيباد للشاشة الرئيسية -->
     <link rel="apple-touch-icon" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
@@ -660,18 +660,34 @@
     }
 
     function showDhikr(cat, btn) {
+        // تحديث حالة الأزرار الفرعية
         document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-        if (btn) btn.classList.add('active');
+        if (btn) {
+            btn.classList.add('active');
+        } else {
+            // البحث عن الزر المطابق في حال التبديل البرمجي
+            const buttons = document.querySelectorAll('#panel-dhikr .sub-tab-btn');
+            buttons.forEach(b => {
+                if(b.innerText.trim() === cat) b.classList.add('active');
+            });
+        }
         
-        currentCategory = cat;
-        currentDhikrIndex = 0;
-        renderDhikrCard(cat);
+        // إعادة التعيين للبداية فقط عند تغيير الفئة وليس إعادة الضغط على نفس الفئة
+        if (currentCategory !== cat) {
+            currentCategory = cat;
+            currentDhikrIndex = 0;
+        }
+        
+        renderDhikrCard(currentCategory);
     }
 
     function renderDhikrCard(cat) {
         const container = document.getElementById('dhikr-container');
         const list = dhikrData.filter(d => d.cat === cat);
         if (!list || list.length === 0) return;
+
+        // التحقق من صلاحية الفهرس
+        if (currentDhikrIndex >= list.length) currentDhikrIndex = 0;
 
         const d = list[currentDhikrIndex];
         let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
@@ -837,7 +853,7 @@
                 renderTelawat(cachedTelawat);
             } else {
                 dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
-                showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
+                showDhikr('الصباح', null);
             }
         }
     }
@@ -901,9 +917,22 @@
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('panel-' + tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
-        const logoMap = { 'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' };
+        if (event && event.currentTarget) {
+            event.currentTarget.classList.add('active');
+        }
+        
+        const logoMap = { 
+            'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 
+            'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 
+            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%8Noise%20اسم6_20260713154626.png', 
+            'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' 
+        };
         document.getElementById('active-tab-logo').src = logoMap[tabId];
+
+        // التأكد من عرض قسم الأذكار والتفعيل الفوري لـ "الصباح" عند فتح تبويب الذكر
+        if (tabId === 'dhikr') {
+            showDhikr(currentCategory, null);
+        }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
