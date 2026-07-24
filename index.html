@@ -880,7 +880,7 @@
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
         const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
         
-        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
