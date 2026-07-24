@@ -4,19 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معدودات</title>
+    
     <!-- أيقونة المتصفح العادية -->
-    <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%A3%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-
-    <!-- أيقونات الآيفون والآيباد للشاشة الرئيسية -->
-    <link rel="apple-touch-icon" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-
-    <!-- إعدادات إضافية لتجربة التطبيق في نظام iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="معدودات">
+    <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -376,23 +366,25 @@
             width: 100%;
         }
 
-        .live-stream-container {
-            position: relative;
+        /* تنسيق زر إذاعة القرآن الكريم المباشر */
+        .radio-live-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             width: 100%;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
+            padding: 15px 20px;
+            background: var(--accent-gold);
+            color: #000;
             border-radius: 12px;
-            background: #000;
-        }
-
-        .live-video-player {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            text-decoration: none;
+            font-weight: bold;
             border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .radio-live-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
         }
 
         .animate-fade { animation: fadeIn 0.3s ease; }
@@ -472,30 +464,30 @@
     <img id="active-tab-logo" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" class="main-logo" alt="القسم الحالي">
 </header>
     
-<div class="tabs-wrapper">
-    <div class="tabs-container">
-        <button class="tab-btn active" onclick="switchTab('telawat', event)">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات">
-            <span>تلاوات</span>
-        </button>
-        <button class="tab-btn" onclick="switchTab('remaining', event)">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png" alt="المتبقي">
-            <span>المتبقي</span>
-        </button>
-        <button class="tab-btn" onclick="switchTab('dhikr', event)">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" alt="الذكر">
-            <span>الذكر</span>
-        </button>
-        <button class="tab-btn" onclick="switchTab('live', event)">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="#f8fafc" stroke-width="2"/>
-                <circle cx="12" cy="12" r="3" fill="#ef4444"/>
-                <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12" stroke="#f8fafc" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span>بث مباشر</span>
-        </button>
+    <div class="tabs-wrapper">
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="switchTab('telawat', this)">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات">
+                <span>تلاوات</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('remaining', this)">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png" alt="المتبقي">
+                <span>المتبقي</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('dhikr', this)">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" alt="الذكر">
+                <span>الذكر</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('live', this)">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="#f8fafc" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="3" fill="#ef4444"/>
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12" stroke="#f8fafc" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>بث مباشر</span>
+            </button>
+        </div>
     </div>
-</div>
 
 <!-- 1. قسم التلاوات -->
 <div id="panel-telawat" class="panel-content active">
@@ -542,7 +534,7 @@
             <div class="countdown-item">
                 <div class="countdown-title">عيد الأضحى المبارك</div>
                 <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
-                <div class="live-timer-grid" id="timer-adha"></div>
+               <div class="live-timer-grid" id="timer-adha"></div>
                 <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
         </div>
@@ -605,16 +597,16 @@
 
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
-        <div class="live-stream-container">
-            <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" allowfullscreen class="live-video-player"></iframe>
-        </div>
+        <a href="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" target="_blank" style="display: block; width: 100%; padding: 15px; background: var(--accent-gold); color: #000; text-align: center; border-radius: 12px; text-decoration: none; font-weight: bold;">
+            للمشاهدة بث قناة القرآن الكريم <i class="fa-solid fa-external-link-alt"></i>
+        </a>
     </div>
 
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة السنة النبوية</h2></div>
-        <div class="live-stream-container">
-            <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=suna_tv4" allowfullscreen class="live-video-player"></iframe>
-        </div>
+        <a href="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=suna_tv4" target="_blank" style="display: block; width: 100%; padding: 15px; background: var(--accent-gold); color: #000; text-align: center; border-radius: 12px; text-decoration: none; font-weight: bold;">
+            للمشاهدة بث قناة السنة النبوية <i class="fa-solid fa-external-link-alt"></i>
+        </a>
     </div>
 </div>
 
@@ -639,8 +631,13 @@
         const audio = document.getElementById('live-audio');
         const icon = document.getElementById('icon-live');
         if (!audio || !icon) return;
-        if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
-        else { audio.pause(); icon.className = 'fa-solid fa-play'; }
+        if (audio.paused) { 
+            audio.play(); 
+            icon.className = 'fa-solid fa-pause'; 
+        } else { 
+            audio.pause(); 
+            icon.className = 'fa-solid fa-play'; 
+        }
     }
 
     function startCountdown(id, targetDate) {
@@ -660,41 +657,24 @@
     }
 
     function showDhikr(cat, btn) {
-        // تحديث حالة الأزرار الفرعية
         document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-        if (btn) {
-            btn.classList.add('active');
-        } else {
-            // البحث عن الزر المطابق في حال التبديل البرمجي
-            const buttons = document.querySelectorAll('#panel-dhikr .sub-tab-btn');
-            buttons.forEach(b => {
-                if(b.innerText.trim() === cat) b.classList.add('active');
-            });
-        }
-        
-        // إعادة التعيين للبداية فقط عند تغيير الفئة وليس إعادة الضغط على نفس الفئة
-        if (currentCategory !== cat) {
-            currentCategory = cat;
-            currentDhikrIndex = 0;
-        }
-        
-        renderDhikrCard(currentCategory);
+        if (btn) btn.classList.add('active');
+        currentCategory = cat;
+        currentDhikrIndex = 0;
+        renderDhikrCard(cat);
     }
 
     function renderDhikrCard(cat) {
         const container = document.getElementById('dhikr-container');
         const list = dhikrData.filter(d => d.cat === cat);
         if (!list || list.length === 0) return;
-
-        // التحقق من صلاحية الفهرس
-        if (currentDhikrIndex >= list.length) currentDhikrIndex = 0;
-
+        
         const d = list[currentDhikrIndex];
         let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
         let progress = (count / parseInt(d.target)) * 100;
 
         container.innerHTML = `
-        <div class="dhikr-card animate-slowmo">
+        <div class="dhikr-card animate-fade">
             <div style="text-align:center; margin-bottom:10px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
             <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
             <div class="progress-bar" style="width:100%; height:8px; margin: 20px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
@@ -742,7 +722,7 @@
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
-                alert("تم نسخ النص بنجاح!");
+                showToast("تم نسخ النص بنجاح!");
             }).catch(() => {
                 fallbackCopyText(message);
             });
@@ -803,9 +783,10 @@
             a.click();
             document.body.removeChild(a);
 
+            showToast("تم حفظ الصورة بنجاح!");
         } catch (err) {
             console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
-            alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
+            showToast("تعذر إنشاء الصورة، حاول مرة أخرى.");
         } finally {
             if(saveBtn) {
                 saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`;
@@ -817,18 +798,14 @@
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
-        list.innerHTML = ''; 
         
         list.innerHTML = items.map(item => `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #30363d; border-radius: 12px; background: #1a1a1a;">
-                <h3 class="search-title" style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
-                <div class="search-reader" style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
-                <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
+            <div class="box-card" style="margin-bottom: 20px; padding: 20px; border-radius: 20px;">
+                <h3 class="search-title" style="margin-bottom:5px;">${item.title}</h3>
+                <div class="search-reader" style="color:var(--text-muted); margin-bottom:15px;">${item.reader}</div>
+                <video controls controlsList="nodownload" style="width: 100%; border-radius: 12px; background: #000;">
                     <source src="${item.downloadUrl}" type="video/mp4">
                 </video>
-                <button class="sub-tab-btn" style="margin-top: 10px; width: 100%; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);" onclick="downloadAudio(this)" data-url="${item.downloadUrl}" data-title="${item.title}">
-                    <i class="fa-solid fa-download"></i> تحميل
-                </button>
             </div>`).join('');
     }
 
@@ -837,7 +814,7 @@
         const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
         for (let i = 0; i < cards.length; i++) {
             let title = cards[i].querySelector('.search-title').innerText;
-            let reader = cards[i].querySelector('.search-reader').innerText;
+            let reader = cards[i].querySelector('.search-reader') ? cards[i].querySelector('.search-reader').innerText : '';
             cards[i].style.display = (title.toUpperCase().indexOf(filter) > -1 || reader.toUpperCase().indexOf(filter) > -1) ? "" : "none";
         }
     }
@@ -845,32 +822,21 @@
     async function fetchAllData() {
         const sheets = ['التلاوات', 'الأذكار'];
         for (const sheet of sheets) {
-            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
-            const res = await fetch(url).then(r => r.text());
-            const json = JSON.parse(res.substring(47).slice(0, -2));
-            if (sheet === 'التلاوات') {
-                cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
-                renderTelawat(cachedTelawat);
-            } else {
-                dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
-                showDhikr('الصباح', null);
+            try {
+                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
+                const res = await fetch(url).then(r => r.text());
+                const json = JSON.parse(res.substring(47).slice(0, -2));
+                if (sheet === 'التلاوات') {
+                    cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
+                    renderTelawat(cachedTelawat);
+                } else {
+                    dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
+                    showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
+                }
+            } catch (err) {
+                console.error("خطأ في جلب البيانات:", err);
             }
         }
-    }
-
-    function downloadAudio(btn) {
-        const url = btn.getAttribute('data-url');
-        const title = btn.getAttribute('data-title');
-        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...`;
-        btn.disabled = true;
-        fetch(url).then(r => r.blob()).then(blob => {
-            const a = document.createElement('a');
-            a.href = window.URL.createObjectURL(blob);
-            a.download = `${title}.mp4`;
-            a.click();
-            btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
-            btn.disabled = false;
-        }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
 
     function shareTime(eventName, timerId) {
@@ -878,16 +844,17 @@
         if (!element) return;
         
         const timeBoxes = element.querySelectorAll('.time-box');
+        if (timeBoxes.length < 3) return;
+
         const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
         const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-        const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
         
-        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
-                alert("تم نسخ الموعد بنجاح!");
+                showToast("تم نسخ الموعد بنجاح!");
             }).catch(() => {
                 fallbackCopyText(message);
             });
@@ -906,32 +873,36 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            alert("تم نسخ النص بنجاح!");
+            showToast("✅ تم النسخ بنجاح!");
         } catch (err) {
-            alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
+            showToast("❎ تعذر النسخ التلقائي.");
         }
         document.body.removeChild(textArea);
     }
     
-    function switchTab(tabId, event) {
+    function switchTab(tabId, btnElement) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('panel-' + tabId).classList.add('active');
-        if (event && event.currentTarget) {
-            event.currentTarget.classList.add('active');
+        
+        const targetPanel = document.getElementById('panel-' + tabId);
+        if (targetPanel) targetPanel.classList.add('active');
+        
+        if (btnElement) {
+            btnElement.classList.add('active');
+        } else if (window.event && window.event.currentTarget) {
+            window.event.currentTarget.classList.add('active');
         }
         
         const logoMap = { 
             'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 
             'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 
-            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%8Noise%20اسم6_20260713154626.png', 
+            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 
             'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' 
         };
-        document.getElementById('active-tab-logo').src = logoMap[tabId];
-
-        // التأكد من عرض قسم الأذكار والتفعيل الفوري لـ "الصباح" عند فتح تبويب الذكر
-        if (tabId === 'dhikr') {
-            showDhikr(currentCategory, null);
+        
+        const logoImg = document.getElementById('active-tab-logo');
+        if (logoImg && logoMap[tabId]) {
+            logoImg.src = logoMap[tabId];
         }
     }
 
@@ -940,12 +911,11 @@
         const lastDate = localStorage.getItem('lastDate');
 
         if (lastDate !== today) {
-            for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
+            Object.keys(localStorage).forEach(key => {
                 if (key.startsWith('c_')) {
                     localStorage.setItem(key, 0);
                 }
-            }
+            });
             localStorage.setItem('lastDate', today);
         }
 
@@ -956,16 +926,17 @@
         startCountdown('timer-fitr', '2027-03-08T00:00:00');
         startCountdown('timer-hajj', '2027-05-08T00:00:00');
         startCountdown('timer-adha', '2027-05-16T00:00:00');
-    });
+    });      
+    
+    function showToast(msg) {
+        const toast = document.createElement('div');
+        toast.innerText = msg;
+        toast.className = 'animate-fade';
+        toast.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#c5a880; color:#000; padding:10px 24px; border-radius:20px; z-index:9999; font-weight:bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3);";
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
 </script>
-
-<!-- زر تحميل التطبيق في نهاية الصفحة -->
-<div style="text-align: center; margin: 25px 0 10px 0; padding: 15px 0 10px 0; border-top: 1px solid #30363d;">
-    <a href="https://n9.cl/hwtsjr" style="display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s;">
-        <img src="https://files.catbox.moe/zv7ga4.png" alt="تحميل" style="width: 20px; height: 20px; filter: brightness(0);">
-        تحميل التطبيق (الأندرويد)
-    </a>
-</div>
 
 <!-- تذييل الصفحة Footer -->
 <footer class="site-footer">
@@ -973,7 +944,7 @@
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
         </svg>
-        <span>تابعنا على منصة X</span>
+        <span>تابعنا على منصة 𝕏</span>
     </a>
 </footer>
 
