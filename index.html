@@ -659,27 +659,15 @@
         }, 1000);
     }
 
-    function showDhikr(cat, btn) {
-        // تحديث حالة الأزرار الفرعية
-        document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-        if (btn) {
-            btn.classList.add('active');
-        } else {
-            // البحث عن الزر المطابق في حال التبديل البرمجي
-            const buttons = document.querySelectorAll('#panel-dhikr .sub-tab-btn');
-            buttons.forEach(b => {
-                if(b.innerText.trim() === cat) b.classList.add('active');
-            });
-        }
-        
-        // إعادة التعيين للبداية فقط عند تغيير الفئة وليس إعادة الضغط على نفس الفئة
-        if (currentCategory !== cat) {
-            currentCategory = cat;
-            currentDhikrIndex = 0;
-        }
-        
-        renderDhikrCard(currentCategory);
-    }
+function showDhikr(cat, btn) {
+    document.querySelectorAll('.sub-tabs .sub-tab-btn').forEach(b => {
+        b.classList.toggle('active', b.innerText.trim() === cat);
+    });
+    
+    currentCategory = cat;
+    currentDhikrIndex = 0;
+    renderDhikrCard(cat);
+}
 
     function renderDhikrCard(cat) {
         const container = document.getElementById('dhikr-container');
@@ -852,8 +840,8 @@
                 cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
                 renderTelawat(cachedTelawat);
             } else {
-                dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
-                showDhikr('الصباح', null);
+            dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
+            showDhikr('الصباح');
             }
         }
     }
