@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معدودات</title>
     <!-- أيقونة المتصفح العادية -->
-    <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%A3%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
+    <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A3%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
 
     <!-- أيقونات الآيفون والآيباد للشاشة الرئيسية -->
     <link rel="apple-touch-icon" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
@@ -398,6 +398,15 @@
         .animate-fade { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* إضافة تأثير الحركة السلو موشن عند الانتقال بين الأذكار */
+        .animate-slowmo { 
+            animation: slowMotion 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+        @keyframes slowMotion { 
+            from { opacity: 0; transform: translateY(12px) scale(0.98); } 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
         /* تذييل الصفحة Footer */
@@ -483,7 +492,7 @@
             <span>المتبقي</span>
         </button>
         <button class="tab-btn" onclick="switchTab('dhikr', event)">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" alt="الذكر">
+            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%82%20%D8%A7%D8%B3%D9%856_20260713154626.png" alt="الذكر">
             <span>الذكر</span>
         </button>
         <button class="tab-btn" onclick="switchTab('live', event)">
@@ -659,15 +668,15 @@
         }, 1000);
     }
 
-function showDhikr(cat, btn) {
-    document.querySelectorAll('.sub-tabs .sub-tab-btn').forEach(b => {
-        b.classList.toggle('active', b.innerText.trim() === cat);
-    });
-    
-    currentCategory = cat;
-    currentDhikrIndex = 0;
-    renderDhikrCard(cat);
-}
+    function showDhikr(cat, btn) {
+        document.querySelectorAll('.sub-tabs .sub-tab-btn').forEach(b => {
+            b.classList.toggle('active', b.innerText.trim() === cat);
+        });
+        
+        currentCategory = cat;
+        currentDhikrIndex = 0;
+        renderDhikrCard(cat);
+    }
 
     function renderDhikrCard(cat) {
         const container = document.getElementById('dhikr-container');
@@ -840,8 +849,8 @@ function showDhikr(cat, btn) {
                 cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v, reader: r.c[1]?.v, downloadUrl: r.c[2]?.v })).reverse();
                 renderTelawat(cachedTelawat);
             } else {
-            dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
-            showDhikr('الصباح');
+                dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v, text: r.c[1]?.v, target: r.c[2]?.v, id: r.c[3]?.v }));
+                showDhikr('الصباح');
             }
         }
     }
@@ -912,7 +921,7 @@ function showDhikr(cat, btn) {
         const logoMap = { 
             'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 
             'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 
-            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%8Noise%20اسم6_20260713154626.png', 
+            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png', 
             'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' 
         };
         document.getElementById('active-tab-logo').src = logoMap[tabId];
