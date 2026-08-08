@@ -63,7 +63,7 @@
             padding: 20px;
         }
 
-        /* تنسيق مقدمة الموقع (Splash Screen) ليملأ الشاشة بالكامل وبدون هوامش */
+        /* تنسيق مقدمة الموقع (Splash Screen) - تم جعلها تملأ الشاشة بالكامل وتكبير الصورة المتحركة */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -86,7 +86,6 @@
             width: 100vw;
             height: 100vh;
             object-fit: cover; /* ملء الشاشة بالكامل بدون فراغات */
-            display: block;
         }
 
         img { pointer-events: none; -webkit-touch-callout: none; }
@@ -185,7 +184,6 @@
             width: 100%;
         }
 
-        /* تعليمات التمرير الجانبي */
         .dhikr-hint {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -228,7 +226,6 @@
 
         .counter-btn:active { transform: scale(0.9); }
 
-        /* أزرار المشاركة في الذكر */
         .dhikr-share-actions {
             display: flex;
             gap: 10px;
@@ -259,7 +256,6 @@
             color: #000;
         }
 
-        /* قالب بطاقة المشاركة المخفية المخصصة للصورة */
         .hidden-share-card {
             position: fixed;
             top: -9999px;
@@ -358,7 +354,6 @@
             font-weight: bold;
         }
 
-        /* العداد التفاعلي */
         .countdown-container { 
             display: flex; 
             flex-direction: column; 
@@ -437,7 +432,6 @@
         .animate-fade { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* تأثير الحركة السلو موشن السلسة عند الانتقال بين الأذكار */
         .animate-slowmo { 
             animation: slowMotion 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
         }
@@ -448,7 +442,6 @@
 
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
-        /* تذييل الصفحة Footer */
         .site-footer {
             width: 100%;
             display: flex;
@@ -516,12 +509,10 @@
 </head>
 <body oncontextmenu="return false;">
 
-<!-- مقدمة الموقع (Splash Screen) -->
+<!-- مقدمة الموقع (Splash Screen) - تمت تلبية الطلب بتكبيرها لتملأ الشاشة بالكامل وتسريع وقت الانتقال -->
 <div id="splash-screen">
-    <picture style="width: 100vw; height: 100vh; display: block;">
-        <!-- رابط الجوال للشاشات الصغيرة -->
+    <picture>
         <source media="(max-width: 768px)" srcset="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif">
-        <!-- رابط اللابتوب للشاشات الكبيرة (الافتراضي) -->
         <img id="splash-img" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="مقدمة معدودات" class="splash-gif">
     </picture>
 </div>
@@ -677,25 +668,25 @@
 </div>
 
 <script>
-    // تحديد رابط المقدمة ديناميكياً حسب الجهاز (جوال أو لابتوب)
+    // تحديد رابط المقدمة ديناميكياً وتخفيض مدة الانتظار لتسريع الدخول للموقع
     window.addEventListener('DOMContentLoaded', () => {
         const splashImg = document.getElementById('splash-img');
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         if (isMobile) {
-            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif";[cite: 2]
+            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif";
         } else {
-            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif";[cite: 2]
+            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif";
         }
 
-        // إخفاء المقدمة بسلاسة بعد 2.5 ثانية
+        // تقليص المدة إلى 1.2 ثانية لتسريع الظهور ومنع التأخير
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
             if (splash) {
                 splash.classList.add('fade-out');
-                setTimeout(() => splash.remove(), 500);
+                setTimeout(() => splash.remove(), 400);
             }
-        }, 2500);
+        }, 1200);
     });
 
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
@@ -778,7 +769,6 @@
         setupSwipeGestures(cat, list.length);
     }
 
-    // تفعيل السحب يميناً ويساراً (Swipe / Drag) للتنقل بسلاسة سلو موشن
     function setupSwipeGestures(cat, totalLength) {
         const card = document.getElementById('active-dhikr-card');
         if (!card) return;
@@ -795,7 +785,6 @@
             handleSwipe(cat, totalLength);
         }, {passive: true});
 
-        // دعم الماوس أيضاً لأجهزة اللابتوب (السحب بالفأرة)
         let mouseStartX = 0;
         let mouseEndX = 0;
         let isMouseDown = false;
@@ -817,11 +806,9 @@
         let diff = touchEndX - touchStartX;
         if (Math.abs(diff) > 50) {
             if (diff > 0) {
-                // سحب لليمين -> الذكر السابق
                 currentDhikrIndex--;
                 renderDhikrCard(cat);
             } else {
-                // سحب لليسار -> الذكر التالي
                 currentDhikrIndex++;
                 renderDhikrCard(cat);
             }
@@ -974,7 +961,6 @@
             const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
             const res = await fetch(url).then(r => r.text());
             
-            // معالجة آمنة وقوية لاستخراج بيانات JSON بغض النظر عن طول بادئة جوجل
             const jsonText = res.substring(res.indexOf('{'), res.lastIndexOf(')'));
             const json = JSON.parse(jsonText);
 
@@ -1045,7 +1031,7 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            alert("تم نسخ الموعد بنجاح!");
+            alert("تم نسخ النص بنجاح!");
         } catch (err) {
             alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
         }
@@ -1097,15 +1083,13 @@
     });
 </script>
 
-<!-- زر تحميل التطبيق في نهاية الصفحة -->
 <div style="text-align: center; margin: 25px 0 10px 0; padding: 15px 0 10px 0; border-top: 1px solid #30363d;">
-    <a href="https://n9.cl/hwtsjr" style="display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s;">
+    <a href="https://n9.cl/hwtsjr" style="display: inline-files; display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s;">
         <img src="https://files.catbox.moe/zv7ga4.png" alt="تحميل" style="width: 20px; height: 20px; filter: brightness(0);">
         تحميل التطبيق (الأندرويد)
     </a>
 </div>
 
-<!-- تذييل الصفحة Footer -->
 <footer class="site-footer">
     <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link" title="منصة X">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
