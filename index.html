@@ -72,7 +72,6 @@
             height: 100%;
             background-color: var(--bg-color);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 99999;
@@ -87,13 +86,6 @@
             width: 60%;
             height: auto;
             object-fit: contain;
-        }
-        .splash-fallback-text {
-            display: none;
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            letter-spacing: 1px;
         }
 
         img { pointer-events: none; -webkit-touch-callout: none; }
@@ -192,7 +184,6 @@
             width: 100%;
         }
 
-        /* تعليمات التمرير الجانبي */
         .dhikr-hint {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -235,7 +226,6 @@
 
         .counter-btn:active { transform: scale(0.9); }
 
-        /* أزرار المشاركة في الذكر */
         .dhikr-share-actions {
             display: flex;
             gap: 10px;
@@ -266,7 +256,7 @@
             color: #000;
         }
 
-        /* قالب بطاقة المشاركة المخفية المخصصة للصورة */
+        /* قالب بطاقة المشاركة المخفية المخصصة للصورة مع دعم CORS للصور */
         .hidden-share-card {
             position: fixed;
             top: -9999px;
@@ -365,7 +355,6 @@
             font-weight: bold;
         }
 
-        /* العداد التفاعلي */
         .countdown-container { 
             display: flex; 
             flex-direction: column; 
@@ -444,18 +433,16 @@
         .animate-fade { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* تأثير الحركة السلو موشن السلسة عند الانتقال بين الأذكار */
         .animate-slowmo { 
-            animation: slowMotion 0.5s cubic-bezier(0.25, 1, 0.5, 1); 
+            animation: slowMotion 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
         }
         @keyframes slowMotion { 
-            from { opacity: 0; transform: scale(0.97); } 
+            from { opacity: 0; transform: scale(0.96); } 
             to { opacity: 1; transform: scale(1); } 
         }
 
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
-        /* تذييل الصفحة Footer */
         .site-footer {
             width: 100%;
             display: flex;
@@ -523,13 +510,12 @@
 </head>
 <body oncontextmenu="return false;">
 
-<!-- مقدمة الموقع (Splash Screen) مع نظام حماية في حال فشل تحميل الصورة -->
+<!-- مقدمة الموقع (Splash Screen) -->
 <div id="splash-screen">
     <picture>
-        <source media="(max-width: 768px)" srcset="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%20/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif">
-        <img id="splash-img" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="مقدمة معدودات" class="splash-gif" onerror="this.style.display='none'; document.getElementById('splash-fallback-text').style.display='block';">
+        <source media="(max-width: 768px)" srcset="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif">
+        <img id="splash-img" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="مقدمة معدودات" class="splash-gif">
     </picture>
-    <div id="splash-fallback-text" class="splash-fallback-text">معدودات</div>
 </div>
 
 <header>
@@ -628,7 +614,7 @@
     </div>
 </div>
 
-<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع الشعارين واسم القسم وباركود الموقع -->
+<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع تفعيل crossorigin لحل مشكلة تحميل الصور عبر html2canvas -->
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
         <div class="share-logos-container">
@@ -683,7 +669,7 @@
 </div>
 
 <script>
-    // تحديد رابط المقدمة ديناميكياً حسب الجهاز وإخفاؤها بسلاسة
+    // إخفاء شاشة الترحيب بسلاسة
     window.addEventListener('DOMContentLoaded', () => {
         const splashImg = document.getElementById('splash-img');
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -769,7 +755,7 @@
         container.innerHTML = `
         <div class="dhikr-card animate-slowmo" id="active-dhikr-card">
             <div style="text-align:center; margin-bottom:5px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
-            <div class="dhikr-hint"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل بسلاسة بين الأذكار</div>
+            <div class="dhikr-hint"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل بين الأذكار</div>
             <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
             <div class="progress-bar" style="width:100%; height:8px; margin: 15px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
             <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
@@ -783,7 +769,6 @@
         setupSwipeGestures(cat, list.length);
     }
 
-    // تفعيل إيماءات السحب باللمس والفأرة للحركة السلو موشن السلسة
     function setupSwipeGestures(cat, totalLength) {
         const card = document.getElementById('active-dhikr-card');
         if (!card) return;
@@ -797,15 +782,11 @@
 
         card.addEventListener('touchend', e => {
             touchEndX = e.changedTouches[0].screenX;
-            let diff = touchEndX - touchStartX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) { currentDhikrIndex--; }
-                else { currentDhikrIndex++; }
-                renderDhikrCard(cat);
-            }
+            handleSwipe(cat, totalLength);
         }, {passive: true});
 
         let mouseStartX = 0;
+        let mouseEndX = 0;
         let isMouseDown = false;
 
         card.addEventListener('mousedown', e => {
@@ -815,15 +796,36 @@
 
         card.addEventListener('mouseup', e => {
             if (!isMouseDown) return;
-            let mouseEndX = e.clientX;
+            mouseEndX = e.clientX;
             isMouseDown = false;
-            let diff = mouseEndX - mouseStartX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) { currentDhikrIndex--; }
-                else { currentDhikrIndex++; }
+            handleMouseSwipe(cat, totalLength, mouseStartX, mouseEndX);
+        });
+    }
+
+    function handleSwipe(cat, totalLength) {
+        let diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                currentDhikrIndex--;
+                renderDhikrCard(cat);
+            } else {
+                currentDhikrIndex++;
                 renderDhikrCard(cat);
             }
-        });
+        }
+    }
+
+    function handleMouseSwipe(cat, totalLength, startX, endX) {
+        let diff = endX - startX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                currentDhikrIndex--;
+                renderDhikrCard(cat);
+            } else {
+                currentDhikrIndex++;
+                renderDhikrCard(cat);
+            }
+        }
     }
 
     function incDhikr(id, cat) {
@@ -852,7 +854,7 @@
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
-                showToast("تم نسخ النص بنجاح!");
+                alert("تم نسخ النص بنجاح!");
             }).catch(() => {
                 fallbackCopyText(message);
             });
@@ -861,6 +863,7 @@
         }
     }
 
+    // دالة آمنة لتحميل الصور قبل تحويلها عبر html2canvas لحل مشكلة عدم ظهور الصور
     function loadImageSafely(imgElement) {
         return new Promise((resolve) => {
             if (imgElement.complete && imgElement.naturalWidth !== 0) {
@@ -894,6 +897,7 @@
         shareTextElement.innerText = d.text;
         shareRepeatElement.innerText = `عدد التكرار: ${d.target} مرات`;
 
+        // التأكد من تحميل جميع الصور داخل البطاقة المخفية قبل التقاطها
         const images = hiddenCard.querySelectorAll('img');
         await Promise.all(Array.from(images).map(img => loadImageSafely(img)));
 
@@ -912,11 +916,10 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            showToast("تم حفظ الصورة بنجاح!");
 
         } catch (err) {
             console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
-            showToast("تعذر إنشاء الصورة، حاول مرة أخرى.");
+            alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
         } finally {
             if(saveBtn) {
                 saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`;
@@ -928,6 +931,8 @@
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
+        list.innerHTML = ''; 
+        
         list.innerHTML = items.map(item => `
             <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #30363d; border-radius: 12px; background: #1a1a1a;">
                 <h3 class="search-title" style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
@@ -999,17 +1004,16 @@
         if (!element) return;
         
         const timeBoxes = element.querySelectorAll('.time-box');
-        if (timeBoxes.length < 3) return;
-
         const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
         const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
+        const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
         
         const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
-                showToast("تم نسخ الموعد بنجاح!");
+                alert("تم نسخ الموعد بنجاح!");
             }).catch(() => {
                 fallbackCopyText(message);
             });
@@ -1028,9 +1032,9 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            showToast("تم النسخ بنجاح!");
+            alert("تم نسخ النص بنجاح!");
         } catch (err) {
-            showToast("تعذر النسخ التلقائي.");
+            alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
         }
         document.body.removeChild(textArea);
     }
@@ -1054,15 +1058,6 @@
         if (tabId === 'dhikr') {
             showDhikr(currentCategory, null);
         }
-    }
-
-    function showToast(msg) {
-        const toast = document.createElement('div');
-        toast.innerText = msg;
-        toast.className = 'animate-fade';
-        toast.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#c5a880; color:#000; padding:10px 24px; border-radius:20px; z-index:9999; font-weight:bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3);";
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -1103,7 +1098,7 @@
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
         </svg>
-        <span>تابعنا على منصة 𝕏</span>
+        <span>تابعنا على منصة X</span>
     </a>
 </footer>
 
