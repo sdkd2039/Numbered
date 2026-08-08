@@ -25,6 +25,32 @@
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',sans-serif; -webkit-user-select:none; user-select:none}
     body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
+    
+    /* Splash Screen Styles */
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      transition: opacity 0.5s ease;
+    }
+    #splash-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .splash-gif {
+      max-width: 400px;
+      width: 80%;
+      height: auto;
+      object-fit: contain;
+    }
+
     header{text-align:center;margin-bottom:20px}
     .main-logo{max-width:150px;height:auto}
     .tabs-wrapper{width:100%;display:flex;justify-content:center;margin-bottom:30px}
@@ -43,7 +69,7 @@
     .sub-tabs{display:flex;gap:10px;margin-bottom:20px;justify-content:center;flex-wrap:wrap}
     .sub-tab-btn{background:#21262d;border:1px solid #333;color:var(--muted);padding:8px 16px;border-radius:20px;cursor:pointer;font-weight:700}
     .sub-tab-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
-    .dhikr-card{background:#161b22;border:1px solid #30363d;padding:25px;border-radius:16px;display:flex;flex-direction:column;align-items:center;text-align:center;touch-action:pan-y}
+    .dhikr-card{background:#161b22;border:1px solid #30363d;padding:25px;border-radius:16px;display:flex;flex-direction:column;align-items:center;text-align:center;touch-action:pan-y;transition:transform 0.2s ease, opacity 0.2s ease;}
     .dhikr-text{font-size:1.35rem;color:#fff;line-height:2.0;margin-bottom:20px}
     .progress-bar{width:100%;height:8px;background:#0d1117;border-radius:6px;overflow:hidden;margin-bottom:12px}
     .progress-fill{height:100%;background:var(--accent);transition:0.3s;width:0}
@@ -73,7 +99,7 @@
 
   <!-- splash -->
   <div id="splash-screen">
-    <img id="splash-img" src="" alt="مقدمة معدودات" class="splash-gif" style="max-width:250px;width:60%;height:auto;object-fit:contain">
+    <img id="splash-img" src="" alt="مقدمة معدودات" class="splash-gif">
   </div>
 
   <header>
@@ -174,7 +200,7 @@
     </div>
   </div>
 
-  <!-- hidden share card for html2canvas (Enhanced with robust error catching & fallback handling) -->
+  <!-- hidden share card for html2canvas -->
   <div id="hidden-share-card" class="hidden-share-card" aria-hidden="true">
     <div class="share-card-header" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
       <div class="share-logos-container" style="display: flex; gap: 10px;">
@@ -230,6 +256,13 @@
     </div>
   </div>
 
+<div style="text-align: center; margin: 25px 0 10px 0; padding: 15px 0 10px 0; border-top: 1px solid #30363d;">
+    <a href="https://n9.cl/hwtsjr" style="display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s;">
+        <img src="https://files.catbox.moe/zv7ga4.png" alt="تحميل" style="width: 20px; height: 20px; filter: brightness(0);">
+        تحميل التطبيق (الأندرويد)
+    </a>
+</div>
+  
   <footer class="site-footer">
     <a class="x-link" href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -264,7 +297,7 @@
     }
 
     /* =======================
-       Splash Screen Setup
+       Splash Screen (4 seconds, Full Screen Fit)
        ======================= */
     window.addEventListener('DOMContentLoaded', () => {
       const splashImg = document.getElementById('splash-img');
@@ -277,7 +310,7 @@
       setTimeout(()=>{
         const s = document.getElementById('splash-screen');
         if(s){ s.classList.add('fade-out'); setTimeout(()=>s.remove(), 500); }
-      }, 2500);
+      }, 4000); // مدة 4 ثواني
     });
 
     /* =======================
@@ -356,7 +389,7 @@
     }
 
     /* =======================
-       Dhikr Section & Sharing
+       Dhikr Section (Smooth Swipe & No Prev/Next Buttons)
        ======================= */
     let SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let dhikrData = [];
@@ -380,18 +413,16 @@
       const count = parseInt(localStorage.getItem(`c_${d.id}`) || '0');
       const target = parseInt(d.target) || 1;
       const progress = Math.round((count/target)*100);
+      
+      // تم إزالة أزرار السابق والتالي، والاعتِماد كلياً على السحب السلس (Swipe) مع توضيح بصري
       container.innerHTML = `
         <div class="dhikr-card" id="active-dhikr-card">
           <div style="text-align:center;margin-bottom:8px;color:var(--muted)">ذكر ${currentDhikrIndex+1} من ${list.length}</div>
-          <div class="dhikr-hint" style="margin-bottom:8px"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل</div>
+          <div class="dhikr-hint" style="margin-bottom:8px;font-size:0.85rem;color:var(--accent)"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل بسلاسة</div>
           <h3 class="dhikr-text">${escapeHtml(d.text)}</h3>
           <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
           <div style="font-size:1.4rem;font-weight:800;color:var(--accent);margin:12px 0">${count} / ${target}</div>
           <button class="counter-btn" onclick="incDhikr('${d.id}')"><i class="fa-solid fa-plus"></i></button>
-          <div style="display:flex;gap:8px;margin-top:12px;width:100%;justify-content:space-between">
-            <button class="sub-tab-btn" onclick="navDhikr(-1)">السابق</button>
-            <button class="sub-tab-btn" onclick="navDhikr(1)">التالي</button>
-          </div>
           <div class="dhikr-share-actions">
             <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
             <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
@@ -401,8 +432,15 @@
     }
 
     function navDhikr(dir){
-      currentDhikrIndex += dir;
-      renderDhikrCard();
+      const card = document.getElementById('active-dhikr-card');
+      if(card){
+        card.style.transform = `translateX(${dir * 50}px)`;
+        card.style.opacity = '0.3';
+      }
+      setTimeout(() => {
+        currentDhikrIndex += dir;
+        renderDhikrCard();
+      }, 150);
     }
 
     function incDhikr(id){
@@ -425,6 +463,7 @@
 
     function getCategoryFullName(cat){ if(cat==='الصباح') return 'أذكار الصباح'; if(cat==='المساء') return 'أذكار المساء'; return 'أذكار منوعة'; }
 
+    /* Smooth Swipe Gestures Support */
     function setupSwipeForDhikr(){
       const card = document.getElementById('active-dhikr-card');
       if(!card) return;
@@ -434,7 +473,7 @@
         const endX = e.changedTouches ? e.changedTouches[0].screenX : e.clientX;
         if(startX === null) return;
         const diff = endX - startX;
-        if(Math.abs(diff) > 50){
+        if(Math.abs(diff) > 40){
           if(diff > 0) navDhikr(-1); else navDhikr(1);
         }
         startX = null;
@@ -445,7 +484,7 @@
     }
 
     /* =======================
-       Robust Image Preprocessing for html2canvas (Fixes Image Loading Issues)
+       Image Preprocessing for html2canvas
        ======================= */
     async function prepareImagesForHtml2Canvas(container){
       const imgs = Array.from(container.querySelectorAll('img'));
@@ -454,13 +493,13 @@
           const src = img.src || '';
           if(!src || src.startsWith('data:')) return;
           const resp = await fetch(src, {mode:'cors'});
-          if(!resp.ok) throw new Error('Network response was not ok');
+          if(!resp.ok) throw new Error('Network response failed');
           const blob = await resp.blob();
           const blobUrl = URL.createObjectURL(blob);
           img.setAttribute('data-original-src', src);
           img.src = blobUrl;
         }catch(err){
-          console.warn('CORS fetch skipped for image, retaining direct source:', img.src, err);
+          console.warn('CORS skip:', img.src, err);
         }
       }));
     }
@@ -505,8 +544,8 @@
         document.body.appendChild(a); a.click(); a.remove();
         showToast('تم حفظ الصورة بنجاح!');
       }catch(err){
-        console.error('html2canvas generation error:', err);
-        showToast('تعذر حفظ الصورة، تحقق من اتصال الإنترنت');
+        console.error('html2canvas error:', err);
+        showToast('تعذر حفظ الصورة، تحقق من الشبكة');
       }finally{
         restoreImagesAfterHtml2Canvas(hidden);
         if(btn){ btn.disabled=false; btn.innerHTML = '<i class="fa-solid fa-download"></i> حفظ كصورة'; }
