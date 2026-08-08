@@ -72,6 +72,7 @@
             height: 100%;
             background-color: var(--bg-color);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 99999;
@@ -86,6 +87,13 @@
             width: 60%;
             height: auto;
             object-fit: contain;
+        }
+        .splash-fallback-text {
+            display: none;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
         }
 
         img { pointer-events: none; -webkit-touch-callout: none; }
@@ -515,12 +523,13 @@
 </head>
 <body oncontextmenu="return false;">
 
-<!-- مقدمة الموقع (Splash Screen) -->
+<!-- مقدمة الموقع (Splash Screen) مع نظام حماية في حال فشل تحميل الصورة -->
 <div id="splash-screen">
     <picture>
-        <source media="(max-width: 768px)" srcset="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif">
-        <img id="splash-img" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="مقدمة معدودات" class="splash-gif">
+        <source media="(max-width: 768px)" srcset="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%20/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif">
+        <img id="splash-img" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="مقدمة معدودات" class="splash-gif" onerror="this.style.display='none'; document.getElementById('splash-fallback-text').style.display='block';">
     </picture>
+    <div id="splash-fallback-text" class="splash-fallback-text">معدودات</div>
 </div>
 
 <header>
