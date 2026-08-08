@@ -636,8 +636,8 @@
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
         <div class="share-logos-container">
-            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" class="share-logo" alt="شعار الذكر">
-            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" class="share-logo" alt="شعار الذكر">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
         </div>
         <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
     </div>
@@ -645,7 +645,7 @@
     <div id="share-repeat-count" class="share-repeat-count">تكرار: 1 مرات</div>
     <div class="share-card-footer">
         <div class="share-qr-container">
-            <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
+            <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
             <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
         </div>
     </div>
@@ -748,7 +748,7 @@
         renderDhikrCard(cat);
     }
 
-    function renderDhikrCard(cat) {
+function renderDhikrCard(cat) {
         const container = document.getElementById('dhikr-container');
         const list = dhikrData.filter(d => d.cat === cat);
         if (!list || list.length === 0) return;
@@ -778,37 +778,39 @@
         setupSwipeGestures(cat, list.length);
     }
 
-    // تفعيل السحب يميناً ويساراً (Swipe / Drag) للتنقل بسلاسة سلو موشن بدون أزرار نصية
+    // تفعيل السحب المدمج بسلاسة تامة بدون تكرار
     function setupSwipeGestures(cat, totalLength) {
         const card = document.getElementById('active-dhikr-card');
         if (!card) return;
 
-        let touchStartX = 0;
-        let touchEndX = 0;
+        let startX = 0;
+
+        const processSwipe = (endX) => {
+            const diff = endX - startX;
+            if (Math.abs(diff) > 50) {
+                currentDhikrIndex += (diff > 0) ? -1 : 1;
+                renderDhikrCard(cat);
+            }
+        };
 
         card.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
+            startX = e.changedTouches[0].screenX;
+        }, { passive: true });
 
         card.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe(cat, totalLength);
-        }, {passive: true});
+            processSwipe(e.changedTouches[0].screenX);
+        }, { passive: true });
 
-        let mouseStartX = 0;
-        let mouseEndX = 0;
         let isMouseDown = false;
-
         card.addEventListener('mousedown', e => {
-            mouseStartX = e.clientX;
+            startX = e.clientX;
             isMouseDown = true;
         });
 
         card.addEventListener('mouseup', e => {
             if (!isMouseDown) return;
-            mouseEndX = e.clientX;
             isMouseDown = false;
-            handleMouseSwipe(cat, totalLength, mouseStartX, mouseEndX);
+            processSwipe(e.clientX);
         });
     }
 
