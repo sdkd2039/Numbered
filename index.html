@@ -748,7 +748,7 @@
         renderDhikrCard(cat);
     }
 
-function renderDhikrCard(cat) {
+    function renderDhikrCard(cat) {
         const container = document.getElementById('dhikr-container');
         const list = dhikrData.filter(d => d.cat === cat);
         if (!list || list.length === 0) return;
@@ -778,7 +778,7 @@ function renderDhikrCard(cat) {
         setupSwipeGestures(cat, list.length);
     }
 
-    // تفعيل السحب المدمج بسلاسة تامة بدون تكرار
+    // تفعيل السحب مع عكس الاتجاه (من اليسار إلى اليمين)
     function setupSwipeGestures(cat, totalLength) {
         const card = document.getElementById('active-dhikr-card');
         if (!card) return;
@@ -788,7 +788,8 @@ function renderDhikrCard(cat) {
         const processSwipe = (endX) => {
             const diff = endX - startX;
             if (Math.abs(diff) > 50) {
-                currentDhikrIndex += (diff > 0) ? -1 : 1;
+                // تم عكس الشرط هنا لتغيير اتجاه التنقل بالسحب
+                currentDhikrIndex += (diff > 0) ? 1 : -1;
                 renderDhikrCard(cat);
             }
         };
