@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>معدودات</title>
     <!-- أيقونة المتصفح العادية -->
     <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
@@ -63,29 +63,45 @@
             padding: 20px;
         }
 
-        /* تنسيق مقدمة الموقع (Splash Screen) - تم جعلها تملأ الشاشة بالكامل وتكبير الصورة المتحركة */
-        #splash-screen {
+        /* تنسيق مقدمة الموقع (Splash Screen) المستوحى من ملف آهات صوتية ليغطي الشاشة بالكامل */
+        #splashScreen {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background-color: var(--bg-color);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             z-index: 99999;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
             overflow: hidden;
         }
-        #splash-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
+
+        .splash-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+            filter: none;
         }
-        .splash-gif {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover; /* ملء الشاشة بالكامل بدون فراغات */
+
+        .splash-mobile {
+            display: block;
+        }
+        .splash-desktop {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .splash-mobile {
+                display: none;
+            }
+            .splash-desktop {
+                display: block;
+            }
         }
 
         img { pointer-events: none; -webkit-touch-callout: none; }
@@ -184,6 +200,7 @@
             width: 100%;
         }
 
+        /* تعليمات التمرير الجانبي */
         .dhikr-hint {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -226,6 +243,7 @@
 
         .counter-btn:active { transform: scale(0.9); }
 
+        /* أزرار المشاركة في الذكر */
         .dhikr-share-actions {
             display: flex;
             gap: 10px;
@@ -256,6 +274,7 @@
             color: #000;
         }
 
+        /* قالب بطاقة المشاركة المخفية المخصصة للصورة */
         .hidden-share-card {
             position: fixed;
             top: -9999px;
@@ -354,6 +373,7 @@
             font-weight: bold;
         }
 
+        /* العداد التفاعلي */
         .countdown-container { 
             display: flex; 
             flex-direction: column; 
@@ -432,6 +452,7 @@
         .animate-fade { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* تأثير الحركة السلو موشن السلسة عند الانتقال بين الأذكار */
         .animate-slowmo { 
             animation: slowMotion 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
         }
@@ -442,6 +463,7 @@
 
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
+        /* تذييل الصفحة Footer */
         .site-footer {
             width: 100%;
             display: flex;
@@ -509,12 +531,10 @@
 </head>
 <body oncontextmenu="return false;">
 
-<!-- مقدمة الموقع (Splash Screen) - تمت تلبية الطلب بتكبيرها لتملأ الشاشة بالكامل وتسريع وقت الانتقال -->
-<div id="splash-screen">
-    <picture>
-        <source media="(max-width: 768px)" srcset="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif">
-        <img id="splash-img" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="مقدمة معدودات" class="splash-gif">
-    </picture>
+<!-- مقدمة الموقع (Splash Screen) بالشكل المحدث وتغطية الشاشة بالكامل -->
+<div id="splashScreen">
+    <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif" alt="شعار معدودات المتحرك للجوال" class="splash-logo splash-mobile" ondragstart="return false;">
+    <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="شعار معدودات المتحرك للكمبيوتر" class="splash-logo splash-desktop" ondragstart="return false;">
 </div>
 
 <header>
@@ -668,25 +688,15 @@
 </div>
 
 <script>
-    // تحديد رابط المقدمة ديناميكياً وتخفيض مدة الانتظار لتسريع الدخول للموقع
-    window.addEventListener('DOMContentLoaded', () => {
-        const splashImg = document.getElementById('splash-img');
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        if (isMobile) {
-            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif";
-        } else {
-            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif";
+    // إخفاء مقدمة الموقع (Splash Screen) بسلاسة بعد التحميل
+    window.addEventListener('load', () => {
+        const splash = document.getElementById('splashScreen');
+        if (splash) {
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 600);
+            }, 2500);
         }
-
-        // تقليص المدة إلى 1.2 ثانية لتسريع الظهور ومنع التأخير
-        setTimeout(() => {
-            const splash = document.getElementById('splash-screen');
-            if (splash) {
-                splash.classList.add('fade-out');
-                setTimeout(() => splash.remove(), 400);
-            }
-        }, 1200);
     });
 
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
@@ -769,6 +779,7 @@
         setupSwipeGestures(cat, list.length);
     }
 
+    // تفعيل السحب يميناً ويساراً (Swipe / Drag) للتنقل بسلاسة سلو موشن بدون أزرار نصية
     function setupSwipeGestures(cat, totalLength) {
         const card = document.getElementById('active-dhikr-card');
         if (!card) return;
@@ -1083,13 +1094,15 @@
     });
 </script>
 
+<!-- زر تحميل التطبيق في نهاية الصفحة -->
 <div style="text-align: center; margin: 25px 0 10px 0; padding: 15px 0 10px 0; border-top: 1px solid #30363d;">
-    <a href="https://n9.cl/hwtsjr" style="display: inline-files; display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s;">
+    <a href="https://n9.cl/hwtsjr" style="display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s;">
         <img src="https://files.catbox.moe/zv7ga4.png" alt="تحميل" style="width: 20px; height: 20px; filter: brightness(0);">
         تحميل التطبيق (الأندرويد)
     </a>
 </div>
 
+<!-- تذييل الصفحة Footer -->
 <footer class="site-footer">
     <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link" title="منصة X">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
