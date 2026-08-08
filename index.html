@@ -981,11 +981,11 @@
                 })).reverse();
                 renderTelawat(cachedTelawat);
             } else {
-                dhikrData = json.table.rows.map(r => ({ 
+                dhikrData = json.table.rows.map((r, index) => ({ 
                     cat: r.c[0]?.v || '', 
                     text: r.c[1]?.v || '', 
                     target: r.c[2]?.v || '1', 
-                    id: r.c[3]?.v || Math.random().toString() 
+                    id: r.c[3]?.v || ('dhikr_' + index) 
                 }));
                 showDhikr('الصباح');
             }
@@ -1012,6 +1012,11 @@
         if (!element) return;
         
         const timeBoxes = element.querySelectorAll('.time-box');
+        if (!timeBoxes.length) {
+            alert("جاري تحميل العد التنازلي، يرجى المحاولة بعد قليل.");
+            return;
+        }
+        
         const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
         const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
