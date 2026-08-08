@@ -1,1064 +1,719 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معدودات</title>
-    <!-- أيقونة المتصفح العادية -->
-    <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>معدودات</title>
 
-    <!-- أيقونات الآيفون والآيباد للشاشة الرئيسية -->
-    <link rel="apple-touch-icon" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
+  <!-- Fav / icons -->
+  <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
+  <link rel="apple-touch-icon" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
 
-    <!-- إعدادات إضافية لتجربة التطبيق في نظام iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="معدودات">
+  <!-- fonts & icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- libs -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    :root{
+      --bg:#0d1117; --card:#161b22; --text:#f8fafc; --muted:#94a3b8; --accent:#c5a880; --border:#30363d; --primary:#0052cc; --live:#ef4444;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',sans-serif; -webkit-user-select:none; user-select:none}
+    body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
     
-    <!-- مكتبة HLS لتشغيل البثوث المباشرة على جميع المتصفحات -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <!-- مكتبة تحويل العناصر إلى صور للالتقاط والمشاركة -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    #splash-screen {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: var(--bg); display: flex; justify-content: center; align-items: center;
+      z-index: 99999; transition: opacity 0.5s ease;
+    }
+    #splash-screen.fade-out { opacity: 0; pointer-events: none; }
+    .splash-gif { max-width: 450px; width: 80%; max-height: 80vh; height: auto; object-fit: contain; }
 
-    <style>
-        :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --text-color: #f8fafc;
-            --primary-color: #0284c7;
-            --primary-hover: #0369a1;
-            --text-muted: #94a3b8;
-            --accent-gold: #c5a880;
-            --player-bg: #151f32;
-            --border-color: #30363d;
-            --tab-active: #0052cc;
-            --green: #238636;
-            --live-red: #ef4444;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Tajawal', sans-serif;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        /* تنسيق مقدمة الموقع (Splash Screen) */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
-        #splash-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .splash-gif {
-            max-width: 250px;
-            width: 60%;
-            height: auto;
-            object-fit: contain;
-        }
-
-        img { pointer-events: none; -webkit-touch-callout: none; }
-        header { text-align: center; margin-bottom: 20px; }
-        .main-logo { max-width: 150px; height: auto; }
-
-        /* شريط الأقسام المتمركز */
-        .tabs-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
-        .tabs-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
-        .tabs-container::-webkit-scrollbar { display: none; }
-
-        .tab-btn {
-            background: #21262d; border: 1px solid var(--border-color); color: var(--text-color);
-            padding: 12px 18px; border-radius: 16px; font-size: 14px; font-weight: 700; cursor: pointer;
-            white-space: nowrap; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-width: 95px; transition: all 0.2s ease;
-        }
-        .tab-btn img, .tab-btn svg { width: 24px; height: 24px; object-fit: contain; }
-        .tab-btn.active { background: var(--tab-active); border-color: var(--tab-active); color: white; box-shadow: 0 0 12px rgba(0, 82, 204, 0.5); }
-
-        .panel-content { width: 100%; max-width: 650px; display: none; }
-        .panel-content.active { display: block; }
-
-        .box-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 20px; }
-        .box-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px; }
-        .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
-
-        /* حقل البحث الذكي */
-        .search-container { position: relative; margin-bottom: 25px; width: 100%; }
-        .search-input {
-            width: 100%;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 14px;
-            padding: 15px 45px 15px 15px;
-            color: #fff;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        .search-input:focus { border-color: #c5a880; box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2); }
-        .search-icon {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            pointer-events: none;
-        }
-
-        /* قسم الأذكار */
-        .sub-tabs { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 20px; 
-            justify-content: center; 
-            flex-wrap: wrap; 
-        }
-
-        .sub-tab-btn { 
-            background: #21262d; 
-            border: 1px solid #333; 
-            color: #94a3b8; 
-            padding: 8px 16px; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            transition: 0.3s; 
-        }
-
-        .sub-tab-btn.active { 
-            background: #c5a880; 
-            color: #000; 
-            border-color: #c5a880; 
-        }
-
-        .dhikr-card { 
-            background: #161b22; 
-            border: 1px solid #30363d; 
-            padding: 25px 20px; 
-            border-radius: 16px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            margin-bottom: 30px; 
-            text-align: center;
-            touch-action: pan-y;
-            position: relative;
-        }
-
-        .dhikr-text { 
-            font-size: 1.4rem; 
-            color: #fff; 
-            line-height: 2.2; 
-            font-weight: 500; 
-            margin-bottom: 25px; 
-            width: 100%;
-        }
-
-        .dhikr-hint {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            opacity: 0.8;
-        }
-
-        .progress-bar { 
-            width: 80%; 
-            height: 6px; 
-            background: #0d1117; 
-            border-radius: 3px; 
-            overflow: hidden; 
-            margin-bottom: 10px;
-        }
-
-        .progress-fill { 
-            height: 100%; 
-            background: #c5a880; 
-            transition: 0.3s; 
-        }
-
-        .counter-btn { 
-            background: #c5a880; 
-            border: none; 
-            width: 60px; 
-            height: 60px; 
-            border-radius: 50%; 
-            color: #000; 
-            font-size: 1.8rem; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: 0.2s; 
-        }
-
-        .counter-btn:active { transform: scale(0.9); }
-
-        .dhikr-share-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            width: 100%;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #30363d;
-        }
-
-        .dhikr-share-btn {
-            background: rgba(197, 168, 128, 0.1);
-            border: 1px solid #c5a880;
-            color: #c5a880;
-            padding: 8px 14px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.3s;
-        }
-
-        .dhikr-share-btn:hover {
-            background: #c5a880;
-            color: #000;
-        }
-
-        /* قالب بطاقة المشاركة المخفية المخصصة للصورة */
-        .hidden-share-card {
-            position: fixed;
-            top: -9999px;
-            left: -9999px;
-            width: 450px;
-            background: #0d1117;
-            border: 2px solid #c5a880;
-            border-radius: 20px;
-            padding: 30px 25px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            text-align: center;
-            color: #ffffff;
-        }
-
-        .share-card-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        .share-logos-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .share-logo {
-            height: 55px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .share-category-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #c5a880;
-        }
-
-        .share-card-text {
-            font-size: 1.35rem;
-            line-height: 2.1;
-            font-weight: 500;
-            color: #f8fafc;
-            margin: 15px 0;
-            word-break: break-word;
-        }
-
-        .share-repeat-count {
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #c5a880;
-            background: rgba(197, 168, 128, 0.15);
-            padding: 6px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(197, 168, 128, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .share-card-footer {
-            width: 100%;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #30363d;
-            display: flex;
-            justify-content: center;
-        }
-
-        .share-qr-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .share-qr-img {
-            width: 95px;
-            height: 95px;
-            object-fit: contain;
-            border-radius: 8px;
-            background: #ffffff;
-            padding: 4px;
-        }
-
-        .share-qr-label {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            font-weight: bold;
-        }
-
-        .countdown-container { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-            gap: 20px; 
-            width: 100%;
-        }
-
-        .countdown-item { 
-            background: rgba(0,0,0,0.25); 
-            border: 1px solid var(--border-color, #30363d); 
-            padding: 18px; 
-            border-radius: 14px; 
-            border-right: 5px solid var(--accent-gold); 
-            width: 90%; 
-            max-width: 400px;
-        }
-
-        .live-timer-grid { 
-            display: flex; 
-            justify-content: center; 
-            gap: 12px; 
-            direction: rtl; 
-            margin-top: 15px;
-        }
-
-        .time-box { 
-            background: rgba(255,255,255,0.05); 
-            padding: 8px 12px; 
-            border-radius: 8px; 
-            border: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 50px;
-        }
-
-        .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
-        .time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
-
-        .share-btn { 
-            background: none; 
-            border: none; 
-            color: var(--accent-gold); 
-            cursor: pointer; 
-            font-size: 0.85rem; 
-            margin-top: 14px; 
-            font-weight: bold; 
-            display: flex; 
-            justify-content: center;
-            align-items: center; 
-            gap: 6px; 
-            width: 100%;
-        }
-
-        .live-stream-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            background: #000;
-        }
-
-        .live-video-player {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .animate-slowmo { 
-            animation: slowMotion 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
-        }
-        @keyframes slowMotion { 
-            from { opacity: 0; transform: scale(0.96); } 
-            to { opacity: 1; transform: scale(1); } 
-        }
-
-        button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-
-        .site-footer {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 0;
-            margin-top: auto;
-        }
-
-        .x-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: bold;
-            padding: 8px 16px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .x-link:hover {
-            color: #ffffff;
-            background: #000000;
-            border-color: #555;
-            transform: translateY(-2px);
-        }
-    </style>
+    header{text-align:center;margin-bottom:20px}
+    .main-logo{max-width:150px;height:auto}
+    .tabs-wrapper{width:100%;display:flex;justify-content:center;margin-bottom:30px}
+    .tabs-container{display:flex;gap:15px;overflow-x:auto;padding-bottom:8px}
+    .tabs-container::-webkit-scrollbar{display:none}
+    .tab-btn{background:#21262d;border:1px solid var(--border);color:var(--text);padding:12px 18px;border-radius:16px;font-weight:700;cursor:pointer;min-width:95px;display:flex;flex-direction:column;align-items:center;gap:8px}
+    .tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 0 12px rgba(0,82,204,0.5)}
+    .panel-content{width:100%;max-width:650px;display:none}
+    .panel-content.active{display:block}
+    .box-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+    .box-header{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:18px}
+    .box-title{font-size:1.2rem;color:var(--accent);font-weight:800}
+    .search-container{position:relative;margin-bottom:25px}
+    .search-input{width:100%;background:#161b22;border:1px solid #30363d;border-radius:14px;padding:15px 45px 15px 15px;color:#fff;font-size:.95rem}
+    .search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--muted)}
+    .sub-tabs{display:flex;gap:10px;margin-bottom:20px;justify-content:center;flex-wrap:wrap}
+    .sub-tab-btn{background:#21262d;border:1px solid #333;color:var(--muted);padding:8px 16px;border-radius:20px;cursor:pointer;font-weight:700}
+    .sub-tab-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
+    .dhikr-card{background:#161b22;border:1px solid #30363d;padding:25px;border-radius:16px;display:flex;flex-direction:column;align-items:center;text-align:center;touch-action:pan-y;transition:transform 0.3s ease, opacity 0.3s ease;cursor:grab;user-select:none}
+    .dhikr-card:active{cursor:grabbing}
+    .dhikr-text{font-size:1.35rem;color:#fff;line-height:2.0;margin-bottom:20px}
+    .progress-bar{width:100%;height:8px;background:#0d1117;border-radius:6px;overflow:hidden;margin-bottom:12px}
+    .progress-fill{height:100%;background:var(--accent);transition:0.3s;width:0}
+    .counter-btn{background:var(--accent);border:none;width:60px;height:60px;border-radius:50%;color:#000;font-size:1.4rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .dhikr-share-actions{display:flex;gap:10px;justify-content:center;width:100%;margin-top:15px;padding-top:15px;border-top:1px dashed #30363d}
+    .dhikr-share-btn{background:rgba(197,168,128,0.08);border:1px solid var(--accent);color:var(--accent);padding:8px 14px;border-radius:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+    .hidden-share-card{position:fixed;top:-9999px;left:-9999px;width:450px;background:var(--bg);border:2px solid var(--accent);border-radius:20px;padding:30px;display:flex;flex-direction:column;align-items:center;z-index:99998}
+    .share-logo{height:55px;object-fit:contain}
+    .share-category-title{font-size:1.15rem;font-weight:800;color:var(--accent)}
+    .share-card-text{font-size:1.35rem;line-height:2.1;color:#fff;word-break:break-word}
+    .share-repeat-count{font-weight:700;color:var(--accent);background:rgba(197,168,128,0.12);padding:6px 16px;border-radius:10px}
+    .share-qr-img{width:95px;height:95px;object-fit:contain;border-radius:8px;background:#fff;padding:4px}
+    .countdown-container{display:flex;flex-direction:column;gap:20px;width:100%}
+    .countdown-item { background: rgba(0,0,0,0.25); border: 1px solid var(--border); padding: 18px; border-radius: 14px; border-right: 5px solid var(--accent); width: 100%; }
+    .countdown-title { font-size: 1.1rem; font-weight: 800; color: var(--accent); }
+    .countdown-subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+    .live-timer-grid{display:flex;gap:12px;justify-content:center;margin-top:15px;direction:rtl}
+    .time-box{background:rgba(255,255,255,0.04);padding:8px 12px;border-radius:8px;min-width:50px;display:flex;flex-direction:column;align-items:center}
+    .time-num{font-weight:900;color:var(--accent);font-size:1.25rem}
+    .time-label{font-size:0.70rem;color:var(--muted)}
+    .share-btn{background:none;border:none;color:var(--accent);cursor:pointer;font-weight:800;margin-top:14px;display:flex;align-items:center;gap:6px;width:100%;justify-content:center}
+    .live-stream-container{position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;background:#000}
+    .live-video-player{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+    footer.site-footer{width:100%;display:flex;justify-content:center;padding:20px 0;margin-top:auto}
+    .x-link{display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-weight:700;padding:8px 16px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);transition:all 0.3s}
+    .x-link:hover{background:rgba(255,255,255,0.08);border-color:var(--accent)}
+  </style>
 </head>
 <body oncontextmenu="return false;">
 
-<!-- مقدمة الموقع (Splash Screen) -->
-<div id="splash-screen">
-    <picture>
-        <source media="(max-width: 768px)" srcset="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif">
-        <img id="splash-img" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="مقدمة معدودات" class="splash-gif">
-    </picture>
-</div>
+  <!-- splash -->
+  <div id="splash-screen">
+    <img id="splash-img" src="" alt="مقدمة معدودات" class="splash-gif">
+  </div>
 
-<header>
-    <img id="active-tab-logo" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" class="main-logo" alt="القسم الحالي">
-</header>
-    
-<div class="tabs-wrapper">
+  <header>
+    <img id="active-tab-logo" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" class="main-logo" alt="القسم النشط">
+  </header>
+
+  <div class="tabs-wrapper">
     <div class="tabs-container">
-        <button class="tab-btn active" onclick="switchTab('telawat', event)">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات">
-            <span>تلاوات</span>
-        </button>
-        <button class="tab-btn" onclick="switchTab('remaining', event)">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png" alt="المتبقي">
-            <span>المتبقي</span>
-        </button>
-        <button class="tab-btn" onclick="switchTab('dhikr', event)">
-            <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" alt="الذكر">
-            <span>الذكر</span>
-        </button>
-        <button class="tab-btn" onclick="switchTab('live', event)">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="#f8fafc" stroke-width="2"/>
-                <circle cx="12" cy="12" r="3" fill="#ef4444"/>
-                <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12" stroke="#f8fafc" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span>بث مباشر</span>
-        </button>
-    </div>
-</div>
+      <button class="tab-btn active" onclick="switchTab('telawat', this)">
+        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات" style="width:24px;height:24px">
+        <span>تلاوات</span>
+      </button>
 
-<!-- 1. قسم التلاوات -->
-<div id="panel-telawat" class="panel-content active">
+      <button class="tab-btn" onclick="switchTab('remaining', this)">
+        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png" alt="المتبقي" style="width:24px;height:24px">
+        <span>المتبقي</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('dhikr', this)">
+        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" alt="الذكر" style="width:24px;height:24px">
+        <span>الذكر</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('live', this)">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="currentColor" stroke-width="2"/></svg>
+        <span>بث مباشر</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 1. تلاوات -->
+  <div id="panel-telawat" class="panel-content active">
     <div class="box-card">
-        <div class="box-header">
-            <h2 class="box-title">قسم التلاوات</h2>
-        </div>
-        
-        <div class="search-container">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو سورة..." oninput="searchTelawat()">
-        </div>
+      <div class="box-header">
+        <h2 class="box-title">قسم التلاوات</h2>
+      </div>
 
-        <div id="telawat-list">
-            <p style="text-align:center; color:gray; padding: 20px;">جاري جلب التلاوات...</p>
-        </div>
+      <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو سورة..." oninput="searchTelawat()">
+      </div>
+
+      <div id="telawat-list">
+        <p style="text-align:center;color:var(--muted);padding:20px">جاري جلب التلاوات...</p>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- 2. قسم المتبقي -->
-<div id="panel-remaining" class="panel-content">
+  <!-- 2. المتبقي -->
+  <div id="panel-remaining" class="panel-content">
     <div class="box-card">
-        <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
-        
-        <div class="countdown-container">
-            <div class="countdown-item">
-                <div class="countdown-title">شهر رمضان المبارك</div>
-                <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
-                <div class="live-timer-grid" id="timer-ramadan"></div>
-                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-title">عيد الفطر المبارك</div>
-                <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
-                <div class="live-timer-grid" id="timer-fitr"></div>
-                <button class="share-btn" onclick="shareTime('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-title">عشر ذي الحجة</div>
-                <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
-                <div class="live-timer-grid" id="timer-hajj"></div>
-                <button class="share-btn" onclick="shareTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-title">عيد الأضحى المبارك</div>
-                <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
-                <div class="live-timer-grid" id="timer-adha"></div>
-                <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-            </div>
-        </div>
-    </div>
-</div>
-            
-<!-- 3. قسم الذكر -->
-<div id="panel-dhikr" class="panel-content">
-    <div class="box-card">
-        <div class="box-header">
-            <h2 class="box-title">قسم الذكر</h2>
-        </div>
-        <div class="sub-tabs">
-            <button class="sub-tab-btn active" onclick="showDhikr('الصباح', this)">الصباح</button>
-            <button class="sub-tab-btn" onclick="showDhikr('المساء', this)">المساء</button>
-            <button class="sub-tab-btn" onclick="showDhikr('منوعة', this)">منوعة</button>
-        </div>
-        <div id="dhikr-container" class="dhikr-section"></div>
-    </div>
-</div>
+      <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
 
-<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع الشعارات والباركود -->
-<div id="hidden-share-card" class="hidden-share-card">
-    <div class="share-card-header">
-        <div class="share-logos-container">
-            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" class="share-logo" alt="شعار الذكر">
-            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
+      <div class="countdown-container">
+        <div class="countdown-item">
+          <div class="countdown-title">شهر رمضان المبارك</div>
+          <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
+          <div class="live-timer-grid" id="timer-ramadan"></div>
+          <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
         </div>
-        <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
+
+        <div class="countdown-item">
+          <div class="countdown-title">عيد الفطر المبارك</div>
+          <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
+          <div class="live-timer-grid" id="timer-fitr"></div>
+          <button class="share-btn" onclick="shareTime('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+        </div>
+
+        <div class="countdown-item">
+          <div class="countdown-title">عشر ذي الحجة</div>
+          <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div>
+          <div class="live-timer-grid" id="timer-hajj"></div>
+          <button class="share-btn" onclick="shareTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+        </div>
+
+        <div class="countdown-item">
+          <div class="countdown-title">عيد الأضحى المبارك</div>
+          <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>
+          <div class="live-timer-grid" id="timer-adha"></div>
+          <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+        </div>
+      </div>
     </div>
-    <div id="share-card-text" class="share-card-text"></div>
+  </div>
+
+  <!-- 3. الذكر -->
+  <div id="panel-dhikr" class="panel-content">
+    <div class="box-card">
+      <div class="box-header"><h2 class="box-title">قسم الذكر</h2></div>
+
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="showDhikr('الصباح', this)">الصباح</button>
+        <button class="sub-tab-btn" onclick="showDhikr('المساء', this)">المساء</button>
+        <button class="sub-tab-btn" onclick="showDhikr('منوعة', this)">منوعة</button>
+      </div>
+
+      <div id="dhikr-container" class="dhikr-section"></div>
+    </div>
+  </div>
+
+  <!-- hidden share card for html2canvas -->
+  <div id="hidden-share-card" class="hidden-share-card" aria-hidden="true">
+    <div class="share-card-header" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <div class="share-logos-container" style="display: flex; gap: 10px;">
+        <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86.png" class="share-logo" alt="شعار معدودات">
+        <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار ثاني">
+      </div>
+      <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
+    </div>
+
+    <div id="share-card-text" class="share-card-text" style="margin: 20px 0; text-align: center;">نص الذكر هنا</div>
     <div id="share-repeat-count" class="share-repeat-count">تكرار: 1 مرات</div>
-    <div class="share-card-footer">
-        <div class="share-qr-container">
-            <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
-            <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
-        </div>
-    </div>
-</div>
 
-<!-- 4. قسم البث المباشر -->
-<div id="panel-live" class="panel-content">
-    <div class="box-card" style="border: 1px solid var(--accent-gold);">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 45px; height: 45px; border-radius: 8px;" alt="إذاعة">
-                <div style="text-align: right;">
-                    <div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم</div>
-                </div>
-            </div>
-            <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
-        </div>
-        <div style="text-align: center; margin-top: 15px;">
-            <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer;">
-                <i id="icon-live" class="fa-solid fa-play" style="color: #000;"></i>
-            </button>
-        </div>
-        <audio id="live-audio" style="display:none;"></audio>
+    <div class="share-card-footer" style="margin-top: 15px;">
+      <div class="share-qr-container" style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+        <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="QR Code">
+        <span class="share-qr-label" style="font-size: 0.8rem; color: var(--muted);">امسح الباركود لزيارة الموقع</span>
+      </div>
     </div>
+  </div>
 
-    <div class="box-card">
-        <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
-        <div class="live-stream-container">
-            <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" allowfullscreen class="live-video-player" title="قناة القرآن"></iframe>
+  <!-- 4. بث مباشر -->
+  <div id="panel-live" class="panel-content">
+    <div class="box-card" style="border:1px solid var(--accent)">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width:45px;height:45px;border-radius:8px" alt="إذاعة القرآن الكريم">
+          <div style="text-align:right"><div style="font-weight:800;color:#fff">إذاعة القرآن الكريم</div></div>
         </div>
+        <div style="color:var(--live);font-weight:800">🔴 مباشر</div>
+      </div>
+
+      <div style="text-align:center;margin-top:15px">
+        <button onclick="toggleLiveAudio()" style="background:var(--accent);border:none;border-radius:50%;width:45px;height:45px;cursor:pointer">
+          <i id="icon-live" class="fa-solid fa-play" style="color:#000"></i>
+        </button>
+      </div>
+
+      <audio id="live-audio" style="display:none"></audio>
     </div>
 
     <div class="box-card">
-        <div class="box-header"><i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة السنة النبوية</h2></div>
-        <div class="live-stream-container">
-            <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=suna_tv4" allowfullscreen class="live-video-player" title="قناة السنة"></iframe>
-        </div>
+      <div class="box-header"><i class="fa-solid fa-kaaba" style="color:var(--accent)"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
+      <div class="live-stream-container">
+        <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv4" class="live-video-player" allowfullscreen title="قناة القرآن الكريم"></iframe>
+      </div>
     </div>
-</div>
 
-<script>
+    <div class="box-card">
+      <div class="box-header"><i class="fa-solid fa-mosque" style="color:var(--accent)"></i><h2 class="box-title">قناة السنة النبوية</h2></div>
+      <div class="live-stream-container">
+        <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=suna_tv4" class="live-video-player" allowfullscreen title="قناة السنة النبوية"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin: 25px 0 10px 0; padding: 15px 0 10px 0; border-top: 1px solid #30363d; width: 100%;">
+      <a href="https://n9.cl/hwtsjr" style="display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: 800;">
+          <img src="https://files.catbox.moe/zv7ga4.png" alt="تحميل" style="width: 20px; height: 20px; filter: brightness(0);">
+          تحميل التطبيق (الأندرويد)
+      </a>
+  </div>
+  
+  <footer class="site-footer">
+    <a class="x-link" href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z"/></svg>
+      <span>تابعنا على منصة 𝕏</span>
+    </a>
+  </footer>
+
+  <script>
+    function escapeHtml(s=''){ 
+      return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) 
+    }
+
+    function showToast(msg, ms=2000){
+      const t = document.createElement('div');
+      t.innerText = msg;
+      t.style = 'position:fixed;top:18px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;padding:10px 18px;border-radius:20px;z-index:99999;font-weight:800';
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(), ms);
+    }
+
+    function fallbackCopyText(text){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ 
+        document.execCommand('copy'); 
+        showToast('✅ تم النسخ'); 
+      }
+      catch(e){ 
+        showToast('❎ فشل النسخ'); 
+      }
+      document.body.removeChild(ta);
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-        const splashImg = document.getElementById('splash-img');
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        if (isMobile) {
-            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif";
-        } else {
-            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif";
+      const splashImg = document.getElementById('splash-img');
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif";
+      } else {
+        splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif";
+      }
+      setTimeout(()=>{
+        const s = document.getElementById('splash-screen');
+        if(s){ 
+          s.classList.add('fade-out'); 
+          setTimeout(()=>s.remove(), 500); 
         }
-
-        setTimeout(() => {
-            const splash = document.getElementById('splash-screen');
-            if (splash) {
-                splash.classList.add('fade-out');
-                setTimeout(() => splash.remove(), 500);
-            }
-        }, 2500);
+      }, 4000);
     });
 
-    const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-    let cachedTelawat = [];
-    let dhikrData = [];
+    function switchTab(tabId, btn){
+      document.querySelectorAll('.panel-content').forEach(p=>p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      const panel = document.getElementById('panel-'+tabId);
+      if(panel) panel.classList.add('active');
+      if(btn) btn.classList.add('active');
+      const logoMap = {
+        telawat: 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png',
+        remaining: 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png',
+        dhikr: 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png',
+        live: 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png'
+      };
+      const logo = document.getElementById('active-tab-logo');
+      if(logo && logoMap[tabId]) logo.src = logoMap[tabId];
+    }
+
+    function initLiveAudio(){
+      const audio = document.getElementById('live-audio');
+      const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
+      if (!audio) return;
+      if (typeof Hls !== 'undefined' && Hls.isSupported()){
+        const hls = new Hls(); 
+        hls.loadSource(url); 
+        hls.attachMedia(audio);
+      } else if (audio.canPlayType && audio.canPlayType('application/vnd.apple.mpegurl')){
+        audio.src = url;
+      }
+    }
+
+    function toggleLiveAudio(){
+      const audio = document.getElementById('live-audio');
+      const icon = document.getElementById('icon-live');
+      if(!audio || !icon) return;
+      if(audio.paused){ 
+        audio.play().catch(()=>{}); 
+        icon.className='fa-solid fa-pause'; 
+      }
+      else{ 
+        audio.pause(); 
+        icon.className='fa-solid fa-play'; 
+      }
+    }
+
+    function startCountdown(id, targetDate){
+      const el = document.getElementById(id);
+      if(!el) return;
+      function tick(){
+        const diff = new Date(targetDate).getTime() - Date.now();
+        if (diff <= 0){ 
+          el.innerHTML = '<div class="time-box"><div class="time-num">0</div><div class="time-label">يوم</div></div>'; 
+          return; 
+        }
+        const d = Math.floor(diff / (1000*60*60*24));
+        const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+        const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+        const s = Math.floor((diff % (1000*60)) / 1000);
+        el.innerHTML =
+          `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
+           <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
+           <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
+           <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثانية</div></div>`;
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    function shareTime(eventName, timerId){
+      const el = document.getElementById(timerId);
+      if(!el) return;
+      const boxes = el.querySelectorAll('.time-box .time-num');
+      if(boxes.length < 3) { 
+        showToast('لا توجد بيانات كافية للمشاركة'); 
+        return; 
+      }
+      const d = boxes[0].innerText.trim(), h = boxes[1].innerText.trim(), m = boxes[2].innerText.trim();
+      const message = `⏳ المتبقي على ${eventName}: ${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n🔗 https://sdkd2039.github.io/Numbered/`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(message).then(()=> showToast('تم نسخ الموعد!')).catch(()=> fallbackCopyText(message));
+      } else {
+        fallbackCopyText(message);
+      }
+    }
+
+    let SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+    let dhikrData = [
+      { cat: 'الصباح', text: 'أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له.', target: '1', id: 'd1' }
+    ];
     let currentCategory = 'الصباح';
     let currentDhikrIndex = 0;
+    let swipeStartX = null;
+    let swipeStartY = null;
 
-    function initLiveAudio() {
-        const audio = document.getElementById("live-audio");
-        const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
-        if (audio && typeof Hls !== 'undefined' && Hls.isSupported()) {
-            const hls = new Hls(); hls.loadSource(url); hls.attachMedia(audio);
-        } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
-            audio.src = url;
-        }
+    function showDhikr(cat, btn){
+      currentCategory = cat;
+      currentDhikrIndex = 0;
+      document.querySelectorAll('.sub-tab-btn').forEach(b => {
+        b.classList.toggle('active', b.innerText.trim() === cat);
+      });
+      renderDhikrCard();
     }
 
-    function toggleLiveAudio() {
-        const audio = document.getElementById('live-audio');
-        const icon = document.getElementById('icon-live');
-        if (!audio || !icon) return;
-        if (audio.paused) { audio.play().catch(()=>{}); icon.className = 'fa-solid fa-pause'; }
-        else { audio.pause(); icon.className = 'fa-solid fa-play'; }
-    }
-
-    function startCountdown(id, targetDate) {
-        setInterval(() => {
-            const diff = new Date(targetDate).getTime() - new Date().getTime();
-            const element = document.getElementById(id);
-            if (!element || diff < 0) return;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            element.innerHTML = `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
-                                 <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
-                                 <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
-                                 <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثانية</div></div>`;
-        }, 1000);
-    }
-
-    function showDhikr(cat, btn) {
-        document.querySelectorAll('.sub-tabs .sub-tab-btn').forEach(b => {
-            b.classList.toggle('active', b.innerText.trim() === cat);
-        });
-        
-        currentCategory = cat;
-        currentDhikrIndex = 0;
-        renderDhikrCard(cat);
-    }
-
-    function renderDhikrCard(cat) {
-        const container = document.getElementById('dhikr-container');
-        const list = dhikrData.filter(d => d.cat === cat);
-        if (!list || list.length === 0) return;
-
-        if (currentDhikrIndex >= list.length) currentDhikrIndex = 0;
-        if (currentDhikrIndex < 0) currentDhikrIndex = list.length - 1;
-
-        const d = list[currentDhikrIndex];
-        let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-        let targetNum = parseInt(d.target) || 1;
-        let progress = (count / targetNum) * 100;
-
-        container.innerHTML = `
-        <div class="dhikr-card animate-slowmo" id="active-dhikr-card">
-            <div style="text-align:center; margin-bottom:5px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
-            <div class="dhikr-hint"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل بين الأذكار</div>
-            <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
-            <div class="progress-bar" style="width:100%; height:8px; margin: 15px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
-            <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
-            <button class="counter-btn" style="margin: 0 auto 15px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
-            <div class="dhikr-share-actions">
-                <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
-                <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
-            </div>
+    function renderDhikrCard(){
+      const container = document.getElementById('dhikr-container');
+      const list = dhikrData.filter(d => d.cat === currentCategory);
+      if(!list || list.length === 0){
+        container.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">جاري تحميل الأذكار...</p>';
+        return;
+      }
+      if(currentDhikrIndex >= list.length) currentDhikrIndex = 0;
+      if(currentDhikrIndex < 0) currentDhikrIndex = list.length - 1;
+      const d = list[currentDhikrIndex];
+      const count = parseInt(localStorage.getItem(`c_${d.id}`) || '0');
+      const target = parseInt(d.target) || 1;
+      const progress = Math.min(100, Math.round((count / target) * 100));
+      
+      container.innerHTML = `
+        <div class="dhikr-card" id="active-dhikr-card">
+          <div style="text-align:center;margin-bottom:8px;color:var(--muted)">ذكر ${currentDhikrIndex+1} من ${list.length}</div>
+          <div class="dhikr-hint" style="margin-bottom:8px;font-size:0.85rem;color:var(--accent)"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل بين الأذكار</div>
+          <h3 class="dhikr-text">${escapeHtml(d.text)}</h3>
+          <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+          <div style="font-size:1.4rem;font-weight:800;color:var(--accent);margin:12px 0">${count} / ${target}</div>
+          <button class="counter-btn" onclick="incDhikr('${d.id}')"><i class="fa-solid fa-plus"></i></button>
+          <div class="dhikr-share-actions">
+            <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
+            <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
+          </div>
         </div>`;
-
-        setupSwipeGestures(cat, list.length);
+      setupSwipeForDhikr();
     }
 
-    function setupSwipeGestures(cat, totalLength) {
-        const card = document.getElementById('active-dhikr-card');
-        if (!card) return;
+    function navDhikr(dir){
+      const card = document.getElementById('active-dhikr-card');
+      if(card){
+        card.style.transform = `translateX(${dir * 50}px)`;
+        card.style.opacity = '0.3';
+      }
+      setTimeout(() => {
+        currentDhikrIndex += dir;
+        renderDhikrCard();
+      }, 150);
+    }
 
-        let touchStartX = 0;
-        let touchEndX = 0;
+    function incDhikr(id){
+      const key = `c_${id}`;
+      let count = parseInt(localStorage.getItem(key) || '0');
+      const dh = dhikrData.find(x => x.id === id);
+      const max = parseInt(dh?.target || 1);
+      if(count < max) {
+        count++;
+        localStorage.setItem(key, String(count));
+      }
+      renderDhikrCard();
+    }
 
-        card.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
+    function shareDhikrText(){
+      const list = dhikrData.filter(d => d.cat === currentCategory);
+      if(!list || list.length === 0) return;
+      const d = list[currentDhikrIndex];
+      const message = `${getCategoryFullName(currentCategory)}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 https://sdkd2039.github.io/Numbered/`;
+      if(navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(message).then(() => showToast('تم النسخ!')).catch(() => fallbackCopyText(message));
+      } else {
+        fallbackCopyText(message);
+      }
+    }
 
-        card.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe(cat, totalLength);
-        }, {passive: true});
+    function getCategoryFullName(cat){
+      if(cat === 'الصباح') return 'أذكار الصباح';
+      if(cat === 'المساء') return 'أذكار المساء';
+      return 'أذكار منوعة';
+    }
 
-        let mouseStartX = 0;
-        let mouseEndX = 0;
-        let isMouseDown = false;
+    function setupSwipeForDhikr(){
+      const card = document.getElementById('active-dhikr-card');
+      if(!card) return;
 
-        card.addEventListener('mousedown', e => {
-            mouseStartX = e.clientX;
-            isMouseDown = true;
+      // Touch events
+      card.addEventListener('touchstart', (e) => {
+        swipeStartX = e.touches[0].clientX;
+        swipeStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      card.addEventListener('touchend', (e) => {
+        if(swipeStartX === null) return;
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const diffX = endX - swipeStartX;
+        const diffY = Math.abs(endY - swipeStartY);
+        
+        // Only trigger swipe if horizontal movement is greater than vertical
+        if(Math.abs(diffX) > 50 && Math.abs(diffX) > diffY){
+          if(diffX > 0) navDhikr(-1); // Swiped right
+          else navDhikr(1); // Swiped left
+        }
+        swipeStartX = null;
+        swipeStartY = null;
+      }, { passive: true });
+
+      // Mouse events for desktop
+      card.addEventListener('mousedown', (e) => {
+        swipeStartX = e.clientX;
+        swipeStartY = e.clientY;
+      });
+
+      card.addEventListener('mouseup', (e) => {
+        if(swipeStartX === null) return;
+        const endX = e.clientX;
+        const endY = e.clientY;
+        const diffX = endX - swipeStartX;
+        const diffY = Math.abs(endY - swipeStartY);
+        
+        if(Math.abs(diffX) > 50 && Math.abs(diffX) > diffY){
+          if(diffX > 0) navDhikr(-1);
+          else navDhikr(1);
+        }
+        swipeStartX = null;
+        swipeStartY = null;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        swipeStartX = null;
+        swipeStartY = null;
+      });
+    }
+
+    async function prepareImagesForHtml2Canvas(container){
+      const imgs = Array.from(container.querySelectorAll('img'));
+      await Promise.all(imgs.map(async img => {
+        try{
+          const src = img.src || '';
+          if(!src || src.startsWith('data:')) return;
+          const resp = await fetch(src, {mode:'cors'});
+          if(!resp.ok) throw new Error('Network response failed');
+          const blob = await resp.blob();
+          const blobUrl = URL.createObjectURL(blob);
+          img.setAttribute('data-original-src', src);
+          img.src = blobUrl;
+        }catch(err){
+          console.warn('CORS skip:', img.src, err);
+        }
+      }));
+    }
+
+    function restoreImagesAfterHtml2Canvas(container){
+      const imgs = Array.from(container.querySelectorAll('img'));
+      imgs.forEach(img => {
+        const orig = img.getAttribute('data-original-src');
+        if(orig){
+          try{ URL.revokeObjectURL(img.src); }catch(e){}
+          img.src = orig;
+          img.removeAttribute('data-original-src');
+        }
+      });
+    }
+
+    async function shareDhikrImage(){
+      const list = dhikrData.filter(d => d.cat === currentCategory);
+      if(!list || list.length === 0) return;
+      const btn = document.getElementById('btn-save-img');
+      if(btn){ 
+        btn.disabled = true; 
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...'; 
+      }
+      const d = list[currentDhikrIndex];
+      const hidden = document.getElementById('hidden-share-card');
+      if(!hidden) return;
+      
+      document.getElementById('share-category-title').innerText = getCategoryFullName(currentCategory);
+      document.getElementById('share-card-text').innerText = d.text;
+      document.getElementById('share-repeat-count').innerText = `عدد التكرار: ${d.target} مرات`;
+
+      try{
+        await prepareImagesForHtml2Canvas(hidden);
+        const canvas = await html2canvas(hidden, {
+          scale: 2, 
+          useCORS: true, 
+          allowTaint: true,
+          backgroundColor: getComputedStyle(document.body).backgroundColor || '#0d1117'
         });
+        const url = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${getCategoryFullName(currentCategory)}.png`;
+        document.body.appendChild(a); 
+        a.click(); 
+        a.remove();
+        showToast('تم حفظ الصورة بنجاح!');
+      }catch(err){
+        console.error('html2canvas error:', err);
+        showToast('تعذر حفظ الصورة، تحقق من الشبكة');
+      }finally{
+        restoreImagesAfterHtml2Canvas(hidden);
+        if(btn){ 
+          btn.disabled = false; 
+          btn.innerHTML = '<i class="fa-solid fa-download"></i> حفظ كصورة'; 
+        }
+      }
+    }
 
-        card.addEventListener('mouseup', e => {
-            if (!isMouseDown) return;
-            mouseEndX = e.clientX;
-            isMouseDown = false;
-            handleMouseSwipe(cat, totalLength, mouseStartX, mouseEndX);
+    let cachedTelawat = [];
+    function renderTelawat(items){
+      const list = document.getElementById('telawat-list');
+      if(!list) return;
+      if(!items || items.length === 0){ 
+        list.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">لا توجد تلاوات</p>'; 
+        return; 
+      }
+      list.innerHTML = items.map(item => {
+        const title = escapeHtml(item.title || '');
+        const reader = escapeHtml(item.reader || '');
+        const url = item.downloadUrl || '';
+        const safeTitle = escapeHtml(item.title || 'تحميل');
+        return `
+          <div class="box-card" style="margin-bottom:20px;padding:15px;">
+            <h3 class="search-title" style="font-size:1.1rem;font-weight:800">${title}</h3>
+            <div class="search-reader" style="color:var(--muted);margin-bottom:10px">${reader}</div>
+            ${url ? `<video controls controlsList="nodownload" style="width:100%;border-radius:8px;background:#000"><source src="${url}" type="video/mp4"></video>` : '<div style="color:var(--muted);text-align:center;padding:20px">لا يوجد تلاوة متاحة</div>'}
+            ${url ? `<button class="sub-tab-btn" style="margin-top:10px;width:100%;background:var(--accent);color:#000;border-color:var(--accent)" onclick="downloadAudio(this)" data-url="${url}" data-title="${safeTitle}"><i class="fa-solid fa-download"></i> تحميل</button>` : ''}
+          </div>`;
+      }).join('');
+    }
+
+    function searchTelawat(){
+      const filter = (document.getElementById('searchInput').value || '').toUpperCase();
+      const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
+      for(let i=0; i<cards.length; i++){
+        const title = cards[i].querySelector('.search-title')?.innerText || '';
+        const reader = cards[i].querySelector('.search-reader')?.innerText || '';
+        cards[i].style.display = (title.toUpperCase().includes(filter) || reader.toUpperCase().includes(filter)) ? '' : 'none';
+      }
+    }
+
+    function downloadAudio(btn){
+      const url = btn.getAttribute('data-url');
+      const title = btn.getAttribute('data-title') || 'تحميل';
+      if(!url) return window.alert('لا يوجد رابط تحميل');
+      btn.disabled = true; 
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
+      fetch(url)
+        .then(r => r.blob())
+        .then(blob => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = `${title}.mp4`;
+          document.body.appendChild(a); 
+          a.click(); 
+          a.remove();
+          btn.disabled = false; 
+          btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
+        })
+        .catch(err => {
+          console.warn('download fallback', err);
+          window.open(url, '_blank');
+          btn.disabled = false; 
+          btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
         });
     }
 
-    function handleSwipe(cat, totalLength) {
-        let diff = touchEndX - touchStartX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                currentDhikrIndex--;
-                renderDhikrCard(cat);
-            } else {
-                currentDhikrIndex++;
-                renderDhikrCard(cat);
+    async function fetchAllData(){
+      const sheets = ['التلاوات','الأذكار'];
+      for(const sheet of sheets){
+        try{
+          const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
+          const res = await fetch(url).then(r => r.text());
+          const jsonText = res.substring(res.indexOf('{'), res.lastIndexOf(')'));
+          const json = JSON.parse(jsonText);
+          if(sheet === 'التلاوات'){
+            cachedTelawat = (json.table.rows || []).map(r => ({ 
+              title: r.c[0]?.v || '', 
+              reader: r.c[1]?.v || '', 
+              downloadUrl: r.c[2]?.v || '' 
+            })).reverse();
+            renderTelawat(cachedTelawat);
+          } else {
+            const parsedDhikr = (json.table.rows || []).map(r => ({ 
+              cat: r.c[0]?.v || 'الصباح', 
+              text: r.c[1]?.v || '', 
+              target: r.c[2]?.v || '1', 
+              id: r.c[3]?.v || Math.random().toString(36).slice(2, 9)
+            }));
+            if(parsedDhikr.length > 0){
+              dhikrData = parsedDhikr;
             }
+            showDhikr('الصباح');
+          }
+        }catch(e){
+          console.error('fetchAllData error', e);
         }
+      }
     }
 
-    function handleMouseSwipe(cat, totalLength, startX, endX) {
-        let diff = endX - startX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                currentDhikrIndex--;
-                renderDhikrCard(cat);
-            } else {
-                currentDhikrIndex++;
-                renderDhikrCard(cat);
-            }
-        }
-    }
-
-    function incDhikr(id, cat) {
-        let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
-        let dhikr = dhikrData.find(d => d.id === id);
-        let targetNum = parseInt(dhikr?.target) || 1;
-        if (dhikr && count < targetNum) {
-            localStorage.setItem(`c_${id}`, count + 1);
-        }
-        renderDhikrCard(cat);
-    }
-
-    function getCategoryFullName(cat) {
-        if (cat === 'الصباح') return 'أذكار الصباح';
-        if (cat === 'المساء') return 'أذكار المساء';
-        return 'أذكار منوعة';
-    }
-
-    function shareDhikrText() {
-        const list = dhikrData.filter(d => d.cat === currentCategory);
-        if (!list || list.length === 0) return;
-
-        const d = list[currentDhikrIndex];
-        const categoryTitle = getCategoryFullName(currentCategory);
-        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://sdkd2039.github.io/Numbered/`;
-        
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(message).then(() => {
-                alert("تم نسخ النص بنجاح!");
-            }).catch(() => {
-                fallbackCopyText(message);
-            });
-        } else {
-            fallbackCopyText(message);
-        }
-    }
-
-    function loadImageSafely(imgElement) {
-        return new Promise((resolve) => {
-            if (imgElement.complete && imgElement.naturalWidth !== 0) {
-                resolve();
-            } else {
-                imgElement.onload = () => resolve();
-                imgElement.onerror = () => resolve();
-            }
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const today = new Date().toLocaleDateString('en-GB');
+      if(localStorage.getItem('lastDate') !== today){
+        Object.keys(localStorage).forEach(k => { 
+          if(k.startsWith('c_')) localStorage.setItem(k, '0') 
         });
-    }
+        localStorage.setItem('lastDate', today);
+      }
 
-    async function shareDhikrImage() {
-        const list = dhikrData.filter(d => d.cat === currentCategory);
-        if (!list || list.length === 0) return;
+      initLiveAudio();
+      showDhikr('الصباح');
+      fetchAllData();
 
-        const saveBtn = document.getElementById('btn-save-img');
-        if(saveBtn) {
-            saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...`;
-            saveBtn.disabled = true;
-        }
-
-        const d = list[currentDhikrIndex];
-        const hiddenCard = document.getElementById('hidden-share-card');
-        const shareTextElement = document.getElementById('share-card-text');
-        const shareCatElement = document.getElementById('share-category-title');
-        const shareRepeatElement = document.getElementById('share-repeat-count');
-
-        if (!hiddenCard || !shareTextElement) return;
-
-        shareCatElement.innerText = getCategoryFullName(currentCategory);
-        shareTextElement.innerText = d.text;
-        shareRepeatElement.innerText = `عدد التكرار: ${d.target} مرات`;
-
-        const images = hiddenCard.querySelectorAll('img');
-        await Promise.all(Array.from(images).map(img => loadImageSafely(img)));
-
-        try {
-            const canvas = await html2canvas(hiddenCard, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#0d1117'
-            });
-
-            const imageURI = canvas.toDataURL('image/png');
-            const a = document.createElement('a');
-            a.href = imageURI;
-            a.download = `${getCategoryFullName(currentCategory)}.png`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-        } catch (err) {
-            console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
-            alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
-        } finally {
-            if(saveBtn) {
-                saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`;
-                saveBtn.disabled = false;
-            }
-        }
-    }
-
-    function renderTelawat(items) {
-        const list = document.getElementById('telawat-list');
-        if (!list) return;
-        list.innerHTML = ''; 
-        
-        list.innerHTML = items.map(item => `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #30363d; border-radius: 12px; background: #1a1a1a;">
-                <h3 class="search-title" style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
-                <div class="search-reader" style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
-                <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
-                    <source src="${item.downloadUrl}" type="video/mp4">
-                </video>
-                <button class="sub-tab-btn" style="margin-top: 10px; width: 100%; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);" onclick="downloadAudio(this)" data-url="${item.downloadUrl}" data-title="${item.title}">
-                    <i class="fa-solid fa-download"></i> تحميل
-                </button>
-            </div>`).join('');
-    }
-
-    function searchTelawat() {
-        const filter = document.getElementById('searchInput').value.toUpperCase();
-        const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
-        for (let i = 0; i < cards.length; i++) {
-            let title = cards[i].querySelector('.search-title').innerText;
-            let reader = cards[i].querySelector('.search-reader').innerText;
-            cards[i].style.display = (title.toUpperCase().indexOf(filter) > -1 || reader.toUpperCase().indexOf(filter) > -1) ? "" : "none";
-        }
-    }
-
-    async function fetchAllData() {
-        const sheets = ['التلاوات', 'الأذكار'];
-        for (const sheet of sheets) {
-            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
-            const res = await fetch(url).then(r => r.text());
-            const jsonText = res.substring(res.indexOf('{'), res.lastIndexOf(')'));
-            const json = JSON.parse(jsonText);
-
-            if (sheet === 'التلاوات') {
-                cachedTelawat = json.table.rows.map(r => ({ 
-                    title: r.c[0]?.v || '', 
-                    reader: r.c[1]?.v || '', 
-                    downloadUrl: r.c[2]?.v || '' 
-                })).reverse();
-                renderTelawat(cachedTelawat);
-            } else {
-                dhikrData = json.table.rows.map(r => ({ 
-                    cat: r.c[0]?.v || '', 
-                    text: r.c[1]?.v || '', 
-                    target: r.c[2]?.v || '1', 
-                    id: r.c[3]?.v || Math.random().toString() 
-                }));
-                showDhikr('الصباح');
-            }
-        }
-    }
-
-    function downloadAudio(btn) {
-        const url = btn.getAttribute('data-url');
-        const title = btn.getAttribute('data-title');
-        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...`;
-        btn.disabled = true;
-        fetch(url).then(r => r.blob()).then(blob => {
-            const a = document.createElement('a');
-            a.href = window.URL.createObjectURL(blob);
-            a.download = `${title}.mp4`;
-            a.click();
-            btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
-            btn.disabled = false;
-        }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
-    }
-
-    function shareTime(eventName, timerId) {
-        const element = document.getElementById(timerId);
-        if (!element) return;
-        
-        const timeBoxes = element.querySelectorAll('.time-box');
-        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-        const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
-        
-        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
-        
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(message).then(() => {
-                alert("تم نسخ الموعد بنجاح!");
-            }).catch(() => {
-                fallbackCopyText(message);
-            });
-        } else {
-            fallbackCopyText(message);
-        }
-    }
-
-    function fallbackCopyText(text) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            alert("تم نسخ النص بنجاح!");
-        } catch (err) {
-            alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
-        }
-        document.body.removeChild(textArea);
-    }
-    
-    function switchTab(tabId, event) {
-        document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('panel-' + tabId).classList.add('active');
-        if (event && event.currentTarget) {
-            event.currentTarget.classList.add('active');
-        }
-        
-        const logoMap = { 
-            'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 
-            'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 
-            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png', 
-            'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' 
-        };
-        document.getElementById('active-tab-logo').src = logoMap[tabId];
-
-        if (tabId === 'dhikr') {
-            showDhikr(currentCategory, null);
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const today = new Date().toLocaleDateString('en-GB'); 
-        const lastDate = localStorage.getItem('lastDate');
-
-        if (lastDate !== today) {
-            for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
-                if (key.startsWith('c_')) {
-                    localStorage.setItem(key, 0);
-                }
-            }
-            localStorage.setItem('lastDate', today);
-        }
-
-        initLiveAudio();
-        fetchAllData();
-        
-        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-        startCountdown('timer-fitr', '2027-03-08T00:00:00');
-        startCountdown('timer-hajj', '2027-05-08T00:00:00');
-        startCountdown('timer-adha', '2027-05-16T00:00:00');
+      startCountdown('timer-ramadan', '2027-02-08T00:00:00');
+      startCountdown('timer-fitr', '2027-03-08T00:00:00');
+      startCountdown('timer-hajj', '2027-05-08T00:00:00');
+      startCountdown('timer-adha', '2027-05-16T00:00:00');
     });
-</script>
-
-<div style="text-align: center; margin: 25px 0 10px 0; padding: 15px 0 10px 0; border-top: 1px solid #30363d;">
-    <a href="https://n9.cl/hwtsjr" style="display: inline-flex; align-items: center; gap: 10px; background: #c5a880; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s;">
-        <img src="https://files.catbox.moe/zv7ga4.png" alt="تحميل" style="width: 20px; height: 20px; filter: brightness(0);">
-        تحميل التطبيق (الأندرويد)
-    </a>
-</div>
-
-<footer class="site-footer">
-    <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link" title="منصة X">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-        <span>تابعنا على منصة X</span>
-    </a>
-</footer>
-
+  </script>
 </body>
 </html>
