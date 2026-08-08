@@ -75,7 +75,7 @@
             justify-content: center;
             align-items: center;
             z-index: 99999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
         #splash-screen.fade-out {
             opacity: 0;
@@ -676,25 +676,25 @@
 </div>
 
 <script>
-    // تحديد رابط المقدمة ديناميكياً حسب الجهاز (جوال أو لابتوب)
+    // تحديد رابط المقدمة ديناميكياً حسب الجهاز (جوال أو لابتوب) وإخفاؤها بعد 4.3 ثانية
     window.addEventListener('DOMContentLoaded', () => {
         const splashImg = document.getElementById('splash-img');
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         if (isMobile) {
-            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif";[cite: 2]
+            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif";
         } else {
-            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif";[cite: 2]
+            splashImg.src = "https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B5%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif";
         }
 
-        // إخفاء المقدمة بسلاسة بعد 2.5 ثانية
+        // إخفاء المقدمة بسلاسة بعد 4.3 ثانية (4300 ميللي ثانية)
         setTimeout(() => {
             const splash = document.getElementById('splash-screen');
             if (splash) {
                 splash.classList.add('fade-out');
                 setTimeout(() => splash.remove(), 500);
             }
-        }, 2500);
+        }, 4300);
     });
 
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
@@ -777,7 +777,7 @@
         setupSwipeGestures(cat, list.length);
     }
 
-    // تفعيل السحب يميناً ويساراً (Swipe / Drag) للتنقل بسلاسة سلو موشن
+    // تفعيل السحب يميناً ويساراً للتنقل بسلاسة سلو موشن
     function setupSwipeGestures(cat, totalLength) {
         const card = document.getElementById('active-dhikr-card');
         if (!card) return;
@@ -794,7 +794,6 @@
             handleSwipe(cat, totalLength);
         }, {passive: true});
 
-        // دعم الماوس أيضاً لأجهزة اللابتوب (السحب بالفأرة)
         let mouseStartX = 0;
         let mouseEndX = 0;
         let isMouseDown = false;
@@ -816,11 +815,9 @@
         let diff = touchEndX - touchStartX;
         if (Math.abs(diff) > 50) {
             if (diff > 0) {
-                // سحب لليمين -> الذكر السابق
                 currentDhikrIndex--;
                 renderDhikrCard(cat);
             } else {
-                // سحب لليسار -> الذكر التالي
                 currentDhikrIndex++;
                 renderDhikrCard(cat);
             }
@@ -973,7 +970,6 @@
             const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
             const res = await fetch(url).then(r => r.text());
             
-            // معالجة آمنة وقوية لاستخراج بيانات JSON بغض النظر عن طول بادئة جوجل
             const jsonText = res.substring(res.indexOf('{'), res.lastIndexOf(')'));
             const json = JSON.parse(jsonText);
 
