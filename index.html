@@ -45,8 +45,9 @@
       pointer-events: none;
     }
     .splash-gif {
-      max-width: 400px;
-      width: 80%;
+      max-width: 320px;
+      width: 65%;
+      max-height: 65vh;
       height: auto;
       object-fit: contain;
     }
@@ -414,7 +415,6 @@
       const target = parseInt(d.target) || 1;
       const progress = Math.round((count/target)*100);
       
-      // تم إزالة أزرار السابق والتالي، والاعتِماد كلياً على السحب السلس (Swipe) مع توضيح بصري
       container.innerHTML = `
         <div class="dhikr-card" id="active-dhikr-card">
           <div style="text-align:center;margin-bottom:8px;color:var(--muted)">ذكر ${currentDhikrIndex+1} من ${list.length}</div>
@@ -463,7 +463,6 @@
 
     function getCategoryFullName(cat){ if(cat==='الصباح') return 'أذكار الصباح'; if(cat==='المساء') return 'أذكار المساء'; return 'أذكار منوعة'; }
 
-    /* Smooth Swipe Gestures Support */
     function setupSwipeForDhikr(){
       const card = document.getElementById('active-dhikr-card');
       if(!card) return;
@@ -483,9 +482,6 @@
       card.onmouseup = onTouchEnd;
     }
 
-    /* =======================
-       Image Preprocessing for html2canvas
-       ======================= */
     async function prepareImagesForHtml2Canvas(container){
       const imgs = Array.from(container.querySelectorAll('img'));
       await Promise.all(imgs.map(async img => {
@@ -552,9 +548,6 @@
       }
     }
 
-    /* =======================
-       Telawat Section & Search
-       ======================= */
     let cachedTelawat = [];
     function renderTelawat(items){
       const list = document.getElementById('telawat-list');
@@ -603,9 +596,6 @@
       });
     }
 
-    /* =======================
-       Google Sheets Fetcher
-       ======================= */
     async function fetchAllData(){
       const sheets = ['التلاوات','الأذكار'];
       for(const sheet of sheets){
@@ -626,9 +616,6 @@
       }
     }
 
-    /* =======================
-       Initialization
-       ======================= */
     window.addEventListener('DOMContentLoaded', ()=>{
       const today = new Date().toLocaleDateString('en-GB');
       if(localStorage.getItem('lastDate') !== today){
