@@ -26,31 +26,13 @@
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',sans-serif; -webkit-user-select:none; user-select:none}
     body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
     
-    /* Splash Screen Styles - تكبير الصورة المتحركة لتناسب الجوال واللابتوب */
     #splash-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: var(--bg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 99999;
-      transition: opacity 0.5s ease;
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: var(--bg); display: flex; justify-content: center; align-items: center;
+      z-index: 99999; transition: opacity 0.5s ease;
     }
-    #splash-screen.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .splash-gif {
-      max-width: 450px;
-      width: 80%;
-      max-height: 80vh;
-      height: auto;
-      object-fit: contain;
-    }
+    #splash-screen.fade-out { opacity: 0; pointer-events: none; }
+    .splash-gif { max-width: 450px; width: 80%; max-height: 80vh; height: auto; object-fit: contain; }
 
     header{text-align:center;margin-bottom:20px}
     .main-logo{max-width:150px;height:auto}
@@ -296,7 +278,6 @@
       document.body.removeChild(ta);
     }
 
-    /* Splash Screen (مدة 4 ثواني وتكبير الحجم) */
     window.addEventListener('DOMContentLoaded', () => {
       const splashImg = document.getElementById('splash-img');
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -378,27 +359,34 @@
     }
 
     let SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-    let dhikrData = [];
+    let dhikrData = [
+      { cat: 'الصباح', text: 'أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له.', target: '1', id: 'd1' }
+    ];
     let currentCategory = 'الصباح';
     let currentDhikrIndex = 0;
 
     function showDhikr(cat, btn){
-      document.querySelectorAll('.sub-tab-btn').forEach(b=>b.classList.toggle('active', b===btn || (b.innerText.trim() === cat && !btn)));
       currentCategory = cat;
       currentDhikrIndex = 0;
+      document.querySelectorAll('.sub-tab-btn').forEach(b => {
+        b.classList.toggle('active', b.innerText.trim() === cat);
+      });
       renderDhikrCard();
     }
 
     function renderDhikrCard(){
       const container = document.getElementById('dhikr-container');
-      const list = dhikrData.filter(d=>d.cat === currentCategory);
-      if(!list || list.length===0){ container.innerHTML = '<p style="text-align:center;color:var(--muted)">لا توجد بيانات</p>'; return; }
+      const list = dhikrData.filter(d => d.cat === currentCategory);
+      if(!list || list.length === 0){
+        container.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">جاري تحميل الأذكار...</p>';
+        return;
+      }
       if(currentDhikrIndex >= list.length) currentDhikrIndex = 0;
-      if(currentDhikrIndex < 0) currentDhikrIndex = list.length-1;
+      if(currentDhikrIndex < 0) currentDhikrIndex = list.length - 1;
       const d = list[currentDhikrIndex];
       const count = parseInt(localStorage.getItem(`c_${d.id}`) || '0');
       const target = parseInt(d.target) || 1;
-      const progress = Math.round((count/target)*100);
+      const progress = Math.min(100, Math.round((count / target) * 100));
       
       container.innerHTML = `
         <div class="dhikr-card" id="active-dhikr-card">
@@ -431,22 +419,32 @@
     function incDhikr(id){
       const key = `c_${id}`;
       let count = parseInt(localStorage.getItem(key) || '0');
-      const dh = dhikrData.find(x=>x.id===id);
+      const dh = dhikrData.find(x => x.id === id);
       const max = parseInt(dh?.target || 1);
-      if(count < max) { count++; localStorage.setItem(key, String(count)); }
+      if(count < max) {
+        count++;
+        localStorage.setItem(key, String(count));
+      }
       renderDhikrCard();
     }
 
     function shareDhikrText(){
-      const list = dhikrData.filter(d=>d.cat===currentCategory);
-      if(!list || list.length===0) return;
+      const list = dhikrData.filter(d => d.cat === currentCategory);
+      if(!list || list.length === 0) return;
       const d = list[currentDhikrIndex];
       const message = `${getCategoryFullName(currentCategory)}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 https://sdkd2039.github.io/Numbered/`;
-      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(message).then(()=>showToast('تم النسخ!')).catch(()=>fallbackCopyText(message));
-      else fallbackCopyText(message);
+      if(navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(message).then(() => showToast('تم النسخ!')).catch(() => fallbackCopyText(message));
+      } else {
+        fallbackCopyText(message);
+      }
     }
 
-    function getCategoryFullName(cat){ if(cat==='الصباح') return 'أذكار الصباح'; if(cat==='المساء') return 'أذكار المساء'; return 'أذكار منوعة'; }
+    function getCategoryFullName(cat){
+      if(cat === 'الصباح') return 'أذكار الصباح';
+      if(cat === 'المساء') return 'أذكار المساء';
+      return 'أذكار منوعة';
+    }
 
     function setupSwipeForDhikr(){
       const card = document.getElementById('active-dhikr-card');
@@ -463,7 +461,7 @@
         startX = null;
       }
       card.ontouchstart = onTouchStart; card.ontouchend = onTouchEnd;
-      card.onmousedown = e=>startX = e.clientX;
+      card.onmousedown = e => startX = e.clientX;
       card.onmouseup = onTouchEnd;
     }
 
@@ -487,7 +485,7 @@
 
     function restoreImagesAfterHtml2Canvas(container){
       const imgs = Array.from(container.querySelectorAll('img'));
-      imgs.forEach(img=>{
+      imgs.forEach(img => {
         const orig = img.getAttribute('data-original-src');
         if(orig){
           try{ URL.revokeObjectURL(img.src); }catch(e){}
@@ -498,10 +496,10 @@
     }
 
     async function shareDhikrImage(){
-      const list = dhikrData.filter(d=>d.cat===currentCategory);
-      if(!list || list.length===0) return;
+      const list = dhikrData.filter(d => d.cat === currentCategory);
+      if(!list || list.length === 0) return;
       const btn = document.getElementById('btn-save-img');
-      if(btn){ btn.disabled=true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...'; }
+      if(btn){ btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...'; }
       const d = list[currentDhikrIndex];
       const hidden = document.getElementById('hidden-share-card');
       if(!hidden) return;
@@ -529,7 +527,7 @@
         showToast('تعذر حفظ الصورة، تحقق من الشبكة');
       }finally{
         restoreImagesAfterHtml2Canvas(hidden);
-        if(btn){ btn.disabled=false; btn.innerHTML = '<i class="fa-solid fa-download"></i> حفظ كصورة'; }
+        if(btn){ btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-download"></i> حفظ كصورة'; }
       }
     }
 
@@ -537,7 +535,7 @@
     function renderTelawat(items){
       const list = document.getElementById('telawat-list');
       if(!list) return;
-      if(!items || items.length===0){ list.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">لا توجد تلاوات</p>'; return; }
+      if(!items || items.length === 0){ list.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">لا توجد تلاوات</p>'; return; }
       list.innerHTML = items.map(item => {
         const title = escapeHtml(item.title || '');
         const reader = escapeHtml(item.reader || '');
@@ -556,7 +554,7 @@
     function searchTelawat(){
       const filter = (document.getElementById('searchInput').value || '').toUpperCase();
       const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
-      for(let i=0;i<cards.length;i++){
+      for(let i=0; i<cards.length; i++){
         const title = cards[i].querySelector('.search-title')?.innerText || '';
         const reader = cards[i].querySelector('.search-reader')?.innerText || '';
         cards[i].style.display = (title.toUpperCase().includes(filter) || reader.toUpperCase().includes(filter)) ? '' : 'none';
@@ -567,17 +565,17 @@
       const url = btn.getAttribute('data-url');
       const title = btn.getAttribute('data-title') || 'download';
       if(!url) return window.alert('لا يوجد رابط تحميل');
-      btn.disabled=true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
-      fetch(url).then(r=>r.blob()).then(blob=>{
+      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحميل...';
+      fetch(url).then(r => r.blob()).then(blob => {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = `${title}.mp4`;
         document.body.appendChild(a); a.click(); a.remove();
-        btn.disabled=false; btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
-      }).catch(err=>{
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
+      }).catch(err => {
         console.warn('download fallback', err);
         window.open(url, '_blank');
-        btn.disabled=false; btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل';
       });
     }
 
@@ -586,15 +584,18 @@
       for(const sheet of sheets){
         try{
           const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
-          const res = await fetch(url).then(r=>r.text());
+          const res = await fetch(url).then(r => r.text());
           const jsonText = res.substring(res.indexOf('{'), res.lastIndexOf(')'));
           const json = JSON.parse(jsonText);
           if(sheet === 'التلاوات'){
-            cachedTelawat = (json.table.rows || []).map(r=>({ title: r.c[0]?.v || '', reader: r.c[1]?.v || '', downloadUrl: r.c[2]?.v || '' })).reverse();
+            cachedTelawat = (json.table.rows || []).map(r => ({ title: r.c[0]?.v || '', reader: r.c[1]?.v || '', downloadUrl: r.c[2]?.v || '' })).reverse();
             renderTelawat(cachedTelawat);
           } else {
-            dhikrData = (json.table.rows || []).map(r=>({ cat: r.c[0]?.v || '', text: r.c[1]?.v || '', target: r.c[2]?.v || '1', id: r.c[3]?.v || Math.random().toString(36).slice(2,9) }));
-            showDhikr('الصباح', document.querySelector('.sub-tab-btn'));
+            const parsedDhikr = (json.table.rows || []).map(r => ({ cat: r.c[0]?.v || 'الصباح', text: r.c[1]?.v || '', target: r.c[2]?.v || '1', id: r.c[3]?.v || Math.random().toString(36).slice(2,9) }));
+            if(parsedDhikr.length > 0){
+              dhikrData = parsedDhikr;
+            }
+            showDhikr('الصباح');
           }
         }catch(e){
           console.error('fetchAllData error', e);
@@ -605,11 +606,12 @@
     window.addEventListener('DOMContentLoaded', ()=>{
       const today = new Date().toLocaleDateString('en-GB');
       if(localStorage.getItem('lastDate') !== today){
-        Object.keys(localStorage).forEach(k=>{ if(k.startsWith('c_')) localStorage.setItem(k,'0') });
+        Object.keys(localStorage).forEach(k => { if(k.startsWith('c_')) localStorage.setItem(k, '0') });
         localStorage.setItem('lastDate', today);
       }
 
       initLiveAudio();
+      showDhikr('الصباح'); // ضبط أذكار الصباح كافتراضي فوراً لمنع أي ظهور فارغ
       fetchAllData();
 
       startCountdown('timer-ramadan', '2027-02-08T00:00:00');
