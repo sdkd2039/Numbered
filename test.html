@@ -53,22 +53,6 @@
             padding: 20px;
         }
 
-                #splashScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-            overflow: hidden;
-        }
-
         img { pointer-events: none; -webkit-touch-callout: none; }
         header { text-align: center; margin-bottom: 20px; }
         .main-logo { max-width: 150px; height: auto; }
@@ -177,12 +161,12 @@
         }
 
         .progress-bar { 
-            width: 80%; 
-            height: 6px; 
+            width: 100%; 
+            height: 8px; 
             background: #0d1117; 
             border-radius: 3px; 
             overflow: hidden; 
-            margin-bottom: 10px;
+            margin: 15px 0;
         }
 
         .progress-fill { 
@@ -204,6 +188,7 @@
             align-items: center; 
             justify-content: center; 
             transition: 0.2s; 
+            margin: 0 auto 15px;
         }
 
         .counter-btn:active { transform: scale(0.9); }
@@ -250,7 +235,18 @@
             border-radius: 20px;
             padding: 30px 25px;
             box-sizing: border-box;
-         }
+        }
+
+        .share-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .share-logos-container { display: flex; gap: 10px; align-items: center; }
+        .share-logo { width: 35px; height: 35px; object-fit: contain; }
+        .share-category-title { color: #c5a880; font-weight: bold; font-size: 1.1rem; }
+        .share-card-text { color: #fff; font-size: 1.3rem; line-height: 2.2; text-align: center; margin-bottom: 20px; }
+        .share-repeat-count { text-align: center; color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px; }
+        .share-card-footer { display: flex; justify-content: center; border-top: 1px dashed #30363d; padding-top: 15px; }
+        .share-qr-container { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .share-qr-img { width: 60px; height: 60px; object-fit: contain; }
+        .share-qr-label { font-size: 0.75rem; color: #94a3b8; }
 
         /* العداد التفاعلي */
         .countdown-container { 
@@ -307,27 +303,6 @@
             align-items: center; 
             gap: 6px; 
             width: 100%;
-        }
-
-        /* تنسيق زر إذاعة القرآن الكريم المباشر */
-        .radio-live-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 15px 20px;
-            background: var(--accent-gold);
-            color: #000;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .radio-live-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
         }
 
         .animate-fade { animation: fadeIn 0.3s ease; }
@@ -611,51 +586,65 @@
         const container = document.getElementById('dhikr-container');
         const list = dhikrData.filter(d => d.cat === cat);
         if (!list || list.length === 0) return;
-        
+
+        if (currentDhikrIndex >= list.length) currentDhikrIndex = 0;
+        if (currentDhikrIndex < 0) currentDhikrIndex = list.length - 1;
+
         const d = list[currentDhikrIndex];
         let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-        let progress = (count / parseInt(d.target)) * 100;
+        let targetNum = parseInt(d.target) || 1;
+        let progress = (count / targetNum) * 100;
 
         container.innerHTML = `
-        <div class="dhikr-card animate-fade">
-            <div style="text-align:center; margin-bottom:10px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
+        <div class="dhikr-card animate-slowmo" id="active-dhikr-card">
+            <div style="text-align:center; margin-bottom:5px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
+            <div class="dhikr-hint"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل بين الأذكار</div>
             <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
-            <div class="progress-bar" style="width:100%; height:8px; margin: 20px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
             <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
-            <button class="counter-btn" style="margin: 0 auto 20px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
-            <div style="display:flex; justify-content:space-between; gap:10px; width:100%;">
-                <button class="sub-tab-btn" onclick="navDhikr(-1, '${cat}')" ${currentDhikrIndex === 0 ? 'disabled':''}>السابق</button>
-                <button class="sub-tab-btn" onclick="navDhikr(1, '${cat}')" ${currentDhikrIndex === list.length-1 ? 'disabled':''}>التالي</button>
-            </div>
+            <button class="counter-btn" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
             <div class="dhikr-share-actions">
                 <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
                 <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
             </div>
         </div>`;
+
+        setupSwipeGestures(cat, list.length);
     }
 
-    function navDhikr(dir, cat) {
-        currentDhikrIndex += dir;
-        renderDhikrCard(cat);
-    }
+    function setupSwipeGestures(cat, totalLength) {
+        const card = document.getElementById('active-dhikr-card');
+        if (!card) return;
 
-    function incDhikr(id, cat) {
-        let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
-        let dhikr = dhikrData.find(d => d.id === id);
-        if (dhikr && count < parseInt(dhikr.target)) {
-            localStorage.setItem(`c_${id}`, count + 1);
-        }
-    function handleMouseSwipe(cat, totalLength, startX, endX) {
-        let diff = endX - startX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                currentDhikrIndex--;
-                renderDhikrCard(cat);
-            } else {
-                currentDhikrIndex++;
+        let startX = 0;
+
+        const processSwipe = (endX) => {
+            const diff = endX - startX;
+            if (Math.abs(diff) > 50) {
+                currentDhikrIndex += (diff > 0) ? -1 : 1;
                 renderDhikrCard(cat);
             }
-        }
+        };
+
+        card.addEventListener('touchstart', e => {
+            startX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        card.addEventListener('touchend', e => {
+            processSwipe(e.changedTouches[0].screenX);
+        }, { passive: true });
+
+        let isMouseDown = false;
+        card.addEventListener('mousedown', e => {
+            startX = e.clientX;
+            isMouseDown = true;
+        });
+
+        card.addEventListener('mouseup', e => {
+            if (!isMouseDown) return;
+            isMouseDown = false;
+            processSwipe(e.clientX);
+        });
     }
 
     function incDhikr(id, cat) {
