@@ -57,6 +57,48 @@
         header { text-align: center; margin-bottom: 20px; }
         .main-logo { max-width: 150px; height: auto; }
 
+
+                 /* تنسيق مقدمة الموقع (Splash Screen) المستوحى من ملف آهات صوتية ليغطي الشاشة بالكامل */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            overflow: hidden;
+        }
+
+        .splash-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+            filter: none;
+        }
+
+        .splash-mobile {
+            display: block;
+        }
+        .splash-desktop {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .splash-mobile {
+                display: none;
+            }
+            .splash-desktop {
+                display: block;
+            }
+        }
+
         /* شريط الأقسام المتمركز */
         .tabs-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
         .tabs-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
@@ -386,6 +428,11 @@
     </script>
 </head>
 <body oncontextmenu="return false;">
+
+    <div id="splashScreen">
+    <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif" alt="شعار معدودات المتحرك للجوال" class="splash-logo splash-mobile" ondragstart="return false;">
+    <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="شعار معدودات المتحرك للكمبيوتر" class="splash-logo splash-desktop" ondragstart="return false;">
+</div>
 
 <header>
     <img id="active-tab-logo" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" class="main-logo" alt="القسم الحالي">
