@@ -630,7 +630,7 @@
         const processSwipe = (endX) => {
             const diff = endX - startX;
             if (Math.abs(diff) > 50) {
-                currentDhikrIndex += (diff > 0) ? -1 : 1;
+                currentDhikrIndex += (diff > 0) ? 1 : -1;
                 renderDhikrCard(cat);
             }
         };
