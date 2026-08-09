@@ -57,9 +57,7 @@
         header { text-align: center; margin-bottom: 20px; }
         .main-logo { max-width: 150px; height: auto; }
 
-
-                 /* تنسيق مقدمة الموقع (Splash Screen) المستوحى من ملف آهات صوتية ليغطي الشاشة بالكامل */
-                /* تنسيق مقدمة الموقع (Splash Screen) ليغطي الشاشة بالكامل */
+        /* تنسيق مقدمة الموقع (Splash Screen) ليغطي الشاشة بالكامل */
         #splashScreen {
             position: fixed;
             inset: 0;
@@ -70,7 +68,7 @@
             align-items: center;
             justify-content: center;
             z-index: 99999;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
             overflow: hidden;
         }
 
@@ -344,7 +342,7 @@
         .animate-fade { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-                /* تأثير الحركة السلو موشن السلسة عند الانتقال بين الأذكار */
+        /* تأثير الحركة السلو موشن السلسة عند الانتقال بين الأذكار */
         .animate-slowmo { 
             animation: slowMotion 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
         }
@@ -424,9 +422,9 @@
 <body oncontextmenu="return false;">
 
     <div id="splashScreen">
-    <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif" alt="شعار معدودات المتحرك للجوال" class="splash-logo splash-mobile" ondragstart="return false;">
-    <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="شعار معدودات المتحرك للكمبيوتر" class="splash-logo splash-desktop" ondragstart="return false;">
-</div>
+        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif" alt="شعار معدودات المتحرك للجوال" class="splash-logo splash-mobile" ondragstart="return false;">
+        <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Afew%20(3).gif" alt="شعار معدودات المتحرك للكمبيوتر" class="splash-logo splash-desktop" ondragstart="return false;">
+    </div>
 
 <header>
     <img id="active-tab-logo" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" class="main-logo" alt="القسم الحالي">
@@ -435,7 +433,7 @@
     <div class="tabs-wrapper">
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('telawat', this)">
-                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B7%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png" alt="تلاوات">
                 <span>تلاوات</span>
             </button>
             <button class="tab-btn" onclick="switchTab('remaining', this)">
@@ -443,7 +441,7 @@
                 <span>المتبقي</span>
             </button>
             <button class="tab-btn" onclick="switchTab('dhikr', this)">
-                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" alt="الذكر">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B7%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" alt="الذكر">
                 <span>الذكر</span>
             </button>
             <button class="tab-btn" onclick="switchTab('live', this)">
@@ -528,8 +526,8 @@
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
         <div class="share-logos-container">
-            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" class="share-logo" alt="شعار الذكر">
-            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B7%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" class="share-logo" alt="شعار الذكر">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B7%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
         </div>
         <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
     </div>
@@ -537,7 +535,7 @@
     <div id="share-repeat-count" class="share-repeat-count">تكرار: 1 مرات</div>
     <div class="share-card-footer">
         <div class="share-qr-container">
-            <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
+            <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B7%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Website%20barcode.png" class="share-qr-img" alt="باركود الموقع">
             <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
         </div>
     </div>
@@ -584,6 +582,18 @@
     let dhikrData = [];
     let currentCategory = 'الصباح';
     let currentDhikrIndex = 0;
+
+    // دالة إخفاء مقدمة الموقع بسلاسة بعد التحميل
+    function hideSplashScreen() {
+        const splash = document.getElementById('splashScreen');
+        if (splash) {
+            splash.style.opacity = '0';
+            splash.style.visibility = 'hidden';
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 500);
+        }
+    }
 
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
@@ -897,8 +907,8 @@
         const logoMap = { 
             'telawat': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783950030084.png', 
             'remaining': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946895526.png', 
-            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png', 
-            'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' 
+            'dhikr': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B7%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png', 
+            'live': 'https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B7%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png' 
         };
         
         const logoImg = document.getElementById('active-tab-logo');
@@ -927,7 +937,12 @@
         startCountdown('timer-fitr', '2027-03-08T00:00:00');
         startCountdown('timer-hajj', '2027-05-08T00:00:00');
         startCountdown('timer-adha', '2027-05-16T00:00:00');
-    });      
+    });
+
+    // إخفاء مقدمة الموقع بمجرد اكتمال تحميل الصفحة بالكامل (مع تأخير بسيط لضمان سلاسة العرض)
+    window.addEventListener('load', () => {
+        setTimeout(hideSplashScreen, 1000);
+    });
     
     function showToast(msg) {
         const toast = document.createElement('div');
