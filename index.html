@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- إعدادات تطبيق PWA الأساسية والشاملة -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d1117">
+    
+    <!-- إعدادات دعم تطبيق PWA على نظام iOS (أبل) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="معدودات">
+
     <title>معدودات</title>
+    
     <!-- أيقونة المتصفح العادية -->
     <link rel="icon" type="image/png" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
 
@@ -12,11 +23,6 @@
     <link rel="apple-touch-icon" sizes="152x152" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
     <link rel="apple-touch-icon" sizes="167x167" href="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png">
-
-    <!-- إعدادات إضافية لتجربة التطبيق في نظام iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="معدودات">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -496,7 +502,7 @@
         }
     </style>
 
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
@@ -864,7 +870,7 @@
         const d = list[currentDhikrIndex];
         const categoryTitle = getCategoryFullName(currentCategory);
         
-        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://sdkd2039.github.io/Numbered/`;
+        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://numbered.kozow.com/`;
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
@@ -1021,7 +1027,7 @@
         const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
         const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
         
-        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://sdkd2039.github.io/Numbered/`;    
+        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://numbered.kozow.com/`;    
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
