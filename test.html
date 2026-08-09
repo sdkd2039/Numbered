@@ -308,6 +308,15 @@
         .animate-fade { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+                /* تأثير الحركة السلو موشن السلسة عند الانتقال بين الأذكار */
+        .animate-slowmo { 
+            animation: slowMotion 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+        @keyframes slowMotion { 
+            from { opacity: 0; transform: scale(0.96); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
         /* تذييل الصفحة Footer */
@@ -393,7 +402,7 @@
                 <span>المتبقي</span>
             </button>
             <button class="tab-btn" onclick="switchTab('dhikr', this)">
-                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" alt="الذكر">
+                <img src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" alt="الذكر">
                 <span>الذكر</span>
             </button>
             <button class="tab-btn" onclick="switchTab('live', this)">
@@ -478,7 +487,7 @@
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
         <div class="share-logos-container">
-            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/%D8%A8%D8%AF%D9%88%D9%86%20%D8%A7%D8%B3%D9%856_20260713154626.png" class="share-logo" alt="شعار الذكر">
+            <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Male.png" class="share-logo" alt="شعار الذكر">
             <img crossorigin="anonymous" src="https://file.garden/aluU_B9tLXBUY8kP/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/T401783946968724.png" class="share-logo" alt="شعار معدودات">
         </div>
         <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
