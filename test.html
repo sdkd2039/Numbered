@@ -577,23 +577,22 @@
 </div>
 
 <script>
+        // إخفاء مقدمة الموقع (Splash Screen) بسلاسة بعد التحميل
+    window.addEventListener('load', () => {
+        const splash = document.getElementById('splashScreen');
+        if (splash) {
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                setTimeout(() => splash.remove(), 600);
+            }, 2500);
+        }
+    });
+    
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
     let dhikrData = [];
     let currentCategory = 'الصباح';
     let currentDhikrIndex = 0;
-
-    // دالة إخفاء مقدمة الموقع بسلاسة بعد التحميل
-    function hideSplashScreen() {
-        const splash = document.getElementById('splashScreen');
-        if (splash) {
-            splash.style.opacity = '0';
-            splash.style.visibility = 'hidden';
-            setTimeout(() => {
-                splash.style.display = 'none';
-            }, 500);
-        }
-    }
 
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
