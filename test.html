@@ -53,6 +53,22 @@
             padding: 20px;
         }
 
+                #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            overflow: hidden;
+        }
+
         img { pointer-events: none; -webkit-touch-callout: none; }
         header { text-align: center; margin-bottom: 20px; }
         .main-logo { max-width: 150px; height: auto; }
@@ -129,13 +145,15 @@
         .dhikr-card { 
             background: #161b22; 
             border: 1px solid #30363d; 
-            padding: 20px; 
+            padding: 25px 20px; 
             border-radius: 16px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             margin-bottom: 30px; 
             text-align: center;
+            touch-action: pan-y;
+            position: relative;
         }
 
         .dhikr-text { 
@@ -145,6 +163,17 @@
             font-weight: 500; 
             margin-bottom: 25px; 
             width: 100%;
+        }
+
+        /* تعليمات التمرير الجانبي */
+        .dhikr-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.8;
         }
 
         .progress-bar { 
@@ -221,93 +250,7 @@
             border-radius: 20px;
             padding: 30px 25px;
             box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            text-align: center;
-            color: #ffffff;
-        }
-
-        .share-card-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        .share-logos-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .share-logo {
-            height: 55px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .share-category-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #c5a880;
-        }
-
-        .share-card-text {
-            font-size: 1.35rem;
-            line-height: 2.1;
-            font-weight: 500;
-            color: #f8fafc;
-            margin: 15px 0;
-            word-break: break-word;
-        }
-
-        .share-repeat-count {
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #c5a880;
-            background: rgba(197, 168, 128, 0.15);
-            padding: 6px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(197, 168, 128, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .share-card-footer {
-            width: 100%;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #30363d;
-            display: flex;
-            justify-content: center;
-        }
-
-        .share-qr-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .share-qr-img {
-            width: 95px;
-            height: 95px;
-            object-fit: contain;
-            border-radius: 8px;
-            background: #ffffff;
-            padding: 4px;
-        }
-
-        .share-qr-label {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            font-weight: bold;
-        }
+         }
 
         /* العداد التفاعلي */
         .countdown-container { 
@@ -702,6 +645,26 @@
         if (dhikr && count < parseInt(dhikr.target)) {
             localStorage.setItem(`c_${id}`, count + 1);
         }
+    function handleMouseSwipe(cat, totalLength, startX, endX) {
+        let diff = endX - startX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                currentDhikrIndex--;
+                renderDhikrCard(cat);
+            } else {
+                currentDhikrIndex++;
+                renderDhikrCard(cat);
+            }
+        }
+    }
+
+    function incDhikr(id, cat) {
+        let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
+        let dhikr = dhikrData.find(d => d.id === id);
+        let targetNum = parseInt(dhikr?.target) || 1;
+        if (dhikr && count < targetNum) {
+            localStorage.setItem(`c_${id}`, count + 1);
+        }
         renderDhikrCard(cat);
     }
 
@@ -722,7 +685,7 @@
         
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(message).then(() => {
-                showToast("تم نسخ النص بنجاح!");
+                alert("تم نسخ النص بنجاح!");
             }).catch(() => {
                 fallbackCopyText(message);
             });
@@ -783,10 +746,9 @@
             a.click();
             document.body.removeChild(a);
 
-            showToast("تم حفظ الصورة بنجاح!");
         } catch (err) {
             console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
-            showToast("تعذر إنشاء الصورة، حاول مرة أخرى.");
+            alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
         } finally {
             if(saveBtn) {
                 saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`;
