@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مصمم تهاني رمضان الاحترافي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #3498db; --bg: #121212; --card: #1e1e1e; --text: #ffffff; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .grid-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .option-card { padding: 15px; text-align: center; background: #333; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: 0.3s; }
+        .option-card.active { border-color: var(--primary); background: #444; }
+        .controls { display: grid; gap: 15px; margin-top: 20px; }
+        input[type="range"], input[type="text"] { width: 100%; cursor: pointer; }
+        button { padding: 12px; border-radius: 10px; border: none; background: var(--primary); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        #canvas { width: 100%; margin-top: 20px; border-radius: 15px; display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .hidden { display: none; }
+        .loader { text-align: center; padding: 20px; color: var(--primary); font-weight: bold; }
+        #toast { position: fixed; bottom: 20px; left: 20px; background: #333; color: white; padding: 10px 20px; border-radius: 5px; display: none; z-index: 1000; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>مصمم تهاني المناسبات (رمضان) 🌘</h2>
+    <input type="text" id="nameInput" placeholder="اكتب الاسم هنا..." style="padding: 10px; border-radius: 5px; border: none; width: 100%; margin-bottom: 15px; box-sizing: border-box;">
+    
+    <label>اختر التصميم:</label>
+    <div class="grid-options" id="gallery">
+        <div class="option-card" onclick="selectImg(this, 'https://files.catbox.moe/s0weco.png')">تصميم 1</div>
+        <div class="option-card" onclick="selectImg(this, 'https://files.catbox.moe/0lsitx.png')">تصميم 2</div>
+        <div class="option-card" onclick="selectImg(this, 'https://files.catbox.moe/rtl9tj.png')">تصميم 3</div>
+        <div class="option-card" onclick="selectImg(this, 'https://files.catbox.moe/cw2ekb.png')">تصميم 4</div>
+        <div class="option-card" onclick="selectImg(this, 'https://files.catbox.moe/5jm04u.png')">تصميم 5</div>
+        <div class="option-card" onclick="selectImg(this, 'https://files.catbox.moe/t7anfn.png')">تصميم 6</div>
+    </div>
+
+    <div class="controls hidden" id="controlPanel">
+        <label>حجم الخط: <input type="range" id="fontSize" min="20" max="200" value="80" oninput="render()"></label>
+        <label>الإزاحة الأفقية (X): <input type="range" id="posX" min="0" max="100" value="50" oninput="render()"></label>
+        <label>الإزاحة الرأسية (Y): <input type="range" id="posY" min="0" max="100" value="70" oninput="render()"></label>
+        <input type="color" id="fontColor" value="#ffffff" oninput="render()">
+        <button id="downloadBtn" class="hidden" onclick="download()" style="background: #27ae60;">تحميل الصورة</button>
+    </div>
+
+    <div id="loader" class="loader hidden">جاري المعالجة...</div>
+    <canvas id="canvas"></canvas>
+    <div id="toast"></div>
+</div>
+
+<script>
+    let selectedSrc = "";
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    function selectImg(el, src) {
+        document.querySelectorAll('.option-card').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+        selectedSrc = src;
+        document.getElementById('controlPanel').classList.remove('hidden');
+        render(); // تحديث المعاينة فور اختيار التصميم
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg; t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3000);
+    }
+
+    async function render() {
+        const name = document.getElementById('nameInput').value;
+        if (!selectedSrc || !name) return;
+
+        document.getElementById('loader').classList.remove('hidden');
+        canvas.style.display = 'none';
+
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = selectedSrc;
+        
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            
+            let size = document.getElementById('fontSize').value;
+            // حساب الموقع بالنسبة المئوية ليناسب أي أبعاد للصورة
+            let finalX = canvas.width * (document.getElementById('posX').value / 100);
+            let finalY = canvas.height * (document.getElementById('posY').value / 100);
+
+            ctx.font = `bold ${size}px Cairo`;
+            ctx.fillStyle = document.getElementById('fontColor').value;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            
+            // تصغير الخط تلقائياً إذا كان النص طويلاً جداً
+            if(ctx.measureText(name).width > canvas.width * 0.9) {
+                ctx.font = `bold ${size * 0.7}px Cairo`;
+            }
+
+            ctx.fillText(name, finalX, finalY);
+            
+            document.getElementById('loader').classList.add('hidden');
+            canvas.style.display = 'block';
+            document.getElementById('downloadBtn').classList.remove('hidden');
+        };
+    }
+
+    function download() {
+        const link = document.createElement('a');
+        link.download = `${document.getElementById('nameInput').value || 'تهنئة_رمضان'}.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+        showToast("تم التحميل بنجاح!");
+    }
+</script>
+</body>
+</html>
