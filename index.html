@@ -15,7 +15,7 @@
 
     <title>معدودات</title>
 
-<!-- وسوم عامة تدعم جميع المنصات -->
+    <!-- وسوم عامة تدعم جميع المنصات -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="معدودات">
     <meta property="og:description" content="كل لحظة.. لها أثر">
@@ -514,7 +514,7 @@
         .share-btn:hover { opacity: 0.8; }
         .share-btn:active { transform: scale(0.97); }
 
-        /* نافذة خيارات المشاركة المنبثقة (Modal) */
+        /* نافذة خيارات المشاركة المنبثقة (Modal) بدعم الـ 5 طرق */
         .share-modal-overlay {
             position: fixed;
             top: 0;
@@ -542,11 +542,13 @@
             border-radius: 22px;
             width: 90%;
             max-width: 380px;
-            padding: 25px;
+            padding: 22px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             text-align: center;
             transform: scale(0.9);
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .share-modal-overlay.open .share-modal-card {
             transform: scale(1);
@@ -555,13 +557,13 @@
             font-size: 1.1rem;
             font-weight: 800;
             color: #fff;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .share-platforms-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         .platform-btn {
             display: flex;
@@ -569,9 +571,9 @@
             justify-content: center;
             gap: 10px;
             width: 100%;
-            padding: 12px;
+            padding: 11px;
             border-radius: 14px;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: bold;
             cursor: pointer;
             border: none;
@@ -581,8 +583,12 @@
         .platform-btn.x-platform:hover { background: #1a1a1a; }
         .platform-btn.insta-platform { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
         .platform-btn.insta-platform:hover { opacity: 0.9; }
+        .platform-btn.tg-platform { background: #229ed9; color: #fff; }
+        .platform-btn.tg-platform:hover { background: #1e8bc3; }
         .platform-btn.wa-platform { background: #25d366; color: #000; }
         .platform-btn.wa-platform:hover { background: #20ba5a; }
+        .platform-btn.copy-platform { background: rgba(197, 168, 128, 0.15); color: #c5a880; border: 1px solid rgba(197, 168, 128, 0.3); }
+        .platform-btn.copy-platform:hover { background: #c5a880; color: #000; }
         
         .share-modal-close {
             background: rgba(255,255,255,0.06);
@@ -809,22 +815,30 @@
     </div>
 </div>
 
-<!-- نافذة المشاركة المنبثقة (Modal) -->
+<!-- نافذة المشاركة المنبثقة (Modal) بالـ 5 طرق المطلوبة -->
 <div id="shareModal" class="share-modal-overlay" onclick="closeShareModal(event)">
     <div class="share-modal-card" onclick="event.stopPropagation()">
         <div class="share-modal-title">اختر طريقة المشاركة</div>
         <div class="share-platforms-grid">
             <button class="platform-btn x-platform" onclick="executePlatformShare('x')">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                <span>مشاركة عبر منصة 𝕏 (إكس)</span>
+                <span>منصة 𝕏 (إكس)</span>
             </button>
             <button class="platform-btn insta-platform" onclick="executePlatformShare('instagram')">
                 <i class="fa-brands fa-instagram" style="font-size: 1.1rem;"></i>
-                <span>مشاركة عبر انستقرام</span>
+                <span>انستقرام (مع نسخ النص)</span>
+            </button>
+            <button class="platform-btn tg-platform" onclick="executePlatformShare('telegram')">
+                <i class="fa-brands fa-telegram" style="font-size: 1.1rem;"></i>
+                <span>تليجرام</span>
             </button>
             <button class="platform-btn wa-platform" onclick="executePlatformShare('whatsapp')">
                 <i class="fa-brands fa-whatsapp" style="font-size: 1.1rem;"></i>
-                <span>مشاركة عبر واتساب</span>
+                <span>واتساب</span>
+            </button>
+            <button class="platform-btn copy-platform" onclick="executePlatformShare('copy')">
+                <i class="fa-regular fa-copy" style="font-size: 1.1rem;"></i>
+                <span>نسخ فقط دون مشاركة</span>
             </button>
         </div>
         <button class="share-modal-close" onclick="closeShareModal()">إلغاء</button>
@@ -883,7 +897,6 @@
     let currentCategory = 'الصباح';
     let currentDhikrIndex = 0;
 
-    // متغيرات حفظ بيانات المشاركة الحالية (المتبقي أو الذكر)
     let activeShareData = null;
 
     function initLiveAudio() {
@@ -1001,17 +1014,16 @@
         return 'أذكار منوعة';
     }
 
-    // دوال إدارة نافذة المشاركة (Modal)
+    // فتح نافذة المشاركة وتعبئة البيانات تلقائياً
     function openShareModal(type, timerId = null) {
         if (type === 'dhikr') {
             const list = dhikrData.filter(d => d.cat === currentCategory);
             if (!list || list.length === 0) return;
             const d = list[currentDhikrIndex];
             const categoryTitle = getCategoryFullName(currentCategory);
-            const text = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://numbered.casacam.net/`;
+            const text = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://numbered.kozow.com/`;
             activeShareData = { type: 'dhikr', text: text };
         } else {
-            // قسم المتبقي
             const element = document.getElementById(timerId);
             if (!element) return;
             const timeBoxes = element.querySelectorAll('.time-box');
@@ -1019,7 +1031,7 @@
             const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
             const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
             const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
-            const text = `⏳ المتبقي على ${type}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://numbered.casacam.net/`;
+            const text = `⏳ المتبقي على ${type}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://numbered.kozow.com/`;
             activeShareData = { type: 'remaining', text: text };
         }
 
@@ -1030,26 +1042,43 @@
         document.getElementById('shareModal').classList.remove('open');
     }
 
-    // تنفيذ المشاركة عبر المنصات مع نسخ النص تلقائياً
+    // تنفيذ المشاركة المباشرة (بدون الحاجة للصق اليدوي) للأزرار الخمسة
     async function executePlatformShare(platform) {
         if (!activeShareData) return;
-        const textToCopy = activeShareData.text;
+        const textToSend = activeShareData.text;
+        const encodedText = encodeURIComponent(textToSend);
 
-        // نسخ النص إلى الحافظة أولاً
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            try { await navigator.clipboard.writeText(textToCopy); } catch(e) {}
+        if (platform === 'copy') {
+            // خيار: نسخ فقط دون مشاركة
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                try {
+                    await navigator.clipboard.writeText(textToSend);
+                    alert("تم نسخ النص بنجاح إلى الحافظة!");
+                } catch(e) {
+                    alert("تعذر النسخ تلقائياً.");
+                }
+            }
+            closeShareModal();
+            return;
         }
 
         let url = '';
-        const encodedText = encodeURIComponent(textToCopy);
 
         if (platform === 'x') {
+            // إكس: فتح رابط التغريد مباشرة بالرسالة المجهزة
             url = `https://twitter.com/intent/tweet?text=${encodedText}`;
         } else if (platform === 'whatsapp') {
+            // واتساب: رابط مخصص يمرر النص مباشرة لحقل الكتابة دون الحاجة للصق
             url = `https://api.whatsapp.com/send?text=${encodedText}`;
+        } else if (platform === 'telegram') {
+            // تليجرام: رابط مشاركة مباشر لتليجرام
+            url = `https://t.me/share/url?url=${encodeURIComponent('https://numbered.kozow.com/')}&text=${encodedText}`;
         } else if (platform === 'instagram') {
-            // انستقرام لا يدعم استقبال النصوص مباشرة عبر روابط الويب، يتم النسخ وتوجيهه للمنصة
-            alert("تم نسخ النص بنجاح! سيتم توجيهك الآن إلى انستقرام لصقه.");
+            // انستقرام: نسخ النص تلقائياً وتوجيهه للمنصة لعدم توفر واجهة ويب مباشرة للنص
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                try { await navigator.clipboard.writeText(textToSend); } catch(e) {}
+            }
+            alert("تم نسخ النص تلقائياً! سيتم توجيهك الآن إلى انستقرام.");
             url = `https://www.instagram.com/`;
         }
 
