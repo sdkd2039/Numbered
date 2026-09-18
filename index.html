@@ -20,7 +20,7 @@
     <meta property="og:title" content="معدودات">
     <meta property="og:description" content="كل لحظة.. لها أثر">
     <meta property="og:image" content="https://raw.githubusercontent.com/sdkd2039/Numbered/refs/heads/main/T401783946968724.png">
-    <meta property="og:url" content="https://numbered.kozow.com/">
+    <meta property="og:url" content="https://numbered.casacam.net/">
     <meta property="og:site_name" content="معدودات">
 
     <!-- وسوم خاصة بمنصة إكس (تويتر) -->
@@ -514,7 +514,7 @@
         .share-btn:hover { opacity: 0.8; }
         .share-btn:active { transform: scale(0.97); }
 
-        /* نافذة خيارات المشاركة المنبثقة (Modal) بدعم الـ 5 طرق */
+        /* نافذة خيارات المشاركة المنبثقة (Modal) بدعم الـ 4 طرق */
         .share-modal-overlay {
             position: fixed;
             top: 0;
@@ -581,8 +581,6 @@
         }
         .platform-btn.x-platform { background: #000; color: #fff; border: 1px solid #333; }
         .platform-btn.x-platform:hover { background: #1a1a1a; }
-        .platform-btn.insta-platform { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
-        .platform-btn.insta-platform:hover { opacity: 0.9; }
         .platform-btn.tg-platform { background: #229ed9; color: #fff; }
         .platform-btn.tg-platform:hover { background: #1e8bc3; }
         .platform-btn.wa-platform { background: #25d366; color: #000; }
@@ -815,18 +813,14 @@
     </div>
 </div>
 
-<!-- نافذة المشاركة المنبثقة (Modal) بالـ 5 طرق المطلوبة -->
+<!-- نافذة المشاركة المنبثقة (Modal) بالطرق الأربع -->
 <div id="shareModal" class="share-modal-overlay" onclick="closeShareModal(event)">
     <div class="share-modal-card" onclick="event.stopPropagation()">
         <div class="share-modal-title">اختر طريقة المشاركة</div>
         <div class="share-platforms-grid">
             <button class="platform-btn x-platform" onclick="executePlatformShare('x')">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                <span>منصة 𝕏 (إكس)</span>
-            </button>
-            <button class="platform-btn insta-platform" onclick="executePlatformShare('instagram')">
-                <i class="fa-brands fa-instagram" style="font-size: 1.1rem;"></i>
-                <span>انستقرام (مع نسخ النص)</span>
+                <span>منصة اكس</span>
             </button>
             <button class="platform-btn tg-platform" onclick="executePlatformShare('telegram')">
                 <i class="fa-brands fa-telegram" style="font-size: 1.1rem;"></i>
@@ -1014,14 +1008,15 @@
         return 'أذكار منوعة';
     }
 
-    // فتح نافذة المشاركة وتعبئة البيانات تلقائياً
+    // فتح نافذة المشاركة وتعبئة البيانات بالرابط الجديد الصحيح
     function openShareModal(type, timerId = null) {
+        const siteUrl = 'https://numbered.casacam.net/';
         if (type === 'dhikr') {
             const list = dhikrData.filter(d => d.cat === currentCategory);
             if (!list || list.length === 0) return;
             const d = list[currentDhikrIndex];
             const categoryTitle = getCategoryFullName(currentCategory);
-            const text = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://numbered.kozow.com/`;
+            const text = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: ${siteUrl}`;
             activeShareData = { type: 'dhikr', text: text };
         } else {
             const element = document.getElementById(timerId);
@@ -1031,7 +1026,7 @@
             const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
             const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
             const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
-            const text = `⏳ المتبقي على ${type}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://numbered.kozow.com/`;
+            const text = `⏳ المتبقي على ${type}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 ${siteUrl}`;
             activeShareData = { type: 'remaining', text: text };
         }
 
@@ -1042,14 +1037,13 @@
         document.getElementById('shareModal').classList.remove('open');
     }
 
-    // تنفيذ المشاركة المباشرة (بدون الحاجة للصق اليدوي) للأزرار الخمسة
+    // تنفيذ المشاركة المباشرة بالأزرار الأربعة
     async function executePlatformShare(platform) {
         if (!activeShareData) return;
         const textToSend = activeShareData.text;
         const encodedText = encodeURIComponent(textToSend);
 
         if (platform === 'copy') {
-            // خيار: نسخ فقط دون مشاركة
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 try {
                     await navigator.clipboard.writeText(textToSend);
@@ -1065,21 +1059,11 @@
         let url = '';
 
         if (platform === 'x') {
-            // إكس: فتح رابط التغريد مباشرة بالرسالة المجهزة
             url = `https://twitter.com/intent/tweet?text=${encodedText}`;
         } else if (platform === 'whatsapp') {
-            // واتساب: رابط مخصص يمرر النص مباشرة لحقل الكتابة دون الحاجة للصق
             url = `https://api.whatsapp.com/send?text=${encodedText}`;
         } else if (platform === 'telegram') {
-            // تليجرام: رابط مشاركة مباشر لتليجرام
-            url = `https://t.me/share/url?url=${encodeURIComponent('https://numbered.kozow.com/')}&text=${encodedText}`;
-        } else if (platform === 'instagram') {
-            // انستقرام: نسخ النص تلقائياً وتوجيهه للمنصة لعدم توفر واجهة ويب مباشرة للنص
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                try { await navigator.clipboard.writeText(textToSend); } catch(e) {}
-            }
-            alert("تم نسخ النص تلقائياً! سيتم توجيهك الآن إلى انستقرام.");
-            url = `https://www.instagram.com/`;
+            url = `https://t.me/share/url?url=${encodeURIComponent('https://numbered.casacam.net/')}&text=${encodedText}`;
         }
 
         closeShareModal();
