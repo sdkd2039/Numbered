@@ -58,14 +58,14 @@
 
         :root {
             --bg-color: #0d1117;
-            --card-bg: rgba(22, 27, 34, 0.75); /* تأثير زجاجي شفاف للبطاقات */
+            --card-bg: rgba(22, 27, 34, 0.75);
             --text-color: #f8fafc;
             --primary-color: #0284c7;
             --primary-hover: #0369a1;
             --text-muted: #94a3b8;
             --accent-gold: #c5a880;
             --player-bg: #151f32;
-            --border-color: rgba(255, 255, 255, 0.1); /* حدود زجاجية خفيفة */
+            --border-color: rgba(255, 255, 255, 0.1);
             --tab-active: #0052cc;
             --green: #238636;
             --live-red: #ef4444;
@@ -93,7 +93,6 @@
             padding: 20px;
         }
 
-        /* تنسيق مقدمة الموقع (Splash Screen) المستوحى من ملف آهات صوتية ليغطي الشاشة بالكامل */
         #splashScreen {
             position: fixed;
             top: 0;
@@ -118,20 +117,12 @@
             filter: none;
         }
 
-        .splash-mobile {
-            display: block;
-        }
-        .splash-desktop {
-            display: none;
-        }
+        .splash-mobile { display: block; }
+        .splash-desktop { display: none; }
 
         @media (min-width: 768px) {
-            .splash-mobile {
-                display: none;
-            }
-            .splash-desktop {
-                display: block;
-            }
+            .splash-mobile { display: none; }
+            .splash-desktop { display: block; }
         }
 
         img { pointer-events: none; -webkit-touch-callout: none; }
@@ -139,7 +130,6 @@
         .main-logo { max-width: 150px; height: auto; transition: transform 0.3s ease; }
         .main-logo:hover { transform: scale(1.05); }
 
-        /* شريط الأقسام المتمركز مع تأثير الزجاج (Glassmorphism) */
         .tabs-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
         .tabs-container { 
             display: flex; 
@@ -156,7 +146,6 @@
         }
         .tabs-container::-webkit-scrollbar { display: none; }
 
-        /* تحسين انتقالات الأزرار وتأثير الضغط الفاخر */
         .tab-btn {
             background: rgba(33, 38, 45, 0.5); 
             border: 1px solid var(--border-color); 
@@ -291,9 +280,7 @@
             transform: translateY(-2px);
         }
 
-        .sub-tab-btn:active {
-            transform: scale(0.94);
-        }
+        .sub-tab-btn:active { transform: scale(0.94); }
 
         .sub-tab-btn.active { 
             background: #c5a880; 
@@ -380,55 +367,43 @@
             box-shadow: 0 4px 10px rgba(197, 168, 128, 0.3);
         }
 
-        /* حاوية أزرار المشاركة المحدثة (إكس وإنستقرام) للأذكار والمتبقي */
-        .share-actions-group {
+        .dhikr-share-actions {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            justify-content: center;
             width: 100%;
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px dashed var(--border-color);
+            flex-wrap: wrap;
         }
 
-        .share-row {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .action-btn {
+        .dhikr-share-btn {
             background: rgba(197, 168, 128, 0.08);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(197, 168, 128, 0.3);
             color: #c5a880;
-            padding: 8px 12px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+            padding: 9px 16px;
+            border-radius: 14px;
+            font-size: 0.85rem;
             font-weight: bold;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 5px;
+            gap: 6px;
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            flex: 1;
         }
 
-        .action-btn:hover {
+        .dhikr-share-btn:hover {
             background: #c5a880;
             color: #000;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(197, 168, 128, 0.3);
         }
 
-        .action-btn:active {
-            transform: scale(0.95);
-        }
+        .dhikr-share-btn:active { transform: scale(0.95); }
 
-        /* قالب بطاقة المشاركة المخفية المخصصة للصورة */
         .hidden-share-card {
             position: fixed;
             top: -9999px;
@@ -464,70 +439,15 @@
             width: 100%;
         }
 
-        .share-logo {
-            height: 55px;
-            width: auto;
-            object-fit: contain;
-        }
+        .share-logo { height: 55px; width: auto; object-fit: contain; }
+        .share-category-title { font-size: 1.15rem; font-weight: 800; color: #c5a880; }
+        .share-card-text { font-size: 1.35rem; line-height: 2.1; font-weight: 500; color: #f8fafc; margin: 15px 0; word-break: break-word; }
+        .share-repeat-count { font-size: 0.95rem; font-weight: bold; color: #c5a880; background: rgba(197, 168, 128, 0.15); padding: 6px 16px; border-radius: 12px; border: 1px solid rgba(197, 168, 128, 0.3); margin-bottom: 10px; }
+        .share-card-footer { width: 100%; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #30363d; display: flex; justify-content: center; }
+        .share-qr-container { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .share-qr-img { width: 95px; height: 95px; object-fit: contain; border-radius: 8px; background: #ffffff; padding: 4px; }
+        .share-qr-label { font-size: 0.75rem; color: #94a3b8; font-weight: bold; }
 
-        .share-category-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #c5a880;
-        }
-
-        .share-card-text {
-            font-size: 1.35rem;
-            line-height: 2.1;
-            font-weight: 500;
-            color: #f8fafc;
-            margin: 15px 0;
-            word-break: break-word;
-        }
-
-        .share-repeat-count {
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #c5a880;
-            background: rgba(197, 168, 128, 0.15);
-            padding: 6px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(197, 168, 128, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .share-card-footer {
-            width: 100%;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #30363d;
-            display: flex;
-            justify-content: center;
-        }
-
-        .share-qr-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .share-qr-img {
-            width: 95px;
-            height: 95px;
-            object-fit: contain;
-            border-radius: 8px;
-            background: #ffffff;
-            padding: 4px;
-        }
-
-        .share-qr-label {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            font-weight: bold;
-        }
-
-        /* العداد التفاعلي */
         .countdown-container { 
             display: flex; 
             flex-direction: column; 
@@ -550,9 +470,7 @@
             transition: transform 0.3s ease;
         }
         
-        .countdown-item:hover {
-            transform: translateY(-2px);
-        }
+        .countdown-item:hover { transform: translateY(-2px); }
 
         .live-timer-grid { 
             display: flex; 
@@ -577,6 +495,107 @@
 
         .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
         .time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
+
+        .share-btn { 
+            background: none; 
+            border: none; 
+            color: var(--accent-gold); 
+            cursor: pointer; 
+            font-size: 0.85rem; 
+            margin-top: 14px; 
+            font-weight: bold; 
+            display: flex; 
+            justify-content: center;
+            align-items: center; 
+            gap: 6px; 
+            width: 100%;
+            transition: opacity 0.2s ease;
+        }
+        .share-btn:hover { opacity: 0.8; }
+        .share-btn:active { transform: scale(0.97); }
+
+        /* نافذة خيارات المشاركة المنبثقة (Modal) */
+        .share-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .share-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .share-modal-card {
+            background: #161b22;
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            width: 90%;
+            max-width: 380px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .share-modal-overlay.open .share-modal-card {
+            transform: scale(1);
+        }
+        .share-modal-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .share-platforms-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .platform-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+        }
+        .platform-btn.x-platform { background: #000; color: #fff; border: 1px solid #333; }
+        .platform-btn.x-platform:hover { background: #1a1a1a; }
+        .platform-btn.insta-platform { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
+        .platform-btn.insta-platform:hover { opacity: 0.9; }
+        .platform-btn.wa-platform { background: #25d366; color: #000; }
+        .platform-btn.wa-platform:hover { background: #20ba5a; }
+        
+        .share-modal-close {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .share-modal-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
 
         .live-stream-container {
             position: relative;
@@ -645,9 +664,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
         
-        .x-link:active {
-            transform: scale(0.95);
-        }
+        .x-link:active { transform: scale(0.95); }
     </style>
 
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -659,26 +676,17 @@
       safari_web_id: "web.onesignal.auto.32866db8-e87d-48d6-8bf4-a7b54cca5ee4",
       serviceWorkerPath: "OneSignalSDKWorker.js",
       serviceWorkerParam: { scope: "/" },
-      notifyButton: {
-        enable: true,
-      },
+      notifyButton: { enable: true },
     });
 
     function hideBell() {
       const bellLauncher = document.getElementById('onesignal-bell-container');
-      if (bellLauncher) {
-        bellLauncher.style.display = 'none';
-      }
+      if (bellLauncher) bellLauncher.style.display = 'none';
     }
 
-    if (OneSignal.Notifications.permission) {
-      hideBell();
-    }
-
+    if (OneSignal.Notifications.permission) hideBell();
     OneSignal.Notifications.addEventListener('permissionChange', function(permission) {
-      if (permission) {
-        hideBell();
-      }
+      if (permission) hideBell();
     });
   });
 </script>
@@ -706,7 +714,7 @@
         </button>
         <button class="tab-btn" onclick="switchTab('dhikr', event)">
             <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Dhikr.png" alt="الذكر">
-            <span>الذكـر</span>
+            <span>الـذكر</span>
         </button>
         <button class="tab-btn" onclick="switchTab('live', event)">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -722,9 +730,7 @@
 <!-- 1. قسم التلاوات -->
 <div id="panel-telawat" class="panel-content active">
     <div class="box-card">
-        <div class="box-header">
-            <h2 class="box-title">قسم التلاوات</h2>
-        </div>
+        <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
         
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -747,49 +753,25 @@
                 <div class="countdown-title">شهر رمضان المبارك</div>
                 <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                 <div class="live-timer-grid" id="timer-ramadan"></div>
-                <div class="share-actions-group">
-                    <div class="share-row">
-                        <button class="action-btn" onclick="copyTimeText('رمضان', 'timer-ramadan')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                        <button class="action-btn" onclick="shareToXTime('رمضان', 'timer-ramadan')"><i class="fa-brands fa-x-twitter"></i> إكس</button>
-                        <button class="action-btn" onclick="shareToInstaTime('رمضان', 'timer-ramadan')"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
-                    </div>
-                </div>
+                <button class="share-btn" onclick="openShareModal('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الفطر المبارك</div>
                 <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                 <div class="live-timer-grid" id="timer-fitr"></div>
-                <div class="share-actions-group">
-                    <div class="share-row">
-                        <button class="action-btn" onclick="copyTimeText('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                        <button class="action-btn" onclick="shareToXTime('عيد الفطر', 'timer-fitr')"><i class="fa-brands fa-x-twitter"></i> إكس</button>
-                        <button class="action-btn" onclick="shareToInstaTime('عيد الفطر', 'timer-fitr')"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
-                    </div>
-                </div>
+                <button class="share-btn" onclick="openShareModal('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عشر ذي الحجة</div>
                 <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
                 <div class="live-timer-grid" id="timer-hajj"></div>
-                <div class="share-actions-group">
-                    <div class="share-row">
-                        <button class="action-btn" onclick="copyTimeText('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                        <button class="action-btn" onclick="shareToXTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-brands fa-x-twitter"></i> إكس</button>
-                        <button class="action-btn" onclick="shareToInstaTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
-                    </div>
-                </div>
+                <button class="share-btn" onclick="openShareModal('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الأضحى المبارك</div>
                 <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
                 <div class="live-timer-grid" id="timer-adha"></div>
-                <div class="share-actions-group">
-                    <div class="share-row">
-                        <button class="action-btn" onclick="copyTimeText('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                        <button class="action-btn" onclick="shareToXTime('عيد الأضحى', 'timer-adha')"><i class="fa-brands fa-x-twitter"></i> إكس</button>
-                        <button class="action-btn" onclick="shareToInstaTime('عيد الأضحى', 'timer-adha')"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
-                    </div>
-                </div>
+                <button class="share-btn" onclick="openShareModal('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
         </div>
     </div>
@@ -798,9 +780,7 @@
 <!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
     <div class="box-card">
-        <div class="box-header">
-            <h2 class="box-title">قسم الذكر</h2>
-        </div>
+        <div class="box-header"><h2 class="box-title">قسم الذكر</h2></div>
         <div class="sub-tabs">
             <button class="sub-tab-btn active" onclick="showDhikr('الصباح', this)">الصباح</button>
             <button class="sub-tab-btn" onclick="showDhikr('المساء', this)">المساء</button>
@@ -826,6 +806,28 @@
             <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/numbered-site.png" class="share-qr-img" alt="باركود الموقع">
             <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
         </div>
+    </div>
+</div>
+
+<!-- نافذة المشاركة المنبثقة (Modal) -->
+<div id="shareModal" class="share-modal-overlay" onclick="closeShareModal(event)">
+    <div class="share-modal-card" onclick="event.stopPropagation()">
+        <div class="share-modal-title">اختر طريقة المشاركة</div>
+        <div class="share-platforms-grid">
+            <button class="platform-btn x-platform" onclick="executePlatformShare('x')">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <span>مشاركة عبر منصة 𝕏 (إكس)</span>
+            </button>
+            <button class="platform-btn insta-platform" onclick="executePlatformShare('instagram')">
+                <i class="fa-brands fa-instagram" style="font-size: 1.1rem;"></i>
+                <span>مشاركة عبر انستقرام</span>
+            </button>
+            <button class="platform-btn wa-platform" onclick="executePlatformShare('whatsapp')">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.1rem;"></i>
+                <span>مشاركة عبر واتساب</span>
+            </button>
+        </div>
+        <button class="share-modal-close" onclick="closeShareModal()">إلغاء</button>
     </div>
 </div>
 
@@ -880,6 +882,9 @@
     let dhikrData = [];
     let currentCategory = 'الصباح';
     let currentDhikrIndex = 0;
+
+    // متغيرات حفظ بيانات المشاركة الحالية (المتبقي أو الذكر)
+    let activeShareData = null;
 
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
@@ -946,15 +951,9 @@
             <div class="progress-bar" style="width:100%; height:8px; margin: 15px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
             <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
             <button class="counter-btn" style="margin: 0 auto 15px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
-            <div class="share-actions-group">
-                <div class="share-row">
-                    <button class="action-btn" onclick="copyDhikrText()"><i class="fa-solid fa-copy"></i> نسخ النص</button>
-                    <button class="action-btn" onclick="shareDhikrToX()"><i class="fa-brands fa-x-twitter"></i> إكس</button>
-                    <button class="action-btn" onclick="shareDhikrToInsta()"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
-                </div>
-                <div class="share-row">
-                    <button class="action-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة (اختياري)</button>
-                </div>
+            <div class="dhikr-share-actions">
+                <button class="dhikr-share-btn" onclick="openShareModal('dhikr')"><i class="fa-solid fa-share-nodes"></i> مشاركة</button>
+                <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
             </div>
         </div>`;
 
@@ -966,7 +965,6 @@
         if (!card) return;
 
         let startX = 0;
-
         const processSwipe = (endX) => {
             const diff = endX - startX;
             if (Math.abs(diff) > 50) {
@@ -975,20 +973,11 @@
             }
         };
 
-        card.addEventListener('touchstart', e => {
-            startX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        card.addEventListener('touchend', e => {
-            processSwipe(e.changedTouches[0].screenX);
-        }, { passive: true });
+        card.addEventListener('touchstart', e => { startX = e.changedTouches[0].screenX; }, { passive: true });
+        card.addEventListener('touchend', e => { processSwipe(e.changedTouches[0].screenX); }, { passive: true });
 
         let isMouseDown = false;
-        card.addEventListener('mousedown', e => {
-            startX = e.clientX;
-            isMouseDown = true;
-        });
-
+        card.addEventListener('mousedown', e => { startX = e.clientX; isMouseDown = true; });
         card.addEventListener('mouseup', e => {
             if (!isMouseDown) return;
             isMouseDown = false;
@@ -1012,80 +1001,61 @@
         return 'أذكار منوعة';
     }
 
-    // دوال النسخ والمشاركة للأذكار
-    function copyDhikrText() {
-        const list = dhikrData.filter(d => d.cat === currentCategory);
-        if (!list || list.length === 0) return;
-        const d = list[currentDhikrIndex];
-        const categoryTitle = getCategoryFullName(currentCategory);
-        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://numbered.kozow.com/`;
-        copyToClipboard(message, "تم نسخ النص بنجاح!");
-    }
-
-    function shareDhikrToX() {
-        const list = dhikrData.filter(d => d.cat === currentCategory);
-        if (!list || list.length === 0) return;
-        const d = list[currentDhikrIndex];
-        const categoryTitle = getCategoryFullName(currentCategory);
-        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 https://numbered.kozow.com/`;
-        
-        navigator.clipboard?.writeText(message);
-        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
-    }
-
-    async function shareDhikrToInsta() {
-        copyDhikrText();
-        alert("تم نسخ النص! جاري تحضير وحفظ الصورة لإرفاقها اختيارياً في إنستقرام...");
-        await shareDhikrImage();
-        window.open("https://instagram.com", "_blank");
-    }
-
-    // دوال النسخ والمشاركة للمتبقي (العد التنازلي)
-    function getTimeFormattedText(eventName, timerId) {
-        const element = document.getElementById(timerId);
-        if (!element) return "";
-        const timeBoxes = element.querySelectorAll('.time-box');
-        if (timeBoxes.length < 4) return "";
-        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-        const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
-        
-        return `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://numbered.kozow.com/`;
-    }
-
-    function copyTimeText(eventName, timerId) {
-        const message = getTimeFormattedText(eventName, timerId);
-        if (!message) return;
-        copyToClipboard(message, "تم نسخ الموعد بنجاح!");
-    }
-
-    function shareToXTime(eventName, timerId) {
-        const message = getTimeFormattedText(eventName, timerId);
-        if (!message) return;
-        navigator.clipboard?.writeText(message);
-        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
-    }
-
-    function shareToInstaTime(eventName, timerId) {
-        const message = getTimeFormattedText(eventName, timerId);
-        if (!message) return;
-        navigator.clipboard?.writeText(message);
-        alert("تم نسخ النص! يمكنك لصقه الآن في إنستقرام.");
-        window.open("https://instagram.com", "_blank");
-    }
-
-    function copyToClipboard(text, successMsg) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert(successMsg);
-            }).catch(() => {
-                fallbackCopyText(text, successMsg);
-            });
+    // دوال إدارة نافذة المشاركة (Modal)
+    function openShareModal(type, timerId = null) {
+        if (type === 'dhikr') {
+            const list = dhikrData.filter(d => d.cat === currentCategory);
+            if (!list || list.length === 0) return;
+            const d = list[currentDhikrIndex];
+            const categoryTitle = getCategoryFullName(currentCategory);
+            const text = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://numbered.casacam.net/`;
+            activeShareData = { type: 'dhikr', text: text };
         } else {
-            fallbackCopyText(text, successMsg);
+            // قسم المتبقي
+            const element = document.getElementById(timerId);
+            if (!element) return;
+            const timeBoxes = element.querySelectorAll('.time-box');
+            const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
+            const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
+            const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
+            const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
+            const text = `⏳ المتبقي على ${type}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://numbered.casacam.net/`;
+            activeShareData = { type: 'remaining', text: text };
+        }
+
+        document.getElementById('shareModal').classList.add('open');
+    }
+
+    function closeShareModal() {
+        document.getElementById('shareModal').classList.remove('open');
+    }
+
+    // تنفيذ المشاركة عبر المنصات مع نسخ النص تلقائياً
+    async function executePlatformShare(platform) {
+        if (!activeShareData) return;
+        const textToCopy = activeShareData.text;
+
+        // نسخ النص إلى الحافظة أولاً
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            try { await navigator.clipboard.writeText(textToCopy); } catch(e) {}
+        }
+
+        let url = '';
+        const encodedText = encodeURIComponent(textToCopy);
+
+        if (platform === 'x') {
+            url = `https://twitter.com/intent/tweet?text=${encodedText}`;
+        } else if (platform === 'whatsapp') {
+            url = `https://api.whatsapp.com/send?text=${encodedText}`;
+        } else if (platform === 'instagram') {
+            // انستقرام لا يدعم استقبال النصوص مباشرة عبر روابط الويب، يتم النسخ وتوجيهه للمنصة
+            alert("تم نسخ النص بنجاح! سيتم توجيهك الآن إلى انستقرام لصقه.");
+            url = `https://www.instagram.com/`;
+        }
+
+        closeShareModal();
+        if (url) {
+            window.open(url, '_blank');
         }
     }
 
@@ -1106,7 +1076,7 @@
 
         const saveBtn = document.getElementById('btn-save-img');
         if(saveBtn) {
-            saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري إنشاء الصورة...`;
+            saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...`;
             saveBtn.disabled = true;
         }
 
@@ -1146,7 +1116,7 @@
             alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
         } finally {
             if(saveBtn) {
-                saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة (اختياري)`;
+                saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`;
                 saveBtn.disabled = false;
             }
         }
@@ -1222,23 +1192,6 @@
             btn.disabled = false;
         }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
-
-    function fallbackCopyText(text, successMsg) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            alert(successMsg);
-        } catch (err) {
-            alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
-        }
-        document.body.removeChild(textArea);
-    }
     
     function switchTab(tabId, event) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
@@ -1285,7 +1238,6 @@
     });
 </script>
 
-<!-- تذييل الصفحة Footer -->
 <footer class="site-footer">
     <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link" title="منصة X">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
