@@ -49,6 +49,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
+        @font-face {
+            font-family: 'TheYearofHandicrafts';
+            src: url('https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/TheYearofHandicrafts-Bold.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
         :root {
             --bg-color: #0d1117;
             --card-bg: #161b22;
@@ -68,7 +75,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'TheYearofHandicrafts', 'Tajawal', sans-serif;
             -webkit-user-select: none;
             user-select: none;
         }
@@ -808,7 +815,6 @@
         const processSwipe = (endX) => {
             const diff = endX - startX;
             if (Math.abs(diff) > 50) {
-                // تم عكس الشرط هنا لتغيير اتجاه التنقل بالسحب
                 currentDhikrIndex += (diff > 0) ? 1 : -1;
                 renderDhikrCard(cat);
             }
@@ -833,32 +839,6 @@
             isMouseDown = false;
             processSwipe(e.clientX);
         });
-    }
-
-    function handleSwipe(cat, totalLength) {
-        let diff = touchEndX - touchStartX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                currentDhikrIndex--;
-                renderDhikrCard(cat);
-            } else {
-                currentDhikrIndex++;
-                renderDhikrCard(cat);
-            }
-        }
-    }
-
-    function handleMouseSwipe(cat, totalLength, startX, endX) {
-        let diff = endX - startX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                currentDhikrIndex--;
-                renderDhikrCard(cat);
-            } else {
-                currentDhikrIndex++;
-                renderDhikrCard(cat);
-            }
-        }
     }
 
     function incDhikr(id, cat) {
