@@ -178,7 +178,6 @@
             overflow: hidden;
         }
         
-        /* تأثير لمعة خفيفة عند الهوفر */
         .tab-btn::after {
             content: '';
             position: absolute;
@@ -197,7 +196,6 @@
             border-color: rgba(197, 168, 128, 0.4);
         }
         
-        /* تأثير الضغط على الزر (تفاعل سريع وناعم) */
         .tab-btn:active { 
             transform: scale(0.94) translateY(0); 
             transition: transform 0.1s ease;
@@ -217,7 +215,6 @@
         .panel-content { width: 100%; max-width: 650px; display: none; }
         .panel-content.active { display: block; }
 
-        /* تأثير الزجاج الشفاّف للبطاقات الرئيسية (iPhone Glass Effect) */
         .box-card { 
             background: var(--card-bg); 
             backdrop-filter: blur(20px);
@@ -237,7 +234,6 @@
         .box-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px; }
         .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* حقل البحث الذكي بتصميم زجاجي */
         .search-container { position: relative; margin-bottom: 25px; width: 100%; }
         .search-input {
             width: 100%;
@@ -268,7 +264,6 @@
         }
         .search-input:focus + .search-icon { color: var(--accent-gold); }
 
-        /* قسم الأذكار */
         .sub-tabs { 
             display: flex; 
             gap: 10px; 
@@ -333,7 +328,6 @@
             width: 100%;
         }
 
-        /* تعليمات التمرير الجانبي */
         .dhikr-hint {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -360,7 +354,6 @@
             box-shadow: 0 0 10px rgba(197, 168, 128, 0.5);
         }
 
-        /* زر العد التفاعلي بلمسة زجاجية وانتقال سلس */
         .counter-btn { 
             background: linear-gradient(135deg, #c5a880, #a3855e); 
             border: none; 
@@ -387,42 +380,51 @@
             box-shadow: 0 4px 10px rgba(197, 168, 128, 0.3);
         }
 
-        /* أزرار المشاركة في الذكر */
-        .dhikr-share-actions {
+        /* حاوية أزرار المشاركة المحدثة (إكس وإنستقرام) للأذكار والمتبقي */
+        .share-actions-group {
             display: flex;
-            gap: 10px;
-            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
             width: 100%;
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px dashed var(--border-color);
         }
 
-        .dhikr-share-btn {
+        .share-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .action-btn {
             background: rgba(197, 168, 128, 0.08);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(197, 168, 128, 0.3);
             color: #c5a880;
-            padding: 9px 16px;
-            border-radius: 14px;
-            font-size: 0.85rem;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 5px;
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            flex: 1;
         }
 
-        .dhikr-share-btn:hover {
+        .action-btn:hover {
             background: #c5a880;
             color: #000;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(197, 168, 128, 0.3);
         }
 
-        .dhikr-share-btn:active {
+        .action-btn:active {
             transform: scale(0.95);
         }
 
@@ -576,24 +578,6 @@
         .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
         .time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
 
-        .share-btn { 
-            background: none; 
-            border: none; 
-            color: var(--accent-gold); 
-            cursor: pointer; 
-            font-size: 0.85rem; 
-            margin-top: 14px; 
-            font-weight: bold; 
-            display: flex; 
-            justify-content: center;
-            align-items: center; 
-            gap: 6px; 
-            width: 100%;
-            transition: opacity 0.2s ease;
-        }
-        .share-btn:hover { opacity: 0.8; }
-        .share-btn:active { transform: scale(0.97); }
-
         .live-stream-container {
             position: relative;
             width: 100%;
@@ -617,7 +601,6 @@
         .animate-fade { animation: fadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* تأثير الحركة السلو موشن السلسة عند الانتقال بين الأذكار */
         .animate-slowmo { 
             animation: slowMotion 0.5s cubic-bezier(0.25, 1, 0.5, 1); 
         }
@@ -628,7 +611,6 @@
 
         button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
-        /* تذييل الصفحة Footer */
         .site-footer {
             width: 100%;
             display: flex;
@@ -716,15 +698,15 @@
     <div class="tabs-container">
         <button class="tab-btn active" onclick="switchTab('telawat', event)">
             <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/telawat.png" alt="تلاوات">
-            <span>تلاوات</span>
+            <span>تـلاوات</span>
         </button>
         <button class="tab-btn" onclick="switchTab('remaining', event)">
             <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/residual.png" alt="المتبقي">
-            <span>المتبقي</span>
+            <span>الـمتبقي</span>
         </button>
         <button class="tab-btn" onclick="switchTab('dhikr', event)">
             <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Dhikr.png" alt="الذكر">
-            <span>الذكر</span>
+            <span>الذكـر</span>
         </button>
         <button class="tab-btn" onclick="switchTab('live', event)">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -765,25 +747,49 @@
                 <div class="countdown-title">شهر رمضان المبارك</div>
                 <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                 <div class="live-timer-grid" id="timer-ramadan"></div>
-                <button class="share-btn" onclick="shareTime('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+                <div class="share-actions-group">
+                    <div class="share-row">
+                        <button class="action-btn" onclick="copyTimeText('رمضان', 'timer-ramadan')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
+                        <button class="action-btn" onclick="shareToXTime('رمضان', 'timer-ramadan')"><i class="fa-brands fa-x-twitter"></i> إكس</button>
+                        <button class="action-btn" onclick="shareToInstaTime('رمضان', 'timer-ramadan')"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
+                    </div>
+                </div>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الفطر المبارك</div>
                 <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                 <div class="live-timer-grid" id="timer-fitr"></div>
-                <button class="share-btn" onclick="shareTime('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+                <div class="share-actions-group">
+                    <div class="share-row">
+                        <button class="action-btn" onclick="copyTimeText('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
+                        <button class="action-btn" onclick="shareToXTime('عيد الفطر', 'timer-fitr')"><i class="fa-brands fa-x-twitter"></i> إكس</button>
+                        <button class="action-btn" onclick="shareToInstaTime('عيد الفطر', 'timer-fitr')"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
+                    </div>
+                </div>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عشر ذي الحجة</div>
                 <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
                 <div class="live-timer-grid" id="timer-hajj"></div>
-                <button class="share-btn" onclick="shareTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+                <div class="share-actions-group">
+                    <div class="share-row">
+                        <button class="action-btn" onclick="copyTimeText('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
+                        <button class="action-btn" onclick="shareToXTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-brands fa-x-twitter"></i> إكس</button>
+                        <button class="action-btn" onclick="shareToInstaTime('عشر ذي الحجة', 'timer-hajj')"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
+                    </div>
+                </div>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الأضحى المبارك</div>
                 <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
                 <div class="live-timer-grid" id="timer-adha"></div>
-                <button class="share-btn" onclick="shareTime('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
+                <div class="share-actions-group">
+                    <div class="share-row">
+                        <button class="action-btn" onclick="copyTimeText('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-copy"></i> نسخ النص</button>
+                        <button class="action-btn" onclick="shareToXTime('عيد الأضحى', 'timer-adha')"><i class="fa-brands fa-x-twitter"></i> إكس</button>
+                        <button class="action-btn" onclick="shareToInstaTime('عيد الأضحى', 'timer-adha')"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -859,7 +865,6 @@
 </div>
 
 <script>
-    // إخفاء مقدمة الموقع (Splash Screen) بسلاسة بعد التحميل
     window.addEventListener('load', () => {
         const splash = document.getElementById('splashScreen');
         if (splash) {
@@ -941,16 +946,21 @@
             <div class="progress-bar" style="width:100%; height:8px; margin: 15px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
             <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
             <button class="counter-btn" style="margin: 0 auto 15px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
-            <div class="dhikr-share-actions">
-                <button class="dhikr-share-btn" onclick="shareDhikrText()"><i class="fa-solid fa-copy"></i> مشاركة نصاً</button>
-                <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
+            <div class="share-actions-group">
+                <div class="share-row">
+                    <button class="action-btn" onclick="copyDhikrText()"><i class="fa-solid fa-copy"></i> نسخ النص</button>
+                    <button class="action-btn" onclick="shareDhikrToX()"><i class="fa-brands fa-x-twitter"></i> إكس</button>
+                    <button class="action-btn" onclick="shareDhikrToInsta()"><i class="fa-brands fa-instagram"></i> إنستقرام</button>
+                </div>
+                <div class="share-row">
+                    <button class="action-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة (اختياري)</button>
+                </div>
             </div>
         </div>`;
 
         setupSwipeGestures(cat, list.length);
     }
 
-    // تفعيل السحب مع عكس الاتجاه (من اليسار إلى اليمين)
     function setupSwipeGestures(cat, totalLength) {
         const card = document.getElementById('active-dhikr-card');
         if (!card) return;
@@ -1002,23 +1012,80 @@
         return 'أذكار منوعة';
     }
 
-    function shareDhikrText() {
+    // دوال النسخ والمشاركة للأذكار
+    function copyDhikrText() {
         const list = dhikrData.filter(d => d.cat === currentCategory);
         if (!list || list.length === 0) return;
-
         const d = list[currentDhikrIndex];
         const categoryTitle = getCategoryFullName(currentCategory);
+        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://numbered.kozow.com/`;
+        copyToClipboard(message, "تم نسخ النص بنجاح!");
+    }
+
+    function shareDhikrToX() {
+        const list = dhikrData.filter(d => d.cat === currentCategory);
+        if (!list || list.length === 0) return;
+        const d = list[currentDhikrIndex];
+        const categoryTitle = getCategoryFullName(currentCategory);
+        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 https://numbered.kozow.com/`;
         
-        const message = `${categoryTitle}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: https://numbered.casacam.net/`;
+        navigator.clipboard?.writeText(message);
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+
+    async function shareDhikrToInsta() {
+        copyDhikrText();
+        alert("تم نسخ النص! جاري تحضير وحفظ الصورة لإرفاقها اختيارياً في إنستقرام...");
+        await shareDhikrImage();
+        window.open("https://instagram.com", "_blank");
+    }
+
+    // دوال النسخ والمشاركة للمتبقي (العد التنازلي)
+    function getTimeFormattedText(eventName, timerId) {
+        const element = document.getElementById(timerId);
+        if (!element) return "";
+        const timeBoxes = element.querySelectorAll('.time-box');
+        if (timeBoxes.length < 4) return "";
+        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
+        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
+        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
+        const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
         
+        return `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://numbered.kozow.com/`;
+    }
+
+    function copyTimeText(eventName, timerId) {
+        const message = getTimeFormattedText(eventName, timerId);
+        if (!message) return;
+        copyToClipboard(message, "تم نسخ الموعد بنجاح!");
+    }
+
+    function shareToXTime(eventName, timerId) {
+        const message = getTimeFormattedText(eventName, timerId);
+        if (!message) return;
+        navigator.clipboard?.writeText(message);
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+
+    function shareToInstaTime(eventName, timerId) {
+        const message = getTimeFormattedText(eventName, timerId);
+        if (!message) return;
+        navigator.clipboard?.writeText(message);
+        alert("تم نسخ النص! يمكنك لصقه الآن في إنستقرام.");
+        window.open("https://instagram.com", "_blank");
+    }
+
+    function copyToClipboard(text, successMsg) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(message).then(() => {
-                alert("تم نسخ النص بنجاح!");
+            navigator.clipboard.writeText(text).then(() => {
+                alert(successMsg);
             }).catch(() => {
-                fallbackCopyText(message);
+                fallbackCopyText(text, successMsg);
             });
         } else {
-            fallbackCopyText(message);
+            fallbackCopyText(text, successMsg);
         }
     }
 
@@ -1039,7 +1106,7 @@
 
         const saveBtn = document.getElementById('btn-save-img');
         if(saveBtn) {
-            saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...`;
+            saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري إنشاء الصورة...`;
             saveBtn.disabled = true;
         }
 
@@ -1079,7 +1146,7 @@
             alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
         } finally {
             if(saveBtn) {
-                saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`;
+                saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة (اختياري)`;
                 saveBtn.disabled = false;
             }
         }
@@ -1156,30 +1223,7 @@
         }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
 
-    function shareTime(eventName, timerId) {
-        const element = document.getElementById(timerId);
-        if (!element) return;
-        
-        const timeBoxes = element.querySelectorAll('.time-box');
-        const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-        const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-        const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-        const s = timeBoxes[3].innerText.replace(/[^0-9]/g, '');
-        
-        const message = `⏳ المتبقي على ${eventName}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\nنسأل الله أن يبلغنا إياها ونحن بصحة وعافية.\n\n🔗 https://numbered.casacam.net/`;    
-        
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(message).then(() => {
-                alert("تم نسخ الموعد بنجاح!");
-            }).catch(() => {
-                fallbackCopyText(message);
-            });
-        } else {
-            fallbackCopyText(message);
-        }
-    }
-
-    function fallbackCopyText(text) {
+    function fallbackCopyText(text, successMsg) {
         const textArea = document.createElement("textarea");
         textArea.value = text;
         textArea.style.position = "fixed";
@@ -1189,7 +1233,7 @@
         textArea.select();
         try {
             document.execCommand('copy');
-            alert("تم نسخ النص بنجاح!");
+            alert(successMsg);
         } catch (err) {
             alert("تعذر النسخ التلقائي، يرجى تحديده يدوياً.");
         }
