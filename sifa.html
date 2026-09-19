@@ -324,23 +324,23 @@
 <!-- نافذة المشاركة المنبثقة -->
 <div id="shareModal" class="share-modal-overlay" onclick="closeShareModal(event)">
     <div class="share-modal-card" onclick="event.stopPropagation()">
-        <div class="share-modal-title">اختر طريقة المشاركة</div>
+        <div class="share-modal-title">مشاركة رابط المنشور</div>
         <div class="share-platforms-grid">
             <button class="platform-btn x-platform" onclick="executePlatformShare('x')">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                <span>اكس</span>
+                <span>مشاركة الرابط على اكس</span>
             </button>
             <button class="platform-btn tg-platform" onclick="executePlatformShare('telegram')">
                 <i class="fa-brands fa-telegram" style="font-size: 1.1rem;"></i>
-                <span>تليجـرام</span>
+                <span>مشاركة الرابط على تليجـرام</span>
             </button>
             <button class="platform-btn wa-platform" onclick="executePlatformShare('whatsapp')">
                 <i class="fa-brands fa-whatsapp" style="font-size: 1.1rem;"></i>
-                <span>واتسـاب</span>
+                <span>مشاركة الرابط على واتسـاب</span>
             </button>
             <button class="platform-btn copy-platform" onclick="executePlatformShare('copy')">
                 <i class="fa-regular fa-copy" style="font-size: 1.1rem;"></i>
-                <span>نسخ فقط دون مشاركة</span>
+                <span>نسخ رابط المنشور فقط</span>
             </button>
         </div>
         <button class="share-modal-close" onclick="closeShareModal()">إلغاء</button>
@@ -368,10 +368,10 @@
     });
 
     // رابط تطبيق الويب الخاص بـ Google Apps Script
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxk_FLSOP6JX2gK2qfgHLARVd1YyvOKMUdHFrdV4nLdqpOvDo-_24cfYb6FIAe246BG/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxJX2gK2fgfHLARVd1YywOkMUDhFrdv4nsDgp0vDo_2Acf96fA4c24685/exec';
     
     let pulseData = [];
-    let activeShareText = '';
+    let activeShareUrl = '';
 
     async function fetchPulseData() {
         try {
@@ -423,10 +423,8 @@
     }
 
     function openShareModal(index) {
-        const post = pulseData[index];
-        if (!post) return;
-        const siteUrl = 'https://numbered.casacam.net/pulse.html';
-        activeShareText = `${post.title}\n\n${post.text}\n\n🔗 ${siteUrl}`;
+        // يمكنك تخصيص رابط خاص لكل منشور إذا أردت، حالياً يشارك رابط الصفحة الأساسي
+        activeShareUrl = 'https://numbered.casacam.net/pulse.html';
         document.getElementById('shareModal').classList.add('open');
     }
 
@@ -437,22 +435,21 @@
     }
 
     async function executePlatformShare(platform) {
-        if (!activeShareText) return;
+        if (!activeShareUrl) return;
         
         if (platform === 'copy') {
             try {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    await navigator.clipboard.writeText(activeShareText);
-                    alert("تم نسخ النص بنجاح إلى الحافظة!");
+                    await navigator.clipboard.writeText(activeShareUrl);
+                    alert("تم نسخ رابط المنشور بنجاح!");
                 } else {
-                    // طريقة بديلة للمتصفحات القديمة
                     const textarea = document.createElement('textarea');
-                    textarea.value = activeShareText;
+                    textarea.value = activeShareUrl;
                     document.body.appendChild(textarea);
                     textarea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textarea);
-                    alert("تم نسخ النص بنجاح إلى الحافظة!");
+                    alert("تم نسخ رابط المنشور بنجاح!");
                 }
             } catch(e) {
                 alert("تعذر النسخ تلقائياً.");
@@ -461,14 +458,14 @@
             return;
         }
 
-        const encodedText = encodeURIComponent(activeShareText);
+        const encodedUrl = encodeURIComponent(activeShareUrl);
         let url = '';
         if (platform === 'x') {
-            url = `https://twitter.com/intent/tweet?text=${encodedText}`;
+            url = `https://twitter.com/intent/tweet?url=${encodedUrl}`;
         } else if (platform === 'whatsapp') {
-            url = `https://api.whatsapp.com/send?text=${encodedText}`;
+            url = `https://api.whatsapp.com/send?text=${encodedUrl}`;
         } else if (platform === 'telegram') {
-            url = `https://t.me/share/url?url=${encodeURIComponent('https://numbered.casacam.net/pulse.html')}&text=${encodedText}`;
+            url = `https://t.me/share/url?url=${encodedUrl}`;
         }
 
         closeShareModal();
