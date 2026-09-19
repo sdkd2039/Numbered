@@ -13,13 +13,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="معدودات">
 
-    <title>معدودات</title>
+    <title>معدودات - نبض العدة</title>
 
     <!-- وسوم عامة تدعم جميع المنصات -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="معدودات">
+    <meta property="og:title" content="معدودات - نبض العدة">
     <meta property="og:description" content="كل لحظة.. لها أثر">
-    <meta property="og:image" content="https://files.catbox.moe/sby0aj.png">
+    <meta property="og:image" content="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
     <meta property="og:url" content="https://numbered.casacam.net/">
     <meta property="og:site_name" content="معدودات">
 
@@ -27,16 +27,13 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="معدودات">
     <meta name="twitter:description" content="لكل لحظة.. لها أثر">
-    <meta name="twitter:image" content="https://files.catbox.moe/sby0aj.png">
+    <meta name="twitter:image" content="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
     
     <!-- أيقونة المتصفح العادية -->
-    <link rel="icon" type="image/png" href="https://files.catbox.moe/sby0aj.png">
+    <link rel="icon" type="image/png" href="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
 
     <!-- أيقونات الآيفون والآيباد للشاشة الرئيسية -->
-    <link rel="apple-touch-icon" href="https://files.catbox.moe/sby0aj.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://files.catbox.moe/sby0aj.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://files.catbox.moe/sby0aj.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="https://files.catbox.moe/sby0aj.png">
+    <link rel="apple-touch-icon" href="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,9 +167,7 @@
             border-color: rgba(197, 168, 128, 0.4);
         }
         
-        .tab-btn:active { 
-            transform: scale(0.95); 
-        }
+        .tab-btn:active { transform: scale(0.95); }
 
         .tab-btn img, .tab-btn svg { width: 24px; height: 24px; object-fit: contain; }
         
@@ -200,7 +195,7 @@
         .box-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px; }
         .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* تنسيقات نبض العدة والتغريدات */
+        /* تنسيقات قسم نبض العدة الجديد */
         .nabd-form {
             display: flex;
             flex-direction: column;
@@ -222,30 +217,32 @@
             border-color: var(--accent-gold);
             box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15);
         }
-        .nabd-controls-row {
+        .nabd-schedule-box {
             display: flex;
             gap: 10px;
             align-items: center;
-        }
-        .nabd-schedule-select {
-            background: rgba(13, 17, 23, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
             padding: 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
             font-size: 0.85rem;
+        }
+        .nabd-schedule-box select {
+            background: #1e1e1e;
+            color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 6px 10px;
+            border-radius: 8px;
             outline: none;
-            cursor: pointer;
         }
         .nabd-btn {
             background: var(--accent-gold);
             color: #000;
             border: none;
-            padding: 10px 20px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 14px;
             font-weight: bold;
             cursor: pointer;
-            flex: 1;
             transition: transform 0.1s ease;
         }
         .nabd-btn:active { transform: scale(0.97); }
@@ -265,82 +262,70 @@
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
-        .tweet-body {
-            flex: 1;
-        }
-        .tweet-header-info {
+        .tweet-body { flex-grow: 1; }
+        .tweet-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 6px;
         }
-        .tweet-author {
-            font-weight: bold;
-            color: var(--accent-gold);
-            font-size: 0.95rem;
-        }
-        .tweet-time {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-        .tweet-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #f8fafc;
-            margin-bottom: 12px;
-            word-break: break-word;
-        }
-        .tweet-actions {
+        .tweet-author { font-weight: bold; color: var(--accent-gold); font-size: 0.95rem; }
+        .tweet-time { font-size: 0.75rem; color: var(--text-muted); }
+        .tweet-text { font-size: 0.95rem; line-height: 1.6; word-break: break-word; margin-bottom: 12px; }
+        .tweet-footer-actions {
             display: flex;
             gap: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255,255,255,0.05);
             padding-top: 10px;
         }
         .tweet-action-btn {
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
+            font-size: 0.85rem;
             transition: color 0.2s ease;
         }
         .tweet-action-btn.liked { color: #ef4444; }
         .tweet-action-btn.reposted { color: #238636; }
         .tweet-action-btn:hover { color: #fff; }
 
-        /* نافذة القيود المنبثقة (تظهر مرة واحدة) */
-        .rules-modal-overlay {
+        /* نافذة قيود النشر المنبثقة (تظهر مرة واحدة) */
+        .rules-modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7);
             backdrop-filter: blur(15px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000000;
-            opacity: 0;
-            visibility: hidden;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 999999;
+            opacity: 0; visibility: hidden;
             transition: all 0.3s ease;
         }
-        .rules-modal-overlay.show { opacity: 1; visibility: visible; }
-        .rules-modal-card {
+        .rules-modal.show { opacity: 1; visibility: visible; }
+        .rules-card {
             background: #161b22;
             border: 1px solid var(--accent-gold);
-            border-radius: 24px;
-            width: 90%;
-            max-width: 420px;
+            border-radius: 20px;
             padding: 25px;
+            width: 85%;
+            max-width: 400px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-        .rules-modal-card h3 { color: var(--accent-gold); margin-bottom: 12px; font-size: 1.2rem; }
-        .rules-modal-card p { font-size: 0.9rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 20px; text-align: right; }
-        .rules-modal-card button {
-            background: var(--accent-gold); color: #000; border: none; padding: 10px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%;
+        .rules-card h3 { color: var(--accent-gold); margin-bottom: 12px; font-size: 1.2rem; }
+        .rules-card p { font-size: 0.9rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 20px; }
+        .rules-btn {
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         .search-container { position: relative; margin-bottom: 25px; width: 100%; }
@@ -348,40 +333,18 @@
             width: 100%;
             background: rgba(13, 17, 23, 0.6);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 15px 45px 15px 15px;
             color: #fff;
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s ease;
         }
-        .search-input:focus { 
-            border-color: #c5a880; 
-            box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15); 
-        }
-        .search-icon {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            pointer-events: none;
-        }
+        .search-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; }
 
-        .sub-tabs { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 20px; 
-            justify-content: center; 
-            flex-wrap: wrap; 
-        }
-
+        .sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
         .sub-tab-btn { 
             background: rgba(33, 38, 45, 0.5); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--border-color); 
             color: #94a3b8; 
             padding: 9px 18px; 
@@ -390,286 +353,46 @@
             font-weight: bold; 
             transition: all 0.2s ease; 
         }
-        
-        .sub-tab-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
-        .sub-tab-btn:active { transform: scale(0.95); }
-
-        .sub-tab-btn.active { 
-            background: #c5a880; 
-            color: #000; 
-            border-color: #c5a880; 
-        }
+        .sub-tab-btn.active { background: #c5a880; color: #000; border-color: #c5a880; }
 
         .dhikr-card { 
             background: rgba(22, 27, 34, 0.6); 
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-color); 
             padding: 25px 20px; 
             border-radius: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            margin-bottom: 30px; 
-            text-align: center;
-            touch-action: pan-y;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex; flex-direction: column; align-items: center; 
+            margin-bottom: 30px; text-align: center;
         }
-
-        .dhikr-text { 
-            font-size: 1.4rem; 
-            color: #fff; 
-            line-height: 2.2; 
-            font-weight: 500; 
-            margin-bottom: 25px; 
-            width: 100%;
-        }
-
-        .dhikr-hint {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            opacity: 0.8;
-        }
-
-        .progress-bar { 
-            width: 80%; 
-            height: 6px; 
-            background: rgba(13, 17, 23, 0.6); 
-            border-radius: 3px; 
-            overflow: hidden; 
-            margin-bottom: 10px;
-        }
-
-        .progress-fill { 
-            height: 100%; 
-            background: var(--accent-gold); 
-            transition: width 0.2s ease; 
-        }
-
+        .dhikr-text { font-size: 1.4rem; color: #fff; line-height: 2.2; font-weight: 500; margin-bottom: 25px; width: 100%; }
+        .progress-bar { width: 80%; height: 6px; background: rgba(13, 17, 23, 0.6); border-radius: 3px; overflow: hidden; margin-bottom: 10px; }
+        .progress-fill { height: 100%; background: var(--accent-gold); transition: width 0.2s ease; }
         .counter-btn { 
             background: linear-gradient(135deg, #c5a880, #a3855e); 
-            border: none; 
-            width: 65px; 
-            height: 65px; 
-            border-radius: 50%; 
-            color: #000; 
-            font-size: 1.8rem; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: transform 0.1s ease, box-shadow 0.2s ease; 
+            border: none; width: 65px; height: 65px; border-radius: 50%; 
+            color: #000; font-size: 1.8rem; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; 
             box-shadow: 0 8px 20px rgba(197, 168, 128, 0.35);
         }
 
-        .counter-btn:active { 
-            transform: scale(0.92); 
-        }
-
-        .dhikr-share-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            width: 100%;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border-color);
-            flex-wrap: wrap;
-        }
-
-        .dhikr-share-btn {
-            background: rgba(197, 168, 128, 0.08);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(197, 168, 128, 0.3);
-            color: #c5a880;
-            padding: 9px 16px;
-            border-radius: 14px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .dhikr-share-btn:hover {
-            background: #c5a880;
-            color: #000;
-        }
-
-        .dhikr-share-btn:active { transform: scale(0.95); }
-
-        .hidden-share-card {
-            position: fixed;
-            top: -9999px;
-            left: -9999px;
-            width: 450px;
-            background: #0d1117;
-            border: 2px solid #c5a880;
-            border-radius: 20px;
-            padding: 30px 25px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            text-align: center;
-            color: #ffffff;
-        }
-
-        .share-card-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        .share-logos-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .share-logo { height: 55px; width: auto; object-fit: contain; }
-        .share-category-title { font-size: 1.15rem; font-weight: 800; color: #c5a880; }
-        .share-card-text { font-size: 1.35rem; line-height: 2.1; font-weight: 500; color: #f8fafc; margin: 15px 0; word-break: break-word; }
-        .share-repeat-count { font-size: 0.95rem; font-weight: bold; color: #c5a880; background: rgba(197, 168, 128, 0.15); padding: 6px 16px; border-radius: 12px; border: 1px solid rgba(197, 168, 128, 0.3); margin-bottom: 10px; }
-        .share-card-footer { width: 100%; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #30363d; display: flex; justify-content: center; }
-        .share-qr-container { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .share-qr-img { width: 95px; height: 95px; object-fit: contain; border-radius: 8px; background: #ffffff; padding: 4px; }
-        .share-qr-label { font-size: 0.75rem; color: #94a3b8; font-weight: bold; }
-
-        .countdown-container { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-            gap: 20px; 
-            width: 100%;
-        }
-
+        .countdown-container { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; }
         .countdown-item { 
             background: rgba(13, 17, 23, 0.4); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border-color); 
-            padding: 18px; 
-            border-radius: 16px; 
-            border-right: 5px solid var(--accent-gold); 
-            width: 90%; 
-            max-width: 400px;
+            padding: 18px; border-radius: 16px; border-right: 5px solid var(--accent-gold); 
+            width: 90%; max-width: 400px;
         }
-
-        .live-timer-grid { 
-            display: flex; 
-            justify-content: center; 
-            gap: 12px; 
-            direction: rtl; 
-            margin-top: 15px;
-        }
-
-        .time-box { 
-            background: rgba(255, 255, 255, 0.04); 
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            padding: 8px 12px; 
-            border-radius: 10px; 
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 50px;
-        }
-
+        .live-timer-grid { display: flex; justify-content: center; gap: 12px; direction: rtl; margin-top: 15px; }
+        .time-box { background: rgba(255, 255, 255, 0.04); padding: 8px 12px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; min-width: 50px; }
         .time-num { font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); }
         .time-label { font-size: 0.70rem; color: var(--text-muted); margin-top: 2px; }
 
-        .share-btn { 
-            background: none; 
-            border: none; 
-            color: var(--accent-gold); 
-            cursor: pointer; 
-            font-size: 0.85rem; 
-            margin-top: 14px; 
-            font-weight: bold; 
-            display: flex; 
-            justify-content: center;
-            align-items: center; 
-            gap: 6px; 
-            width: 100%;
-        }
-        .share-btn:active { transform: scale(0.97); }
+        .share-btn { background: none; border: none; color: var(--accent-gold); cursor: pointer; font-size: 0.85rem; margin-top: 14px; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 6px; width: 100%; }
 
-        .share-modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(25px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.25s ease, visibility 0.25s ease;
-        }
-        .share-modal-overlay.open { opacity: 1; visibility: visible; }
-        .share-modal-card {
-            background: rgba(22, 27, 34, 0.75);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 28px;
-            width: 90%; max-width: 360px;
-            padding: 24px 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            text-align: center;
-            transform: scale(0.93);
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .share-modal-overlay.open .share-modal-card { transform: scale(1); }
-        .share-modal-title { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 18px; }
-        .share-platforms-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .platform-btn {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            width: 100%; padding: 13px; border-radius: 16px; font-size: 0.95rem; font-weight: bold; cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .platform-btn.x-platform { background: rgba(0,0,0,0.6); color: #fff; }
-        .platform-btn.tg-platform { background: rgba(34, 158, 217, 0.25); color: #229ed9; }
-        .platform-btn.wa-platform { background: rgba(37, 211, 102, 0.25); color: #25d366; }
-        .platform-btn.copy-platform { background: rgba(197, 168, 128, 0.15); color: #c5a880; }
-        .platform-btn:active { transform: scale(0.96); }
-        .share-modal-close {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-muted); padding: 11px; border-radius: 14px; width: 100%; font-weight: bold; cursor: pointer;
-        }
-
-        .live-stream-container {
-            position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 14px; background: #000; border: 1px solid var(--border-color);
-        }
+        .live-stream-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 14px; background: #000; border: 1px solid var(--border-color); }
         .live-video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        .animate-slowmo { animation: slowMotion 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
-        @keyframes slowMotion { from { opacity: 0; transform: scale(0.98) translateY(5px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
-        button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-
         .site-footer { width: 100%; display: flex; justify-content: center; align-items: center; padding: 20px 0; margin-top: auto; }
-        .x-link {
-            display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: bold; padding: 10px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color);
-        }
-        .x-link:hover { color: #ffffff; background: rgba(0, 0, 0, 0.6); }
+        .x-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: bold; padding: 10px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); }
     </style>
 
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -682,32 +405,28 @@
 </head>
 <body oncontextmenu="return false;">
 
-<!-- نافذة الشروط والقيود (تظهر مرة واحدة) -->
-<div id="rulesModal" class="rules-modal-overlay">
-    <div class="rules-modal-card">
-        <h3>مرحباً بك في نبض العدة</h3>
-        <p>
-            نرجو الالتزام بأن تكون المشاركات مخصصة حصرياً لـ: <strong>القصص الهادفة، النصائح، الحكمة، والفوائد النافعة</strong>.<br><br>
-            يُمنع منعاً باتاً نشر الأمور الفكاهية التافهة أو المحتوى الهزلي؛ ليبقى هذا المنبر هادفاً وذو أثر طيب.
-        </p>
-        <button onclick="closeRulesModal()">فهمت، ابدأ المشاركة</button>
+<!-- رسالة القيود التي تظهر مرة واحدة -->
+<div id="rulesModal" class="rules-modal">
+    <div class="rules-card">
+        <h3>تعليمات نبض العدة</h3>
+        <p>مرحباً بك! يرجى الالتزام بأن تكون المشاركات مخصصة للقصص الهادفة، النصائح، والحكم النافعة، ولا تقبل المنشورات الفكاهية أو التافهة ليبقى المحتوى راقياً ومفيداً.</p>
+        <button class="rules-button" onclick="closeRulesModal()">فهمت، ابدأ النشر</button>
     </div>
 </div>
 
 <div id="splashScreen">
-    <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(1).gif" class="splash-logo splash-mobile" ondragstart="return false;">
-    <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(3).gif" class="splash-logo splash-desktop" ondragstart="return false;">
+    <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="شعار نبض العدة المتحرك" class="splash-logo splash-mobile">
+    <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="شعار نبض العدة المتحرك" class="splash-logo splash-desktop">
 </div>
 
 <header>
-    <img id="active-tab-logo" src="https://files.catbox.moe/sby0aj.png" class="main-logo" alt="القسم الحالي">
+    <img id="active-tab-logo" src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" class="main-logo" alt="القسم الحالي">
 </header>
     
 <div class="tabs-wrapper">
     <div class="tabs-container">
-        <!-- 1. نبض العدة كأول خيار -->
         <button class="tab-btn active" onclick="switchTab('nabd', event)">
-            <img src="https://files.catbox.moe/sby0aj.png" alt="نبض العدة">
+            <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="نبض العدة">
             <span>نبض العدة</span>
         </button>
         <button class="tab-btn" onclick="switchTab('telawat', event)">
@@ -719,44 +438,51 @@
             <span>الـمتبقي</span>
         </button>
         <button class="tab-btn" onclick="switchTab('dhikr', event)">
-            <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%80%D8%B1/Dhikr.png" alt="الذكر">
+            <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Dhikr.png" alt="الذكر">
             <span>الـذكر</span>
         </button>
         <button class="tab-btn" onclick="switchTab('live', event)">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="#f8fafc" stroke-width="2"/>
-                <circle cx="12" cy="12" r="3" fill="#ef4444"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="#f8fafc" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#ef4444"/></svg>
             <span>بث مباشر</span>
         </button>
     </div>
 </div>
 
-<!-- 1. قسم نبض العدة (الافتراضي) -->
+<!-- 0. قسم نبض العدة (الأول الآن) -->
 <div id="panel-nabd" class="panel-content active">
     <div class="box-card">
-        <div class="box-header"><h2 class="box-title">نبض العدة - تفاعل وفوائد</h2></div>
+        <div class="box-header"><h2 class="box-title">نبض العدة</h2></div>
         
         <div class="nabd-form">
-            <input type="text" id="nabdName" class="nabd-input" placeholder="اسمك أو اللقب..." maxlength="30">
-            <textarea id="nabdMessage" class="nabd-textarea" rows="3" placeholder="اكتب قصة، نصيحة، حكمة، أو فائدة هادفة..." maxlength="300"></textarea>
-            <div class="nabd-controls-row">
-                <select id="nabdSchedule" class="nabd-schedule-select">
-                    <option value="now">نشر فوري</option>
-                    <option value="1hour">جدولة بعد ساعة</option>
-                    <option value="tomorrow">جدولة غداً</option>
+            <input type="text" id="nabdName" class="nabd-input" placeholder="اسمك الكريم..." maxlength="30">
+            <textarea id="nabdText" class="nabd-textarea" rows="3" placeholder="اكتب قصة، نصيحة، أو حكمة نافعة..." maxlength="300"></textarea>
+            
+            <div class="nabd-schedule-box">
+                <i class="fa-regular fa-clock"></i>
+                <span>جدولة النشر:</span>
+                <select id="scheduleDay">
+                    <option value="today">اليوم</option>
+                    <option value="tomorrow">غداً</option>
                 </select>
-                <button class="nabd-btn" onclick="postNabdItem()">نشر المنشور</button>
+                <select id="scheduleHour">
+                    <option value="now">فوري (الآن)</option>
+                    <option value="08:00">08:00 صباحاً</option>
+                    <option value="12:00">12:00 ظهراً</option>
+                    <option value="18:00">06:00 مساءً</option>
+                    <option value="21:00">09:00 ليلاً</option>
+                </select>
             </div>
+
+            <button class="nabd-btn" onclick="publishNabdPost()">نشر المنشور</button>
         </div>
 
-        <div id="nabdFeed">
-            <p style="text-align: center; color: var(--text-muted); padding: 15px;">جاري تحميل المنشورات...</p>
+        <div id="nabdFeedContainer">
+            <p style="text-align: center; color: var(--text-muted);">جاري تحميل المنشورات...</p>
         </div>
     </div>
 </div>
 
-<!-- 2. قسم التلاوات -->
+<!-- 1. قسم التلاوات -->
 <div id="panel-telawat" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
@@ -764,486 +490,194 @@
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
             <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو سورة..." oninput="searchTelawat()">
         </div>
-        <div id="telawat-list">
-            <p style="text-align:center; color:gray; padding: 20px;">جاري جلب التلاوات...</p>
-        </div>
+        <div id="telawat-list"><p style="text-align:center; color:gray; padding: 20px;">جاري جلب التلاوات...</p></div>
     </div>
 </div>
 
-<!-- 3. قسم المتبقي -->
+<!-- 2. قسم المتبقي -->
 <div id="panel-remaining" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
         <div class="countdown-container">
             <div class="countdown-item">
                 <div class="countdown-title">شهر رمضان المبارك</div>
-                <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                 <div class="live-timer-grid" id="timer-ramadan"></div>
-                <button class="share-btn" onclick="openShareModal('رمضان', 'timer-ramadan')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
             <div class="countdown-item">
                 <div class="countdown-title">عيد الفطر المبارك</div>
-                <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                 <div class="live-timer-grid" id="timer-fitr"></div>
-                <button class="share-btn" onclick="openShareModal('عيد الفطر', 'timer-fitr')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-title">عشر ذي الحجة</div>
-                <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
-                <div class="live-timer-grid" id="timer-hajj"></div>
-                <button class="share-btn" onclick="openShareModal('عشر ذي الحجة', 'timer-hajj')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-title">عيد الأضحى المبارك</div>
-                <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
-                <div class="live-timer-grid" id="timer-adha"></div>
-                <button class="share-btn" onclick="openShareModal('عيد الأضحى', 'timer-adha')"><i class="fa-solid fa-share-nodes"></i> مشاركة الموعد</button>
             </div>
         </div>
     </div>
 </div>
-            
-<!-- 4. قسم الذكر -->
+
+<!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">قسم الذكر</h2></div>
         <div class="sub-tabs">
             <button class="sub-tab-btn active" onclick="showDhikr('الصباح', this)">الصباح</button>
             <button class="sub-tab-btn" onclick="showDhikr('المساء', this)">المساء</button>
-            <button class="sub-tab-btn" onclick="showDhikr('منوعة', this)">منوعة</button>
         </div>
         <div id="dhikr-container" class="dhikr-section"></div>
     </div>
 </div>
 
-<!-- بطاقة مشاركة الذكر كصورة (مخفية) -->
-<div id="hidden-share-card" class="hidden-share-card">
-    <div class="share-card-header">
-        <div class="share-logos-container">
-            <img crossorigin="anonymous" src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Dhikr.png" class="share-logo">
-            <img crossorigin="anonymous" src="https://files.catbox.moe/sby0aj.png" class="share-logo">
-        </div>
-        <span id="share-category-title" class="share-category-title">أذكار الصباح</span>
-    </div>
-    <div id="share-card-text" class="share-card-text"></div>
-    <div id="share-repeat-count" class="share-repeat-count">تكرار: 1 مرات</div>
-    <div class="share-card-footer">
-        <div class="share-qr-container">
-            <img id="qr-code-img" crossorigin="anonymous" src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/numbered-site.png" class="share-qr-img">
-            <span class="share-qr-label">امسح الباركود لزيارة الموقع</span>
-        </div>
-    </div>
-</div>
-
-<!-- نافذة المشاركة المنبثقة -->
-<div id="shareModal" class="share-modal-overlay" onclick="closeShareModal(event)">
-    <div class="share-modal-card" onclick="event.stopPropagation()">
-        <div class="share-modal-title">اختر طريقة المشاركة</div>
-        <div class="share-platforms-grid">
-            <button class="platform-btn x-platform" onclick="executePlatformShare('x')"><i class="fa-brands fa-x-twitter"></i><span>اكس</span></button>
-            <button class="platform-btn tg-platform" onclick="executePlatformShare('telegram')"><i class="fa-brands fa-telegram"></i><span>تليجـرام</span></button>
-            <button class="platform-btn wa-platform" onclick="executePlatformShare('whatsapp')"><i class="fa-brands fa-whatsapp"></i><span>واتسـاب</span></button>
-            <button class="platform-btn copy-platform" onclick="executePlatformShare('copy')"><i class="fa-regular fa-copy"></i><span>نسخ النص</span></button>
-        </div>
-        <button class="share-modal-close" onclick="closeShareModal()">إلغاء</button>
-    </div>
-</div>
-
-<!-- 5. قسم البث المباشر -->
+<!-- 4. قسم البث المباشر -->
 <div id="panel-live" class="panel-content">
-    <div class="box-card" style="border: 1px solid var(--accent-gold);">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 45px; height: 45px; border-radius: 8px;">
-                <div style="text-align: right;"><div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم</div></div>
-            </div>
-            <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
-        </div>
-        <div style="text-align: center; margin-top: 15px;">
-            <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer;">
-                <i id="icon-live" class="fa-solid fa-play" style="color: #000;"></i>
-            </button>
-        </div>
-        <audio id="live-audio" style="display:none;"></audio>
-    </div>
     <div class="box-card">
-        <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
-        <div class="live-stream-container"><iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv2" allowfullscreen class="live-video-player"></iframe></div>
-    </div>
-    <div class="box-card">
-        <div class="box-header"><i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة السنة النبوية</h2></div>
-        <div class="live-stream-container"><iframe src="https://www.elahmad.ru/tv/arabic-tv-online.php?id=alsunnah" allowfullscreen class="live-video-player"></iframe></div>
+        <div class="box-header"><h2 class="box-title">قناة القرآن الكريم</h2></div>
+        <div class="live-stream-container">
+            <iframe src="https://www.elahmad.ru/tv/mobiletv/glarb.php?id=qoran_tv2" allowfullscreen class="live-video-player"></iframe>
+        </div>
     </div>
 </div>
 
 <script>
-    // إظهار نافذة الشروط مرة واحدة فقط
+    // التحكم في ظهور رسالة القيود مرة واحدة فقط
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!localStorage.getItem('nabd_rules_shown')) {
+            document.getElementById('rulesModal').classList.add('show');
+        }
+        loadNabdPosts();
+    });
+
+    function closeRulesModal() {
+        localStorage.setItem('nabd_rules_shown', 'true');
+        document.getElementById('rulesModal').classList.remove('show');
+    }
+
     window.addEventListener('load', () => {
         const splash = document.getElementById('splashScreen');
         if (splash) {
             setTimeout(() => {
                 splash.style.opacity = '0';
                 setTimeout(() => splash.remove(), 400);
-            }, 2000);
+            }, 1500);
         }
-
-        if (!localStorage.getItem('rulesShown')) {
-            document.getElementById('rulesModal').classList.add('show');
-        }
-        renderNabdFeed();
     });
 
-    function closeRulesModal() {
-        localStorage.setItem('rulesShown', 'true');
-        document.getElementById('rulesModal').classList.remove('show');
-    }
+    const defaultAvatar = "https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/hypothetical.png";
 
-    // منطق نبض العدة والتخزين المحلي مع الإعجاب، إعادة النشر، الجدولة، ووقت النشر
-    function postNabdItem() {
+    // محاكاة نشر وتفاعل نبض العدة (قلب، إعادة نشر، تفاصيل الجدولة)
+    function publishNabdPost() {
         const nameInput = document.getElementById('nabdName');
-        const msgInput = document.getElementById('nabdMessage');
-        const scheduleSelect = document.getElementById('nabdSchedule');
+        const textInput = document.getElementById('nabdText');
+        const daySelect = document.getElementById('scheduleDay').value;
+        const hourSelect = document.getElementById('scheduleHour').value;
 
-        const name = nameInput.value.trim() || 'فاعل خير';
-        const message = msgInput.value.trim();
-        const schedule = scheduleSelect.value;
+        const name = nameInput.value.trim() || 'عابر سبيل';
+        const text = textInput.value.trim();
 
-        if (!message) {
-            alert('الرجاء كتابة المنشور أولاً!');
+        if (!text) {
+            alert('الرجاء كتابة محتوى المنشور أولاً!');
             return;
         }
 
-        let publishTime = new Date();
-        if (schedule === '1hour') {
-            publishTime.setHours(publishTime.getHours() + 1);
-        } else if (schedule === 'tomorrow') {
-            publishTime.setDate(publishTime.getDate() + 1);
+        let posts = JSON.parse(localStorage.getItem('nabd_posts') || '[]');
+        
+        let timeLabel = 'الآن';
+        if(hourSelect !== 'now') {
+            timeLabel = `مجدول (${daySelect === 'today' ? 'اليوم' : 'غداً'} - ${hourSelect})`;
+        } else {
+            timeLabel = new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'});
         }
 
-        const newItem = {
+        const newPost = {
             id: Date.now(),
             name: name,
-            message: message,
-            time: publishTime.getTime(),
+            text: text,
+            time: timeLabel,
             likes: 0,
             reposts: 0,
-            liked: false,
-            reposted: false
+            isLiked: false,
+            isReposted: false
         };
 
-        let posts = JSON.parse(localStorage.getItem('nabdPosts') || '[]');
-        posts.unshift(newItem);
-        localStorage.setItem('nabdPosts', JSON.stringify(posts));
+        posts.unshift(newPost);
+        localStorage.setItem('nabd_posts', JSON.stringify(posts));
 
-        msgInput.value = '';
+        textInput.value = '';
         nameInput.value = '';
-        renderNabdFeed();
-
-        if (schedule !== 'now') {
-            alert('تمت جدولة المنشور بنجاح وسيظهر في وقته المحدد.');
-        }
+        loadNabdPosts();
     }
 
-    function renderNabdFeed() {
-        const feedContainer = document.getElementById('nabdFeed');
-        let posts = JSON.parse(localStorage.getItem('nabdPosts') || '[]');
-        const now = Date.now();
+    function loadNabdPosts() {
+        const container = document.getElementById('nabdFeedContainer');
+        let posts = JSON.parse(localStorage.getItem('nabd_posts') || '[]');
 
-        // تصفية المنشورات المجدولة التي لم يحن وقتها بعد
-        const visiblePosts = posts.filter(p => p.time <= now);
-
-        if (visiblePosts.length === 0) {
-            feedContainer.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 15px;">لا توجد منشورات حالياً. كن أول من يشارك بفائدة!</p>';
+        if (posts.length === 0) {
+            container.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 15px;">لا توجد منشورات حالياً. كن أول المشاركين بالحكم والقصص النافعة!</p>`;
             return;
         }
 
-        feedContainer.innerHTML = visiblePosts.map(post => {
-            const dateStr = new Date(post.time).toLocaleDateString('ar-SA', { hour: 'numeric', minute: 'numeric' });
-            return `
-                <div class="tweet-card">
-                    <img src="https://files.catbox.moe/xlsbr1.png" class="tweet-avatar" alt="صورة الشخص">
-                    <div class="tweet-body">
-                        <div class="tweet-header-info">
-                            <span class="tweet-author">${escapeHtml(post.name)}</span>
-                            <span class="tweet-time">${dateStr}</span>
-                        </div>
-                        <div class="tweet-text">${escapeHtml(post.message)}</div>
-                        <div class="tweet-actions">
-                            <button class="tweet-action-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
-                                <i class="fa-solid fa-heart"></i> <span>${post.likes}</span>
-                            </button>
-                            <button class="tweet-action-btn ${post.reposted ? 'reposted' : ''}" onclick="toggleRepost(${post.id})">
-                                <i class="fa-solid fa-retweet"></i> <span>${post.reposts}</span>
-                            </button>
-                        </div>
+        container.innerHTML = posts.map(p => `
+            <div class="tweet-card">
+                <img src="${defaultAvatar}" class="tweet-avatar" alt="صورة الشخص">
+                <div class="tweet-body">
+                    <div class="tweet-header-row">
+                        <span class="tweet-author">${escapeHtml(p.name)}</span>
+                        <span class="tweet-time">${escapeHtml(p.time)}</span>
+                    </div>
+                    <div class="tweet-text">${escapeHtml(p.text)}</div>
+                    <div class="tweet-footer-actions">
+                        <button class="tweet-action-btn ${p.isLiked ? 'liked' : ''}" onclick="toggleLike(${p.id})">
+                            <i class="fa-solid fa-heart"></i> <span>${p.likes}</span>
+                        </button>
+                        <button class="tweet-action-btn ${p.isReposted ? 'reposted' : ''}" onclick="toggleRepost(${p.id})">
+                            <i class="fa-solid fa-retweet"></i> <span>${p.reposts}</span>
+                        </button>
                     </div>
                 </div>
-            `;
-        }).join('');
+            </div>
+        `).join('');
     }
 
     function toggleLike(id) {
-        let posts = JSON.parse(localStorage.getItem('nabdPosts') || '[]');
-        posts = posts.map(p => {
-            if (p.id === id) {
-                p.liked = !p.liked;
-                p.likes += p.liked ? 1 : -1;
+        let posts = JSON.parse(localStorage.getItem('nabd_posts') || '[]');
+        let post = posts.find(p => p.id === id);
+        if (post) {
+            if (post.isLiked) {
+                post.likes -= 1;
+                post.isLiked = false;
+            } else {
+                post.likes += 1;
+                post.isLiked = true;
             }
-            return p;
-        });
-        localStorage.setItem('nabdPosts', JSON.stringify(posts));
-        renderNabdFeed();
+            localStorage.setItem('nabd_posts', JSON.stringify(posts));
+            loadNabdPosts();
+        }
     }
 
     function toggleRepost(id) {
-        let posts = JSON.parse(localStorage.getItem('nabdPosts') || '[]');
-        posts = posts.map(p => {
-            if (p.id === id) {
-                p.reposted = !p.reposted;
-                p.reposts += p.reposted ? 1 : -1;
+        let posts = JSON.parse(localStorage.getItem('nabd_posts') || '[]');
+        let post = posts.find(p => p.id === id);
+        if (post) {
+            if (post.isReposted) {
+                post.reposts -= 1;
+                post.isReposted = false;
+            } else {
+                post.reposts += 1;
+                post.isReposted = true;
             }
-            return p;
-        });
-        localStorage.setItem('nabdPosts', JSON.stringify(posts));
-        renderNabdFeed();
+            localStorage.setItem('nabd_posts', JSON.stringify(posts));
+            loadNabdPosts();
+        }
     }
 
     function escapeHtml(text) {
         return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // بقية وظائف الموقع الأساسية (التلاوات، الأذكار، العد التنازلي، البث)
-    const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-    let cachedTelawat = [];
-    let dhikrData = [];
-    let currentCategory = 'الصباح';
-    let currentDhikrIndex = 0;
-    let activeShareData = null;
-
-    function initLiveAudio() {
-        const audio = document.getElementById("live-audio");
-        const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
-        if (audio && typeof Hls !== 'undefined' && Hls.isSupported()) {
-            const hls = new Hls(); hls.loadSource(url); hls.attachMedia(audio);
-        } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
-            audio.src = url;
-        }
-    }
-
-    function toggleLiveAudio() {
-        const audio = document.getElementById('live-audio');
-        const icon = document.getElementById('icon-live');
-        if (!audio || !icon) return;
-        if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; }
-        else { audio.pause(); icon.className = 'fa-solid fa-play'; }
-    }
-
-    function startCountdown(id, targetDate) {
-        setInterval(() => {
-            const diff = new Date(targetDate).getTime() - new Date().getTime();
-            const element = document.getElementById(id);
-            if (!element || diff < 0) return;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            element.innerHTML = `<div class="time-box"><div class="time-num">${d}</div><div class="time-label">يوم</div></div>
-                                 <div class="time-box"><div class="time-num">${h}</div><div class="time-label">ساعة</div></div>
-                                 <div class="time-box"><div class="time-num">${m}</div><div class="time-label">دقيقة</div></div>
-                                 <div class="time-box"><div class="time-num">${s}</div><div class="time-label">ثانية</div></div>`;
-        }, 1000);
-    }
-
-    function showDhikr(cat, btn) {
-        document.querySelectorAll('.sub-tabs .sub-tab-btn').forEach(b => {
-            b.classList.toggle('active', b.innerText.trim() === cat);
-        });
-        currentCategory = cat;
-        currentDhikrIndex = 0;
-        renderDhikrCard(cat);
-    }
-
-    function renderDhikrCard(cat) {
-        const container = document.getElementById('dhikr-container');
-        const list = dhikrData.filter(d => d.cat === cat);
-        if (!list || list.length === 0) return;
-        if (currentDhikrIndex >= list.length) currentDhikrIndex = 0;
-        if (currentDhikrIndex < 0) currentDhikrIndex = list.length - 1;
-
-        const d = list[currentDhikrIndex];
-        let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
-        let targetNum = parseInt(d.target) || 1;
-        let progress = (count / targetNum) * 100;
-
-        container.innerHTML = `
-        <div class="dhikr-card animate-slowmo" id="active-dhikr-card">
-            <div style="text-align:center; margin-bottom:5px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
-            <div class="dhikr-hint"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل بين الأذكار</div>
-            <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
-            <div class="progress-bar" style="width:100%; height:8px; margin: 15px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
-            <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
-            <button class="counter-btn" style="margin: 0 auto 15px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
-            <div class="dhikr-share-actions">
-                <button class="dhikr-share-btn" onclick="openShareModal('dhikr')"><i class="fa-solid fa-share-nodes"></i> مشاركة</button>
-                <button class="dhikr-share-btn" id="btn-save-img" onclick="shareDhikrImage()"><i class="fa-solid fa-download"></i> حفظ كصورة</button>
-            </div>
-        </div>`;
-    }
-
-    function incDhikr(id, cat) {
-        let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
-        let dhikr = dhikrData.find(d => d.id === id);
-        let targetNum = parseInt(dhikr?.target) || 1;
-        if (dhikr && count < targetNum) {
-            localStorage.setItem(`c_${id}`, count + 1);
-        }
-        renderDhikrCard(cat);
-    }
-
-    function getCategoryFullName(cat) {
-        if (cat === 'الصباح') return 'أذكار الصباح';
-        if (cat === 'المساء') return 'أذكار المساء';
-        return 'أذكار منوعة';
-    }
-
-    function openShareModal(type, timerId = null) {
-        const siteUrl = 'https://numbered.casacam.net/';
-        if (type === 'dhikr') {
-            const list = dhikrData.filter(d => d.cat === currentCategory);
-            if (!list || list.length === 0) return;
-            const d = list[currentDhikrIndex];
-            const text = `${getCategoryFullName(currentCategory)}\n\n${d.text}\n\nعدد التكرار: ${d.target}\n\n🔗 رابط الموقع: ${siteUrl}`;
-            activeShareData = { type: 'dhikr', text: text };
-        } else {
-            const element = document.getElementById(timerId);
-            if (!element) return;
-            const timeBoxes = element.querySelectorAll('.time-box');
-            const d = timeBoxes[0].innerText.replace(/[^0-9]/g, '');
-            const h = timeBoxes[1].innerText.replace(/[^0-9]/g, '');
-            const m = timeBoxes[2].innerText.replace(/[^0-9]/g, '');
-            const text = `⏳ المتبقي على ${type}:\n${d} يوم و ${h} ساعة و ${m} دقيقة.\n\n🔗 ${siteUrl}`;
-            activeShareData = { type: 'remaining', text: text };
-        }
-        document.getElementById('shareModal').classList.add('open');
-    }
-
-    function closeShareModal() {
-        document.getElementById('shareModal').classList.remove('open');
-    }
-
-    async function executePlatformShare(platform) {
-        if (!activeShareData) return;
-        const textToSend = activeShareData.text;
-        if (platform === 'copy') {
-            await navigator.clipboard.writeText(textToSend);
-            alert("تم نسخ النص بنجاح!");
-            closeShareModal();
-            return;
-        }
-        let url = '';
-        if (platform === 'x') url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToSend)}`;
-        else if (platform === 'whatsapp') url = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToSend)}`;
-        else if (platform === 'telegram') url = `https://t.me/share/url?url=${encodeURIComponent('https://numbered.casacam.net/')}&text=${encodeURIComponent(textToSend)}`;
-        closeShareModal();
-        if (url) window.open(url, '_blank');
-    }
-
-    async function shareDhikrImage() {
-        const list = dhikrData.filter(d => d.cat === currentCategory);
-        if (!list || list.length === 0) return;
-        const saveBtn = document.getElementById('btn-save-img');
-        if(saveBtn) { saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...`; saveBtn.disabled = true; }
-        const d = list[currentDhikrIndex];
-        const hiddenCard = document.getElementById('hidden-share-card');
-        document.getElementById('share-category-title').innerText = getCategoryFullName(currentCategory);
-        document.getElementById('share-card-text').innerText = d.text;
-        document.getElementById('share-repeat-count').innerText = `عدد التكرار: ${d.target} مرات`;
-
-        try {
-            const canvas = await html2canvas(hiddenCard, { scale: 2, useCORS: true, backgroundColor: '#0d1117' });
-            const a = document.createElement('a');
-            a.href = canvas.toDataURL('image/png');
-            a.download = `${getCategoryFullName(currentCategory)}.png`;
-            a.click();
-        } catch (err) {
-            alert("تعذر إنشاء الصورة.");
-        } finally {
-            if(saveBtn) { saveBtn.innerHTML = `<i class="fa-solid fa-download"></i> حفظ كصورة`; saveBtn.disabled = false; }
-        }
-    }
-
-    function renderTelawat(items) {
-        const list = document.getElementById('telawat-list');
-        if (!list) return;
-        list.innerHTML = items.map(item => `
-            <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid var(--border-color); border-radius: 14px; background: rgba(26, 26, 26, 0.6);">
-                <h3 class="search-title" style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
-                <div class="search-reader" style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
-                <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;"><source src="${item.downloadUrl}" type="video/mp4"></video>
-            </div>`).join('');
-    }
-
-    function searchTelawat() {
-        const filter = document.getElementById('searchInput').value.toUpperCase();
-        const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
-        for (let i = 0; i < cards.length; i++) {
-            let title = cards[i].querySelector('.search-title').innerText;
-            let reader = cards[i].querySelector('.search-reader').innerText;
-            cards[i].style.display = (title.toUpperCase().indexOf(filter) > -1 || reader.toUpperCase().indexOf(filter) > -1) ? "" : "none";
-        }
-    }
-
-    async function fetchAllData() {
-        const sheets = ['التلاوات', 'الأذكار'];
-        for (const sheet of sheets) {
-            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`;
-            const res = await fetch(url).then(r => r.text());
-            const json = JSON.parse(res.substring(res.indexOf('{'), res.lastIndexOf(')')));
-
-            if (sheet === 'التلاوات') {
-                cachedTelawat = json.table.rows.map(r => ({ title: r.c[0]?.v || '', reader: r.c[1]?.v || '', downloadUrl: r.c[2]?.v || '' })).reverse();
-                renderTelawat(cachedTelawat);
-            } else {
-                dhikrData = json.table.rows.map(r => ({ cat: r.c[0]?.v || '', text: r.c[1]?.v || '', target: r.c[2]?.v || '1', id: r.c[3]?.v || Math.random().toString() }));
-                showDhikr('الصباح');
-            }
-        }
-    }
-
     function switchTab(tabId, event) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('panel-' + tabId).classList.add('active');
-        if (event && event.currentTarget) event.currentTarget.classList.add('active');
-        
-        const logoMap = { 
-            'nabd': 'https://files.catbox.moe/sby0aj.png',
-            'telawat': 'https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/telawat.png', 
-            'remaining': 'https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/residual.png', 
-            'dhikr': 'https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Dhikr.png', 
-            'live': 'https://files.catbox.moe/sby0aj.png' 
-        };
-        document.getElementById('active-tab-logo').src = logoMap[tabId];
-        if (tabId === 'dhikr') showDhikr(currentCategory, null);
+        if (event && event.currentTarget) {
+            event.currentTarget.classList.add('active');
+        }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        initLiveAudio();
-        fetchAllData();
-        startCountdown('timer-ramadan', '2027-02-08T00:00:00');
-        startCountdown('timer-fitr', '2027-03-08T00:00:00');
-        startCountdown('timer-hajj', '2027-05-08T00:00:00');
-        startCountdown('timer-adha', '2027-05-16T00:00:00');
-        setInterval(renderNabdFeed, 60000); // تحديث دوري للتحقق من المنشورات المجدولة
-    });
 </script>
-
-<footer class="site-footer">
-    <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        <span>تابعنا على منصة X</span>
-    </a>
-</footer>
 
 </body>
 </html>
