@@ -725,10 +725,6 @@
             <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/telawat.png" alt="تلاوات">
             <span>تـلاوات</span>
         </button>
-        <button class="tab-btn" onclick="switchTab('pulse', event)">
-            <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="نبض العدة">
-            <span>نبض العدة</span>
-        </button>
         <button class="tab-btn" onclick="switchTab('remaining', event)">
             <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/residual.png" alt="المتبقي">
             <span>الـمتبقي</span>
@@ -736,6 +732,10 @@
         <button class="tab-btn" onclick="switchTab('dhikr', event)">
             <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Dhikr.png" alt="الذكر">
             <span>الـذكر</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('pulse', event)">
+            <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="نبض العدة">
+            <span>نبض العدة</span>
         </button>
         <button class="tab-btn" onclick="switchTab('live', event)">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -764,20 +764,7 @@
     </div>
 </div>
 
-<!-- 2. قسم نبض العدة -->
-<div id="panel-pulse" class="panel-content">
-    <div class="box-card">
-        <div class="box-header">
-            <i class="fa-solid fa-newspaper" style="color: var(--accent-gold); font-size: 1.3rem;"></i>
-            <h2 class="box-title">منشورات العدة</h2>
-        </div>
-        <div class="pulse-container" id="pulse-container">
-            <p style="text-align:center; color:gray; padding: 25px;">جاري جلب المنشورات...</p>
-        </div>
-    </div>
-</div>
-
-<!-- 3. قسم المتبقي -->
+<!-- 2. قسم المتبقي -->
 <div id="panel-remaining" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
@@ -811,7 +798,7 @@
     </div>
 </div>
             
-<!-- 4. قسم الذكر -->
+<!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">قسم الذكر</h2></div>
@@ -866,6 +853,19 @@
             </button>
         </div>
         <button class="share-modal-close" onclick="closeShareModal()">إلغاء</button>
+    </div>
+</div>
+
+    <!-- 4. قسم نبض العدة -->
+<div id="panel-pulse" class="panel-content">
+    <div class="box-card">
+        <div class="box-header">
+            <i class="fa-solid fa-newspaper" style="color: var(--accent-gold); font-size: 1.3rem;"></i>
+            <h2 class="box-title">منشورات العدة</h2>
+        </div>
+        <div class="pulse-container" id="pulse-container">
+            <p style="text-align:center; color:gray; padding: 25px;">جاري جلب المنشورات...</p>
+        </div>
     </div>
 </div>
 
