@@ -67,7 +67,7 @@
             padding: 20px;
         }
 
-        /* شاشة البداية المتحركة (Splash Screen) */
+        /* شاشة البداية المتحركة */
         #splashScreen {
             position: fixed;
             top: 0;
@@ -316,7 +316,7 @@
             <h2 class="box-title">نبض العدة</h2>
         </div>
         <div class="pulse-container" id="pulse-container">
-            <p style="text-align:center; color:gray; padding: 25px;">جاري جلب المنشورات من ورقة نبض العدة...</p>
+            <p style="text-align:center; color:gray; padding: 25px;">جاري جلب المنشورات...</p>
         </div>
     </div>
 </div>
@@ -367,28 +367,26 @@
         }
     });
 
-    const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
+    // رابط تطبيق الويب الخاص بـ Google Apps Script
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxJX2gK2fgfHLARVd1YywOkMUDhFrdv4nsDgp0vDo_2Acf96fA4c24685/exec';
+    
     let pulseData = [];
     let activeShareText = '';
 
     async function fetchPulseData() {
         try {
-            // تحديد ورقة العمل بدقة عبر البارامتر sheet=نبض_العدة
-            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=نبض_العدة`;
-            const res = await fetch(url).then(r => r.text());
-            const jsonText = res.substring(res.indexOf('{'), res.lastIndexOf(')'));
-            const json = JSON.parse(jsonText);
+            const res = await fetch(SCRIPT_URL);
+            if (!res.ok) throw new Error('فشل الاتصال بالخادم');
+            
+            const json = await res.json();
+            if (json.error) throw new Error(json.error);
 
-            pulseData = json.table.rows.map(r => ({
-                title: r.c[0]?.v || '',
-                text: r.c[1]?.v || '',
-                image: r.c[2]?.v || ''
-            })).reverse();
-
+            // عكس البيانات لترتيبها من الأحدث للأقدم
+            pulseData = Array.isArray(json) ? json.reverse() : [];
             renderPulse();
         } catch (e) {
             console.error('خطأ في جلب بيانات نبض العدة:', e);
-            document.getElementById('pulse-container').innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات من ورقة "نبض_العدة"، تأكد من مطابقة اسم الورقة في الملف.</p>`;
+            document.getElementById('pulse-container').innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات. تأكد من نشر سكربت القوقل شيت بشكل صحيح.</p>`;
         }
     }
 
@@ -403,14 +401,25 @@
 
         container.innerHTML = pulseData.map((post, index) => `
             <div class="pulse-post-card">
-                <div class="pulse-post-title">${post.title}</div>
-                <div class="pulse-post-text">${post.text}</div>
-                ${post.image ? `<img src="${post.image}" class="pulse-post-image" alt="صورة المنشور">` : ''}
+                <div class="pulse-post-title">${escapeHTML(post.title)}</div>
+                <div class="pulse-post-text">${escapeHTML(post.text)}</div>
+                ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور">` : ''}
                 <button class="pulse-share-btn" onclick="openShareModal(${index})">
                     <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
                 </button>
             </div>
         `).join('');
+    }
+
+    // دالة حماية لمنع حقن النصوص (XSS)
+    function escapeHTML(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
     function openShareModal(index) {
@@ -421,27 +430,38 @@
         document.getElementById('shareModal').classList.add('open');
     }
 
-    function closeShareModal() {
-        document.getElementById('shareModal').classList.remove('open');
+    function closeShareModal(event) {
+        if (!event || event.target.id === 'shareModal' || event.target.classList.contains('share-modal-close')) {
+            document.getElementById('shareModal').classList.remove('open');
+        }
     }
 
     async function executePlatformShare(platform) {
         if (!activeShareText) return;
-        const encodedText = encodeURIComponent(activeShareText);
-
+        
         if (platform === 'copy') {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                try {
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
                     await navigator.clipboard.writeText(activeShareText);
                     alert("تم نسخ النص بنجاح إلى الحافظة!");
-                } catch(e) {
-                    alert("تعذر النسخ تلقائياً.");
+                } else {
+                    // طريقة بديلة للمتصفحات القديمة
+                    const textarea = document.createElement('textarea');
+                    textarea.value = activeShareText;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert("تم نسخ النص بنجاح إلى الحافظة!");
                 }
+            } catch(e) {
+                alert("تعذر النسخ تلقائياً.");
             }
             closeShareModal();
             return;
         }
 
+        const encodedText = encodeURIComponent(activeShareText);
         let url = '';
         if (platform === 'x') {
             url = `https://twitter.com/intent/tweet?text=${encodedText}`;
@@ -453,7 +473,7 @@
 
         closeShareModal();
         if (url) {
-            window.open(url, '_blank');
+            window.open(url, '_blank', 'noopener,noreferrer');
         }
     }
 
