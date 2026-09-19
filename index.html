@@ -105,7 +105,7 @@
             align-items: center;
             justify-content: center;
             z-index: 99999;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
             overflow: hidden;
         }
 
@@ -127,8 +127,7 @@
 
         img { pointer-events: none; -webkit-touch-callout: none; }
         header { text-align: center; margin-bottom: 20px; }
-        .main-logo { max-width: 150px; height: auto; transition: transform 0.3s ease; }
-        .main-logo:hover { transform: scale(1.05); }
+        .main-logo { max-width: 150px; height: auto; transition: transform 0.2s ease; }
 
         .tabs-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
         .tabs-container { 
@@ -162,43 +161,26 @@
             justify-content: center; 
             gap: 8px; 
             min-width: 95px; 
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.15s ease, background 0.2s ease;
             position: relative;
-            overflow: hidden;
         }
-        
-        .tab-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-            transition: 0.5s;
-        }
-        .tab-btn:hover::after { left: 100%; }
         
         .tab-btn:hover {
-            transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(197, 168, 128, 0.4);
         }
         
         .tab-btn:active { 
-            transform: scale(0.94) translateY(0); 
-            transition: transform 0.1s ease;
+            transform: scale(0.95); 
         }
 
-        .tab-btn img, .tab-btn svg { width: 24px; height: 24px; object-fit: contain; transition: transform 0.3s ease; }
-        .tab-btn:hover img, .tab-btn:hover svg { transform: scale(1.1); }
+        .tab-btn img, .tab-btn svg { width: 24px; height: 24px; object-fit: contain; }
         
         .tab-btn.active { 
             background: var(--tab-active); 
             border-color: var(--tab-active); 
             color: white; 
-            box-shadow: 0 6px 20px rgba(0, 82, 204, 0.4); 
-            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 82, 204, 0.3); 
         }
 
         .panel-content { width: 100%; max-width: 650px; display: none; }
@@ -213,11 +195,6 @@
             padding: 24px; 
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
             margin-bottom: 20px; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .box-card:hover {
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .box-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px; }
@@ -235,12 +212,11 @@
             color: #fff;
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: border-color 0.2s ease;
         }
         .search-input:focus { 
             border-color: #c5a880; 
-            box-shadow: 0 0 0 4px rgba(197, 168, 128, 0.15), 0 8px 20px rgba(0,0,0,0.3); 
-            background: rgba(13, 17, 23, 0.85);
+            box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15); 
         }
         .search-icon {
             position: absolute;
@@ -249,9 +225,7 @@
             transform: translateY(-50%);
             color: #94a3b8;
             pointer-events: none;
-            transition: color 0.3s ease;
         }
-        .search-input:focus + .search-icon { color: var(--accent-gold); }
 
         .sub-tabs { 
             display: flex; 
@@ -271,22 +245,16 @@
             border-radius: 20px; 
             cursor: pointer; 
             font-weight: bold; 
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
+            transition: all 0.2s ease; 
         }
         
-        .sub-tab-btn:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-2px);
-        }
-
-        .sub-tab-btn:active { transform: scale(0.94); }
+        .sub-tab-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
+        .sub-tab-btn:active { transform: scale(0.95); }
 
         .sub-tab-btn.active { 
             background: #c5a880; 
             color: #000; 
             border-color: #c5a880; 
-            box-shadow: 0 4px 15px rgba(197, 168, 128, 0.3);
         }
 
         .dhikr-card { 
@@ -337,8 +305,7 @@
         .progress-fill { 
             height: 100%; 
             background: var(--accent-gold); 
-            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
-            box-shadow: 0 0 10px rgba(197, 168, 128, 0.5);
+            transition: width 0.2s ease; 
         }
 
         .counter-btn { 
@@ -353,18 +320,12 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1); 
+            transition: transform 0.1s ease, box-shadow 0.2s ease; 
             box-shadow: 0 8px 20px rgba(197, 168, 128, 0.35);
         }
 
-        .counter-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 12px 25px rgba(197, 168, 128, 0.5);
-        }
-
         .counter-btn:active { 
-            transform: scale(0.9) rotate(5deg); 
-            box-shadow: 0 4px 10px rgba(197, 168, 128, 0.3);
+            transform: scale(0.92); 
         }
 
         .dhikr-share-actions {
@@ -392,14 +353,12 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.2s ease;
         }
 
         .dhikr-share-btn:hover {
             background: #c5a880;
             color: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(197, 168, 128, 0.3);
         }
 
         .dhikr-share-btn:active { transform: scale(0.95); }
@@ -467,10 +426,7 @@
             border-right: 5px solid var(--accent-gold); 
             width: 90%; 
             max-width: 400px;
-            transition: transform 0.3s ease;
         }
-        
-        .countdown-item:hover { transform: translateY(-2px); }
 
         .live-timer-grid { 
             display: flex; 
@@ -509,55 +465,53 @@
             align-items: center; 
             gap: 6px; 
             width: 100%;
-            transition: opacity 0.2s ease;
         }
-        .share-btn:hover { opacity: 0.8; }
         .share-btn:active { transform: scale(0.97); }
 
-        /* نافذة خيارات المشاركة المنبثقة (Modal) بدعم الـ 4 طرق */
+        /* ================= نافذة خيارات المشاركة بتأثير الزجاج (آيفون Style) ================= */
         .share-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 100000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
         }
         .share-modal-overlay.open {
             opacity: 1;
             visibility: visible;
         }
         .share-modal-card {
-            background: #161b22;
-            border: 1px solid var(--border-color);
-            border-radius: 22px;
+            background: rgba(22, 27, 34, 0.75);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
             width: 90%;
-            max-width: 380px;
-            padding: 22px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            max-width: 360px;
+            padding: 24px 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
             text-align: center;
-            transform: scale(0.9);
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            max-height: 90vh;
-            overflow-y: auto;
+            transform: scale(0.93);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .share-modal-overlay.open .share-modal-card {
             transform: scale(1);
         }
         .share-modal-title {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: #fff;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
         .share-platforms-grid {
             display: flex;
@@ -569,37 +523,45 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
-            padding: 11px;
-            border-radius: 14px;
-            font-size: 0.92rem;
+            padding: 13px;
+            border-radius: 16px;
+            font-size: 0.95rem;
             font-weight: bold;
             cursor: pointer;
-            border: none;
-            transition: all 0.25s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.15s ease, background 0.2s ease;
         }
-        .platform-btn.x-platform { background: #000; color: #fff; border: 1px solid #333; }
-        .platform-btn.x-platform:hover { background: #1a1a1a; }
-        .platform-btn.tg-platform { background: #229ed9; color: #fff; }
-        .platform-btn.tg-platform:hover { background: #1e8bc3; }
-        .platform-btn.wa-platform { background: #25d366; color: #000; }
-        .platform-btn.wa-platform:hover { background: #20ba5a; }
-        .platform-btn.copy-platform { background: rgba(197, 168, 128, 0.15); color: #c5a880; border: 1px solid rgba(197, 168, 128, 0.3); }
-        .platform-btn.copy-platform:hover { background: #c5a880; color: #000; }
+        .platform-btn.x-platform { background: rgba(0, 0, 0, 0.6); color: #fff; }
+        .platform-btn.x-platform:hover { background: rgba(0, 0, 0, 0.8); }
+        
+        .platform-btn.tg-platform { background: rgba(34, 158, 217, 0.25); color: #229ed9; border-color: rgba(34, 158, 217, 0.4); }
+        .platform-btn.tg-platform:hover { background: rgba(34, 158, 217, 0.4); color: #fff; }
+        
+        .platform-btn.wa-platform { background: rgba(37, 211, 102, 0.25); color: #25d366; border-color: rgba(37, 211, 102, 0.4); }
+        .platform-btn.wa-platform:hover { background: rgba(37, 211, 102, 0.4); color: #fff; }
+        
+        .platform-btn.copy-platform { background: rgba(197, 168, 128, 0.15); color: #c5a880; border-color: rgba(197, 168, 128, 0.3); }
+        .platform-btn.copy-platform:hover { background: rgba(197, 168, 128, 0.3); color: #fff; }
+
+        .platform-btn:active { transform: scale(0.96); }
         
         .share-modal-close {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-muted);
-            padding: 10px;
-            border-radius: 12px;
+            padding: 11px;
+            border-radius: 14px;
             width: 100%;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, color 0.2s ease;
         }
-        .share-modal-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+        .share-modal-close:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+        .share-modal-close:active { transform: scale(0.96); }
 
         .live-stream-container {
             position: relative;
@@ -621,14 +583,11 @@
             border: none;
         }
 
-        .animate-fade { animation: fadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .animate-slowmo { 
-            animation: slowMotion 0.5s cubic-bezier(0.25, 1, 0.5, 1); 
+            animation: slowMotion 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
         }
         @keyframes slowMotion { 
-            from { opacity: 0; transform: scale(0.96) translateY(5px); } 
+            from { opacity: 0; transform: scale(0.98) translateY(5px); } 
             to { opacity: 1; transform: scale(1) translateY(0); } 
         }
 
@@ -657,17 +616,14 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.2s ease, background 0.2s ease;
         }
 
         .x-link:hover {
             color: #ffffff;
             background: rgba(0, 0, 0, 0.6);
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
-        
         .x-link:active { transform: scale(0.95); }
     </style>
 
@@ -794,7 +750,7 @@
     </div>
 </div>
 
-<!-- بطاقة مشاركة الذكر كصورة (مخفية) مع الشعارين واسم القسم وباركود الموقع -->
+<!-- بطاقة مشاركة الذكر كصورة (مخفية) -->
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
         <div class="share-logos-container">
@@ -813,7 +769,7 @@
     </div>
 </div>
 
-<!-- نافذة المشاركة المنبثقة (Modal) بالطرق الأربع -->
+<!-- نافذة المشاركة المنبثقة بتأثير الزجاج الآيفوني -->
 <div id="shareModal" class="share-modal-overlay" onclick="closeShareModal(event)">
     <div class="share-modal-card" onclick="event.stopPropagation()">
         <div class="share-modal-title">اختر طريقة المشاركة</div>
@@ -852,7 +808,7 @@
             <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
         </div>
         <div style="text-align: center; margin-top: 15px;">
-            <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: transform 0.2s ease;" onmousedown="this.style.transform='scale(0.9)'" onmouseup="this.style.transform='scale(1)'">
+            <button onclick="toggleLiveAudio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer;" onmousedown="this.style.transform='scale(0.9)'" onmouseup="this.style.transform='scale(1)'">
                 <i id="icon-live" class="fa-solid fa-play" style="color: #000;"></i>
             </button>
         </div>
@@ -880,8 +836,8 @@
         if (splash) {
             setTimeout(() => {
                 splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 600);
-            }, 2500);
+                setTimeout(() => splash.remove(), 400);
+            }, 2000);
         }
     });
 
@@ -890,7 +846,6 @@
     let dhikrData = [];
     let currentCategory = 'الصباح';
     let currentDhikrIndex = 0;
-
     let activeShareData = null;
 
     function initLiveAudio() {
@@ -1008,7 +963,6 @@
         return 'أذكار منوعة';
     }
 
-    // فتح نافذة المشاركة وتعبئة البيانات بالرابط الجديد الصحيح
     function openShareModal(type, timerId = null) {
         const siteUrl = 'https://numbered.casacam.net/';
         if (type === 'dhikr') {
@@ -1037,7 +991,6 @@
         document.getElementById('shareModal').classList.remove('open');
     }
 
-    // تنفيذ المشاركة المباشرة بالأزرار الأربعة
     async function executePlatformShare(platform) {
         if (!activeShareData) return;
         const textToSend = activeShareData.text;
@@ -1057,7 +1010,6 @@
         }
 
         let url = '';
-
         if (platform === 'x') {
             url = `https://twitter.com/intent/tweet?text=${encodedText}`;
         } else if (platform === 'whatsapp') {
