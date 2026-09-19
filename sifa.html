@@ -20,7 +20,7 @@
     <meta property="og:title" content="نبض العدة">
     <meta property="og:description" content="كل لحظة.. لها أثر">
     <meta property="og:image" content="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
-    <meta property="og:url" content="https://numbered.casacam.net/pulse.html">
+    <meta property="og:url" content="https://numbered.casacam.net/sifa.html">
     <meta property="og:site_name" content="معدودات">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,6 +146,13 @@
             flex-direction: column;
             gap: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* تأثير إبراز المنشور المحدد عند فتحه عبر الرابط المباشر */
+        .pulse-post-card.highlighted {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 25px rgba(197, 168, 128, 0.35);
         }
 
         .pulse-post-title {
@@ -381,9 +388,15 @@
             const json = await res.json();
             if (json.error) throw new Error(json.error);
 
-            // عكس البيانات لترتيبها من الأحدث للأقدم
+            // عكس البيانات لترتيبها من الأحدث للأقدم مع توليد معرف فريد يعتمد على الترتيب العكسي أو الأصلي
             pulseData = Array.isArray(json) ? json.reverse() : [];
             renderPulse();
+            
+            // التحقق إذا كان الرابط يحتوي على ID معين لتوجيه المستخدم إليه بعد التحميل
+            setTimeout(() => {
+                checkAndScrollToPost();
+            }, 150);
+
         } catch (e) {
             console.error('خطأ في جلب بيانات نبض العدة:', e);
             document.getElementById('pulse-container').innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات. تأكد من نشر سكربت القوقل شيت بشكل صحيح.</p>`;
@@ -399,16 +412,20 @@
             return;
         }
 
-        container.innerHTML = pulseData.map((post, index) => `
-            <div class="pulse-post-card">
-                <div class="pulse-post-title">${escapeHTML(post.title)}</div>
-                <div class="pulse-post-text">${escapeHTML(post.text)}</div>
-                ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور">` : ''}
-                <button class="pulse-share-btn" onclick="openShareModal(${index})">
-                    <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
-                </button>
-            </div>
-        `).join('');
+        container.innerHTML = pulseData.map((post, index) => {
+            // إعطاء كل منشور ID فريد (مثلاً post-1, post-2 وهكذا بناءً على الترتيب)
+            const postId = `post-${index + 1}`;
+            return `
+                <div class="pulse-post-card" id="${postId}">
+                    <div class="pulse-post-title">${escapeHTML(post.title)}</div>
+                    <div class="pulse-post-text">${escapeHTML(post.text)}</div>
+                    ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور">` : ''}
+                    <button class="pulse-share-btn" onclick="openShareModal(${index + 1})">
+                        <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
+                    </button>
+                </div>
+            `;
+        }).join('');
     }
 
     // دالة حماية لمنع حقن النصوص (XSS)
@@ -422,15 +439,30 @@
             .replace(/'/g, '&#039;');
     }
 
-    function openShareModal(index) {
-        // يمكنك تخصيص رابط خاص لكل منشور إذا أردت، حالياً يشارك رابط الصفحة الأساسي
-        activeShareUrl = 'https://numbered.casacam.net/pulse.html';
+    function openShareModal(postNum) {
+        // إنشاء رابط مباشر للمنشور باستخدام الرابط المؤقت ومعرف المنشور (#post-X)
+        activeShareUrl = `https://numbered.casacam.net/sifa.html#post-${postNum}`;
         document.getElementById('shareModal').classList.add('open');
     }
 
     function closeShareModal(event) {
         if (!event || event.target.id === 'shareModal' || event.target.classList.contains('share-modal-close')) {
             document.getElementById('shareModal').classList.remove('open');
+        }
+    }
+
+    // دالة التمرير التلقائي للمنشور وإبرازه إذا فتح المستخدم الرابط وعليه ID
+    function checkAndScrollToPost() {
+        const hash = window.location.hash;
+        if (hash) {
+            const targetElement = document.querySelector(hash);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetElement.classList.add('highlighted');
+                setTimeout(() => {
+                    targetElement.classList.remove('highlighted');
+                }, 2500);
+            }
         }
     }
 
