@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- إعدادات تطبيق PWA الأساسية والشاملة -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d1117">
     
-    <!-- إعدادات دعم تطبيق PWA على نظام iOS (أبل) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="معدودات">
 
     <title>معدودات - كل لحظة لها أثر</title>
 
-    <!-- وسوم عامة تدعم جميع المنصات -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="معدودات - كل لحظة لها أثر">
     <meta property="og:description" content="كل لحظة.. لها أثر">
@@ -23,16 +20,12 @@
     <meta property="og:url" content="https://numbered.casacam.net/">
     <meta property="og:site_name" content="معدودات">
 
-    <!-- وسوم خاصة بمنصة إكس (تويتر) -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="معدودات">
     <meta name="twitter:description" content="لكل لحظة.. لها أثر">
     <meta name="twitter:image" content="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
     
-    <!-- أيقونة المتصفح العادية -->
     <link rel="icon" type="image/png" href="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
-
-    <!-- أيقونات الآيفون والآيباد للشاشة الرئيسية -->
     <link rel="apple-touch-icon" href="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,9 +33,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- مكتبة HLS لتشغيل البثوث المباشرة على جميع المتصفحات -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <!-- مكتبة تحويل العناصر إلى صور للالتقاط والمشاركة -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
@@ -57,14 +48,13 @@
             --bg-color: #0d1117;
             --card-bg: rgba(22, 27, 34, 0.75);
             --text-color: #f8fafc;
-            --primary-color: #0284c7;
-            --primary-hover: #0369a1;
-            --text-muted: #94a3b8;
+            --primary-color: #1d9bf0;
+            --primary-hover: #1a8cd8;
+            --text-muted: #8b949e;
             --accent-gold: #c5a880;
-            --player-bg: #151f32;
             --border-color: rgba(255, 255, 255, 0.1);
             --tab-active: #0052cc;
-            --green: #238636;
+            --green: #00ba7c;
             --live-red: #ef4444;
         }
 
@@ -80,8 +70,8 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(197, 168, 128, 0.06) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(29, 155, 240, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(197, 168, 128, 0.05) 0%, transparent 40%);
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
@@ -90,46 +80,15 @@
             padding: 20px;
         }
 
-        #splashScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            overflow: hidden;
-        }
-
-        .splash-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 0;
-            filter: none;
-        }
-
-        .splash-mobile { display: block; }
-        .splash-desktop { display: none; }
-
-        @media (min-width: 768px) {
-            .splash-mobile { display: none; }
-            .splash-desktop { display: block; }
-        }
-
         img { pointer-events: none; -webkit-touch-callout: none; }
+        
         header { text-align: center; margin-bottom: 20px; }
-        .main-logo { max-width: 150px; height: auto; transition: transform 0.2s ease; }
+        .main-logo { max-width: 170px; height: auto; transition: transform 0.2s ease; }
 
-        .tabs-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
+        .tabs-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 25px; }
         .tabs-container { 
             display: flex; 
-            gap: 15px; 
+            gap: 12px; 
             overflow-x: auto; 
             padding: 8px; 
             scrollbar-width: none; 
@@ -146,9 +105,9 @@
             background: rgba(33, 38, 45, 0.5); 
             border: 1px solid var(--border-color); 
             color: var(--text-color);
-            padding: 12px 18px; 
+            padding: 10px 16px; 
             border-radius: 16px; 
-            font-size: 14px; 
+            font-size: 13px; 
             font-weight: 700; 
             cursor: pointer;
             white-space: nowrap; 
@@ -156,27 +115,14 @@
             flex-direction: column; 
             align-items: center; 
             justify-content: center; 
-            gap: 8px; 
-            min-width: 95px; 
-            transition: transform 0.15s ease, background 0.2s ease;
-            position: relative;
+            gap: 6px; 
+            min-width: 85px; 
+            transition: all 0.2s ease;
         }
         
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(197, 168, 128, 0.4);
-        }
-        
-        .tab-btn:active { transform: scale(0.95); }
-
-        .tab-btn img, .tab-btn svg { width: 24px; height: 24px; object-fit: contain; }
-        
-        .tab-btn.active { 
-            background: var(--tab-active); 
-            border-color: var(--tab-active); 
-            color: white; 
-            box-shadow: 0 4px 15px rgba(0, 82, 204, 0.3); 
-        }
+        .tab-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(197, 168, 128, 0.4); }
+        .tab-btn img, .tab-btn svg { width: 22px; height: 22px; object-fit: contain; }
+        .tab-btn.active { background: var(--tab-active); border-color: var(--tab-active); color: white; box-shadow: 0 4px 15px rgba(0, 82, 204, 0.3); }
 
         .panel-content { width: 100%; max-width: 650px; display: none; }
         .panel-content.active { display: block; }
@@ -188,97 +134,147 @@
             border: 1px solid var(--border-color); 
             border-radius: 24px; 
             padding: 24px; 
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45); 
             margin-bottom: 20px; 
         }
 
         .box-header { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px; }
         .box-title { font-size: 1.2rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* تنسيقات قسم نبض العدة */
-        .nabd-form {
+        /* تنسيقات قسم نبض العدة المطور (شبيه بتويتر / X) */
+        .nabd-composer {
+            background: rgba(13, 17, 23, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .nabd-composer-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .nabd-user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-gold);
+            flex-shrink: 0;
+        }
+        .nabd-inputs-group {
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
         }
-        .nabd-input, .nabd-textarea {
+        .nabd-input-name {
             width: 100%;
-            background: rgba(13, 17, 23, 0.6);
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .nabd-textarea {
+            width: 100%;
+            background: rgba(22, 27, 34, 0.8);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 12px 15px;
+            padding: 12px 14px;
             color: #fff;
             font-size: 0.95rem;
             outline: none;
             resize: none;
+            min-height: 90px;
+            line-height: 1.6;
         }
-        .nabd-input:focus, .nabd-textarea:focus {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15);
+        .nabd-input-name:focus, .nabd-textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.15);
         }
-        .nabd-schedule-box {
+        .nabd-composer-footer {
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 10px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 12px;
             flex-wrap: wrap;
+            gap: 10px;
         }
-        .nabd-schedule-box select {
-            background: #1e1e1e;
+        .nabd-schedule-wrapper {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .nabd-schedule-wrapper select {
+            background: #161b22;
             color: #fff;
             border: 1px solid var(--border-color);
             padding: 6px 10px;
             border-radius: 8px;
             outline: none;
+            font-size: 0.8rem;
         }
-        .nabd-btn {
-            background: var(--accent-gold);
-            color: #000;
+        .nabd-publish-btn {
+            background: var(--primary-color);
+            color: #fff;
             border: none;
-            padding: 12px;
-            border-radius: 14px;
-            font-weight: bold;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-weight: 800;
             cursor: pointer;
-            transition: transform 0.1s ease;
+            font-size: 0.9rem;
+            transition: background 0.2s ease, transform 0.1s ease;
         }
-        .nabd-btn:active { transform: scale(0.97); }
+        .nabd-publish-btn:hover { background: var(--primary-hover); }
+        .nabd-publish-btn:active { transform: scale(0.96); }
 
+        /* تصميم تغريدة X الحديثة */
         .tweet-card {
-            background: rgba(13, 17, 23, 0.5);
+            background: rgba(13, 17, 23, 0.55);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 16px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             display: flex;
-            gap: 12px;
+            gap: 14px;
+            transition: background 0.2s ease;
+        }
+        .tweet-card:hover {
+            background: rgba(13, 17, 23, 0.75);
+            border-color: rgba(255, 255, 255, 0.15);
         }
         .tweet-avatar {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid var(--border-color);
             flex-shrink: 0;
         }
-        .tweet-body { flex-grow: 1; }
+        .tweet-body { flex-grow: 1; min-width: 0; }
         .tweet-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 6px;
         }
-        .tweet-author { font-weight: bold; color: var(--accent-gold); font-size: 0.95rem; }
+        .tweet-author { font-weight: 800; color: #fff; font-size: 0.95rem; display: flex; align-items: center; gap: 5px; }
+        .tweet-author span { color: var(--accent-gold); font-weight: normal; font-size: 0.8rem; }
         .tweet-time { font-size: 0.75rem; color: var(--text-muted); }
-        .tweet-text { font-size: 0.95rem; line-height: 1.6; word-break: break-word; margin-bottom: 12px; }
+        .tweet-text { font-size: 0.95rem; line-height: 1.7; word-break: break-word; color: #e2e8f0; margin-bottom: 14px; }
+        
         .tweet-footer-actions {
             display: flex;
-            gap: 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            justify-content: space-between;
+            max-width: 320px;
+            border-top: 1px solid rgba(255,255,255,0.04);
             padding-top: 10px;
         }
         .tweet-action-btn {
@@ -288,19 +284,24 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-size: 0.85rem;
-            transition: color 0.2s ease;
+            transition: color 0.2s ease, transform 0.1s ease;
         }
-        .tweet-action-btn.liked { color: #ef4444; }
-        .tweet-action-btn.reposted { color: #238636; }
-        .tweet-action-btn:hover { color: #fff; }
+        .tweet-action-btn:active { transform: scale(0.9); }
+        
+        /* تلوين تفاعلات تويتر بدقة */
+        .tweet-action-btn.like-btn.liked { color: #f91880 !important; }
+        .tweet-action-btn.like-btn:hover { color: #f91880; }
+        
+        .tweet-action-btn.repost-btn.reposted { color: var(--green) !important; }
+        .tweet-action-btn.repost-btn:hover { color: var(--green); }
 
-        /* نافذة قيود النشر المنبثقة */
+        /* نافذة شروط النشر المنبثقة */
         .rules-modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.75);
             backdrop-filter: blur(15px);
             display: flex; align-items: center; justify-content: center;
             z-index: 999999;
@@ -311,22 +312,24 @@
         .rules-card {
             background: #161b22;
             border: 1px solid var(--accent-gold);
-            border-radius: 20px;
-            padding: 25px;
+            border-radius: 22px;
+            padding: 28px;
             width: 85%;
             max-width: 400px;
             text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-        .rules-card h3 { color: var(--accent-gold); margin-bottom: 12px; font-size: 1.2rem; }
-        .rules-card p { font-size: 0.9rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 20px; }
+        .rules-card h3 { color: var(--accent-gold); margin-bottom: 12px; font-size: 1.25rem; }
+        .rules-card p { font-size: 0.9rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 22px; }
         .rules-button {
             background: var(--accent-gold);
             color: #000;
             border: none;
-            padding: 10px 25px;
-            border-radius: 12px;
+            padding: 11px 28px;
+            border-radius: 14px;
             font-weight: bold;
             cursor: pointer;
+            font-size: 0.95rem;
         }
 
         .search-container { position: relative; margin-bottom: 25px; width: 100%; }
@@ -369,15 +372,7 @@
             position: relative;
         }
         .dhikr-text { font-size: 1.4rem; color: #fff; line-height: 2.2; font-weight: 500; margin-bottom: 25px; width: 100%; }
-        .dhikr-hint {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            opacity: 0.8;
-        }
+        .dhikr-hint { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px; display: flex; align-items: center; gap: 6px; opacity: 0.8; }
         .progress-bar { width: 80%; height: 6px; background: rgba(13, 17, 23, 0.6); border-radius: 3px; overflow: hidden; margin-bottom: 10px; }
         .progress-fill { height: 100%; background: var(--accent-gold); transition: width 0.2s ease; }
         .counter-btn { 
@@ -390,56 +385,23 @@
         .counter-btn:active { transform: scale(0.92); }
 
         .dhikr-share-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            width: 100%;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border-color);
-            flex-wrap: wrap;
+            display: flex; gap: 10px; justify-content: center; width: 100%;
+            margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-color); flex-wrap: wrap;
         }
         .dhikr-share-btn {
-            background: rgba(197, 168, 128, 0.08);
-            border: 1px solid rgba(197, 168, 128, 0.3);
-            color: #c5a880;
-            padding: 9px 16px;
-            border-radius: 14px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
+            background: rgba(197, 168, 128, 0.08); border: 1px solid rgba(197, 168, 128, 0.3);
+            color: #c5a880; padding: 9px 16px; border-radius: 14px; font-size: 0.85rem; font-weight: bold; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;
         }
         .dhikr-share-btn:hover { background: #c5a880; color: #000; }
 
         .hidden-share-card {
-            position: fixed;
-            top: -9999px;
-            left: -9999px;
-            width: 450px;
-            background: #0d1117;
-            border: 2px solid #c5a880;
-            border-radius: 20px;
-            padding: 30px 25px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            text-align: center;
-            color: #ffffff;
+            position: fixed; top: -9999px; left: -9999px; width: 450px;
+            background: #0d1117; border: 2px solid #c5a880; border-radius: 20px;
+            padding: 30px 25px; box-sizing: border-box; display: flex;
+            flex-direction: column; align-items: center; justify-content: space-between; text-align: center; color: #ffffff;
         }
-        .share-card-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-            width: 100%;
-        }
+        .share-card-header { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 10px; width: 100%; }
         .share-logos-container { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
         .share-logo { height: 55px; width: auto; object-fit: contain; }
         .share-category-title { font-size: 1.15rem; font-weight: 800; color: #c5a880; }
@@ -452,10 +414,8 @@
 
         .countdown-container { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; }
         .countdown-item { 
-            background: rgba(13, 17, 23, 0.4); 
-            border: 1px solid var(--border-color); 
-            padding: 18px; border-radius: 16px; border-right: 5px solid var(--accent-gold); 
-            width: 90%; max-width: 400px;
+            background: rgba(13, 17, 23, 0.4); border: 1px solid var(--border-color); 
+            padding: 18px; border-radius: 16px; border-right: 5px solid var(--accent-gold); width: 90%; max-width: 400px;
         }
         .live-timer-grid { display: flex; justify-content: center; gap: 12px; direction: rtl; margin-top: 15px; }
         .time-box { background: rgba(255, 255, 255, 0.04); padding: 8px 12px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; min-width: 50px; }
@@ -466,35 +426,22 @@
 
         /* نافذة خيارات المشاركة المنبثقة */
         .share-modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(25px);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100000;
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.25s ease, visibility 0.25s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(25px);
+            display: flex; align-items: center; justify-content: center; z-index: 100000;
+            opacity: 0; visibility: hidden; transition: opacity 0.25s ease, visibility 0.25s ease;
         }
         .share-modal-overlay.open { opacity: 1; visibility: visible; }
         .share-modal-card {
-            background: rgba(22, 27, 34, 0.75);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 28px;
-            width: 90%; max-width: 360px;
-            padding: 24px 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            text-align: center;
-            transform: scale(0.93);
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(22, 27, 34, 0.75); backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 28px;
+            width: 90%; max-width: 360px; padding: 24px 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); text-align: center;
         }
-        .share-modal-overlay.open .share-modal-card { transform: scale(1); }
         .share-modal-title { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 18px; }
         .share-platforms-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .platform-btn {
             display: flex; align-items: center; justify-content: center; gap: 12px;
-            width: 100%; padding: 13px; border-radius: 16px; font-size: 0.95rem; font-weight: bold; cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; padding: 13px; border-radius: 16px; font-size: 0.95rem; font-weight: bold; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .platform-btn.x-platform { background: rgba(0, 0, 0, 0.6); color: #fff; }
         .platform-btn.tg-platform { background: rgba(34, 158, 217, 0.25); color: #229ed9; }
@@ -510,8 +457,6 @@
 
         .animate-slowmo { animation: slowMotion 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
         @keyframes slowMotion { from { opacity: 0; transform: scale(0.98) translateY(5px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
-        button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
         .site-footer { width: 100%; display: flex; justify-content: center; align-items: center; padding: 20px 0; margin-top: auto; }
         .x-link {
@@ -532,18 +477,12 @@
 </head>
 <body oncontextmenu="return false;">
 
-<!-- رسالة القيود لنبض العدة (تظهر مرة واحدة) -->
 <div id="rulesModal" class="rules-modal">
     <div class="rules-card">
         <h3>تعليمات نبض العدة</h3>
         <p>مرحباً بك! يرجى الالتزام بأن تكون المشاركات مخصصة للقصص الهادفة، النصائح، والحكم النافعة، ولا تقبل المنشورات الفكاهية أو التافهة ليبقى المحتوى راقياً ومفيداً.</p>
         <button class="rules-button" onclick="closeRulesModal()">فهمت، ابدأ النشر</button>
     </div>
-</div>
-
-<div id="splashScreen">
-    <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="شعار معدودات المتحرك للجوال" class="splash-logo splash-mobile" ondragstart="return false;">
-    <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="شعار معدودات المتحرك للكمبيوتر" class="splash-logo splash-desktop" ondragstart="return false;">
 </div>
 
 <header>
@@ -569,7 +508,7 @@
             <span>الـذكر</span>
         </button>
         <button class="tab-btn" onclick="switchTab('live', event)">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
                 <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="#f8fafc" stroke-width="2"/>
                 <circle cx="12" cy="12" r="3" fill="#ef4444"/>
             </svg>
@@ -578,41 +517,44 @@
     </div>
 </div>
 
-<!-- 0. قسم نبض العدة -->
 <div id="panel-nabd" class="panel-content active">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">نبض العدة</h2></div>
         
-        <div class="nabd-form">
-            <input type="text" id="nabdName" class="nabd-input" placeholder="اسمك الكريم..." maxlength="30">
-            <textarea id="nabdText" class="nabd-textarea" rows="3" placeholder="اكتب قصة، نصيحة، أو حكمة نافعة..." maxlength="300"></textarea>
-            
-            <div class="nabd-schedule-box">
-                <i class="fa-regular fa-clock"></i>
-                <span>جدولة النشر:</span>
-                <select id="scheduleDay">
-                    <option value="today">اليوم</option>
-                    <option value="tomorrow">غداً</option>
-                </select>
-                <select id="scheduleHour">
-                    <option value="now">فوري (الآن)</option>
-                    <option value="08:00">08:00 صباحاً</option>
-                    <option value="12:00">12:00 ظهراً</option>
-                    <option value="18:00">06:00 مساءً</option>
-                    <option value="21:00">09:00 ليلاً</option>
-                </select>
+        <div class="nabd-composer">
+            <div class="nabd-composer-header">
+                <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/hypothetical.png" class="nabd-user-avatar" alt="أفاتار">
+                <div class="nabd-inputs-group">
+                    <input type="text" id="nabdName" class="nabd-input-name" placeholder="اسمك الكريم (اختياري)..." maxlength="30">
+                    <textarea id="nabdText" class="nabd-textarea" placeholder="ما الذي يخطر في بالك من قصة أو حكمة أو نصيحة نافعة؟" maxlength="300"></textarea>
+                </div>
             </div>
-
-            <button class="nabd-btn" onclick="publishNabdPost()">نشر المنشور</button>
+            <div class="nabd-composer-footer">
+                <div class="nabd-schedule-wrapper">
+                    <i class="fa-regular fa-clock"></i>
+                    <span>النشر:</span>
+                    <select id="scheduleDay">
+                        <option value="today">اليوم</option>
+                        <option value="tomorrow">غداً</option>
+                    </select>
+                    <select id="scheduleHour">
+                        <option value="now">فوري (الآن)</option>
+                        <option value="08:00">08:00 ص</option>
+                        <option value="12:00">12:00 م</option>
+                        <option value="18:00">06:00 م</option>
+                        <option value="21:00">09:00 م</option>
+                    </select>
+                </div>
+                <button class="nabd-publish-btn" onclick="publishNabdPost()">تغريد</button>
+            </div>
         </div>
 
         <div id="nabdFeedContainer">
-            <p style="text-align: center; color: var(--text-muted);">جاري تحميل المنشورات...</p>
+            <p style="text-align: center; color: var(--text-muted); padding: 20px;">جاري تحميل المنشورات...</p>
         </div>
     </div>
 </div>
 
-<!-- 1. قسم التلاوات -->
 <div id="panel-telawat" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
@@ -628,7 +570,6 @@
     </div>
 </div>
 
-<!-- 2. قسم المتبقي -->
 <div id="panel-remaining" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
@@ -662,7 +603,6 @@
     </div>
 </div>
             
-<!-- 3. قسم الذكر -->
 <div id="panel-dhikr" class="panel-content">
     <div class="box-card">
         <div class="box-header"><h2 class="box-title">قسم الذكر</h2></div>
@@ -675,7 +615,6 @@
     </div>
 </div>
 
-<!-- بطاقة مشاركة الذكر كصورة (مخفية) -->
 <div id="hidden-share-card" class="hidden-share-card">
     <div class="share-card-header">
         <div class="share-logos-container">
@@ -694,7 +633,6 @@
     </div>
 </div>
 
-<!-- نافذة المشاركة المنبثقة بتأثير الزجاج -->
 <div id="shareModal" class="share-modal-overlay" onclick="closeShareModal(event)">
     <div class="share-modal-card" onclick="event.stopPropagation()">
         <div class="share-modal-title">اختر طريقة المشاركة</div>
@@ -720,7 +658,6 @@
     </div>
 </div>
 
-<!-- 4. قسم البث المباشر -->
 <div id="panel-live" class="panel-content">
     <div class="box-card" style="border: 1px solid var(--accent-gold);">
         <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -757,6 +694,7 @@
 
 <script>
     window.addEventListener('DOMContentLoaded', () => {
+        // التحقق من إظهار شروط النشر لنبض العدة أول مرة
         if (!localStorage.getItem('nabd_rules_shown')) {
             document.getElementById('rulesModal').classList.add('show');
         }
@@ -789,16 +727,6 @@
         document.getElementById('rulesModal').classList.remove('show');
     }
 
-    window.addEventListener('load', () => {
-        const splash = document.getElementById('splashScreen');
-        if (splash) {
-            setTimeout(() => {
-                splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 400);
-            }, 1500);
-        }
-    });
-
     const defaultAvatar = "https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/hypothetical.png";
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     let cachedTelawat = [];
@@ -807,7 +735,7 @@
     let currentDhikrIndex = 0;
     let activeShareData = null;
 
-    // نبض العدة المنشورات
+    // دوال قسم نبض العدة المطور (شبيه بتويتر)
     function publishNabdPost() {
         const nameInput = document.getElementById('nabdName');
         const textInput = document.getElementById('nabdText');
@@ -855,25 +783,27 @@
         let posts = JSON.parse(localStorage.getItem('nabd_posts') || '[]');
 
         if (posts.length === 0) {
-            container.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 15px;">لا توجد منشورات حالياً. كن أول المشاركين بالحكم والقصص النافعة!</p>`;
+            container.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 25px;">لا توجد منشورات حالياً. كن أول المشاركين بالقصص والحكم النافعة!</p>`;
             return;
         }
 
         container.innerHTML = posts.map(p => `
             <div class="tweet-card">
-                <img src="${defaultAvatar}" class="tweet-avatar" alt="صورة الشخص">
+                <img src="${defaultAvatar}" class="tweet-avatar" alt="صورة المستخدم">
                 <div class="tweet-body">
                     <div class="tweet-header-row">
-                        <span class="tweet-author">${escapeHtml(p.name)}</span>
+                        <span class="tweet-author">${escapeHtml(p.name)} <span>@numbered</span></span>
                         <span class="tweet-time">${escapeHtml(p.time)}</span>
                     </div>
                     <div class="tweet-text">${escapeHtml(p.text)}</div>
                     <div class="tweet-footer-actions">
-                        <button class="tweet-action-btn ${p.isLiked ? 'liked' : ''}" onclick="toggleLike(${p.id})">
-                            <i class="fa-solid fa-heart"></i> <span>${p.likes}</span>
+                        <button class="tweet-action-btn like-btn ${p.isLiked ? 'liked' : ''}" onclick="toggleLike(${p.id})">
+                            <i class="${p.isLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i> 
+                            <span>${p.likes}</span>
                         </button>
-                        <button class="tweet-action-btn ${p.isReposted ? 'reposted' : ''}" onclick="toggleRepost(${p.id})">
-                            <i class="fa-solid fa-retweet"></i> <span>${p.reposts}</span>
+                        <button class="tweet-action-btn repost-btn ${p.isReposted ? 'reposted' : ''}" onclick="toggleRepost(${p.id})">
+                            <i class="fa-solid fa-retweet"></i> 
+                            <span>${p.reposts}</span>
                         </button>
                     </div>
                 </div>
@@ -917,7 +847,7 @@
         return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // البث المباشر والصوتيات
+    // دوال البث المباشر
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
         const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
@@ -953,7 +883,7 @@
         }, 1000);
     }
 
-    // الأذكار
+    // الأذكار والتنقل باللمس والسحب
     function showDhikr(cat, btn) {
         document.querySelectorAll('.sub-tabs .sub-tab-btn').forEach(b => {
             b.classList.toggle('active', b.innerText.trim() === cat);
@@ -980,7 +910,7 @@
         <div class="dhikr-card animate-slowmo" id="active-dhikr-card">
             <div style="text-align:center; margin-bottom:5px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
             <div class="dhikr-hint"><i class="fa-solid fa-arrows-left-right"></i> اسحب يميناً أو يساراً للتنقل بين الأذكار</div>
-            <h3 class="dhikr-text" style="text-align:center; font-size: 1.4rem;">${d.text}</h3>
+            <h3 class="dhikr-text" style="text-align:center;">${d.text}</h3>
             <div class="progress-bar" style="width:100%; height:8px; margin: 15px 0;"><div class="progress-fill" style="width:${progress}%"></div></div>
             <div style="font-size: 1.5rem; font-weight: bold; color: #c5a880; text-align:center; margin-bottom:15px;">${count} / ${d.target}</div>
             <button class="counter-btn" style="margin: 0 auto 15px;" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
@@ -990,10 +920,10 @@
             </div>
         </div>`;
 
-        setupSwipeGestures(cat, list.length);
+        setupSwipeGestures(cat);
     }
 
-    function setupSwipeGestures(cat, totalLength) {
+    function setupSwipeGestures(cat) {
         const card = document.getElementById('active-dhikr-card');
         if (!card) return;
 
@@ -1148,7 +1078,7 @@
             document.body.removeChild(a);
 
         } catch (err) {
-            console.error("خطأ أثناء تحويل الذكر إلى صورة:", err);
+            console.error("خطأ أثناء إنشاء الصورة:", err);
             alert("تعذر إنشاء الصورة، حاول مرة أخرى.");
         } finally {
             if(saveBtn) {
@@ -1158,7 +1088,7 @@
         }
     }
 
-    // التلاوات وجلب البيانات
+    // جلب التلاوات والأذكار
     function renderTelawat(items) {
         const list = document.getElementById('telawat-list');
         if (!list) return;
@@ -1213,7 +1143,7 @@
                     showDhikr('الصباح');
                 }
             } catch(e) {
-                console.log("خطأ في جلب بيانات ورقة العمل: ", sheet);
+                console.log("خطأ في جلب البيانات: ", sheet);
             }
         }
     }
@@ -1233,7 +1163,7 @@
         }).catch(() => { window.open(url, '_blank'); btn.innerHTML = '<i class="fa-solid fa-download"></i> تحميل'; btn.disabled = false; });
     }
     
-    // التنقل بين الأقسام
+    // التبديل بين التبويبات الرئيسية
     function switchTab(tabId, event) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
