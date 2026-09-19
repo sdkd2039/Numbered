@@ -19,7 +19,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="نبض العدة">
     <meta property="og:description" content="كل لحظة.. لها أثر">
-    <meta property="og:image" content="https://raw.githubusercontent.com/sdkd2039/Numbered/refs/heads/main/T401783946968724.png">
+    <meta property="og:image" content="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png">
     <meta property="og:url" content="https://numbered.casacam.net/pulse.html">
     <meta property="og:site_name" content="معدودات">
 
@@ -192,7 +192,7 @@
         }
         .pulse-share-btn:active { transform: scale(0.97); }
 
-        /* نافذة خيارات المشاركة بتأثير الزجاج (آيفون Style) */
+        /* نافذة خيارات المشاركة */
         .share-modal-overlay {
             position: fixed;
             top: 0;
@@ -300,12 +300,12 @@
 
 <!-- شاشة البداية المتحركة -->
 <div id="splashScreen">
-    <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%17/residual.png" alt="شعار نبض العدة" class="splash-logo" ondragstart="return false;" onerror="this.src='https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/numbered.png'">
+    <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="شعار نبض العدة" class="splash-logo" ondragstart="return false;">
 </div>
 
 <header>
     <a href="index.html">
-        <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/residual.png" class="main-logo" alt="نبض العدة" onerror="this.src='https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/numbered.png'">
+        <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" class="main-logo" alt="نبض العدة">
     </a>
 </header>
     
@@ -316,7 +316,7 @@
             <h2 class="box-title">نبض العدة</h2>
         </div>
         <div class="pulse-container" id="pulse-container">
-            <p style="text-align:center; color:gray; padding: 25px;">جاري جلب المنشورات من قوقل شيت...</p>
+            <p style="text-align:center; color:gray; padding: 25px;">جاري جلب المنشورات من ورقة نبض العدة...</p>
         </div>
     </div>
 </div>
@@ -373,6 +373,7 @@
 
     async function fetchPulseData() {
         try {
+            // تحديد ورقة العمل بدقة عبر البارامتر sheet=نبض_العدة
             const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=نبض_العدة`;
             const res = await fetch(url).then(r => r.text());
             const jsonText = res.substring(res.indexOf('{'), res.lastIndexOf(')'));
@@ -387,7 +388,7 @@
             renderPulse();
         } catch (e) {
             console.error('خطأ في جلب بيانات نبض العدة:', e);
-            document.getElementById('pulse-container').innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات، تأكد من اتصال الإنترنت ورابط القوقل شيت.</p>`;
+            document.getElementById('pulse-container').innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات من ورقة "نبض_العدة"، تأكد من مطابقة اسم الورقة في الملف.</p>`;
         }
     }
 
@@ -405,7 +406,7 @@
                 <div class="pulse-post-title">${post.title}</div>
                 <div class="pulse-post-text">${post.text}</div>
                 ${post.image ? `<img src="${post.image}" class="pulse-post-image" alt="صورة المنشور">` : ''}
-                <button class="pulse-pulse-btn pulse-share-btn" onclick="openShareModal(${index})">
+                <button class="pulse-share-btn" onclick="openShareModal(${index})">
                     <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
                 </button>
             </div>
