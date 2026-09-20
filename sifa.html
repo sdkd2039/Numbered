@@ -468,7 +468,7 @@
         }
         .share-btn:active { transform: scale(0.97); }
 
-        /* ================= تصميم قسم نبض العدة (المدمج والمُعدّل) ================= */
+        /* ================= تصميم قسم نبض العدة (المدمج) ================= */
         .pulse-container {
             display: flex;
             flex-direction: column;
@@ -489,7 +489,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
             
-            /* تفعيل تحديد النص فقط في هذا القسم */
+            /* تفعيل تحديد النص حصرياً داخل هذا القسم */
             -webkit-user-select: text;
             user-select: text;
         }
@@ -497,29 +497,6 @@
         .pulse-post-card.highlighted {
             border-color: var(--accent-gold);
             box-shadow: 0 0 25px rgba(197, 168, 128, 0.35);
-        }
-
-        /* شريط معلومات التاريخ واليوم والساعة */
-        .pulse-meta-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .pulse-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .pulse-meta-item i {
-            color: var(--accent-gold);
         }
 
         .pulse-post-title {
@@ -535,90 +512,18 @@
             white-space: pre-line;
         }
 
-        .pulse-post-image-wrapper {
-            position: relative;
-            width: 100%;
-            cursor: zoom-in;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
         .pulse-post-image {
             width: 100%;
             max-height: 350px;
             object-fit: cover;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .pulse-post-image-wrapper:hover .pulse-post-image {
-            transform: scale(1.02);
-        }
-
-        /* نافذة تكبير الصورة (Lightbox) */
-        .lightbox-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 200000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.25s ease, visibility 0.25s ease;
-            padding: 20px;
-        }
-
-        .lightbox-overlay.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .lightbox-content-container {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .lightbox-img {
-            max-width: 100%;
-            max-height: 80vh;
-            object-fit: contain;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-
-        .lightbox-close-btn {
-            position: absolute;
-            top: -45px;
-            right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition: transform 0.2s ease, filter 0.2s ease;
         }
-
-        .lightbox-close-btn:hover {
-            background: var(--live-red);
+        
+        .pulse-post-image:hover {
+            filter: brightness(1.05);
         }
 
         .pulse-share-btn {
@@ -643,6 +548,68 @@
             color: #000;
         }
         .pulse-share-btn:active { transform: scale(0.97); }
+
+        /* نافذة تكبير الصورة (Lightbox) */
+        .image-lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            padding: 20px;
+        }
+
+        .image-lightbox-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-lightbox-content {
+            max-width: 95%;
+            max-height: 90vh;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            object-fit: contain;
+            transform: scale(0.9);
+            transition: transform 0.25s ease;
+        }
+
+        .image-lightbox-overlay.open .image-lightbox-content {
+            transform: scale(1);
+        }
+
+        .image-lightbox-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .image-lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
 
         /* ================= نافذة خيارات المشاركة بتأثير الزجاج (آيفون Style) ================= */
         .share-modal-overlay {
@@ -961,15 +928,13 @@
     </div>
 </div>
 
-<!-- نافذة تكبير الصورة (Lightbox Modal) -->
-<div id="lightboxModal" class="lightbox-overlay" onclick="closeLightbox(event)">
-    <div class="lightbox-content-container" onclick="event.stopPropagation()">
-        <button class="lightbox-close-btn" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
-        <img id="lightboxImg" class="lightbox-img" src="" alt="صورة مكبرة">
-    </div>
+<!-- نافذة تكبير الصورة (Lightbox) لعرض الصورة بكامل حجمها عند الضغط عليها -->
+<div id="imageLightbox" class="image-lightbox-overlay" onclick="closeImageLightbox()">
+    <button class="image-lightbox-close" onclick="closeImageLightbox()"><i class="fa-solid fa-xmark"></i></button>
+    <img id="lightboxImg" class="image-lightbox-content" src="" alt="صورة مكبرة">
 </div>
 
-<!-- 4. قسم نبض العدة -->
+    <!-- 4. قسم نبض العدة -->
 <div id="panel-pulse" class="panel-content">
     <div class="box-card">
         <div class="box-header">
@@ -1029,7 +994,7 @@
     });
 
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzlYwiFdXlOSNauNBnzKqBmtklLf-QKrzrv8UVOHULIzPNmD3AWdoNg6FuATimJrkCG/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwB3ugQ0exxhlLn2O9Sh8iedqX99bzh4s4vzW7TnuP4MtI9qkftr7uKj7VkJ8WnuSw/exec';
 
     let cachedTelawat = [];
     let dhikrData = [];
@@ -1193,26 +1158,26 @@
         document.getElementById('shareModal').classList.add('open');
     }
 
+    // دوال التحكم بعرض وتكبير الصور (Lightbox)
+    function openImageLightbox(imgSrc) {
+        const lightbox = document.getElementById('imageLightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        if (lightbox && lightboxImg) {
+            lightboxImg.src = imgSrc;
+            lightbox.classList.add('open');
+        }
+    }
+
+    function closeImageLightbox() {
+        const lightbox = document.getElementById('imageLightbox');
+        if (lightbox) {
+            lightbox.classList.remove('open');
+        }
+    }
+
     function closeShareModal(event) {
         if (!event || event.target.id === 'shareModal' || event.target.classList.contains('share-modal-close')) {
             document.getElementById('shareModal').classList.remove('open');
-        }
-    }
-
-    // دوال إدارة تكبير الصور (Lightbox)
-    function openLightbox(imgSrc) {
-        const modal = document.getElementById('lightboxModal');
-        const img = document.getElementById('lightboxImg');
-        if (modal && img) {
-            img.src = imgSrc;
-            modal.classList.add('open');
-        }
-    }
-
-    function closeLightbox(event) {
-        const modal = document.getElementById('lightboxModal');
-        if (!event || event.target.id === 'lightboxModal' || event.target.closest('.lightbox-close-btn')) {
-            if (modal) modal.classList.remove('open');
         }
     }
 
@@ -1295,7 +1260,7 @@
         shareRepeatElement.innerText = `عدد التكرار: ${d.target} مرات`;
 
         const images = hiddenCard.querySelectorAll('img');
-        await Promise.all(Array.from(images).map(img => loadImageSafely(img)));
+        await Promise.all(Array.fromimages).map(img => loadImageSafely(img));
 
         try {
             const canvas = await html2canvas(hiddenCard, {
@@ -1384,27 +1349,12 @@
 
         container.innerHTML = pulseData.map((post, index) => {
             const postId = `post-${index + 1}`;
-            
-            // استخراج وتنسيق الحقول الجديدة (التاريخ الهجري، اليوم، والساعة) القادمة من قوقل شيت
-            const hijriDate = post.hijriDate || '';
-            const dayName = post.dayName || '';
-            const timeStr = post.timeStr || '';
 
             return `
                 <div class="pulse-post-card" id="${postId}">
-                    <div class="pulse-meta-info">
-                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                            ${hijriDate ? `<span class="pulse-meta-item"><i class="fa-solid fa-calendar-days"></i> ${escapeHTML(hijriDate)}</span>` : ''}
-                            ${dayName ? `<span class="pulse-meta-item"><i class="fa-solid fa-sun"></i> ${escapeHTML(dayName)}</span>` : ''}
-                        </div>
-                        ${timeStr ? `<span class="pulse-meta-item"><i class="fa-solid fa-clock"></i> ${escapeHTML(timeStr)}</span>` : ''}
-                    </div>
                     <div class="pulse-post-title">${escapeHTML(post.title)}</div>
                     <div class="pulse-post-text">${escapeHTML(post.text)}</div>
-                    ${post.image ? `
-                        <div class="pulse-post-image-wrapper" onclick="openLightbox('${escapeHTML(post.image)}')">
-                            <img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور">
-                        </div>` : ''}
+                    ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور" onclick="openImageLightbox('${escapeHTML(post.image)}')">` : ''}
                     <button class="pulse-share-btn" onclick="openPulseShareModal(${index + 1})">
                         <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
                     </button>
@@ -1450,7 +1400,7 @@
             const json = JSON.parse(jsonText);
 
             if (sheet === 'التلاوات') {
-                cachedTelawat = json.table.rows.map(r => ({ 
+                cachedTelawat = json.table.rows.rows ? [] : json.table.rows.map(r => ({ 
                     title: r.c[0]?.v || '', 
                     reader: r.c[1]?.v || '', 
                     downloadUrl: r.c[2]?.v || '' 
