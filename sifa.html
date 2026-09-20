@@ -488,11 +488,34 @@
             gap: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            
+            /* تفعيل تحديد النص حصرياً داخل هذا القسم */
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         .pulse-post-card.highlighted {
             border-color: var(--accent-gold);
             box-shadow: 0 0 25px rgba(197, 168, 128, 0.35);
+        }
+
+        /* تنسيق الهيدر العلوي للمنشور (التاريخ والهجري واليوم والساعة) */
+        .pulse-meta-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pulse-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .pulse-post-title {
@@ -514,6 +537,12 @@
             object-fit: cover;
             border-radius: 14px;
             border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+        
+        .pulse-post-image:hover {
+            filter: brightness(1.05);
         }
 
         .pulse-share-btn {
@@ -538,6 +567,68 @@
             color: #000;
         }
         .pulse-share-btn:active { transform: scale(0.97); }
+
+        /* نافذة تكبير الصورة (Lightbox) */
+        .image-lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            padding: 20px;
+        }
+
+        .image-lightbox-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-lightbox-content {
+            max-width: 95%;
+            max-height: 90vh;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            object-fit: contain;
+            transform: scale(0.9);
+            transition: transform 0.25s ease;
+        }
+
+        .image-lightbox-overlay.open .image-lightbox-content {
+            transform: scale(1);
+        }
+
+        .image-lightbox-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .image-lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
 
         /* ================= نافذة خيارات المشاركة بتأثير الزجاج (آيفون Style) ================= */
         .share-modal-overlay {
@@ -856,6 +947,12 @@
     </div>
 </div>
 
+<!-- نافذة تكبير الصورة (Lightbox) لعرض الصورة بكامل حجمها عند الضغط عليها -->
+<div id="imageLightbox" class="image-lightbox-overlay" onclick="closeImageLightbox()">
+    <button class="image-lightbox-close" onclick="closeImageLightbox()"><i class="fa-solid fa-xmark"></i></button>
+    <img id="lightboxImg" class="image-lightbox-content" src="" alt="صورة مكبرة">
+</div>
+
     <!-- 4. قسم نبض العدة -->
 <div id="panel-pulse" class="panel-content">
     <div class="box-card">
@@ -1080,6 +1177,23 @@
         document.getElementById('shareModal').classList.add('open');
     }
 
+    // دوال التحكم بعرض وتكبير الصور (Lightbox)
+    function openImageLightbox(imgSrc) {
+        const lightbox = document.getElementById('imageLightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        if (lightbox && lightboxImg) {
+            lightboxImg.src = imgSrc;
+            lightbox.classList.add('open');
+        }
+    }
+
+    function closeImageLightbox() {
+        const lightbox = document.getElementById('imageLightbox');
+        if (lightbox) {
+            lightbox.classList.remove('open');
+        }
+    }
+
     function closeShareModal(event) {
         if (!event || event.target.id === 'shareModal' || event.target.classList.contains('share-modal-close')) {
             document.getElementById('shareModal').classList.remove('open');
@@ -1254,11 +1368,30 @@
 
         container.innerHTML = pulseData.map((post, index) => {
             const postId = `post-${index + 1}`;
+            
+            // استخراج الحقول الجديدة (التاريخ الهجري، اليوم، الساعة) من قوقل شيت بناءً على الأعمدة المضافة
+            const hijriDate = post.hijri || post.dateHijri || '';
+            const dayName = post.day || post.dayName || '';
+            const postTime = post.time || post.postTime || '';
+
+            // بناء شريط المعلومات العلوي في حال توفر أي من البيانات
+            let metaHeaderHTML = '';
+            if (hijriDate || dayName || postTime) {
+                metaHeaderHTML = `
+                    <div class="pulse-meta-header">
+                        ${hijriDate ? `<div class="pulse-meta-item"><i class="fa-solid fa-calendar-days" style="color:var(--accent-gold);"></i> <span>${escapeHTML(hijriDate)}</span></div>` : ''}
+                        ${dayName ? `<div class="pulse-meta-item"><i class="fa-solid fa-sun" style="color:var(--accent-gold);"></i> <span>${escapeHTML(dayName)}</span></div>` : ''}
+                        ${postTime ? `<div class="pulse-meta-item"><i class="fa-solid fa-clock" style="color:var(--accent-gold);"></i> <span>${escapeHTML(postTime)}</span></div>` : ''}
+                    </div>
+                `;
+            }
+
             return `
                 <div class="pulse-post-card" id="${postId}">
+                    ${metaHeaderHTML}
                     <div class="pulse-post-title">${escapeHTML(post.title)}</div>
                     <div class="pulse-post-text">${escapeHTML(post.text)}</div>
-                    ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور">` : ''}
+                    ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور" onclick="openImageLightbox('${escapeHTML(post.image)}')">` : ''}
                     <button class="pulse-share-btn" onclick="openPulseShareModal(${index + 1})">
                         <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
                     </button>
@@ -1280,7 +1413,6 @@
     function checkAndScrollToPost() {
         const hash = window.location.hash;
         if (hash) {
-            // التبديل تلقائياً لتبويب نبض العدة إذا تم فتح رابط بمعرف منشور مباشر
             if (hash.startsWith('#post-')) {
                 switchTab('pulse', null);
             }
@@ -1346,7 +1478,6 @@
         if (event && event.currentTarget) {
             event.currentTarget.classList.add('active');
         } else {
-            // تفعيل الزر المناسب في شريط التبويبات برمجياً إذا تم استدعاء الدالة بدون حدث مباشر
             const targetBtn = document.querySelector(`.tab-btn[onclick*="switchTab('${tabId}'"]`);
             if (targetBtn) targetBtn.classList.add('active');
         }
