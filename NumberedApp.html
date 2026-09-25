@@ -143,24 +143,23 @@
         }
         .tabs-container::-webkit-scrollbar { display: none; }
 
-        /* ================= شريط التنقل السفلي التفاعلي المخصص للجوال ================= */
+        /* ================= شريط التنقل السفلي الخاص بالجوال ================= */
         .mobile-bottom-nav {
-            display: none; 
+            display: none;
             position: fixed;
-            bottom: 12px;
-            left: 12px;
-            right: 12px;
-            height: 68px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
             background: rgba(13, 17, 23, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(197, 168, 128, 0.2);
+            border-top: 1px solid var(--border-color);
             z-index: 9999;
             justify-content: space-around;
             align-items: center;
-            padding: 5px 8px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
         }
 
         .mobile-nav-item {
@@ -172,12 +171,11 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             font-weight: 700;
             width: 20%;
             height: 100%;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            transition: all 0.2s ease;
         }
 
         .mobile-nav-item img, .mobile-nav-item svg {
@@ -185,25 +183,22 @@
             height: 22px;
             object-fit: contain;
             opacity: 0.6;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
         }
 
         .mobile-nav-item.active {
             color: var(--accent-gold);
-            background: rgba(197, 168, 128, 0.1);
-            border-radius: 16px;
         }
 
         .mobile-nav-item.active img, .mobile-nav-item.active svg {
             opacity: 1;
-            transform: translateY(-3px) scale(1.1);
+            transform: translateY(-2px);
         }
 
-        /* التحكم في إظهار وإخفاء عناصر الجوال والكمبيوتر */
         @media (max-width: 767px) {
             .desktop-tabs { display: none !important; }
             .mobile-bottom-nav { display: flex !important; }
-            body { padding-bottom: 95px; } 
+            body { padding-bottom: 80px; }
         }
 
         .tab-btn {
@@ -549,7 +544,6 @@
             gap: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            
             -webkit-user-select: text;
             user-select: text;
         }
@@ -671,7 +665,7 @@
             background: rgba(255, 255, 255, 0.25);
         }
 
-        /* ================= نافذة خيارات المشاركة بتأثير الزجاج ================= */
+        /* نافذة خيارات المشاركة بتأثير الزجاج */
         .share-modal-overlay {
             position: fixed;
             top: 0;
@@ -786,6 +780,98 @@
             border: none;
         }
 
+        /* تنسيقات واجهة التحميل المتقدمة (Progress Modal) داخل التطبيق */
+        .download-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .download-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .download-modal-card {
+            background: rgba(22, 27, 34, 0.9);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(197, 168, 128, 0.3);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 380px;
+            padding: 25px 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            text-align: center;
+            transform: scale(0.93);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: #fff;
+        }
+        .download-modal-overlay.open .download-modal-card {
+            transform: scale(1);
+        }
+        .download-status-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+        }
+        .download-file-name {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+            word-break: break-word;
+        }
+        .download-progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(13, 17, 23, 0.8);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .download-progress-fill {
+            height: 100%;
+            background: var(--accent-gold);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        .download-percentage-text {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .download-details-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        .download-action-btn {
+            background: var(--accent-gold);
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s ease;
+        }
+        .download-action-btn:hover { opacity: 0.9; }
+
         .animate-slowmo { 
             animation: slowMotion 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
         }
@@ -881,7 +967,7 @@
     </div>
 </div>
 
-<!-- شريط التنقل السفلي التفاعلي المخصص للجوال فقط -->
+<!-- شريط التنقل السفلي المخصص للجوال فقط -->
 <div class="mobile-bottom-nav">
     <button class="mobile-nav-item active" onclick="switchTab('telawat', event)">
         <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/telawat.png" alt="تلاوات">
@@ -1023,6 +1109,20 @@
     <img id="lightboxImg" class="image-lightbox-content" src="" alt="صورة مكبرة">
 </div>
 
+<!-- نافذة تحميل الملفات التفاعلية (Progress Modal) -->
+<div id="downloadModal" class="download-modal-overlay">
+    <div class="download-modal-card">
+        <div class="download-status-title" id="dlStatusTitle">جاري تحميل التلاوة</div>
+        <div class="download-file-name" id="dlFileName">اسم الملف.mp4</div>
+        <div class="download-progress-bar-container">
+            <div class="download-progress-fill" id="dlProgressFill"></div>
+        </div>
+        <div class="download-percentage-text" id="dlPercentageText">0%</div>
+        <div class="download-details-text" id="dlDetailsText">0 ميجابايت من 0 ميجابايت</div>
+        <button class="download-action-btn" id="dlActionBtn" onclick="closeDownloadModal()" style="display:none;">إغلاق</button>
+    </div>
+</div>
+
 <!-- 4. قسم نبض العدة -->
 <div id="panel-pulse" class="panel-content">
     <div class="box-card">
@@ -1057,30 +1157,14 @@
     </div>
 
     <div class="box-card">
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-kaaba" style="color: var(--accent-gold); font-size: 1.2rem;"></i>
-                <h2 class="box-title" style="margin: 0;">قناة القرآن الكريم</h2>
-            </div>
-            <a href="https://www.elahmad.ru/tv/live/channels.php?id=327" target="_blank" rel="noopener noreferrer" class="sub-tab-btn" style="text-decoration: none; padding: 6px 14px; font-size: 0.8rem; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);">
-                <i class="fa-solid fa-play"></i> تشغيل القناة
-            </a>
-        </div>
+        <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
         <div class="live-stream-container">
             <iframe src="https://www.elahmad.ru/tv/live/channels.php?id=327" allowfullscreen class="live-video-player"></iframe>
         </div>
     </div>
 
     <div class="box-card">
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 18px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-mosque" style="color: var(--accent-gold); font-size: 1.2rem;"></i>
-                <h2 class="box-title" style="margin: 0;">قناة السنة النبوية</h2>
-            </div>
-            <a href="https://www.elahmad.ru/tv/live/channels.php?id=326" target="_blank" rel="noopener noreferrer" class="sub-tab-btn" style="text-decoration: none; padding: 6px 14px; font-size: 0.8rem; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);">
-                <i class="fa-solid fa-play"></i> تشغيل القناة
-            </a>
-        </div>
+        <div class="box-header"><i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة السنة النبوية</h2></div>
         <div class="live-stream-container">
             <iframe src="https://www.elahmad.ru/tv/live/channels.php?id=326" allowfullscreen class="live-video-player"></iframe>
         </div>
@@ -1398,18 +1482,16 @@
         if (!list) return;
         list.innerHTML = ''; 
         
-        list.innerHTML = items.map((item, index) => `
+        list.innerHTML = items.map(item => `
             <div class="box-card" style="margin-bottom: 20px; padding: 15px; border: 1px solid var(--border-color); border-radius: 14px; background: rgba(26, 26, 26, 0.6);">
                 <h3 class="search-title" style="font-size: 1.2rem; font-weight: 900; color: #fff;">${item.title}</h3>
                 <div class="search-reader" style="color: #aaa; margin-bottom: 10px;">${item.reader}</div>
                 <video controls controlsList="nodownload" style="width: 100%; border-radius: 8px;">
                     <source src="${item.downloadUrl}" type="video/mp4">
                 </video>
-                <div id="download-area-${index}" style="margin-top: 10px;">
-                    <button class="sub-tab-btn" style="width: 100%; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);" onclick="downloadAudioWithProgress(this, '${item.downloadUrl}', '${item.title}', ${index})">
-                        <i class="fa-solid fa-download"></i> تحميل
-                    </button>
-                </div>
+                <button class="sub-tab-btn" style="margin-top: 10px; width: 100%; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);" onclick="downloadAudioWithProgress('${item.downloadUrl}', '${item.title}')">
+                    <i class="fa-solid fa-download"></i> تحميل
+                </button>
             </div>`).join('');
     }
 
@@ -1524,75 +1606,85 @@
         }
     }
 
-    function downloadAudioWithProgress(btn, url, title, index) {
-        const area = document.getElementById(`download-area-${index}`);
-        if (!area) return;
+    /* دالة التحميل الحقيقية مع دعم Progress Bar وتتبع البيانات عبر ReadableStream */
+    async function downloadAudioWithProgress(url, title) {
+        const modal = document.getElementById('downloadModal');
+        const statusTitle = document.getElementById('dlStatusTitle');
+        const fileNameEl = document.getElementById('dlFileName');
+        const progressFill = document.getElementById('dlProgressFill');
+        const percentageText = document.getElementById('dlPercentageText');
+        const detailsText = document.getElementById('dlDetailsText');
+        const actionBtn = document.getElementById('dlActionBtn');
 
-        area.innerHTML = `
-            <div style="font-size: 0.82rem; color: var(--accent-gold); margin-bottom: 6px; display: flex; justify-content: space-between;">
-                <span>جاري تحميل التلاوة...</span>
-                <span id="download-percent-${index}">0%</span>
-            </div>
-            <div class="progress-bar" style="width: 100%; height: 7px; margin-bottom: 0;">
-                <div id="progress-fill-${index}" class="progress-fill" style="width: 0%;"></div>
-            </div>
-        `;
+        statusTitle.innerText = "جاري تحميل التلاوة";
+        fileNameEl.innerText = title + ".mp4";
+        progressFill.style.width = '0%';
+        percentageText.innerText = '0%';
+        detailsText.innerText = 'جاري الاتصال بالملف...';
+        actionBtn.style.display = 'none';
+        modal.classList.add('open');
 
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.responseType = 'blob';
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('فشل جلب الملف');
 
-        xhr.onprogress = function(event) {
-            if (event.lengthComputable) {
-                const percentComplete = Math.round((event.loaded / event.total) * 100);
-                const fill = document.getElementById(`progress-fill-${index}`);
-                const txt = document.getElementById(`download-percent-${index}`);
-                if (fill) fill.style.width = percentComplete + '%';
-                if (txt) txt.innerText = percentComplete + '%';
+            const totalBytes = parseInt(response.headers.get('content-length'), 10);
+            let loadedBytes = 0;
+
+            const reader = response.body.getReader();
+            const chunks = [];
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                chunks.push(value);
+                loadedBytes += value.length;
+
+                if (totalBytes && !isNaN(totalBytes)) {
+                    const percent = Math.round((loadedBytes / totalBytes) * 100);
+                    progressFill.style.width = percent + '%';
+                    percentageText.innerText = percent + '%';
+                    
+                    const loadedMb = (loadedBytes / (1024 * 1024)).toFixed(2);
+                    const totalMb = (totalBytes / (1024 * 1024)).toFixed(2);
+                    detailsText.innerText = `${loadedMb} ميجابايت من ${totalMb} ميجابايت`;
+                } else {
+                    const loadedMb = (loadedBytes / (1024 * 1024)).toFixed(2);
+                    progressFill.style.width = '50%';
+                    percentageText.innerText = 'جاري التحميل...';
+                    detailsText.innerText = `تم تحميل ${loadedMb} ميجابايت`;
+                }
             }
-        };
 
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                const blob = xhr.response;
-                const a = document.createElement('a');
-                a.href = window.URL.createObjectURL(blob);
-                a.download = `${title}.mp4`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+            const blob = new Blob(chunks);
+            const blobUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = `${title}.mp4`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
 
-                area.innerHTML = `
-                    <button class="sub-tab-btn" style="width: 100%; background: #238636; color: #fff; border-color: #238636;">
-                        <i class="fa-solid fa-check"></i> تم التنزيل بنجاح
-                    </button>
-                `;
-                setTimeout(() => {
-                    area.innerHTML = `
-                        <button class="sub-tab-btn" style="width: 100%; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);" onclick="downloadAudioWithProgress(this, '${url}', '${title}', ${index})">
-                            <i class="fa-solid fa-download"></i> تحميل
-                        </button>
-                    `;
-                }, 3000);
-            } else {
-                handleDownloadError(area, url, title, index);
-            }
-        };
+            statusTitle.innerText = "اكتمل التحميل";
+            progressFill.style.width = '100%';
+            percentageText.innerText = '100%';
+            detailsText.innerText = "تم حفظ الملف بنجاح على جهازك";
+            actionBtn.style.display = 'block';
 
-        xhr.onerror = function() {
-            handleDownloadError(area, url, title, index);
-        };
-
-        xhr.send();
+        } catch (e) {
+            console.error("فشل التحميل عبر Fetch، سيتم فتح الرابط مباشرة:", e);
+            statusTitle.innerText = "فشل التحميل المباشر";
+            detailsText.innerText = "جاري فتح الملف عبر المتصفح الخارجي...";
+            progressFill.style.width = '100%';
+            percentageText.innerText = 'خطأ';
+            actionBtn.style.display = 'block';
+            window.open(url, '_blank');
+        }
     }
 
-    function handleDownloadError(area, url, title, index) {
-        window.open(url, '_blank');
-        area.innerHTML = `
-            <button class="sub-tab-btn" style="width: 100%; background: var(--accent-gold); color: #000; border-color: var(--accent-gold);" onclick="downloadAudioWithProgress(this, '${url}', '${title}', ${index})">
-                <i class="fa-solid fa-download"></i> تحميل
-            </button>
-        `;
+    function closeDownloadModal() {
+        document.getElementById('downloadModal').classList.remove('open');
     }
     
     /* تحديث شريط التنقل لكلا الشاشتين (الكمبيوتر والجوال) */
