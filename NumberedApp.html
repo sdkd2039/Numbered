@@ -1583,7 +1583,7 @@
         }
     }
 
-    /* دالة التحميل الحقيقية مع دعم Progress Bar وتتبع البيانات عبر ReadableStream */
+    /* دالة التحميل المعدلة لتجبر المتصفح على حفظ الملف كـ mp4 دائماً وتجنب ملفات الـ txt */
     async function downloadAudioWithProgress(url, title) {
         const modal = document.getElementById('downloadModal');
         const statusTitle = document.getElementById('dlStatusTitle');
@@ -1634,7 +1634,8 @@
                 }
             }
 
-            const blob = new Blob(chunks);
+            // فرض النوع video/mp4 وصيغة الـ mp4 لتجنب أي حفظ خاطئ بصيغة txt
+            const blob = new Blob(chunks, { type: 'video/mp4' });
             const blobUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = blobUrl;
@@ -1642,11 +1643,12 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            window.URL.revokeObjectURL(blobUrl);
 
             statusTitle.innerText = "اكتمل التحميل";
             progressFill.style.width = '100%';
             percentageText.innerText = '100%';
-            detailsText.innerText = "تم حفظ الملف بنجاح على جهازك";
+            detailsText.innerText = "تم حفظ الملف بنجاح على جهازك بصيغة mp4";
             actionBtn.style.display = 'block';
 
         } catch (e) {
@@ -1664,7 +1666,6 @@
         document.getElementById('downloadModal').classList.remove('open');
     }
     
-    /* تحديث شريط التنقل لكلا الشاشتين (الكمبيوتر والجوال) */
     function switchTab(tabId, event) {
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn, .mobile-nav-item').forEach(b => b.classList.remove('active'));
