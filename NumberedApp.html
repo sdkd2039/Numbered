@@ -928,7 +928,7 @@
                 align-items: stretch;
             }
 
-            /* ---------- شريط علوي ثابت مضغوط بدل الشعار الكبير المتوسط ---------- */
+            /* ---------- شريط علوي ثابت بجعل الشعار يتوسط الصفحة ودون كلمة معدودات ---------- */
             header {
                 position: sticky;
                 top: 0;
@@ -937,25 +937,17 @@
                 padding: calc(12px + env(safe-area-inset-top, 0px)) 18px 12px;
                 display: flex;
                 align-items: center;
-                justify-content: flex-start;
+                justify-content: center;
                 background: rgba(13, 17, 23, 0.72);
                 backdrop-filter: blur(22px);
                 -webkit-backdrop-filter: blur(22px);
                 border-bottom: 1px solid var(--border-color);
-                text-align: right;
-            }
-
-            header::after {
-                content: 'معدودات';
-                font-size: 1.05rem;
-                font-weight: 900;
-                color: var(--text-color);
-                margin-right: 10px;
-                letter-spacing: 0.2px;
+                text-align: center;
             }
 
             .main-logo {
-                max-width: 34px;
+                max-width: 48px;
+                height: auto;
                 border-radius: 10px;
             }
 
@@ -1217,8 +1209,8 @@
 
             .pulse-post-title::before {
                 content: '';
-                width: 34px;
-                height: 34px;
+                width: 24px;
+                height: 24px;
                 border-radius: 50%;
                 margin-left: 10px;
                 flex-shrink: 0;
@@ -2156,13 +2148,10 @@
 </script>
 
 <footer class="site-footer">
-    <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link" title="منصة X">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-        <span>تابعنا على X</span>
+    <a href="https://x.com/Num1bered" target="_blank" rel="noopener noreferrer" class="x-link" title="تابعنا على منصة إكس">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>معدودات</span>
     </a>
 </footer>
-
 </body>
 </html>
