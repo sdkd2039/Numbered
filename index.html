@@ -1040,7 +1040,7 @@
 
         function showDhikr(cat, btn) {
         document.querySelectorAll('.sub-tabs .sub-tab-btn').forEach(b => {
-            b.classList.toggle('active', b.innerText.trim().includes(cat));
+            b.classList.toggle('active', b.innerText.includes(cat));
         });
         
         currentCategory = cat;
