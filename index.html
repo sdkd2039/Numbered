@@ -252,9 +252,9 @@
         .sub-tab-btn:active { transform: scale(0.95); }
 
         .sub-tab-btn.active { 
-            background: #c5a880; 
-            color: #000; 
-            border-color: #c5a880; 
+            background: #c5a880 !important; 
+            color: #000 !important; 
+            border-color: #c5a880 !important; 
         }
 
         .dhikr-card { 
@@ -1038,12 +1038,24 @@
         }, 1000);
     }
 
-        function showDhikr(cat, btn) {
+    function showDhikr(cat, btn) {
+        currentCategory = cat;
+        
         document.querySelectorAll('.sub-tabs .sub-tab-btn').forEach(b => {
-            b.classList.toggle('active', b.innerText.includes(cat));
+            b.classList.remove('active');
+            
+            if (btn && b === btn) {
+                b.classList.add('active');
+            } else {
+                const cleanBtnText = b.innerText.replace(/[\u064B-\u065F\u0640]/g, '').trim();
+                const cleanCatText = cat.replace(/[\u064B-\u065F\u0640]/g, '').trim();
+                
+                if (cleanBtnText.includes(cleanCatText) || cleanCatText.includes(cleanBtnText)) {
+                    b.classList.add('active');
+                }
+            }
         });
         
-        currentCategory = cat;
         currentDhikrIndex = 0;
         renderDhikrCard(cat);
     }
@@ -1456,7 +1468,9 @@
                         target: r.c[2]?.v || '1', 
                         id: r.c[3]?.v || Math.random().toString() 
                     })) : [];
-                    showDhikr('الصباح');
+                    
+                    const defaultBtn = document.querySelector('.sub-tabs .sub-tab-btn');
+                    showDhikr('الصباح', defaultBtn);
                 }
             } catch(err) {
                 console.error(`خطأ في جلب بيانات شيت ${sheet}:`, err);
@@ -1501,7 +1515,8 @@
         document.getElementById('active-tab-logo').src = logoMap[tabId];
 
         if (tabId === 'dhikr') {
-            showDhikr(currentCategory, null);
+            const activeSubBtn = document.querySelector('.sub-tabs .sub-tab-btn.active') || document.querySelector('.sub-tabs .sub-tab-btn');
+            showDhikr(currentCategory, activeSubBtn);
         } else if (tabId === 'pulse') {
             // إعادة تجديد البيانات عند فتح قسم نبض العدة للتأكد من المزامنة
             fetchPulseData();
