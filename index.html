@@ -1338,7 +1338,7 @@
             const json = await res.json();
             if (json.error) throw new Error(json.error);
 
-            pulseData = Array.isArray(json) ? json.reverse() : [];
+            pulseData = Array.isArray(json) ? json : [];
             
             // حفظ البيانات في LocalStorage لتكون متوفرة في حالة انقطاع الاتصال
             localStorage.setItem('cached_pulse_data', JSON.stringify(pulseData));
@@ -1371,7 +1371,7 @@
             if (container) {
                 container.innerHTML = `
                     <div style="text-align:center; padding: 20px;">
-                        <p style="color: #ef4444; margin-bottom: 15px;">تعذر جلب المنشورات. تأكد من نشر سكربت القوقل شيت بشكل صحيح.</p>
+                        <p style="color: #ef4444; margin-bottom: 15px;">تعذر جلب المنشورات؛ قم تحديث الصفحة مباشرة.</p>
                         <button class="sub-tab-btn" onclick="fetchPulseData(2)" style="background: var(--accent-gold); color: #000;">
                             <i class="fa-solid fa-rotate-right"></i> إعادة المحاولة
                         </button>
