@@ -1922,7 +1922,7 @@
             const json = await res.json();
             if (json.error) throw new Error(json.error);
 
-            pulseData = Array.isArray(json) ? json.reverse() : [];
+            pulseData = Array.isArray(json) ? json : [];
             renderPulse();
             
             setTimeout(() => {
@@ -1931,7 +1931,7 @@
 
         } catch (e) {
             console.error('خطأ في جلب بيانات نبض العدة:', e);
-            document.getElementById('pulse-container').innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات. تأكد من نشر سكربت القوقل شيت بشكل صحيح.</p>`;
+            document.getElementById('pulse-container').innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات؛ قم بخروج التطبيق وإعادة تشغيله من جديد.</p>`;
         }
     }
 
