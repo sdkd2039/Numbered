@@ -1338,7 +1338,7 @@
             const json = await res.json();
             if (json.error) throw new Error(json.error);
 
-            pulseData = Array.isArray(json) ? json : [];
+            pulseData = Array.isArray(json) ? json.reverse() : [];
             
             // حفظ البيانات في LocalStorage لتكون متوفرة في حالة انقطاع الاتصال
             localStorage.setItem('cached_pulse_data', JSON.stringify(pulseData));
