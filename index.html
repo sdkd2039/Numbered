@@ -1390,14 +1390,14 @@
         }
 
         container.innerHTML = pulseData.map((post, index) => {
-            const postId = `post-${index + 1}`;
+            const postId = `post-${pulseData.length - index}`;
 
             return `
                 <div class="pulse-post-card" id="${postId}">
                     <div class="pulse-post-title">${escapeHTML(post.title)}</div>
                     <div class="pulse-post-text">${escapeHTML(post.text)}</div>
                     ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور" onclick="openImageLightbox('${escapeHTML(post.image)}')">` : ''}
-                    <button class="pulse-share-btn" onclick="openPulseShareModal(${index + 1})">
+                    <button class="pulse-share-btn" onclick="openPulseShareModal(${pulseData.length - index})">
                         <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
                     </button>
                 </div>
