@@ -529,6 +529,18 @@
             filter: brightness(1.05);
         }
 
+        .pulse-post-text a {
+        color: #38BDF8;
+        text-decoration: underline;
+        font-weight: bold;
+        word-break: break-all;
+        transition: color 0.2s ease;
+        }
+
+        .pulse-post-text a:hover {
+        color: var(--accent-gold);
+        }
+        
         .pulse-share-btn {
             background: rgba(197, 168, 128, 0.1);
             border: 1px solid rgba(197, 168, 128, 0.3);
@@ -1395,30 +1407,45 @@
         }
     }
 
-    function renderPulse() {
-        const container = document.getElementById('pulse-container');
-        if (!container) return;
-        
-        if (!pulseData || pulseData.length === 0) {
-            container.innerHTML = `<p style="text-align:center; color:gray; padding: 20px;">لا توجد منشورات حالياً في نبض العدة.</p>`;
-            return;
+// دالة تحويل الروابط النصية إلى روابط قابلة للضغط
+function linkifyText(text) {
+    if (!text) return '';
+    const safeText = escapeHTML(text);
+    const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
+    return safeText.replace(urlRegex, function(url) {
+        let fullUrl = url;
+        if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
+            fullUrl = 'http://' + fullUrl;
         }
+        return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${url}</a>`;
+    });
+}
 
-        container.innerHTML = pulseData.map((post, index) => {
-            const postId = `post-${pulseData.length - index}`;
-
-            return `
-                <div class="pulse-post-card" id="${postId}">
-                    <div class="pulse-post-title">${escapeHTML(post.title)}</div>
-                    <div class="pulse-post-text">${escapeHTML(post.text)}</div>
-                    ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور" onclick="openImageLightbox('${escapeHTML(post.image)}')">` : ''}
-                    <button class="pulse-share-btn" onclick="openPulseShareModal(${pulseData.length - index})">
-                        <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
-                    </button>
-                </div>
-            `;
-        }).join('');
+// دالة renderPulse المحدثة
+function renderPulse() {
+    const container = document.getElementById('pulse-container');
+    if (!container) return;
+    
+    if (!pulseData || pulseData.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:gray; padding: 20px;">لا توجد منشورات حالياً في نبض العدة.</p>`;
+        return;
     }
+
+    container.innerHTML = pulseData.map((post, index) => {
+        const postId = `post-${pulseData.length - index}`;
+
+        return `
+            <div class="pulse-post-card" id="${postId}">
+                <div class="pulse-post-title">${escapeHTML(post.title)}</div>
+                <div class="pulse-post-text">${linkifyText(post.text)}</div>
+                ${post.image ? `<img src="${escapeHTML(post.image)}" class="pulse-post-image" alt="صورة المنشور" onclick="openImageLightbox('${escapeHTML(post.image)}')">` : ''}
+                <button class="pulse-share-btn" onclick="openPulseShareModal(${pulseData.length - index})">
+                    <i class="fa-solid fa-share-nodes"></i> مشاركة المنشور
+                </button>
+            </div>
+        `;
+    }).join('');
+}
 
     function escapeHTML(str) {
         if (!str) return '';
