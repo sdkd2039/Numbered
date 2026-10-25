@@ -113,6 +113,7 @@
             color: #000;
             outline: none;
             transform: scale(1.05);
+            border-color: #fff;
         }
 
         /* القائمة الجانبية (Sidebar) للتلفزيون */
@@ -192,6 +193,7 @@
             background: rgba(255, 255, 255, 0.12);
             border-color: var(--accent-gold);
             outline: none;
+            transform: scale(1.02);
         }
 
         .tab-btn.active {
@@ -251,7 +253,7 @@
         }
         .box-title { font-size: 1.5rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* 1. قسم التلاوات بتصميم سينمائي ضخم في اليسار والنصوص في اليمين */
+        /* 1. قسم التلاوات */
         .search-container { position: relative; margin-bottom: 30px; width: 100%; }
         .search-input {
             width: 100%;
@@ -288,11 +290,12 @@
             justify-content: space-between;
             gap: 40px;
             margin-bottom: 25px;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, background 0.2s ease;
         }
         .telawat-post-card:focus-within, .telawat-post-card:hover {
             border-color: var(--accent-gold);
             background: rgba(22, 27, 34, 0.98);
+            outline: none;
         }
         .telawat-content-side {
             display: flex;
@@ -349,6 +352,7 @@
         .countdown-item:hover, .countdown-item:focus-within {
             border-color: var(--accent-gold);
             background: rgba(22, 27, 34, 0.9);
+            outline: none;
         }
         .countdown-info {
             display: flex;
@@ -400,6 +404,7 @@
             border-color: var(--accent-gold);
             color: #fff;
             outline: none;
+            transform: scale(1.05);
         }
         .sub-tab-btn.active {
             background: var(--accent-gold) !important;
@@ -495,6 +500,10 @@
             justify-content: space-between;
             gap: 25px;
         }
+        .pulse-post-card:focus-within {
+            border-color: var(--accent-gold);
+            outline: none;
+        }
         .pulse-content-side {
             display: flex;
             flex-direction: column;
@@ -519,7 +528,7 @@
             background: #000;
         }
 
-        /* 5. قسم البث المباشر (تحكم واقعي: تشغيل/إيقاف وكتم الصوت فقط بدون تقديم وتأخير) */
+        /* 5. قسم البث المباشر (اعتماد أزرار التحكم الأصلية للتلفزيون وإزالة أي أزرار مخصصة للصوت) */
         .live-grid {
             display: flex;
             flex-direction: column;
@@ -579,37 +588,6 @@
             padding-right: 15px;
         }
 
-        .custom-live-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 18px;
-        }
-
-        .ctrl-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid var(--border-color);
-            color: var(--accent-gold);
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.2s ease;
-        }
-        .ctrl-btn:focus, .ctrl-btn:hover {
-            background: var(--accent-gold);
-            color: #000;
-            border-color: #fff;
-            outline: none;
-            transform: scale(1.08);
-        }
-        .ctrl-btn:active { transform: scale(0.92); }
-
         .animate-slowmo { animation: slowMotion 0.3s ease; }
         @keyframes slowMotion { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -622,7 +600,7 @@
     </div>
 
     <!-- زر فتح وإغلاق القائمة الجانبية (الثلاث خطوط) -->
-    <button class="menu-toggle-btn" onclick="toggleSidebar()" title="القائمة الرئيسية">
+    <button class="menu-toggle-btn" tabindex="1" onclick="toggleSidebar()" title="القائمة الرئيسية">
         <i class="fa-solid fa-bars" id="menu-icon"></i>
     </button>
 
@@ -633,23 +611,23 @@
         </div>
 
         <div class="tabs-container">
-            <button class="tab-btn active" onclick="switchTab('telawat', event)">
+            <button class="tab-btn active" tabindex="2" onclick="switchTab('telawat', event)">
                 <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/telawat.png" alt="تلاوات">
                 <span>تـلاوات</span>
             </button>
-            <button class="tab-btn" onclick="switchTab('remaining', event)">
+            <button class="tab-btn" tabindex="3" onclick="switchTab('remaining', event)">
                 <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/residual.png" alt="المتبقي">
                 <span>الـمتبقي</span>
             </button>
-            <button class="tab-btn" onclick="switchTab('dhikr', event)">
+            <button class="tab-btn" tabindex="4" onclick="switchTab('dhikr', event)">
                 <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Dhikr.png" alt="الذكر">
                 <span>الـذكر</span>
             </button>
-            <button class="tab-btn" onclick="switchTab('pulse', event)">
+            <button class="tab-btn" tabindex="5" onclick="switchTab('pulse', event)">
                 <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/throb%20equipment.png" alt="نبض العدة">
                 <span>نبض العدة</span>
             </button>
-            <button class="tab-btn" onclick="switchTab('live', event)">
+            <button class="tab-btn" tabindex="6" onclick="switchTab('live', event)">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="#f8fafc" stroke-width="2"/>
                     <circle cx="12" cy="12" r="3" fill="#ef4444"/>
@@ -659,19 +637,19 @@
             </button>
         </div>
 
-        <div class="sidebar-version">إصدار التلفزيون 1.0.6</div>
+        <div class="sidebar-version">إصدار التلفزيون 1.0.7</div>
     </aside>
 
     <!-- منطقة المحتوى الرئيسي -->
     <main class="main-content-area" id="mainContentArea">
 
-        <!-- 1. قسم التلاوات بتصميم سينمائي واسع -->
+        <!-- 1. قسم التلاوات -->
         <div id="panel-telawat" class="panel-content active">
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
                 <div class="search-container">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو سورة..." oninput="searchTelawat()">
+                    <input type="text" id="searchInput" class="search-input" tabindex="7" placeholder="ابحث عن قارئ أو سورة..." oninput="searchTelawat()">
                 </div>
                 <div id="telawat-list">
                     <p style="text-align:center; color:gray; padding: 25px;">جاري جلب التلاوات...</p>
@@ -684,28 +662,28 @@
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
                 <div class="countdown-container">
-                    <div class="countdown-item" tabindex="0">
+                    <div class="countdown-item" tabindex="7">
                         <div class="countdown-info">
                             <div class="countdown-title">شهر رمضان المبارك</div>
                             <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                         </div>
                         <div class="live-timer-grid" id="timer-ramadan"></div>
                     </div>
-                    <div class="countdown-item" tabindex="0">
+                    <div class="countdown-item" tabindex="8">
                         <div class="countdown-info">
                             <div class="countdown-title">عيد الفطر المبارك</div>
                             <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                         </div>
                         <div class="live-timer-grid" id="timer-fitr"></div>
                     </div>
-                    <div class="countdown-item" tabindex="0">
+                    <div class="countdown-item" tabindex="9">
                         <div class="countdown-info">
                             <div class="countdown-title">عشر ذي الحجة</div>
                             <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
                         </div>
                         <div class="live-timer-grid" id="timer-hajj"></div>
                     </div>
-                    <div class="countdown-item" tabindex="0">
+                    <div class="countdown-item" tabindex="10">
                         <div class="countdown-info">
                             <div class="countdown-title">عيد الأضحى المبارك</div>
                             <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
@@ -721,9 +699,9 @@
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">قسم الذكر</h2></div>
                 <div class="sub-tabs">
-                    <button class="sub-tab-btn active" onclick="showDhikr('الصباح', this)">الصبـاح</button>
-                    <button class="sub-tab-btn" onclick="showDhikr('المساء', this)">المسـاء</button>
-                    <button class="sub-tab-btn" onclick="showDhikr('منوعة', this)">منوعـة</button>
+                    <button class="sub-tab-btn active" tabindex="7" onclick="showDhikr('الصباح', this)">الصبـاح</button>
+                    <button class="sub-tab-btn" tabindex="8" onclick="showDhikr('المساء', this)">المسـاء</button>
+                    <button class="sub-tab-btn" tabindex="9" onclick="showDhikr('منوعة', this)">منوعـة</button>
                 </div>
                 <div id="dhikr-container" class="dhikr-section"></div>
             </div>
@@ -742,13 +720,13 @@
             </div>
         </div>
 
-        <!-- 5. قسم البث المباشر (تحكم واقعي للبث المباشر: تشغيل/إيقاف وكتم الصوت فقط) -->
+        <!-- 5. قسم البث المباشر (أزرار قياسية دون أي تحكم صوت مخصص بالموقع) -->
         <div id="panel-live" class="panel-content">
             <div class="live-grid">
-                <!-- بطاقة الإذاعات المدمجة (في الأعلى) -->
+                <!-- بطاقة الإذاعات المدمجة -->
                 <div class="box-card" style="margin-bottom: 0;">
                     <div class="radio-card-header">
-                        <button class="radio-nav-btn" onclick="prevRadio()" title="الإذاعة السابقة"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button class="radio-nav-btn" tabindex="7" onclick="prevRadio()" title="الإذاعة السابقة"><i class="fa-solid fa-chevron-right"></i></button>
                         
                         <div class="radio-info-area">
                             <img id="radio-logo" src="" style="width: 50px; height: 50px; object-fit: contain;" alt="شعار الإذاعة">
@@ -758,44 +736,36 @@
                             </div>
                         </div>
 
-                        <button class="radio-nav-btn" onclick="nextRadio()" title="الإذاعة التالية"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="radio-nav-btn" tabindex="8" onclick="nextRadio()" title="الإذاعة التالية"><i class="fa-solid fa-chevron-left"></i></button>
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
-                        <button class="ctrl-btn" onclick="toggleActiveRadio()" style="width: 60px; height: 60px; border-radius: 50%; background: var(--accent-gold); color: #000;" title="تشغيل / إيقاف">
+                        <button class="radio-nav-btn" tabindex="9" onclick="toggleActiveRadio()" style="width: 60px; height: 60px; border-radius: 50%; background: var(--accent-gold); color: #000;" title="تشغيل / إيقاف">
                             <i id="radio-play-icon" class="fa-solid fa-play" style="font-size: 1.4rem;"></i>
                         </button>
                     </div>
                     <audio id="active-radio-audio" style="display:none;"></audio>
                 </div>
 
-                <!-- قناة القرآن الكريم (في الأسفل مع تحكم واقعي للبث المباشر) -->
+                <!-- قناة القرآن الكريم (مع أزرار التحكم الافتراضية للمتصفح والتلفزيون) -->
                 <div class="box-card" style="margin-bottom: 0;">
                     <div class="box-header">
                         <i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i>
                         <h2 class="box-title">قناة القرآن الكريم</h2>
                     </div>
                     <div class="live-stream-container">
-                        <video id="quran-video" class="live-video-player" autoplay muted></video>
-                    </div>
-                    <div class="custom-live-controls">
-                        <button class="ctrl-btn" onclick="controlVideo('quran-video', 'playpause')" title="تشغيل / إيقاف"><i class="fa-solid fa-play"></i></button>
-                        <button class="ctrl-btn" onclick="controlVideo('quran-video', 'mute')" title="كتم / إلغاء الكتم"><i class="fa-solid fa-volume-high"></i></button>
+                        <video id="quran-video" class="live-video-player" controls playsinline></video>
                     </div>
                 </div>
 
-                <!-- قناة السنة النبوية (في الأسفل مع تحكم واقعي للبث المباشر) -->
+                <!-- قناة السنة النبوية (مع أزرار التحكم الافتراضية للمتصفح والتلفزيون) -->
                 <div class="box-card" style="margin-bottom: 0;">
                     <div class="box-header">
                         <i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i>
                         <h2 class="box-title">قناة السنة النبوية</h2>
                     </div>
                     <div class="live-stream-container">
-                        <video id="sunnah-video" class="live-video-player" autoplay muted></video>
-                    </div>
-                    <div class="custom-live-controls">
-                        <button class="ctrl-btn" onclick="controlVideo('sunnah-video', 'playpause')" title="تشغيل / إيقاف"><i class="fa-solid fa-play"></i></button>
-                        <button class="ctrl-btn" onclick="controlVideo('sunnah-video', 'mute')" title="كتم / إلغاء الكتم"><i class="fa-solid fa-volume-high"></i></button>
+                        <video id="sunnah-video" class="live-video-player" controls playsinline></video>
                     </div>
                 </div>
             </div>
@@ -870,25 +840,8 @@
                 const hls = new Hls();
                 hls.loadSource(url);
                 hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    video.play().catch(e => console.log("Auto-play prevented:", e));
-                });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
-                video.addEventListener('loadedmetadata', () => {
-                    video.play().catch(e => console.log("Auto-play prevented:", e));
-                });
-            }
-        }
-
-        function controlVideo(videoId, action) {
-            const video = document.getElementById(videoId);
-            if (!video) return;
-            if (action === 'playpause') {
-                if (video.paused) video.play();
-                else video.pause();
-            } else if (action === 'mute') {
-                video.muted = !video.muted;
             }
         }
 
@@ -931,7 +884,7 @@
             const icon = document.getElementById('radio-play-icon');
             if (!audio || !icon) return;
             if (audio.paused) {
-                audio.play();
+                audio.play().catch(e => console.log("Play error:", e));
                 icon.className = 'fa-solid fa-pause';
             } else {
                 audio.pause();
@@ -992,15 +945,15 @@
             let count = parseInt(localStorage.getItem(`c_${d.id}`) || 0);
 
             container.innerHTML = `
-            <div class="dhikr-card animate-slowmo">
+            <div class="dhikr-card animate-slowmo" tabindex="10">
                 <div class="dhikr-nav-container">
-                    <button class="dhikr-arrow-btn" onclick="prevDhikr()" title="الذكر السابق"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="dhikr-arrow-btn" tabindex="11" onclick="prevDhikr()" title="الذكر السابق"><i class="fa-solid fa-chevron-right"></i></button>
                     <div style="color:var(--text-muted); font-weight:bold;">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
-                    <button class="dhikr-arrow-btn" onclick="nextDhikr()" title="الذكر التالي"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="dhikr-arrow-btn" tabindex="12" onclick="nextDhikr()" title="الذكر التالي"><i class="fa-solid fa-chevron-left"></i></button>
                 </div>
                 <h3 class="dhikr-text">${d.text}</h3>
                 <div style="font-size: 1.8rem; font-weight: bold; color: var(--accent-gold); margin-bottom:25px;">${count} / ${d.target}</div>
-                <button class="counter-btn" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
+                <button class="counter-btn" tabindex="13" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
             </div>`;
         }
 
@@ -1025,14 +978,14 @@
                 list.innerHTML = `<p style="text-align:center; color:gray; padding:20px;">لا توجد تلاوات متاحة.</p>`;
                 return;
             }
-            list.innerHTML = items.map(item => `
-                <div class="telawat-post-card" tabindex="0">
+            list.innerHTML = items.map((item, index) => `
+                <div class="telawat-post-card" tabindex="${10 + index}">
                     <div class="telawat-content-side">
                         <h3 class="search-title" style="font-size: 1.5rem; font-weight: 900; color: #fff;">${item.title}</h3>
                         <div class="search-reader" style="color: var(--accent-gold); font-weight: bold; font-size: 1.2rem;">${item.reader}</div>
                     </div>
                     <div class="telawat-media-wrapper">
-                        <video controls preload="metadata" controlsList="nodownload">
+                        <video controls preload="metadata" controlsList="nodownload" playsinline>
                             <source src="${item.downloadUrl}" type="video/mp4">
                         </video>
                     </div>
@@ -1061,8 +1014,8 @@
                     return;
                 }
 
-                container.innerHTML = pulseData.map(post => `
-                    <div class="pulse-post-card" tabindex="0">
+                container.innerHTML = pulseData.map((post, index) => `
+                    <div class="pulse-post-card" tabindex="${10 + index}">
                         <div class="pulse-content-side">
                             <div class="pulse-post-title">${escapeHTML(post.title)}</div>
                             <div class="pulse-post-text">${escapeHTML(post.text)}</div>
