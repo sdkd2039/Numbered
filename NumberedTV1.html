@@ -8,12 +8,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d1117">
 
-    <!-- إعدادات دعم تطبيق PWA على نظام iOS (أبل) -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="معدودات للتلفزيون">
-
-    <title>معدودات - تلفزيون</title>
+    <title>معدودات (نسخة تلفزيون)</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -252,7 +247,7 @@
         }
         .box-title { font-size: 1.4rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* قسم التلاوات */
+        /* قسم التلاوات (النص يمين والصورة/الفيديو يسار) */
         .search-container { position: relative; margin-bottom: 25px; width: 100%; }
         .search-input {
             width: 100%;
@@ -273,6 +268,44 @@
             transform: translateY(-50%);
             color: var(--text-muted);
             font-size: 1.2rem;
+        }
+
+        .telawat-post-card {
+            background: rgba(13, 17, 23, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+        .telawat-content-side {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+            text-align: right;
+        }
+        .telawat-media-side {
+            flex-shrink: 0;
+            max-width: 320px;
+            width: 100%;
+        }
+        .telawat-media-side video {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #000;
+            border: 1px solid var(--border-color);
+        }
+        @media(max-width: 768px) {
+            .telawat-post-card { flex-direction: column-reverse; align-items: center; }
+            .telawat-media-side { max-width: 100%; text-align: center; }
         }
 
         /* قسم المتبقي */
@@ -322,7 +355,7 @@
         .time-num { font-size: 1.35rem; font-weight: 900; color: var(--accent-gold); }
         .time-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
 
-        /* قسم الذكر */
+        /* قسم الذكر (مع أزرار تنقل يمين ويسار واضحة) */
         .sub-tabs {
             display: flex;
             gap: 12px;
@@ -355,13 +388,39 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            position: relative;
         }
+        .dhikr-nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .dhikr-arrow-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
+            color: var(--accent-gold);
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+        .dhikr-arrow-btn:hover { background: rgba(197, 168, 128, 0.2); }
+        .dhikr-arrow-btn:active { transform: scale(0.92); }
+
         .dhikr-text {
             font-size: 1.6rem;
             color: #fff;
             line-height: 2.3;
             font-weight: 500;
             margin-bottom: 25px;
+            width: 100%;
         }
         .counter-btn {
             background: linear-gradient(135deg, #c5a880, #a3855e);
@@ -452,7 +511,6 @@
             border: none;
         }
 
-        /* تنسيق بطاقة الإذاعات المدمجة (الشعار والاسم يمين وتحتها مباشر) */
         .radio-card-header {
             display: flex;
             align-items: center;
@@ -472,12 +530,8 @@
             font-size: 1.1rem;
             transition: background 0.2s ease, transform 0.1s ease;
         }
-        .radio-nav-btn:hover {
-            background: rgba(197, 168, 128, 0.2);
-        }
-        .radio-nav-btn:active {
-            transform: scale(0.92);
-        }
+        .radio-nav-btn:hover { background: rgba(197, 168, 128, 0.2); }
+        .radio-nav-btn:active { transform: scale(0.92); }
         .radio-info-area {
             display: flex;
             align-items: center;
@@ -542,7 +596,7 @@
     <!-- منطقة المحتوى الرئيسي -->
     <main class="main-content-area" id="mainContentArea">
 
-        <!-- 1. قسم التلاوات -->
+        <!-- 1. قسم التلاوات (بتصميم العرض التلقائي: النص يمين والفيديو يسار) -->
         <div id="panel-telawat" class="panel-content active">
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
@@ -593,7 +647,7 @@
             </div>
         </div>
                     
-        <!-- 3. قسم الذكر -->
+        <!-- 3. قسم الذكر (مع أزرار أسهم واضحة للتنقل يميناً ويساراً) -->
         <div id="panel-dhikr" class="panel-content">
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">قسم الذكر</h2></div>
@@ -619,7 +673,7 @@
             </div>
         </div>
 
-        <!-- 5. قسم البث المباشر (الإذاعات في الأعلى، وقناة القرآن والسنة في الأسفل) -->
+        <!-- 5. قسم البث المباشر -->
         <div id="panel-live" class="panel-content">
             <div class="live-grid">
                 <!-- بطاقة الإذاعات المدمجة (في الأعلى) -->
@@ -821,6 +875,20 @@
             renderDhikrCard(cat);
         }
 
+        function nextDhikr() {
+            const list = dhikrData.filter(d => d.cat === currentCategory);
+            if (!list || list.length === 0) return;
+            currentDhikrIndex = (currentDhikrIndex + 1) % list.length;
+            renderDhikrCard(currentCategory);
+        }
+
+        function prevDhikr() {
+            const list = dhikrData.filter(d => d.cat === currentCategory);
+            if (!list || list.length === 0) return;
+            currentDhikrIndex = (currentDhikrIndex - 1 + list.length) % list.length;
+            renderDhikrCard(currentCategory);
+        }
+
         function renderDhikrCard(cat) {
             const container = document.getElementById('dhikr-container');
             const list = dhikrData.filter(d => d.cat === cat);
@@ -837,7 +905,11 @@
 
             container.innerHTML = `
             <div class="dhikr-card animate-slowmo">
-                <div style="text-align:center; margin-bottom:10px; color:var(--text-muted)">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
+                <div class="dhikr-nav-container">
+                    <button class="dhikr-arrow-btn" onclick="prevDhikr()" title="الذكر السابق"><i class="fa-solid fa-chevron-right"></i></button>
+                    <div style="color:var(--text-muted); font-weight:bold;">ذكر ${currentDhikrIndex + 1} من ${list.length}</div>
+                    <button class="dhikr-arrow-btn" onclick="nextDhikr()" title="الذكر التالي"><i class="fa-solid fa-chevron-left"></i></button>
+                </div>
                 <h3 class="dhikr-text">${d.text}</h3>
                 <div style="font-size: 1.6rem; font-weight: bold; color: var(--accent-gold); margin-bottom:20px;">${count} / ${d.target}</div>
                 <button class="counter-btn" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
@@ -862,18 +934,22 @@
                 return;
             }
             list.innerHTML = items.map(item => `
-                <div class="box-card" style="margin-bottom: 20px; padding: 20px; border: 1px solid var(--border-color); border-radius: 16px; background: rgba(13, 17, 23, 0.5);">
-                    <h3 class="search-title" style="font-size: 1.25rem; font-weight: 900; color: #fff; margin-bottom: 5px;">${item.title}</h3>
-                    <div class="search-reader" style="color: var(--accent-gold); margin-bottom: 15px; font-weight: bold;">${item.reader}</div>
-                    <video controls style="width: 100%; max-height: 300px; border-radius: 10px; background: #000;">
-                        <source src="${item.downloadUrl}" type="video/mp4">
-                    </video>
+                <div class="telawat-post-card">
+                    <div class="telawat-content-side">
+                        <h3 class="search-title" style="font-size: 1.25rem; font-weight: 900; color: #fff;">${item.title}</h3>
+                        <div class="search-reader" style="color: var(--accent-gold); font-weight: bold;">${item.reader}</div>
+                    </div>
+                    <div class="telawat-media-side">
+                        <video controls controlsList="nodownload">
+                            <source src="${item.downloadUrl}" type="video/mp4">
+                        </video>
+                    </div>
                 </div>`).join('');
         }
 
         function searchTelawat() {
             const filter = document.getElementById('searchInput').value.toUpperCase();
-            const cards = document.getElementById('telawat-list').getElementsByClassName('box-card');
+            const cards = document.getElementById('telawat-list').getElementsByClassName('telawat-post-card');
             for (let i = 0; i < cards.length; i++) {
                 let title = cards[i].querySelector('.search-title').innerText;
                 let reader = cards[i].querySelector('.search-reader').innerText;
