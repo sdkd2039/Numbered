@@ -244,7 +244,7 @@
         }
         .box-title { font-size: 1.5rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* قسم التلاوات: الاسم في الأعلى، والفيديو بكامل العرض والتحكم أسفله */
+        /* قسم التلاوات */
         .search-container { position: relative; margin-bottom: 30px; width: 100%; }
         .search-input {
             width: 100%;
@@ -976,7 +976,6 @@
             });
         }
 
-        // قسم التلاوات مرتب (اسم السورة والشيخ في الأعلى) مع مشغل مخصص وزر تكبير وتصغير (Full Screen)
         function renderTelawat(items) {
             const list = document.getElementById('telawat-list');
             if (!list) return;
@@ -1006,7 +1005,6 @@
                                 <button class="ctrl-btn" onclick="skipTelawat(${index}, -10)" title="تأخير 10 ثواني" tabindex="0"><i class="fa-solid fa-rotate-right"></i></button>
                                 <button class="ctrl-btn" onclick="toggleTelawatPlay(${index})" id="tel-play-btn-${index}" title="تشغيل / إيقاف مؤقت" tabindex="0"><i class="fa-solid fa-play"></i></button>
                                 <button class="ctrl-btn" onclick="skipTelawat(${index}, 10)" title="تقديم 10 ثواني" tabindex="0"><i class="fa-solid fa-rotate-left"></i></button>
-                                <button class="ctrl-btn" onclick="toggleFullscreen(${index})" title="تكبير / تصغير الشاشة" tabindex="0"><i class="fa-solid fa-expand"></i></button>
                             </div>
                         </div>
                     </div>
@@ -1059,18 +1057,6 @@
             const clickX = event.clientX - rect.left;
             const width = bar.clientWidth;
             media.currentTime = (clickX / width) * media.duration;
-        }
-
-        function toggleFullscreen(index) {
-            const media = document.getElementById(`tel-media-${index}`);
-            if (!media) return;
-            if (media.requestFullscreen) {
-                media.requestFullscreen();
-            } else if (media.webkitRequestFullscreen) {
-                media.webkitRequestFullscreen();
-            } else if (media.msRequestFullscreen) {
-                media.msRequestFullscreen();
-            }
         }
 
         function updateTelawatUI(index) {
@@ -1171,7 +1157,7 @@
         function incDhikr(id, cat) {
             let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
             let dhikr = dhikrData.find(d => d.id === id);
-            let targetNum = parseInt(dhikr?.target) || 1;
+            let targetNum = parseInt(dhikr?.`target`) || 1;
             if (dhikr && count < targetNum) {
                 count += 1;
                 localStorage.setItem(`c_${id}`, count);
@@ -1207,7 +1193,7 @@
                     </div>
                 `).join('');
             } catch (e) {
-                container.innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات حالياً.</p>`;
+                container.innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;"> تعذر جلب المنشورات حالياً.</p>`;
             }
         }
 
