@@ -64,6 +64,29 @@
             overflow-x: hidden;
         }
 
+        /* شاشة الترحيب (Splash Screen) */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            overflow: hidden;
+        }
+
+        .splash-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         /* زر الثلاث خطوط (القائمة الجانبية) */
         .menu-toggle-btn {
             position: fixed;
@@ -470,6 +493,11 @@
 </head>
 <body oncontextmenu="return false;">
 
+    <!-- شاشة الترحيب المتحركة (Splash Screen) -->
+    <div id="splashScreen">
+        <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(3).gif" alt="شعار معدودات المتحرك" class="splash-logo" ondragstart="return false;">
+    </div>
+
     <!-- زر فتح وإغلاق القائمة الجانبية (الثلاث خطوط) -->
     <button class="menu-toggle-btn" onclick="toggleSidebar()" title="القائمة الرئيسية">
         <i class="fa-solid fa-bars" id="menu-icon"></i>
@@ -645,6 +673,16 @@
     </main>
 
     <script>
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('splashScreen');
+            if (splash) {
+                setTimeout(() => {
+                    splash.style.opacity = '0';
+                    setTimeout(() => splash.remove(), 400);
+                }, 2000);
+            }
+        });
+
         const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwB3ugQ0exxhlLn2O9Sh8iedqX99bzh4s4vzW7TnuP4MtI9qkftr7uKj7VkJ8WnuSw/exec';
 
@@ -654,7 +692,6 @@
         let currentCategory = 'الصباح';
         let currentDhikrIndex = 0;
 
-        // بيانات الإذاعات المدمجة المفرغة (بدون خلفية سوداء)
         const radiosList = [
             {
                 name: 'إذاعة القرآن الكريم',
@@ -670,7 +707,6 @@
         let currentRadioIndex = 0;
         let radioHlsInstance = null;
 
-        // دالة التحكم بفتح وإغلاق القائمة الجانبية (الثلاث خطوط)
         function toggleSidebar() {
             const sidebar = document.getElementById('tvSidebar');
             const mainContent = document.getElementById('mainContentArea');
@@ -686,7 +722,6 @@
             }
         }
 
-        // تشغيل البث المباشر لقناة القرآن والسنة عبر HLS
         function initLiveStreams() {
             const quranUrl = 'https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8';
             const sunnahUrl = 'https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8';
@@ -715,7 +750,6 @@
             }
         }
 
-        // إعداد وتحديث الإذاعة النشطة (القرآن أو نداء الإسلام)
         function loadActiveRadio() {
             const radio = radiosList[currentRadioIndex];
             document.getElementById('radio-logo').src = radio.logo;
