@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="تحميل تطبيق معدودات">
 
-    <title>تحميل تطبيق معدودات</title>
+    <title>تحميل تطبيق معدودات - تلفزيون</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,21 +62,21 @@
             -webkit-backdrop-filter: blur(25px);
             border: 2px solid var(--border-color);
             border-radius: 28px;
-            padding: 50px 40px;
+            padding: 45px 35px;
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             text-align: center;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
+            gap: 22px;
         }
 
         .app-logo {
             width: 110px;
             height: auto;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
         }
 
@@ -86,39 +86,52 @@
             color: var(--accent-gold);
         }
 
+        .tv-badge {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #ef4444;
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .download-desc {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-muted);
             line-height: 1.8;
         }
 
         .countdown-circle {
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
             background: rgba(255, 255, 255, 0.06);
             border: 3px solid var(--accent-gold);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 900;
             color: #fff;
-            box-shadow: 0 0 25px rgba(197, 168, 128, 0.3);
-            margin: 10px 0;
+            box-shadow: 0 0 20px rgba(197, 168, 128, 0.3);
+            margin: 5px 0;
             animation: pulseGlow 1s infinite alternate;
         }
 
         @keyframes pulseGlow {
             from { transform: scale(1); box-shadow: 0 0 15px rgba(197, 168, 128, 0.2); }
-            to { transform: scale(1.05); box-shadow: 0 0 30px rgba(197, 168, 128, 0.5); }
+            to { transform: scale(1.05); box-shadow: 0 0 25px rgba(197, 168, 128, 0.5); }
         }
 
         .download-btn {
             background: var(--btn-blue);
             border: 2px solid transparent;
             color: white;
-            padding: 16px 35px;
+            padding: 16px 30px;
             border-radius: 18px;
             font-size: 1.2rem;
             font-weight: bold;
@@ -141,9 +154,9 @@
         }
 
         .status-text {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-top: 5px;
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -152,7 +165,12 @@
     <div class="download-card">
         <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/numbered.png" alt="شعار معدودات" class="app-logo">
         
-        <h1 class="download-title">تحميل تطبيق معدودات</h1>
+        <h1 class="download-title">تطبيق معدودات للتلفزيون</h1>
+
+        <div class="tv-badge">
+            <i class="fa-solid fa-tv"></i>
+            <span>التطبيق مخصص فقط للتلفزيون</span>
+        </div>
         
         <p class="download-desc" id="statusDesc">سيتم بدء التحميل التلقائي للتطبيق خلال اللحظات القادمة...</p>
 
@@ -163,7 +181,7 @@
             <span>تحميل مباشر الآن</span>
         </a>
 
-        <div class="status-text">إصدار التلفزيون والأجهزة الذكية v1.0.6</div>
+        <div class="status-text">إذا لم يبدأ التحميل تلقائياً، اضغط على زر التحميل المباشر أعلاه</div>
     </div>
 
     <script>
@@ -179,7 +197,7 @@
             } else {
                 clearInterval(countdownInterval);
                 counterEl.innerText = "✓";
-                statusDesc.innerText = "جاري بدء تنزيل الملف الآن...";
+                statusDesc.innerText = "جاري بدء تنزيل الملف على جهازك...";
                 
                 // بدء التحميل التلقائي
                 const iframe = document.createElement('iframe');
