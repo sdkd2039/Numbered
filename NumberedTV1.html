@@ -8,7 +8,12 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d1117">
 
-    <title>معدودات التلفزيون</title>
+    <!-- إعدادات دعم تطبيق PWA على نظام iOS (أبل) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="معدودات للتلفزيون">
+
+    <title>معدودات - تلفزيون</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -246,7 +251,7 @@
         }
         .box-title { font-size: 1.5rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* 1. قسم التلاوات المحسن للتلفزيون */
+        /* 1. قسم التلاوات مع أزرار تحكم تحت الفيديو وتوافق يمين ويسار بالريموت */
         .search-container { position: relative; margin-bottom: 30px; width: 100%; }
         .search-input {
             width: 100%;
@@ -296,15 +301,16 @@
             flex-grow: 1;
             text-align: right;
         }
-        .telawat-media-side {
-            flex-shrink: 0;
+        .telawat-media-wrapper {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
         }
         .telawat-media-side video {
             max-width: 100%;
-            max-height: 240px;
+            max-height: 220px;
             width: auto;
             height: auto;
             object-fit: contain;
@@ -313,13 +319,44 @@
             border: 1px solid var(--border-color);
             display: block;
         }
+        /* أزرار التحكم تحت الفيديو في التلاوات والبث */
+        .custom-video-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+        .ctrl-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--border-color);
+            color: var(--accent-gold);
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+        .ctrl-btn:focus, .ctrl-btn:hover {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: #fff;
+            outline: none;
+            transform: scale(1.08);
+        }
+        .ctrl-btn:active { transform: scale(0.92); }
+
         @media(max-width: 768px) {
             .telawat-post-card { flex-direction: column-reverse; align-items: center; text-align: center; }
             .telawat-content-side { text-align: center; }
-            .telawat-media-side { width: 100%; }
+            .telawat-media-wrapper { width: 100%; }
         }
 
-        /* 2. قسم المتبقي (تصميم احترافي بارز للشاشات الكبيرة) */
+        /* 2. قسم المتبقي */
         .countdown-container {
             display: flex;
             flex-direction: column;
@@ -371,7 +408,7 @@
         .time-num { font-size: 1.5rem; font-weight: 900; color: var(--accent-gold); }
         .time-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
 
-        /* 3. قسم الذكر (استجابة فورية وأزرار بارزة بالريموت) */
+        /* 3. قسم الذكر */
         .sub-tabs {
             display: flex;
             gap: 14px;
@@ -723,33 +760,48 @@
                         <button class="radio-nav-btn" onclick="nextRadio()" title="الإذاعة التالية"><i class="fa-solid fa-chevron-left"></i></button>
                     </div>
 
-                    <div style="text-align: center; margin-top: 20px;">
-                        <button class="radio-nav-btn" onclick="toggleActiveRadio()" style="width: 60px; height: 60px; border-radius: 50%; background: var(--accent-gold); color: #000; margin: 0 auto;">
-                            <i id="radio-play-icon" class="fa-solid fa-play" style="font-size: 1.4rem;"></i>
+                    <!-- أزرار التحكم تحت إذاعة الراديو -->
+                    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+                        <button class="ctrl-btn" onclick="skipAudio(-10)" title="تخرج للخلف 10 ثواني"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button class="ctrl-btn" onclick="toggleActiveRadio()" style="width: 55px; height: 55px; border-radius: 50%; background: var(--accent-gold); color: #000;" title="تشغيل / إيقاف">
+                            <i id="radio-play-icon" class="fa-solid fa-play" style="font-size: 1.3rem;"></i>
                         </button>
+                        <button class="ctrl-btn" onclick="skipAudio(10)" title="تقديم للأمام 10 ثواني"><i class="fa-solid fa-rotate-left"></i></button>
                     </div>
                     <audio id="active-radio-audio" style="display:none;"></audio>
                 </div>
 
-                <!-- قناة القرآن الكريم (في الأسفل) -->
+                <!-- قناة القرآن الكريم (في الأسفل مع أزرار تحكم تحتها) -->
                 <div class="box-card" style="margin-bottom: 0;">
                     <div class="box-header">
                         <i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i>
                         <h2 class="box-title">قناة القرآن الكريم</h2>
                     </div>
                     <div class="live-stream-container">
-                        <video id="quran-video" class="live-video-player" controls autoplay muted></video>
+                        <video id="quran-video" class="live-video-player" autoplay muted></video>
+                    </div>
+                    <div class="custom-video-controls" style="margin-top: 15px;">
+                        <button class="ctrl-btn" onclick="controlVideo('quran-video', 'rewind')" title="رجوع 10 ثواني"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button class="ctrl-btn" onclick="controlVideo('quran-video', 'playpause')" title="تشغيل / إيقاف"><i class="fa-solid fa-play"></i></button>
+                        <button class="ctrl-btn" onclick="controlVideo('quran-video', 'forward')" title="تقديم 10 ثواني"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button class="ctrl-btn" onclick="controlVideo('quran-video', 'mute')" title="كتم / إلغاء الكتم"><i class="fa-solid fa-volume-high"></i></button>
                     </div>
                 </div>
 
-                <!-- قناة السنة النبوية (في الأسفل) -->
+                <!-- قناة السنة النبوية (في الأسفل مع أزرار تحكم تحتها) -->
                 <div class="box-card" style="margin-bottom: 0;">
                     <div class="box-header">
                         <i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i>
                         <h2 class="box-title">قناة السنة النبوية</h2>
                     </div>
                     <div class="live-stream-container">
-                        <video id="sunnah-video" class="live-video-player" controls autoplay muted></video>
+                        <video id="sunnah-video" class="live-video-player" autoplay muted></video>
+                    </div>
+                    <div class="custom-video-controls" style="margin-top: 15px;">
+                        <button class="ctrl-btn" onclick="controlVideo('sunnah-video', 'rewind')" title="رجوع 10 ثواني"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button class="ctrl-btn" onclick="controlVideo('sunnah-video', 'playpause')" title="تشغيل / إيقاف"><i class="fa-solid fa-play"></i></button>
+                        <button class="ctrl-btn" onclick="controlVideo('sunnah-video', 'forward')" title="تقديم 10 ثواني"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button class="ctrl-btn" onclick="controlVideo('sunnah-video', 'mute')" title="كتم / إلغاء الكتم"><i class="fa-solid fa-volume-high"></i></button>
                     </div>
                 </div>
             </div>
@@ -835,6 +887,21 @@
             }
         }
 
+        function controlVideo(videoId, action) {
+            const video = document.getElementById(videoId);
+            if (!video) return;
+            if (action === 'playpause') {
+                if (video.paused) video.play();
+                else video.pause();
+            } else if (action === 'rewind') {
+                video.currentTime = Math.max(0, video.currentTime - 10);
+            } else if (action === 'forward') {
+                video.currentTime += 10;
+            } else if (action === 'mute') {
+                video.muted = !video.muted;
+            }
+        }
+
         function loadActiveRadio() {
             const radio = radiosList[currentRadioIndex];
             document.getElementById('radio-logo').src = radio.logo;
@@ -879,6 +946,34 @@
             } else {
                 audio.pause();
                 icon.className = 'fa-solid fa-play';
+            }
+        }
+
+        function skipAudio(seconds) {
+            const audio = document.getElementById('active-radio-audio');
+            if (audio) {
+                audio.currentTime = Math.max(0, audio.currentTime + seconds);
+            }
+        }
+
+        function controlTelawatVideo(btn, action) {
+            const wrapper = btn.closest('.telawat-media-wrapper');
+            const video = wrapper.querySelector('video');
+            if (!video) return;
+
+            if (action === 'playpause') {
+                const icon = btn.querySelector('i');
+                if (video.paused) {
+                    video.play();
+                    icon.className = 'fa-solid fa-pause';
+                } else {
+                    video.pause();
+                    icon.className = 'fa-solid fa-play';
+                }
+            } else if (action === 'rewind') {
+                video.currentTime = Math.max(0, video.currentTime - 10);
+            } else if (action === 'forward') {
+                video.currentTime += 10;
             }
         }
 
@@ -955,7 +1050,6 @@
                 count += 1;
                 localStorage.setItem(`c_${id}`, count);
             }
-            // تحديث فوري للعرض دون إعادة تحميل الصفحة بالكامل
             const countDisplay = document.querySelector('.dhikr-card div[style*="font-size: 1.8rem"]');
             if (countDisplay && dhikr) {
                 countDisplay.innerText = `${count} / ${dhikr.target}`;
@@ -975,10 +1069,15 @@
                         <h3 class="search-title" style="font-size: 1.3rem; font-weight: 900; color: #fff;">${item.title}</h3>
                         <div class="search-reader" style="color: var(--accent-gold); font-weight: bold; font-size: 1.05rem;">${item.reader}</div>
                     </div>
-                    <div class="telawat-media-side">
-                        <video controls preload="metadata" controlsList="nodownload">
+                    <div class="telawat-media-wrapper">
+                        <video preload="metadata" controlsList="nodownload">
                             <source src="${item.downloadUrl}" type="video/mp4">
                         </video>
+                        <div class="custom-video-controls">
+                            <button class="ctrl-btn" onclick="controlTelawatVideo(this, 'rewind')" title="رجوع 10 ثواني"><i class="fa-solid fa-rotate-right"></i></button>
+                            <button class="ctrl-btn" onclick="controlTelawatVideo(this, 'playpause')" title="تشغيل / إيقاف"><i class="fa-solid fa-play"></i></button>
+                            <button class="ctrl-btn" onclick="controlTelawatVideo(this, 'forward')" title="تقديم 10 ثواني"><i class="fa-solid fa-rotate-left"></i></button>
+                        </div>
                     </div>
                 </div>`).join('');
         }
