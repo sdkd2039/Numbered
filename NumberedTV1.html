@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="معدودات للتلفزيون">
 
-    <title>معدودات التلفزيون</title>
+    <title>معدودات - تلفزيون</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -244,7 +244,7 @@
         }
         .box-title { font-size: 1.5rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* قسم التلاوات مع مشغل مخصص بالكامل */
+        /* قسم التلاوات المرئي مع مشغل مخصص بالكامل وأزرار دقيقة */
         .search-container { position: relative; margin-bottom: 30px; width: 100%; }
         .search-input {
             width: 100%;
@@ -300,20 +300,26 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            width: 380px;
+            width: 420px;
         }
-        .telawat-media-wrapper video, .telawat-media-wrapper audio {
-            display: none; /* إخفاء المشغل الافتراضي نهائياً واستخدام الواجهة المخصصة */
+        .telawat-media-wrapper video {
+            width: 100%;
+            max-height: 240px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #000;
+            border: 2px solid var(--border-color);
+            display: block;
         }
         .custom-player-box {
             width: 100%;
             background: rgba(10, 14, 19, 0.95);
             border: 2px solid var(--border-color);
             border-radius: 18px;
-            padding: 20px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
         .custom-player-info {
             display: flex;
@@ -343,7 +349,6 @@
             gap: 15px;
         }
 
-        /* أزرار التحكم والريموت العامة */
         .ctrl-btn {
             background: rgba(255, 255, 255, 0.08);
             border: 2px solid var(--border-color);
@@ -566,7 +571,7 @@
             background: #000;
         }
 
-        /* قسم البث المباشر (بدون أي أزرار صوت أو كتم) */
+        /* قسم البث المباشر (منظم وبسيط بالترتيب الصحيح) */
         .live-grid {
             display: flex;
             flex-direction: column;
@@ -626,18 +631,6 @@
             padding-right: 15px;
         }
 
-        .stream-status-badge {
-            font-size: 0.85rem;
-            font-weight: bold;
-            padding: 4px 12px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-muted);
-            display: inline-block;
-        }
-        .stream-status-badge.live { background: rgba(239, 68, 68, 0.2); color: var(--live-red); border: 1px solid var(--live-red); }
-        .stream-status-badge.loading { background: rgba(197, 168, 128, 0.2); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
-
         .animate-slowmo { animation: slowMotion 0.3s ease; }
         @keyframes slowMotion { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -684,12 +677,12 @@
             </button>
         </div>
 
-        <div class="sidebar-version">إصدار التلفزيون 1.0.7</div>
+        <div class="sidebar-version">إصدار التلفزيون 1.0.8</div>
     </aside>
 
     <main class="main-content-area" id="mainContentArea">
 
-        <!-- 1. قسم التلاوات -->
+        <!-- 1. قسم التلاوات المرئي -->
         <div id="panel-telawat" class="panel-content active">
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
@@ -778,7 +771,7 @@
                             <img id="radio-logo" src="" style="width: 50px; height: 50px; object-fit: contain;" alt="شعار الإذاعة">
                             <div style="text-align: right;">
                                 <div id="radio-title" style="font-weight: 800; color: #fff; font-size: 1.15rem;">إذاعة القرآن الكريم</div>
-                                <div id="radio-status-text" class="stream-status-badge live" style="margin-top: 4px;">🔴 جاهز للتشغيل</div>
+                                <div style="color: var(--live-red); font-weight: bold; font-size: 0.85rem; margin-top: 2px;">🔴 مباشر</div>
                             </div>
                         </div>
 
@@ -795,18 +788,15 @@
 
                 <!-- قناة القرآن الكريم -->
                 <div class="box-card" style="margin-bottom: 0;">
-                    <div class="box-header" style="justify-content: space-between;">
-                        <div style="display: flex; align-items: center; gap: 14px;">
-                            <i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i>
-                            <h2 class="box-title">قناة القرآن الكريم</h2>
-                        </div>
-                        <span id="quran-status" class="stream-status-badge live">🔴 مباشر</span>
+                    <div class="box-header">
+                        <i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i>
+                        <h2 class="box-title">قناة القرآن الكريم</h2>
                     </div>
                     <div class="live-stream-container">
                         <video id="quran-video" class="live-video-player" playsinline></video>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
-                        <button class="ctrl-btn" onclick="toggleLiveStream('quran-video', 'quran-btn', 'quran-status')" id="quran-btn" tabindex="0" title="تشغيل / إيقاف البث">
+                        <button class="ctrl-btn" onclick="toggleLiveStream('quran-video', 'quran-btn')" id="quran-btn" tabindex="0" title="تشغيل / إيقاف البث">
                             <i class="fa-solid fa-play"></i>
                         </button>
                     </div>
@@ -814,18 +804,15 @@
 
                 <!-- قناة السنة النبوية -->
                 <div class="box-card" style="margin-bottom: 0;">
-                    <div class="box-header" style="justify-content: space-between;">
-                        <div style="display: flex; align-items: center; gap: 14px;">
-                            <i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i>
-                            <h2 class="box-title">قناة السنة النبوية</h2>
-                        </div>
-                        <span id="sunnah-status" class="stream-status-badge live">🔴 مباشر</span>
+                    <div class="box-header">
+                        <i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i>
+                        <h2 class="box-title">قناة السنة النبوية</h2>
                     </div>
                     <div class="live-stream-container">
                         <video id="sunnah-video" class="live-video-player" playsinline></video>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
-                        <button class="ctrl-btn" onclick="toggleLiveStream('sunnah-video', 'sunnah-btn', 'sunnah-status')" id="sunnah-btn" tabindex="0" title="تشغيل / إيقاف البث">
+                        <button class="ctrl-btn" onclick="toggleLiveStream('sunnah-video', 'sunnah-btn')" id="sunnah-btn" tabindex="0" title="تشغيل / إيقاف البث">
                             <i class="fa-solid fa-play"></i>
                         </button>
                     </div>
@@ -854,7 +841,6 @@
         let pulseData = [];
         let currentCategory = 'الصباح';
         let currentDhikrIndex = 0;
-        let activeAudioElement = null;
 
         const radiosList = [
             {
@@ -864,7 +850,7 @@
             },
             {
                 name: 'إذاعة نداء الإسلام',
-                logo: 'https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/fullhd_7c2508c1f1532dcd20f6e4145c7b6707fef9ad84.png',
+                logo: 'https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/fullhd_7c2508c1f1532dcd20f6e4145c7b6707fef9ad84.png',
                 url: 'https://live.kwikmotion.com/sbrksanedaradiolive/srpksanedaradio/playlist.m3u8'
             }
         ];
@@ -886,18 +872,16 @@
             }
         }
 
-        // إدارة البث المباشر (قنوات وفيديوهات)
         const hlsInstances = {};
 
         function initLiveStreams() {
-            setupLiveStreamPlayer('quran-video', 'https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8', 'quran-status');
-            setupLiveStreamPlayer('sunnah-video', 'https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8', 'sunnah-status');
+            setupLiveStreamPlayer('quran-video', 'https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8');
+            setupLiveStreamPlayer('sunnah-video', 'https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8');
             loadActiveRadio();
         }
 
-        function setupLiveStreamPlayer(videoId, url, statusId) {
+        function setupLiveStreamPlayer(videoId, url) {
             const video = document.getElementById(videoId);
-            const statusEl = document.getElementById(statusId);
             if (!video) return;
 
             if (Hls.isSupported()) {
@@ -905,47 +889,27 @@
                 hlsInstances[videoId] = hls;
                 hls.loadSource(url);
                 hls.attachMedia(video);
-                
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    statusEl.innerText = '🔴 متصل (جاهز)';
-                    statusEl.className = 'stream-status-badge live';
-                });
-
-                hls.on(Hls.Events.ERROR, (event, data) => {
-                    if (data.fatal) {
-                        statusEl.innerText = '⚠️ تعذر الاتصال بالمصدر';
-                        statusEl.className = 'stream-status-badge';
-                    }
-                });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
             }
         }
 
-        function toggleLiveStream(videoId, btnId, statusId) {
+        function toggleLiveStream(videoId, btnId) {
             const video = document.getElementById(videoId);
             const btn = document.getElementById(btnId);
-            const statusEl = document.getElementById(statusId);
             const icon = btn.querySelector('i');
             if (!video) return;
 
             stopAllOtherMedia(video);
 
             if (video.paused) {
-                statusEl.innerText = '⏳ جارٍ التحميل...';
-                statusEl.className = 'stream-status-badge loading';
                 video.play().then(() => {
-                    statusEl.innerText = '🔴 يعمل الآن';
-                    statusEl.className = 'stream-status-badge live';
                     icon.className = 'fa-solid fa-pause';
                 }).catch(e => {
-                    statusEl.innerText = '❌ فشل التشغيل';
-                    statusEl.className = 'stream-status-badge';
+                    console.log("Play error:", e);
                 });
             } else {
                 video.pause();
-                statusEl.innerText = '⏸ متوقف مؤقتاً';
-                statusEl.className = 'stream-status-badge';
                 icon.className = 'fa-solid fa-play';
             }
         }
@@ -954,9 +918,6 @@
             const radio = radiosList[currentRadioIndex];
             document.getElementById('radio-logo').src = radio.logo;
             document.getElementById('radio-title').innerText = radio.name;
-            const statusEl = document.getElementById('radio-status-text');
-            statusEl.innerText = '🔴 جاهز للتشغيل';
-            statusEl.className = 'stream-status-badge live';
 
             const audio = document.getElementById('active-radio-audio');
             const icon = document.getElementById('radio-play-icon');
@@ -990,31 +951,22 @@
         function toggleActiveRadio() {
             const audio = document.getElementById('active-radio-audio');
             const icon = document.getElementById('radio-play-icon');
-            const statusEl = document.getElementById('radio-status-text');
             if (!audio || !icon) return;
 
             stopAllOtherMedia(audio);
 
             if (audio.paused) {
-                statusEl.innerText = '⏳ جارٍ الاتصال بالإذاعة...';
-                statusEl.className = 'stream-status-badge loading';
                 audio.play().then(() => {
-                    statusEl.innerText = '🔴 الإذاعة تعمل الآن';
-                    statusEl.className = 'stream-status-badge live';
                     icon.className = 'fa-solid fa-pause';
                 }).catch(e => {
-                    statusEl.innerText = '❌ تعذّر تشغيل الإذاعة';
-                    statusEl.className = 'stream-status-badge';
+                    console.log("Radio play error:", e);
                 });
             } else {
                 audio.pause();
-                statusEl.innerText = '⏸ متوقف مؤقتاً';
-                statusEl.className = 'stream-status-badge';
                 icon.className = 'fa-solid fa-play';
             }
         }
 
-        // إيقاف أي وسائط أخرى لضمان عدم تداخل التشغيل
         function stopAllOtherMedia(currentEl) {
             document.querySelectorAll('video, audio').forEach(el => {
                 if (el !== currentEl) {
@@ -1025,9 +977,20 @@
             if (radioIcon && currentEl.id !== 'active-radio-audio') {
                 radioIcon.className = 'fa-solid fa-play';
             }
+            document.querySelectorAll('[id^="tel-play-btn-"]').forEach(btn => {
+                const mediaId = btn.id.replace('tel-play-btn-', 'tel-media-');
+                const mediaEl = document.getElementById(mediaId);
+                if (mediaEl !== currentEl) {
+                    btn.querySelector('i').className = 'fa-solid fa-play';
+                }
+            });
+            document.querySelectorAll('[id$="-btn"]').forEach(btn => {
+                if (btn.id !== 'radio-play-btn' && btn.id !== 'quran-btn' && btn.id !== 'sunnah-btn') return;
+                // Leave live stream buttons handled individually
+            });
         }
 
-        // قسم التلاوات مع واجهة تحكم مخصصة بالكامل
+        // قسم التلاوات المرئي مع واجهة تحكم مخصصة
         function renderTelawat(items) {
             const list = document.getElementById('telawat-list');
             if (!list) return;
@@ -1040,10 +1003,9 @@
                     <div class="telawat-content-side">
                         <h3 class="search-title" style="font-size: 1.5rem; font-weight: 900; color: #fff;">${item.title}</h3>
                         <div class="search-reader" style="color: var(--accent-gold); font-weight: bold; font-size: 1.2rem;">${item.reader}</div>
-                        <div class="stream-status-badge" id="tel-status-${index}">متوقف</div>
                     </div>
                     <div class="telawat-media-wrapper">
-                        <video id="tel-media-${index}" preload="metadata">
+                        <video id="tel-media-${index}" preload="metadata" playsinline>
                             <source src="${item.downloadUrl}" type="video/mp4">
                         </video>
                         <div class="custom-player-box">
@@ -1063,7 +1025,6 @@
                     </div>
                 </div>`).join('');
             
-            // ربط أحداث التحديث للمشغلات المخصصة
             items.forEach((_, index) => {
                 const media = document.getElementById(`tel-media-${index}`);
                 if (!media) return;
@@ -1073,8 +1034,6 @@
                 });
                 media.addEventListener('ended', () => {
                     document.getElementById(`tel-play-btn-${index}`).querySelector('i').className = 'fa-solid fa-play';
-                    document.getElementById(`tel-status-${index}`).innerText = 'انتهى المقطع';
-                    document.getElementById(`tel-status-${index}`).className = 'stream-status-badge';
                 });
             });
         }
@@ -1082,26 +1041,18 @@
         function toggleTelawatPlay(index) {
             const media = document.getElementById(`tel-media-${index}`);
             const btnIcon = document.getElementById(`tel-play-btn-${index}`).querySelector('i');
-            const statusEl = document.getElementById(`tel-status-${index}`);
             if (!media) return;
 
             stopAllOtherMedia(media);
 
             if (media.paused) {
-                statusEl.innerText = '⏳ جارٍ التحميل...';
-                statusEl.className = 'stream-status-badge loading';
                 media.play().then(() => {
-                    statusEl.innerText = '🔊 قيد التشغيل';
-                    statusEl.className = 'stream-status-badge live';
                     btnIcon.className = 'fa-solid fa-pause';
                 }).catch(e => {
-                    statusEl.innerText = '❌ تعذر التشغيل';
-                    statusEl.className = 'stream-status-badge';
+                    console.log("Telawat play error:", e);
                 });
             } else {
                 media.pause();
-                statusEl.innerText = '⏸ متوقف مؤقتاً';
-                statusEl.className = 'stream-status-badge';
                 btnIcon.className = 'fa-solid fa-play';
             }
         }
@@ -1153,7 +1104,6 @@
             }
         }
 
-        // الأقسام الأخرى والعد التنازلي
         function startCountdown(id, targetDate) {
             setInterval(() => {
                 const diff = new Date(targetDate).getTime() - new Date().getTime();
