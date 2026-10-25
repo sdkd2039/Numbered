@@ -244,7 +244,7 @@
         }
         .box-title { font-size: 1.5rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* قسم التلاوات المرئي مع مشغل مخصص بالكامل وأزرار دقيقة */
+        /* قسم التلاوات: الاسم في الأعلى، والفيديو بكامل العرض والتحكم أسفله */
         .search-container { position: relative; margin-bottom: 30px; width: 100%; }
         .search-input {
             width: 100%;
@@ -274,12 +274,10 @@
             background: rgba(13, 17, 23, 0.85);
             border: 2px solid var(--border-color);
             border-radius: 24px;
-            padding: 35px;
+            padding: 30px;
             display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
+            flex-direction: column;
+            gap: 20px;
             margin-bottom: 25px;
             transition: border-color 0.2s ease, background 0.2s ease;
         }
@@ -287,26 +285,24 @@
             border-color: var(--accent-gold);
             background: rgba(22, 27, 34, 0.98);
         }
-        .telawat-content-side {
+        .telawat-header-info {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            flex-grow: 1;
+            gap: 6px;
             text-align: right;
         }
         .telawat-media-wrapper {
-            flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 15px;
-            width: 420px;
+            width: 100%;
+            align-items: center;
         }
         .telawat-media-wrapper video {
             width: 100%;
-            max-height: 240px;
+            max-height: 480px;
             object-fit: contain;
-            border-radius: 14px;
+            border-radius: 16px;
             background: #000;
             border: 2px solid var(--border-color);
             display: block;
@@ -316,23 +312,23 @@
             background: rgba(10, 14, 19, 0.95);
             border: 2px solid var(--border-color);
             border-radius: 18px;
-            padding: 18px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
         .custom-player-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
         }
         .custom-progress-bar {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            border-radius: 5px;
             overflow: hidden;
             cursor: pointer;
         }
@@ -371,12 +367,6 @@
             transform: scale(1.08);
         }
         .ctrl-btn:active { transform: scale(0.92); }
-
-        @media(max-width: 900px) {
-            .telawat-post-card { flex-direction: column-reverse; align-items: center; text-align: center; }
-            .telawat-content-side { text-align: center; }
-            .telawat-media-wrapper { width: 100%; }
-        }
 
         /* قسم المتبقي */
         .countdown-container {
@@ -571,7 +561,7 @@
             background: #000;
         }
 
-        /* قسم البث المباشر (منظم وبسيط بالترتيب الصحيح) */
+        /* قسم البث المباشر */
         .live-grid {
             display: flex;
             flex-direction: column;
@@ -677,12 +667,12 @@
             </button>
         </div>
 
-        <div class="sidebar-version">إصدار التلفزيون 1.0.8</div>
+        <div class="sidebar-version">إصدار التلفزيون 1.0.6</div>
     </aside>
 
     <main class="main-content-area" id="mainContentArea">
 
-        <!-- 1. قسم التلاوات المرئي -->
+        <!-- 1. قسم التلاوات -->
         <div id="panel-telawat" class="panel-content active">
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
@@ -984,13 +974,9 @@
                     btn.querySelector('i').className = 'fa-solid fa-play';
                 }
             });
-            document.querySelectorAll('[id$="-btn"]').forEach(btn => {
-                if (btn.id !== 'radio-play-btn' && btn.id !== 'quran-btn' && btn.id !== 'sunnah-btn') return;
-                // Leave live stream buttons handled individually
-            });
         }
 
-        // قسم التلاوات المرئي مع واجهة تحكم مخصصة
+        // قسم التلاوات مرتب (اسم السورة والشيخ في الأعلى) مع مشغل مخصص وزر تكبير وتصغير (Full Screen)
         function renderTelawat(items) {
             const list = document.getElementById('telawat-list');
             if (!list) return;
@@ -1000,7 +986,7 @@
             }
             list.innerHTML = items.map((item, index) => `
                 <div class="telawat-post-card" tabindex="0">
-                    <div class="telawat-content-side">
+                    <div class="telawat-header-info">
                         <h3 class="search-title" style="font-size: 1.5rem; font-weight: 900; color: #fff;">${item.title}</h3>
                         <div class="search-reader" style="color: var(--accent-gold); font-weight: bold; font-size: 1.2rem;">${item.reader}</div>
                     </div>
@@ -1020,6 +1006,7 @@
                                 <button class="ctrl-btn" onclick="skipTelawat(${index}, -10)" title="تأخير 10 ثواني" tabindex="0"><i class="fa-solid fa-rotate-right"></i></button>
                                 <button class="ctrl-btn" onclick="toggleTelawatPlay(${index})" id="tel-play-btn-${index}" title="تشغيل / إيقاف مؤقت" tabindex="0"><i class="fa-solid fa-play"></i></button>
                                 <button class="ctrl-btn" onclick="skipTelawat(${index}, 10)" title="تقديم 10 ثواني" tabindex="0"><i class="fa-solid fa-rotate-left"></i></button>
+                                <button class="ctrl-btn" onclick="toggleFullscreen(${index})" title="تكبير / تصغير الشاشة" tabindex="0"><i class="fa-solid fa-expand"></i></button>
                             </div>
                         </div>
                     </div>
@@ -1072,6 +1059,18 @@
             const clickX = event.clientX - rect.left;
             const width = bar.clientWidth;
             media.currentTime = (clickX / width) * media.duration;
+        }
+
+        function toggleFullscreen(index) {
+            const media = document.getElementById(`tel-media-${index}`);
+            if (!media) return;
+            if (media.requestFullscreen) {
+                media.requestFullscreen();
+            } else if (media.webkitRequestFullscreen) {
+                media.webkitRequestFullscreen();
+            } else if (media.msRequestFullscreen) {
+                media.msRequestFullscreen();
+            }
         }
 
         function updateTelawatUI(index) {
