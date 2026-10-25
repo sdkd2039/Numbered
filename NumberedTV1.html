@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="معدودات للتلفزيون">
 
-    <title>معدودات - تلفزيون</title>
+    <title>معدودات (التلفزيون)</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,7 +72,7 @@
             align-items: center;
             justify-content: center;
             z-index: 999999;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
             overflow: hidden;
         }
 
@@ -813,13 +813,14 @@
     </main>
 
     <script>
+        // إخفاء شاشة البداية بشكل أسرع وأسلس (بدون أي تأخير مزعج)
         window.addEventListener('load', () => {
             const splash = document.getElementById('splashScreen');
             if (splash) {
                 setTimeout(() => {
                     splash.style.opacity = '0';
-                    setTimeout(() => splash.remove(), 400);
-                }, 2000);
+                    setTimeout(() => splash.remove(), 250);
+                }, 800);
             }
         });
 
@@ -1157,7 +1158,7 @@
         function incDhikr(id, cat) {
             let count = parseInt(localStorage.getItem(`c_${id}`) || 0);
             let dhikr = dhikrData.find(d => d.id === id);
-            let targetNum = parseInt(dhikr?.`target`) || 1;
+            let targetNum = parseInt(dhikr?.target) || 1;
             if (dhikr && count < targetNum) {
                 count += 1;
                 localStorage.setItem(`c_${id}`, count);
@@ -1193,7 +1194,7 @@
                     </div>
                 `).join('');
             } catch (e) {
-                container.innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;"> تعذر جلب المنشورات حالياً.</p>`;
+                container.innerHTML = `<p style="text-align:center; color: #ef4444; padding: 20px;">تعذر جلب المنشورات حالياً.</p>`;
             }
         }
 
