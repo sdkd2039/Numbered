@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d1117">
 
-    <title>معدودات (التلفزيون)</title>
+    <title>معدودات التلفزيون</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,11 +28,11 @@
 
         :root {
             --bg-color: #0d1117;
-            --card-bg: rgba(22, 27, 34, 0.85);
+            --card-bg: rgba(22, 27, 34, 0.9);
             --text-color: #f8fafc;
             --text-muted: #94a3b8;
             --accent-gold: #c5a880;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --border-color: rgba(255, 255, 255, 0.12);
             --tab-active: #0052cc;
             --live-red: #ef4444;
             --sidebar-width: 280px;
@@ -85,50 +85,49 @@
         /* زر الثلاث خطوط (القائمة الجانبية) */
         .menu-toggle-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             z-index: 100000;
-            background: rgba(22, 27, 34, 0.9);
-            border: 1px solid var(--accent-gold);
+            background: rgba(22, 27, 34, 0.95);
+            border: 2px solid var(--accent-gold);
             color: var(--accent-gold);
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             cursor: pointer;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: transform 0.2s ease, background 0.2s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
         }
-        .menu-toggle-btn:hover {
+        .menu-toggle-btn:focus, .menu-toggle-btn:hover {
             background: var(--accent-gold);
             color: #000;
-        }
-        .menu-toggle-btn:active {
-            transform: scale(0.92);
+            outline: none;
+            transform: scale(1.05);
         }
 
-        /* القائمة الجانبية (Sidebar) للـ TV */
+        /* القائمة الجانبية (Sidebar) للتلفزيون */
         .tv-sidebar {
             position: fixed;
             top: 0;
             right: 0;
             width: var(--sidebar-width);
             height: 100vh;
-            background: rgba(13, 17, 23, 0.95);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            background: rgba(13, 17, 23, 0.98);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border-left: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            padding: 30px 20px;
+            padding: 35px 20px;
             z-index: 99999;
             transform: translateX(0);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+            box-shadow: -15px 0 35px rgba(0,0,0,0.8);
         }
 
         .tv-sidebar.closed {
@@ -139,29 +138,28 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
+            padding-bottom: 20px;
         }
 
         .main-logo {
-            max-width: 130px;
+            max-width: 140px;
             height: auto;
             margin-bottom: 10px;
         }
 
         .sidebar-version {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 5px;
             text-align: center;
         }
 
-        /* أزرار التنقل في القائمة الجانبية */
         .tabs-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             overflow-y: auto;
             flex-grow: 1;
             scrollbar-width: none;
@@ -169,37 +167,38 @@
         .tabs-container::-webkit-scrollbar { display: none; }
 
         .tab-btn {
-            background: rgba(33, 38, 45, 0.5);
-            border: 1px solid var(--border-color);
+            background: rgba(33, 38, 45, 0.6);
+            border: 2px solid var(--border-color);
             color: var(--text-color);
-            padding: 14px 18px;
+            padding: 16px 20px;
             border-radius: 16px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
             transition: all 0.2s ease;
             text-align: right;
             width: 100%;
         }
 
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(197, 168, 128, 0.4);
+        .tab-btn:focus, .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent-gold);
+            outline: none;
         }
 
         .tab-btn.active {
             background: var(--tab-active);
             border-color: var(--tab-active);
             color: white;
-            box-shadow: 0 4px 15px rgba(0, 82, 204, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 82, 204, 0.5);
         }
 
         .tab-btn img, .tab-btn svg {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             object-fit: contain;
         }
 
@@ -221,7 +220,7 @@
 
         .panel-content {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1050px;
             display: none;
         }
         .panel-content.active { display: block; }
@@ -231,61 +230,69 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-            margin-bottom: 25px;
+            border-radius: 26px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
         }
 
         .box-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 18px;
+            margin-bottom: 25px;
         }
-        .box-title { font-size: 1.4rem; color: var(--accent-gold); font-weight: 800; }
+        .box-title { font-size: 1.5rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* قسم التلاوات (بأبعاد تلقائية حسب الفيديو سواء 16:9 أو 9:16) */
-        .search-container { position: relative; margin-bottom: 25px; width: 100%; }
+        /* 1. قسم التلاوات المحسن للتلفزيون */
+        .search-container { position: relative; margin-bottom: 30px; width: 100%; }
         .search-input {
             width: 100%;
-            background: rgba(13, 17, 23, 0.7);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px 50px 16px 20px;
+            background: rgba(13, 17, 23, 0.85);
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px 55px 18px 22px;
             color: #fff;
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .search-input:focus { border-color: var(--accent-gold); }
+        .search-input:focus { 
+            border-color: var(--accent-gold); 
+            box-shadow: 0 0 15px rgba(197, 168, 128, 0.3);
+        }
         .search-icon {
             position: absolute;
-            right: 20px;
+            right: 22px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .telawat-post-card {
-            background: rgba(13, 17, 23, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 25px;
+            background: rgba(13, 17, 23, 0.75);
+            border: 2px solid var(--border-color);
+            border-radius: 22px;
+            padding: 28px;
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            gap: 25px;
-            margin-bottom: 20px;
+            gap: 30px;
+            margin-bottom: 22px;
+            transition: border-color 0.2s ease;
+        }
+        .telawat-post-card:focus-within {
+            border-color: var(--accent-gold);
+            background: rgba(22, 27, 34, 0.95);
         }
         .telawat-content-side {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             flex-grow: 1;
             text-align: right;
         }
@@ -297,11 +304,11 @@
         }
         .telawat-media-side video {
             max-width: 100%;
-            max-height: 280px; /* حد أقصى للارتفاع لكي لا يكون ضخماً جداً، ويتكيف أفقياً وطولياً تلقائياً */
+            max-height: 240px;
             width: auto;
             height: auto;
             object-fit: contain;
-            border-radius: 12px;
+            border-radius: 14px;
             background: #000;
             border: 1px solid var(--border-color);
             display: block;
@@ -312,33 +319,38 @@
             .telawat-media-side { width: 100%; }
         }
 
-        /* قسم المتبقي */
+        /* 2. قسم المتبقي (تصميم احترافي بارز للشاشات الكبيرة) */
         .countdown-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 22px;
             width: 100%;
         }
         .countdown-item {
-            background: rgba(13, 17, 23, 0.5);
-            border: 1px solid var(--border-color);
-            padding: 22px;
-            border-radius: 18px;
-            border-right: 6px solid var(--accent-gold);
+            background: rgba(13, 17, 23, 0.7);
+            border: 2px solid var(--border-color);
+            padding: 26px;
+            border-radius: 20px;
+            border-right: 8px solid var(--accent-gold);
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
             flex-wrap: wrap;
+            transition: border-color 0.2s ease;
+        }
+        .countdown-item:hover, .countdown-item:focus-within {
+            border-color: var(--accent-gold);
+            background: rgba(22, 27, 34, 0.9);
         }
         .countdown-info {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             text-align: right;
         }
-        .countdown-title { font-size: 1.25rem; font-weight: 800; color: #fff; }
-        .countdown-subtitle { font-size: 0.9rem; color: var(--text-muted); }
+        .countdown-title { font-size: 1.4rem; font-weight: 900; color: #fff; }
+        .countdown-subtitle { font-size: 1rem; color: var(--text-muted); }
 
         .live-timer-grid {
             display: flex;
@@ -347,47 +359,53 @@
             direction: rtl;
         }
         .time-box {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 60px;
+            min-width: 70px;
         }
-        .time-num { font-size: 1.35rem; font-weight: 900; color: var(--accent-gold); }
-        .time-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+        .time-num { font-size: 1.5rem; font-weight: 900; color: var(--accent-gold); }
+        .time-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
 
-        /* قسم الذكر */
+        /* 3. قسم الذكر (استجابة فورية وأزرار بارزة بالريموت) */
         .sub-tabs {
             display: flex;
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: 14px;
+            margin-bottom: 30px;
             justify-content: flex-start;
         }
         .sub-tab-btn {
-            background: rgba(33, 38, 45, 0.6);
-            border: 1px solid var(--border-color);
+            background: rgba(33, 38, 45, 0.7);
+            border: 2px solid var(--border-color);
             color: var(--text-muted);
-            padding: 10px 22px;
-            border-radius: 20px;
+            padding: 12px 26px;
+            border-radius: 22px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: all 0.2s ease;
+        }
+        .sub-tab-btn:focus, .sub-tab-btn:hover {
+            border-color: var(--accent-gold);
+            color: #fff;
+            outline: none;
         }
         .sub-tab-btn.active {
             background: var(--accent-gold) !important;
             color: #000 !important;
             border-color: var(--accent-gold) !important;
+            box-shadow: 0 4px 15px rgba(197, 168, 128, 0.4);
         }
 
         .dhikr-card {
-            background: rgba(22, 27, 34, 0.7);
-            border: 1px solid var(--border-color);
-            padding: 35px 25px;
-            border-radius: 22px;
+            background: rgba(22, 27, 34, 0.85);
+            border: 2px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 26px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -399,61 +417,71 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .dhikr-arrow-btn {
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             color: var(--accent-gold);
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            transition: background 0.2s ease, transform 0.1s ease;
+            font-size: 1.3rem;
+            transition: all 0.2s ease;
         }
-        .dhikr-arrow-btn:hover { background: rgba(197, 168, 128, 0.2); }
-        .dhikr-arrow-btn:active { transform: scale(0.92); }
+        .dhikr-arrow-btn:focus, .dhikr-arrow-btn:hover {
+            background: rgba(197, 168, 128, 0.3);
+            border-color: var(--accent-gold);
+            outline: none;
+            transform: scale(1.05);
+        }
+        .dhikr-arrow-btn:active { transform: scale(0.95); }
 
         .dhikr-text {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: #fff;
-            line-height: 2.3;
+            line-height: 2.4;
             font-weight: 500;
             margin-bottom: 25px;
             width: 100%;
         }
         .counter-btn {
             background: linear-gradient(135deg, #c5a880, #a3855e);
-            border: none;
-            width: 75px;
-            height: 75px;
+            border: 2px solid transparent;
+            width: 85px;
+            height: 85px;
             border-radius: 50%;
             color: #000;
-            font-size: 2rem;
+            font-size: 2.2rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(197, 168, 128, 0.4);
-            transition: transform 0.1s ease;
+            box-shadow: 0 10px 30px rgba(197, 168, 128, 0.5);
+            transition: transform 0.1s ease, border-color 0.2s ease;
+        }
+        .counter-btn:focus, .counter-btn:hover {
+            border-color: #fff;
+            outline: none;
+            transform: scale(1.08);
         }
         .counter-btn:active { transform: scale(0.92); }
 
-        /* قسم نبض العدة */
+        /* 4. نبض العدة */
         .pulse-container {
             display: flex;
             flex-direction: column;
             gap: 25px;
         }
         .pulse-post-card {
-            background: rgba(13, 17, 23, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 25px;
+            background: rgba(13, 17, 23, 0.7);
+            border: 2px solid var(--border-color);
+            border-radius: 22px;
+            padding: 28px;
             display: flex;
             flex-direction: row;
             align-items: flex-start;
@@ -467,8 +495,8 @@
             flex-grow: 1;
             text-align: right;
         }
-        .pulse-post-title { font-size: 1.3rem; font-weight: 800; color: var(--accent-gold); }
-        .pulse-post-text { font-size: 1.1rem; line-height: 2; color: #f8fafc; white-space: pre-line; }
+        .pulse-post-title { font-size: 1.4rem; font-weight: 800; color: var(--accent-gold); }
+        .pulse-post-text { font-size: 1.15rem; line-height: 2.1; color: #f8fafc; white-space: pre-line; }
         
         .pulse-image-side {
             flex-shrink: 0;
@@ -477,19 +505,14 @@
         .pulse-post-image {
             width: 100%;
             height: auto;
-            max-height: 240px;
+            max-height: 250px;
             object-fit: contain;
-            border-radius: 12px;
+            border-radius: 14px;
             border: 1px solid var(--border-color);
             background: #000;
         }
-        @media(max-width: 768px) {
-            .pulse-post-card { flex-direction: column-reverse; align-items: center; }
-            .pulse-image-side { width: 100%; max-width: 100%; text-align: center; }
-            .pulse-post-image { max-height: 300px; margin: 0 auto; }
-        }
 
-        /* قسم البث المباشر */
+        /* 5. قسم البث المباشر */
         .live-grid {
             display: flex;
             flex-direction: column;
@@ -501,9 +524,9 @@
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 14px;
+            border-radius: 16px;
             background: #000;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             margin-top: 15px;
         }
         .live-video-player {
@@ -522,20 +545,24 @@
         }
         .radio-nav-btn {
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             color: var(--accent-gold);
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            transition: background 0.2s ease, transform 0.1s ease;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
         }
-        .radio-nav-btn:hover { background: rgba(197, 168, 128, 0.2); }
-        .radio-nav-btn:active { transform: scale(0.92); }
+        .radio-nav-btn:focus, .radio-nav-btn:hover {
+            background: rgba(197, 168, 128, 0.3);
+            border-color: var(--accent-gold);
+            outline: none;
+            transform: scale(1.05);
+        }
         .radio-info-area {
             display: flex;
             align-items: center;
@@ -594,13 +621,13 @@
             </button>
         </div>
 
-        <div class="sidebar-version">إصدار التلفزيون 1.0.3</div>
+        <div class="sidebar-version">إصدار التلفزيون 1.0.5</div>
     </aside>
 
     <!-- منطقة المحتوى الرئيسي -->
     <main class="main-content-area" id="mainContentArea">
 
-        <!-- 1. قسم التلاوات (بأبعاد تلقائية لكل فيديو حسب أصله) -->
+        <!-- 1. قسم التلاوات -->
         <div id="panel-telawat" class="panel-content active">
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
@@ -619,28 +646,28 @@
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">العد التنازلي للعام 1448 هـ</h2></div>
                 <div class="countdown-container">
-                    <div class="countdown-item">
+                    <div class="countdown-item" tabindex="0">
                         <div class="countdown-info">
                             <div class="countdown-title">شهر رمضان المبارك</div>
                             <div class="countdown-subtitle">1 رمضان 1448 هـ - 8 فبراير 2027 م</div>
                         </div>
                         <div class="live-timer-grid" id="timer-ramadan"></div>
                     </div>
-                    <div class="countdown-item">
+                    <div class="countdown-item" tabindex="0">
                         <div class="countdown-info">
                             <div class="countdown-title">عيد الفطر المبارك</div>
                             <div class="countdown-subtitle">1 شوال 1448 هـ - 8 مارس 2027 م</div>
                         </div>
                         <div class="live-timer-grid" id="timer-fitr"></div>
                     </div>
-                    <div class="countdown-item">
+                    <div class="countdown-item" tabindex="0">
                         <div class="countdown-info">
                             <div class="countdown-title">عشر ذي الحجة</div>
                             <div class="countdown-subtitle">1 ذو الحجة 1448 هـ - 8 مايو 2027 م</div> 
                         </div>
                         <div class="live-timer-grid" id="timer-hajj"></div>
                     </div>
-                    <div class="countdown-item">
+                    <div class="countdown-item" tabindex="0">
                         <div class="countdown-info">
                             <div class="countdown-title">عيد الأضحى المبارك</div>
                             <div class="countdown-subtitle">10 ذو الحجة 1448 هـ - 16 مايو 2027 م</div>    
@@ -697,8 +724,8 @@
                     </div>
 
                     <div style="text-align: center; margin-top: 20px;">
-                        <button onclick="toggleActiveRadio()" style="background: var(--accent-gold); border: none; border-radius: 50%; width: 55px; height: 55px; cursor: pointer; transition: transform 0.1s ease; box-shadow: 0 4px 15px rgba(197, 168, 128, 0.4);">
-                            <i id="radio-play-icon" class="fa-solid fa-play" style="color: #000; font-size: 1.3rem;"></i>
+                        <button class="radio-nav-btn" onclick="toggleActiveRadio()" style="width: 60px; height: 60px; border-radius: 50%; background: var(--accent-gold); color: #000; margin: 0 auto;">
+                            <i id="radio-play-icon" class="fa-solid fa-play" style="font-size: 1.4rem;"></i>
                         </button>
                     </div>
                     <audio id="active-radio-audio" style="display:none;"></audio>
@@ -915,7 +942,7 @@
                     <button class="dhikr-arrow-btn" onclick="nextDhikr()" title="الذكر التالي"><i class="fa-solid fa-chevron-left"></i></button>
                 </div>
                 <h3 class="dhikr-text">${d.text}</h3>
-                <div style="font-size: 1.6rem; font-weight: bold; color: var(--accent-gold); margin-bottom:20px;">${count} / ${d.target}</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: var(--accent-gold); margin-bottom:25px;">${count} / ${d.target}</div>
                 <button class="counter-btn" onclick="incDhikr('${d.id}', '${cat}')"><i class="fa-solid fa-plus"></i></button>
             </div>`;
         }
@@ -925,9 +952,14 @@
             let dhikr = dhikrData.find(d => d.id === id);
             let targetNum = parseInt(dhikr?.target) || 1;
             if (dhikr && count < targetNum) {
-                localStorage.setItem(`c_${id}`, count + 1);
+                count += 1;
+                localStorage.setItem(`c_${id}`, count);
             }
-            renderDhikrCard(cat);
+            // تحديث فوري للعرض دون إعادة تحميل الصفحة بالكامل
+            const countDisplay = document.querySelector('.dhikr-card div[style*="font-size: 1.8rem"]');
+            if (countDisplay && dhikr) {
+                countDisplay.innerText = `${count} / ${dhikr.target}`;
+            }
         }
 
         function renderTelawat(items) {
@@ -938,13 +970,13 @@
                 return;
             }
             list.innerHTML = items.map(item => `
-                <div class="telawat-post-card">
+                <div class="telawat-post-card" tabindex="0">
                     <div class="telawat-content-side">
-                        <h3 class="search-title" style="font-size: 1.25rem; font-weight: 900; color: #fff;">${item.title}</h3>
-                        <div class="search-reader" style="color: var(--accent-gold); font-weight: bold;">${item.reader}</div>
+                        <h3 class="search-title" style="font-size: 1.3rem; font-weight: 900; color: #fff;">${item.title}</h3>
+                        <div class="search-reader" style="color: var(--accent-gold); font-weight: bold; font-size: 1.05rem;">${item.reader}</div>
                     </div>
                     <div class="telawat-media-side">
-                        <video controls controlsList="nodownload" preload="metadata">
+                        <video controls preload="metadata" controlsList="nodownload">
                             <source src="${item.downloadUrl}" type="video/mp4">
                         </video>
                     </div>
@@ -974,7 +1006,7 @@
                 }
 
                 container.innerHTML = pulseData.map(post => `
-                    <div class="pulse-post-card">
+                    <div class="pulse-post-card" tabindex="0">
                         <div class="pulse-content-side">
                             <div class="pulse-post-title">${escapeHTML(post.title)}</div>
                             <div class="pulse-post-text">${escapeHTML(post.text)}</div>
