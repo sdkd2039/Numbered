@@ -8,12 +8,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0d1117">
 
-    <!-- إعدادات دعم تطبيق PWA على نظام iOS (أبل) -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="معدودات للتلفزيون">
-
-    <title>معدودات - تلفزيون</title>
+    <title>معدودات (التلفزيون)</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -252,7 +247,7 @@
         }
         .box-title { font-size: 1.4rem; color: var(--accent-gold); font-weight: 800; }
 
-        /* قسم التلاوات (تنسيق تلقائي: النص يمين والفيديو يسار بشكل متناسق تماماً) */
+        /* قسم التلاوات (بأبعاد تلقائية حسب الفيديو سواء 16:9 أو 9:16) */
         .search-container { position: relative; margin-bottom: 25px; width: 100%; }
         .search-input {
             width: 100%;
@@ -296,12 +291,15 @@
         }
         .telawat-media-side {
             flex-shrink: 0;
-            width: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .telawat-media-side video {
-            width: 100%;
+            max-width: 100%;
+            max-height: 280px; /* حد أقصى للارتفاع لكي لا يكون ضخماً جداً، ويتكيف أفقياً وطولياً تلقائياً */
+            width: auto;
             height: auto;
-            max-height: 160px;
             object-fit: contain;
             border-radius: 12px;
             background: #000;
@@ -602,7 +600,7 @@
     <!-- منطقة المحتوى الرئيسي -->
     <main class="main-content-area" id="mainContentArea">
 
-        <!-- 1. قسم التلاوات (بالتنسيق التلقائي المتناسق: النص يمين والفيديو يسار) -->
+        <!-- 1. قسم التلاوات (بأبعاد تلقائية لكل فيديو حسب أصله) -->
         <div id="panel-telawat" class="panel-content active">
             <div class="box-card">
                 <div class="box-header"><h2 class="box-title">قسم التلاوات</h2></div>
@@ -946,7 +944,7 @@
                         <div class="search-reader" style="color: var(--accent-gold); font-weight: bold;">${item.reader}</div>
                     </div>
                     <div class="telawat-media-side">
-                        <video controls controlsList="nodownload">
+                        <video controls controlsList="nodownload" preload="metadata">
                             <source src="${item.downloadUrl}" type="video/mp4">
                         </video>
                     </div>
