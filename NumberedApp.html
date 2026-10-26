@@ -1552,12 +1552,14 @@
 
 <!-- 5. قسم البث المباشر -->
 <div id="panel-live" class="panel-content">
+    <!-- إذاعة القرآن الكريم ونداء الإسلام (مدمجة) -->
     <div class="box-card" style="border: 1px solid var(--accent-gold);">
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="https://aloula.faulio.com/storage/mediagallery/14/da/fullhd_823bc2fe722ede75410492d57fd6c201208b4224.png" style="width: 45px; height: 45px; border-radius: 8px;">
+                <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/fullhd_ef572438fffe8669b91c090d495bee55e7a4808c.png" style="width: 40px; height: 40px; border-radius: 8px;" alt="إذاعة القرآن">
+                <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/fullhd_7c2508c1f1532dcd20f6e4145c7b6707fef9ad84.png" style="width: 40px; height: 40px; border-radius: 8px;" alt="إذاعة نداء الإسلام">
                 <div style="text-align: right;">
-                    <div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم</div>
+                    <div style="font-weight: 800; color: #fff; font-size: 0.9rem;">إذاعة القرآن الكريم ونداء الإسلام</div>
                 </div>
             </div>
             <div style="color: var(--live-red); font-weight: bold; font-size: 0.8rem;">🔴 مباشر</div>
@@ -1570,20 +1572,22 @@
         <audio id="live-audio" style="display:none;"></audio>
     </div>
 
+    <!-- قناة القرآن الكريم -->
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-kaaba" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة القرآن الكريم</h2></div>
         <div style="text-align: center; margin-top: 15px;">
-            <a href="https://www.youtube.com/@SaudiQuranTv/streams" target="_blank" style="display: flex; align-items: center; justify-content: space-between; background: var(--accent-gold); color: #000; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 1rem;">
+            <a href="https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/saudi_quran/hls1/saudi_quran.m3u8" target="_blank" style="display: flex; align-items: center; justify-content: space-between; background: var(--accent-gold); color: #000; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 1rem;">
                 <span>للمشاهدة بث قناة القرآن الكريم</span>
                 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 1.2rem;"></i>
             </a>
         </div>
     </div>
 
+    <!-- قناة السنة النبوية -->
     <div class="box-card">
         <div class="box-header"><i class="fa-solid fa-mosque" style="color: var(--accent-gold);"></i><h2 class="box-title">قناة السنة النبوية</h2></div>
         <div style="text-align: center; margin-top: 15px;">
-            <a href="https://www.youtube.com/@SaudiSunnahTv/streams" target="_blank" style="display: flex; align-items: center; justify-content: space-between; background: var(--accent-gold); color: #000; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 1rem;">
+            <a href="https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8" target="_blank" style="display: flex; align-items: center; justify-content: space-between; background: var(--accent-gold); color: #000; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 1rem;">
                 <span>للمشاهدة بث قناة السنة النبوية</span>
                 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 1.2rem;"></i>
             </a>
@@ -1616,7 +1620,7 @@
 
     function initLiveAudio() {
         const audio = document.getElementById("live-audio");
-        const url = "https://live.kwikmotion.com/sbrksaquranradiolive/srpksaquranradio/playlist.m3u8";
+        const url = "https://live.kwikmotion.com/sbrksanedaradiolive/srpksanedaradio/playlist.m3u8";
         if (audio && typeof Hls !== 'undefined' && Hls.isSupported()) {
             const hls = new Hls(); hls.loadSource(url); hls.attachMedia(audio);
         } else if (audio && audio.canPlayType("application/vnd.apple.mpegurl")) {
@@ -1947,7 +1951,6 @@
         }
     }
 
-// دالة تحويل الروابط النصية داخل منشورات نبض العدة إلى روابط قابلة للضغط
 function linkifyText(text) {
     if (!text) return '';
     const safeText = escapeHTML(text);
@@ -1961,7 +1964,6 @@ function linkifyText(text) {
     });
 }
 
-// دالة عرض منشورات نبض العدة المحدثة
 function renderPulse() {
     const container = document.getElementById('pulse-container');
     if (!container) return;
@@ -2042,7 +2044,6 @@ function renderPulse() {
         }
     }
 
-    /* دالة التحميل المعدلة لتجبر المتصفح على حفظ الملف كـ mp4 دائماً وتجنب ملفات الـ txt */
     async function downloadAudioWithProgress(url, title) {
         const modal = document.getElementById('downloadModal');
         const statusTitle = document.getElementById('dlStatusTitle');
@@ -2093,7 +2094,6 @@ function renderPulse() {
                 }
             }
 
-            // فرض النوع video/mp4 وصيغة الـ mp4 لتجنب أي حفظ خاطئ بصيغة txt
             const blob = new Blob(chunks, { type: 'video/mp4' });
             const blobUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
