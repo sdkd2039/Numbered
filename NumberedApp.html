@@ -1608,15 +1608,18 @@
 </div>
 
 <script>
-    window.addEventListener('load', () => {
+    // شاشة المقدمة: تبدأ مدتها بعد اكتمال بناء HTML مباشرة،
+    // ولا تنتظر تحميل الصور أو الخطوط أو الملفات الخارجية.
+    (() => {
         const splash = document.getElementById('splashScreen');
-        if (splash) {
-            setTimeout(() => {
-                splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 400);
-            }, 2000);
-        }
-    });
+        if (!splash) return;
+
+        window.setTimeout(() => {
+            splash.style.opacity = '0';
+            splash.style.visibility = 'hidden';
+            window.setTimeout(() => splash.remove(), 350);
+        }, 5000);
+    })();
 
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwB3ugQ0exxhlLn2O9Sh8iedqX99bzh4s4vzW7TnuP4MtI9qkftr7uKj7VkJ8WnuSw/exec';
@@ -2209,7 +2212,14 @@ function renderPulse() {
     }
     
     function switchTab(tabId, event) {
-        localStorage.setItem('activeTab', tabId); // حفظ القسم الحالي لتثبيته عند التدوير
+        // sessionStorage يحفظ القسم خلال الجلسة الحالية (ومنها إعادة تحميل الصفحة
+        // بسبب تدوير الشاشة)، ولا يفرض آخر قسم عند بدء جلسة تطبيق جديدة.
+        try {
+            sessionStorage.setItem('activeTab', tabId);
+        } catch (error) {
+            console.warn('تعذر حفظ القسم الحالي للجلسة:', error);
+        }
+
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn, .mobile-nav-item').forEach(b => b.classList.remove('active'));
         
@@ -2233,6 +2243,73 @@ function renderPulse() {
         }
     }
 
+    // التنقل بين الأقسام بالسحب الأفقي على محتوى القسم الحالي.
+    // الشريط السفلي يبقى متاحاً دائماً كطريقة تنقل بديلة.
+    (() => {
+        const tabOrder = ['telawat', 'remaining', 'dhikr', 'pulse', 'live'];
+        let startX = 0;
+        let startY = 0;
+        let tracking = false;
+
+        document.addEventListener('touchstart', (event) => {
+            const touch = event.changedTouches && event.changedTouches[0];
+            if (!touch) return;
+
+            const panel = event.target.closest('.panel-content.active');
+            if (!panel) {
+                tracking = false;
+                return;
+            }
+
+            // لا نتدخل في السحب داخل عناصر التحكم أو مشغلات الوسائط.
+            if (event.target.closest('button, a, input, textarea, select, video, audio, .sub-tabs, .tabs-container')) {
+                tracking = false;
+                return;
+            }
+
+            startX = touch.clientX;
+            startY = touch.clientY;
+            tracking = true;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (event) => {
+            if (!tracking) return;
+            tracking = false;
+
+            const touch = event.changedTouches && event.changedTouches[0];
+            if (!touch) return;
+
+            const deltaX = touch.clientX - startX;
+            const deltaY = touch.clientY - startY;
+
+            // يشترط أن تكون الحركة أفقية وواضحة حتى لا تتعارض مع التمرير العمودي.
+            if (Math.abs(deltaX) < 70 || Math.abs(deltaY) > 55 ||
+                Math.abs(deltaX) < Math.abs(deltaY) * 1.35) {
+                return;
+            }
+
+            const activePanel = document.querySelector('.panel-content.active');
+            if (!activePanel) return;
+
+            const currentTab = activePanel.id.replace('panel-', '');
+            const currentIndex = tabOrder.indexOf(currentTab);
+            if (currentIndex === -1) return;
+
+            // سحب لليسار: القسم التالي. سحب لليمين: القسم السابق.
+            const nextIndex = deltaX < 0
+                ? Math.min(currentIndex + 1, tabOrder.length - 1)
+                : Math.max(currentIndex - 1, 0);
+
+            if (nextIndex !== currentIndex) {
+                switchTab(tabOrder[nextIndex], null);
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchcancel', () => {
+            tracking = false;
+        }, { passive: true });
+    })();
+
     window.addEventListener('DOMContentLoaded', () => {
         const today = new Date().toLocaleDateString('en-GB'); 
         const lastDate = localStorage.getItem('lastDate');
@@ -2247,8 +2324,17 @@ function renderPulse() {
             localStorage.setItem('lastDate', today);
         }
 
-        // استعادة القسم المحفوظ عند فتح التطبيق أو تدوير الشاشة
-        const savedTab = localStorage.getItem('activeTab') || 'telawat';
+        // استعادة القسم داخل الجلسة الحالية فقط؛ والافتراضي عند بدء جلسة جديدة هو تلاوات.
+        let savedTab = 'telawat';
+        try {
+            savedTab = sessionStorage.getItem('activeTab') || 'telawat';
+        } catch (error) {
+            console.warn('تعذر استعادة القسم المحفوظ:', error);
+        }
+
+        // حماية من أي قيمة قديمة أو غير معروفة.
+        const validTabs = ['telawat', 'remaining', 'dhikr', 'pulse', 'live'];
+        if (!validTabs.includes(savedTab)) savedTab = 'telawat';
         switchTab(savedTab, null);
 
         initLiveAudio();
