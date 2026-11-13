@@ -35,9 +35,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- مكتبة HLS لتشغيل البثوث المباشرة على جميع المتصفحات -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
     <!-- مكتبة تحويل العناصر إلى صور للالتقاط والمشاركة -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 
     <style>
         @font-face {
@@ -1374,6 +1374,48 @@
     <img src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Counted%20(3).gif" alt="شعار معدودات المتحرك للكمبيوتر" class="splash-logo splash-desktop" ondragstart="return false;">
 </div>
 
+<script>
+/* شاشة المقدمة: 15 ثانية محسوبة من لحظة ظهور عنصر المقدمة،
+   ولا تنتظر حدث window.load أو اكتمال تحميل الموارد الخارجية. */
+(() => {
+    const splash = document.getElementById('splashScreen');
+    if (!splash) return;
+
+    const startedAt = Date.now();
+    const duration = 15000;
+    let fadeStarted = false;
+    let removed = false;
+
+    const finishSplash = () => {
+        if (removed) return;
+        removed = true;
+        splash.remove();
+    };
+
+    const checkSplashTime = () => {
+        if (removed || !splash.isConnected) return;
+
+        const elapsed = Date.now() - startedAt;
+        const remaining = duration - elapsed;
+
+        if (remaining <= 300 && !fadeStarted) {
+            fadeStarted = true;
+            splash.style.opacity = '0';
+        }
+
+        if (remaining <= 0) {
+            finishSplash();
+        } else {
+            window.setTimeout(checkSplashTime, Math.min(remaining, 250));
+        }
+    };
+
+    window.setTimeout(checkSplashTime, 250);
+    document.addEventListener('visibilitychange', checkSplashTime);
+    window.addEventListener('pageshow', checkSplashTime);
+})();
+</script>
+
 <header>
     <img id="active-tab-logo" src="https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/telawat.png" class="main-logo" alt="القسم الحالي">
 </header>
@@ -1608,19 +1650,6 @@
 </div>
 
 <script>
-    // شاشة المقدمة: تبدأ مدتها بعد اكتمال بناء HTML مباشرة،
-    // ولا تنتظر تحميل الصور أو الخطوط أو الملفات الخارجية.
-    (() => {
-        const splash = document.getElementById('splashScreen');
-        if (!splash) return;
-
-        window.setTimeout(() => {
-            splash.style.opacity = '0';
-            splash.style.visibility = 'hidden';
-            window.setTimeout(() => splash.remove(), 350);
-        }, 5000);
-    })();
-
     const SPREADSHEET_ID = '1BN23aKIJllQ_qKqilgbeugD2qOlf8exUPa4oftKVZrQ';
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwB3ugQ0exxhlLn2O9Sh8iedqX99bzh4s4vzW7TnuP4MtI9qkftr7uKj7VkJ8WnuSw/exec';
 
@@ -2212,14 +2241,6 @@ function renderPulse() {
     }
     
     function switchTab(tabId, event) {
-        // sessionStorage يحفظ القسم خلال الجلسة الحالية (ومنها إعادة تحميل الصفحة
-        // بسبب تدوير الشاشة)، ولا يفرض آخر قسم عند بدء جلسة تطبيق جديدة.
-        try {
-            sessionStorage.setItem('activeTab', tabId);
-        } catch (error) {
-            console.warn('تعذر حفظ القسم الحالي للجلسة:', error);
-        }
-
         document.querySelectorAll('.panel-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn, .mobile-nav-item').forEach(b => b.classList.remove('active'));
         
@@ -2243,71 +2264,128 @@ function renderPulse() {
         }
     }
 
-    // التنقل بين الأقسام بالسحب الأفقي على محتوى القسم الحالي.
-    // الشريط السفلي يبقى متاحاً دائماً كطريقة تنقل بديلة.
+    // التنقل بالسحب الأفقي بين الأقسام الخمسة مع الالتفاف من الأخير إلى الأول والعكس.
+    // يظل شريط التنقل السفلي ظاهراً كخيار واضح للتنقل اليدوي.
     (() => {
-        const tabOrder = ['telawat', 'remaining', 'dhikr', 'pulse', 'live'];
-        let startX = 0;
-        let startY = 0;
-        let tracking = false;
+        const sections = ['telawat', 'remaining', 'dhikr', 'pulse', 'live'];
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let trackingTouch = false;
 
         document.addEventListener('touchstart', (event) => {
             const touch = event.changedTouches && event.changedTouches[0];
             if (!touch) return;
 
-            const panel = event.target.closest('.panel-content.active');
-            if (!panel) {
-                tracking = false;
+            const activePanel = event.target.closest('.panel-content.active');
+            if (!activePanel) {
+                trackingTouch = false;
                 return;
             }
 
-            // لا نتدخل في السحب داخل عناصر التحكم أو مشغلات الوسائط.
-            if (event.target.closest('button, a, input, textarea, select, video, audio, .sub-tabs, .tabs-container')) {
-                tracking = false;
+            // استثناء الأزرار والروابط وحقول الإدخال ومشغلات الصوت/الفيديو.
+            if (event.target.closest(
+                'button, a, input, textarea, select, video, audio, .sub-tabs, .tabs-container'
+            )) {
+                trackingTouch = false;
                 return;
             }
 
-            startX = touch.clientX;
-            startY = touch.clientY;
-            tracking = true;
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            trackingTouch = true;
         }, { passive: true });
 
         document.addEventListener('touchend', (event) => {
-            if (!tracking) return;
-            tracking = false;
+            if (!trackingTouch) return;
+            trackingTouch = false;
 
             const touch = event.changedTouches && event.changedTouches[0];
             if (!touch) return;
 
-            const deltaX = touch.clientX - startX;
-            const deltaY = touch.clientY - startY;
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
 
-            // يشترط أن تكون الحركة أفقية وواضحة حتى لا تتعارض مع التمرير العمودي.
-            if (Math.abs(deltaX) < 70 || Math.abs(deltaY) > 55 ||
-                Math.abs(deltaX) < Math.abs(deltaY) * 1.35) {
-                return;
-            }
+            // تجاهل التمرير العمودي أو اللمسات القصيرة.
+            if (
+                Math.abs(deltaX) < 65 ||
+                Math.abs(deltaY) > 60 ||
+                Math.abs(deltaX) < Math.abs(deltaY) * 1.25
+            ) return;
 
             const activePanel = document.querySelector('.panel-content.active');
             if (!activePanel) return;
 
             const currentTab = activePanel.id.replace('panel-', '');
-            const currentIndex = tabOrder.indexOf(currentTab);
-            if (currentIndex === -1) return;
+            const currentIndex = sections.indexOf(currentTab);
+            if (currentIndex < 0) return;
 
-            // سحب لليسار: القسم التالي. سحب لليمين: القسم السابق.
+            // في واجهة RTL: السحب لليسار ينتقل للتالي، ولليمين للسابق.
             const nextIndex = deltaX < 0
-                ? Math.min(currentIndex + 1, tabOrder.length - 1)
-                : Math.max(currentIndex - 1, 0);
+                ? (currentIndex + 1) % sections.length
+                : (currentIndex - 1 + sections.length) % sections.length;
 
-            if (nextIndex !== currentIndex) {
-                switchTab(tabOrder[nextIndex], null);
-            }
+            switchTab(sections[nextIndex], null);
         }, { passive: true });
 
         document.addEventListener('touchcancel', () => {
-            tracking = false;
+            trackingTouch = false;
         }, { passive: true });
+    })();
+
+    // حفظ القسم فقط إذا كان إغلاق/إعادة تحميل الصفحة ناتجاً عن تدوير الشاشة.
+    // لا يتم حفظه عند إغلاق التطبيق بالطريقة المعتادة، لذلك يبدأ التشغيل التالي من «تلاوات».
+    (() => {
+        const initialOrientation = window.innerWidth > window.innerHeight
+            ? 'landscape' : 'portrait';
+
+        const saveOrientationHandoff = (fromOrientation, toOrientation) => {
+            if (fromOrientation === toOrientation) return;
+
+            const activePanel = document.querySelector('.panel-content.active');
+            const activeTab = activePanel
+                ? activePanel.id.replace('panel-', '')
+                : 'telawat';
+
+            try {
+                localStorage.setItem('__numbered_orientation_handoff', JSON.stringify({
+                    tab: activeTab,
+                    from: fromOrientation,
+                    to: toOrientation,
+                    time: Date.now()
+                }));
+            } catch (error) {
+                console.warn('تعذر حفظ القسم عند تدوير الشاشة:', error);
+            }
+        };
+
+        // يعمل قبل إعادة إنشاء WebView عند تدوير الجهاز.
+        let lastOrientation = initialOrientation;
+        window.addEventListener('orientationchange', () => {
+            const nextOrientation = window.innerWidth > window.innerHeight
+                ? 'landscape' : 'portrait';
+
+            saveOrientationHandoff(lastOrientation, nextOrientation);
+            lastOrientation = nextOrientation;
+
+            // إذا لم تُعد الصفحة التحميل، احذف العلامة بعد انتهاء مهلة الاستعادة.
+            window.setTimeout(() => {
+                try {
+                    const raw = localStorage.getItem('__numbered_orientation_handoff');
+                    if (!raw) return;
+                    const item = JSON.parse(raw);
+                    if (Date.now() - item.time > 4500) {
+                        localStorage.removeItem('__numbered_orientation_handoff');
+                    }
+                } catch (_) {}
+            }, 5000);
+        });
+
+        // احتياط إذا نفّذ المتصفح pagehide قبل أن يصل حدث orientationchange.
+        window.addEventListener('pagehide', () => {
+            const currentOrientation = window.innerWidth > window.innerHeight
+                ? 'landscape' : 'portrait';
+            saveOrientationHandoff(initialOrientation, currentOrientation);
+        });
     })();
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -2324,18 +2402,35 @@ function renderPulse() {
             localStorage.setItem('lastDate', today);
         }
 
-        // استعادة القسم داخل الجلسة الحالية فقط؛ والافتراضي عند بدء جلسة جديدة هو تلاوات.
-        let savedTab = 'telawat';
+        // الافتراضي عند فتح التطبيق بعد إغلاقه هو قسم «تلاوات».
+        // الاستثناء الوحيد: إذا أعاد WebView تحميل الصفحة بسبب تدوير الشاشة للتو،
+        // نستعيد القسم السابق مرة واحدة فقط خلال نافذة زمنية قصيرة.
+        let startupTab = 'telawat';
         try {
-            savedTab = sessionStorage.getItem('activeTab') || 'telawat';
+            const handoffRaw = localStorage.getItem('__numbered_orientation_handoff');
+            if (handoffRaw) {
+                localStorage.removeItem('__numbered_orientation_handoff');
+                const handoff = JSON.parse(handoffRaw);
+                const currentOrientation = window.innerWidth > window.innerHeight
+                    ? 'landscape' : 'portrait';
+
+                if (
+                    handoff &&
+                    Date.now() - handoff.time >= 0 &&
+                    Date.now() - handoff.time <= 5000 &&
+                    handoff.from !== handoff.to &&
+                    handoff.to === currentOrientation &&
+                    ['telawat', 'remaining', 'dhikr', 'pulse', 'live'].includes(handoff.tab)
+                ) {
+                    startupTab = handoff.tab;
+                }
+            }
         } catch (error) {
-            console.warn('تعذر استعادة القسم المحفوظ:', error);
+            console.warn('تعذر استعادة القسم بعد تدوير الشاشة:', error);
+            try { localStorage.removeItem('__numbered_orientation_handoff'); } catch (_) {}
         }
 
-        // حماية من أي قيمة قديمة أو غير معروفة.
-        const validTabs = ['telawat', 'remaining', 'dhikr', 'pulse', 'live'];
-        if (!validTabs.includes(savedTab)) savedTab = 'telawat';
-        switchTab(savedTab, null);
+        switchTab(startupTab, null);
 
         initLiveAudio();
         fetchAllData();
