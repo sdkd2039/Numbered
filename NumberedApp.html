@@ -40,6 +40,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 
     <style>
+        html, body { max-width: 100%; overflow-x: clip; }
         @font-face {
             font-family: 'TheYearofHandicrafts';
             src: url('https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/TheYearofHandicrafts-Bold.otf') format('opentype');
@@ -2264,82 +2265,18 @@ function renderPulse() {
         }
     }
 
-    // التنقل بالسحب الأفقي بين الأقسام الخمسة مع الالتفاف من الأخير إلى الأول والعكس.
-    // يظل شريط التنقل السفلي ظاهراً كخيار واضح للتنقل اليدوي.
+    // الاحتفاظ بالقسم الحالي عند تدوير الشاشة فقط.
+    // لا نحفظ القسم عند مغادرة التطبيق؛ لذلك يبدأ التشغيل الجديد دائمًا من «تلاوات».
     (() => {
-        const sections = ['telawat', 'remaining', 'dhikr', 'pulse', 'live'];
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let trackingTouch = false;
-
-        document.addEventListener('touchstart', (event) => {
-            const touch = event.changedTouches && event.changedTouches[0];
-            if (!touch) return;
-
-            const activePanel = event.target.closest('.panel-content.active');
-            if (!activePanel) {
-                trackingTouch = false;
-                return;
-            }
-
-            // استثناء الأزرار والروابط وحقول الإدخال ومشغلات الصوت/الفيديو.
-            if (event.target.closest(
-                'button, a, input, textarea, select, video, audio, .sub-tabs, .tabs-container'
-            )) {
-                trackingTouch = false;
-                return;
-            }
-
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
-            trackingTouch = true;
-        }, { passive: true });
-
-        document.addEventListener('touchend', (event) => {
-            if (!trackingTouch) return;
-            trackingTouch = false;
-
-            const touch = event.changedTouches && event.changedTouches[0];
-            if (!touch) return;
-
-            const deltaX = touch.clientX - touchStartX;
-            const deltaY = touch.clientY - touchStartY;
-
-            // تجاهل التمرير العمودي أو اللمسات القصيرة.
-            if (
-                Math.abs(deltaX) < 65 ||
-                Math.abs(deltaY) > 60 ||
-                Math.abs(deltaX) < Math.abs(deltaY) * 1.25
-            ) return;
-
-            const activePanel = document.querySelector('.panel-content.active');
-            if (!activePanel) return;
-
-            const currentTab = activePanel.id.replace('panel-', '');
-            const currentIndex = sections.indexOf(currentTab);
-            if (currentIndex < 0) return;
-
-            // في واجهة RTL: السحب لليسار ينتقل للتالي، ولليمين للسابق.
-            const nextIndex = deltaX < 0
-                ? (currentIndex + 1) % sections.length
-                : (currentIndex - 1 + sections.length) % sections.length;
-
-            switchTab(sections[nextIndex], null);
-        }, { passive: true });
-
-        document.addEventListener('touchcancel', () => {
-            trackingTouch = false;
-        }, { passive: true });
-    })();
-
-    // حفظ القسم فقط إذا كان إغلاق/إعادة تحميل الصفحة ناتجاً عن تدوير الشاشة.
-    // لا يتم حفظه عند إغلاق التطبيق بالطريقة المعتادة، لذلك يبدأ التشغيل التالي من «تلاوات».
-    (() => {
-        const initialOrientation = window.innerWidth > window.innerHeight
+        const HANDOFF_KEY = '__numbered_rotation_handoff';
+        const validTabs = ['telawat', 'remaining', 'dhikr', 'pulse', 'live'];
+        const orientation = () => window.innerWidth > window.innerHeight
             ? 'landscape' : 'portrait';
 
-        const saveOrientationHandoff = (fromOrientation, toOrientation) => {
-            if (fromOrientation === toOrientation) return;
+        let previousOrientation = orientation();
+
+        const saveRotationHandoff = (nextOrientation) => {
+            if (nextOrientation === previousOrientation) return;
 
             const activePanel = document.querySelector('.panel-content.active');
             const activeTab = activePanel
@@ -2347,44 +2284,40 @@ function renderPulse() {
                 : 'telawat';
 
             try {
-                localStorage.setItem('__numbered_orientation_handoff', JSON.stringify({
-                    tab: activeTab,
-                    from: fromOrientation,
-                    to: toOrientation,
+                sessionStorage.setItem(HANDOFF_KEY, JSON.stringify({
+                    tab: validTabs.includes(activeTab) ? activeTab : 'telawat',
+                    from: previousOrientation,
+                    to: nextOrientation,
                     time: Date.now()
                 }));
             } catch (error) {
                 console.warn('تعذر حفظ القسم عند تدوير الشاشة:', error);
             }
+
+            previousOrientation = nextOrientation;
         };
 
-        // يعمل قبل إعادة إنشاء WebView عند تدوير الجهاز.
-        let lastOrientation = initialOrientation;
+        // orientationchange يعمل قبل/أثناء إعادة إنشاء الصفحة في بعض WebView.
         window.addEventListener('orientationchange', () => {
-            const nextOrientation = window.innerWidth > window.innerHeight
-                ? 'landscape' : 'portrait';
-
-            saveOrientationHandoff(lastOrientation, nextOrientation);
-            lastOrientation = nextOrientation;
-
-            // إذا لم تُعد الصفحة التحميل، احذف العلامة بعد انتهاء مهلة الاستعادة.
-            window.setTimeout(() => {
-                try {
-                    const raw = localStorage.getItem('__numbered_orientation_handoff');
-                    if (!raw) return;
-                    const item = JSON.parse(raw);
-                    if (Date.now() - item.time > 4500) {
-                        localStorage.removeItem('__numbered_orientation_handoff');
-                    }
-                } catch (_) {}
-            }, 5000);
+            window.setTimeout(() => saveRotationHandoff(orientation()), 80);
         });
 
-        // احتياط إذا نفّذ المتصفح pagehide قبل أن يصل حدث orientationchange.
-        window.addEventListener('pagehide', () => {
-            const currentOrientation = window.innerWidth > window.innerHeight
-                ? 'landscape' : 'portrait';
-            saveOrientationHandoff(initialOrientation, currentOrientation);
+        // احتياط للأجهزة التي يتغير فيها قياس النافذة دون إطلاق orientationchange.
+        if (window.matchMedia) {
+            const media = window.matchMedia('(orientation: portrait)');
+            const onOrientationMediaChange = () => {
+                saveRotationHandoff(orientation());
+            };
+            if (media.addEventListener) {
+                media.addEventListener('change', onOrientationMediaChange);
+            } else if (media.addListener) {
+                media.addListener(onOrientationMediaChange);
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            const next = orientation();
+            if (next !== previousOrientation) saveRotationHandoff(next);
         });
     })();
 
@@ -2402,22 +2335,22 @@ function renderPulse() {
             localStorage.setItem('lastDate', today);
         }
 
-        // الافتراضي عند فتح التطبيق بعد إغلاقه هو قسم «تلاوات».
-        // الاستثناء الوحيد: إذا أعاد WebView تحميل الصفحة بسبب تدوير الشاشة للتو،
-        // نستعيد القسم السابق مرة واحدة فقط خلال نافذة زمنية قصيرة.
+        // يبدأ التطبيق دائمًا من «تلاوات»، إلا إذا كانت إعادة التحميل بسبب تدوير الشاشة للتو.
         let startupTab = 'telawat';
         try {
-            const handoffRaw = localStorage.getItem('__numbered_orientation_handoff');
+            const handoffRaw = sessionStorage.getItem('__numbered_rotation_handoff');
+            sessionStorage.removeItem('__numbered_rotation_handoff');
+
             if (handoffRaw) {
-                localStorage.removeItem('__numbered_orientation_handoff');
                 const handoff = JSON.parse(handoffRaw);
                 const currentOrientation = window.innerWidth > window.innerHeight
                     ? 'landscape' : 'portrait';
+                const age = Date.now() - Number(handoff.time);
 
                 if (
                     handoff &&
-                    Date.now() - handoff.time >= 0 &&
-                    Date.now() - handoff.time <= 5000 &&
+                    age >= 0 &&
+                    age <= 5000 &&
                     handoff.from !== handoff.to &&
                     handoff.to === currentOrientation &&
                     ['telawat', 'remaining', 'dhikr', 'pulse', 'live'].includes(handoff.tab)
@@ -2427,7 +2360,7 @@ function renderPulse() {
             }
         } catch (error) {
             console.warn('تعذر استعادة القسم بعد تدوير الشاشة:', error);
-            try { localStorage.removeItem('__numbered_orientation_handoff'); } catch (_) {}
+            try { sessionStorage.removeItem('__numbered_rotation_handoff'); } catch (_) {}
         }
 
         switchTab(startupTab, null);
