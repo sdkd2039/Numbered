@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101820">
+
+  <title>سياسة الخصوصية | معدودات</title>
+
+  <meta name="description"
+        content="سياسة الخصوصية لتطبيق معدودات، توضح كيفية التعامل مع المعلومات والخدمات المرتبطة بالتطبيق.">
+
+  <link rel="preconnect" href="https://file.garden">
+  <link rel="preconnect" href="https://raw.githubusercontent.com">
+
+  <style>
+    @font-face {
+      font-family: "NumberedFont";
+      src: url("https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/TheYearofHandicrafts-Bold.otf")
+           format("opentype");
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    :root {
+      --background: #101820;
+      --surface: #18232d;
+      --surface-light: #202e39;
+      --text: #f3f5f6;
+      --muted: #aebbc5;
+      --accent: #d6b878;
+      --border: rgba(255,255,255,.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(214,184,120,.10),
+          transparent 36%
+        ),
+        var(--background);
+
+      color: var(--text);
+      font-family: "NumberedFont", Tahoma, Arial, sans-serif;
+      line-height: 2;
+      direction: rtl;
+    }
+
+    /* شعار معدودات الثابت */
+    .fixed-logo {
+      position: fixed;
+      top: 17px;
+      left: 22px;
+      z-index: 1000;
+
+      width: 66px;
+      height: 66px;
+      padding: 7px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(24,35,45,.94);
+      border: 1px solid rgba(214,184,120,.35);
+      border-radius: 18px;
+
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      backdrop-filter: blur(12px);
+
+      transition: transform .25s ease;
+    }
+
+    .fixed-logo:hover {
+      transform: translateY(-3px);
+    }
+
+    .fixed-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* الحاوية الرئيسية */
+    .container {
+      width: min(900px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 105px 0 45px;
+    }
+
+    /* رأس الصفحة */
+    .hero {
+      text-align: center;
+      padding: 35px 20px 40px;
+      margin-bottom: 28px;
+
+      background: linear-gradient(
+        145deg,
+        rgba(214,184,120,.10),
+        rgba(24,35,45,.85)
+      );
+
+      border: 1px solid var(--border);
+      border-radius: 26px;
+    }
+
+    .hero .eyebrow {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 43px);
+      line-height: 1.5;
+      color: #fff;
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin: 12px auto 0;
+      max-width: 600px;
+      font-size: 15px;
+    }
+
+    .updated {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 6px 16px;
+      color: var(--accent);
+      background: rgba(214,184,120,.09);
+      border: 1px solid rgba(214,184,120,.2);
+      border-radius: 30px;
+      font-size: 13px;
+    }
+
+    /* أقسام السياسة */
+    .policy-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 25px 28px;
+      margin-bottom: 17px;
+
+      transition: border-color .25s ease;
+    }
+
+    .policy-section:hover {
+      border-color: rgba(214,184,120,.35);
+    }
+
+    .policy-section h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      color: var(--accent);
+      font-size: 20px;
+      margin: 0 0 13px;
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+
+      background: rgba(214,184,120,.12);
+      border-radius: 11px;
+      font-size: 15px;
+    }
+
+    .policy-section p {
+      color: var(--muted);
+      margin: 0 0 12px;
+      font-size: 15px;
+    }
+
+    .policy-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .policy-section ul {
+      color: var(--muted);
+      padding-right: 23px;
+      margin: 8px 0;
+      font-size: 15px;
+    }
+
+    .policy-section li {
+      padding-right: 5px;
+      margin-bottom: 7px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-card {
+      text-align: center;
+      background: var(--surface-light);
+      border: 1px solid rgba(214,184,120,.25);
+      border-radius: 20px;
+      padding: 28px 18px;
+      margin-top: 25px;
+    }
+
+    .contact-card h2 {
+      color: var(--accent);
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .email-link {
+      display: inline-block;
+      direction: ltr;
+      margin-top: 10px;
+      padding: 10px 20px;
+
+      background: rgba(214,184,120,.10);
+      border: 1px solid rgba(214,184,120,.25);
+      border-radius: 12px;
+
+      font-size: 16px;
+    }
+
+    footer {
+      text-align: center;
+      color: #84929c;
+      padding: 30px 10px 15px;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--muted);
+    }
+
+    /* تحسين الجوال */
+    @media (max-width: 600px) {
+      .fixed-logo {
+        top: 12px;
+        left: 12px;
+        width: 53px;
+        height: 53px;
+        border-radius: 14px;
+      }
+
+      .container {
+        width: calc(100% - 24px);
+        padding-top: 88px;
+      }
+
+      .hero {
+        padding: 28px 14px;
+        border-radius: 20px;
+      }
+
+      .policy-section {
+        padding: 20px 17px;
+        border-radius: 17px;
+      }
+
+      .policy-section h2 {
+        font-size: 18px;
+      }
+
+      .policy-section p,
+      .policy-section ul {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- الشعار الثابت أعلى اليسار -->
+  <a class="fixed-logo"
+     href="https://numbered.casacam.net/"
+     aria-label="العودة إلى موقع معدودات">
+
+    <img
+      src="https://raw.githubusercontent.com/sdkd2039/Numbered/refs/heads/main/T401783946968724.png"
+      alt="شعار معدودات"
+    >
+  </a>
+
+  <main class="container">
+
+    <!-- عنوان الصفحة -->
+    <header class="hero">
+      <span class="eyebrow">معدودات | الخصوصية والشفافية</span>
+
+      <h1>سياسة الخصوصية</h1>
+
+      <p>
+        نحرص في معدودات على احترام خصوصيتك وتوضيح
+        كيفية التعامل مع المعلومات المرتبطة باستخدام خدماتنا.
+      </p>
+
+      <span class="updated">
+        آخر تحديث: 19 نوفمبر 2026
+      </span>
+    </header>
+
+    <!-- 1 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">01</span>
+        مقدمة
+      </h2>
+
+      <p>
+        مرحباً بك في معدودات. توضح سياسة الخصوصية هذه
+        كيفية التعامل مع المعلومات عند استخدام تطبيق معدودات
+        وموقعه الإلكتروني والخدمات المرتبطة به.
+      </p>
+
+      <p>
+        نحرص على الشفافية واحترام خصوصية المستخدمين،
+        ونسعى إلى تقليل المعلومات التي تتم معالجتها
+        إلى الحد اللازم لتشغيل الخدمات.
+      </p>
+    </section>
+
+    <!-- 2 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">02</span>
+        الحسابات والمعلومات الشخصية
+      </h2>
+
+      <p>
+        لا يتطلب تطبيق معدودات إنشاء حساب أو تسجيل الدخول
+        لاستخدام وظائفه الأساسية، ولا يطلب من المستخدم
+        تقديم اسمه أو رقم هاتفه أو كلمة مروره لإنشاء حساب.
+      </p>
+
+      <p>
+        وقد تتم معالجة معلومات تقنية مرتبطة بتشغيل التطبيق
+        أو الموقع والخدمات المستخدمة فيه، وفقاً لما هو موضح
+        في هذه السياسة.
+      </p>
+    </section>
+
+    <!-- 3 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">03</span>
+        المعلومات التقنية
+      </h2>
+
+      <p>
+        قد تتم معالجة بعض المعلومات التقنية بصورة تلقائية
+        عند استخدام التطبيق أو الموقع، بحسب الخدمات وإعداداتها،
+        ومنها:
+      </p>
+
+      <ul>
+        <li>معلومات تقنية عن الجهاز ونظام التشغيل.</li>
+        <li>معرّفات تقنية مرتبطة بخدمات الإشعارات.</li>
+        <li>معلومات الاتصال بالخوادم لأغراض التشغيل والحماية.</li>
+        <li>معلومات تقنية تساعد على تشخيص الأخطاء وتحسين الخدمة.</li>
+      </ul>
+    </section>
+
+    <!-- 4 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">04</span>
+        الإشعارات
+      </h2>
+
+      <p>
+        قد يستخدم تطبيق معدودات خدمة OneSignal لتشغيل
+        وإرسال الإشعارات إلى الأجهزة التي تسمح باستقبالها.
+      </p>
+
+      <p>
+        قد تعالج هذه الخدمة معرّفات الاشتراك ومعلومات تقنية
+        ضرورية لإدارة الإشعارات وإيصالها.
+      </p>
+
+      <p>
+        يمكن للمستخدم التحكم في الإشعارات أو إيقافها
+        من إعدادات جهازه.
+      </p>
+
+      <p>
+        لمزيد من المعلومات:
+        <a href="https://onesignal.com/privacy_policy"
+           target="_blank" rel="noopener noreferrer">
+          سياسة خصوصية OneSignal
+        </a>
+      </p>
+    </section>
+
+    <!-- 5 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">05</span>
+        الخدمات والأطراف الخارجية
+      </h2>
+
+      <p>
+        قد يعتمد التطبيق أو الموقع على خدمات خارجية
+        لتقديم بعض الوظائف، مثل خدمات الإشعارات والاستضافة
+        وعرض المحتوى.
+      </p>
+
+      <p>
+        تخضع معالجة المعلومات لدى هذه الخدمات لسياسات
+        الخصوصية الخاصة بمزوديها، وقد تختلف طبيعة المعلومات
+        بحسب الخدمة المستخدمة.
+      </p>
+    </section>
+
+    <!-- 6 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">06</span>
+        ملفات تعريف الارتباط
+      </h2>
+
+      <p>
+        قد يستخدم الموقع أو بعض الخدمات المضمنة فيه
+        ملفات تعريف الارتباط أو تقنيات مشابهة لأغراض
+        التشغيل وحفظ التفضيلات وتحسين تجربة الاستخدام،
+        بحسب إعدادات الخدمات المستخدمة.
+      </p>
+
+      <p>
+        يمكن للمستخدم إدارة ملفات تعريف الارتباط
+        من إعدادات المتصفح، مع العلم أن تعطيل بعضها
+        قد يؤثر في عمل بعض وظائف الموقع.
+      </p>
+    </section>
+
+    <!-- 7 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">07</span>
+        استخدام المعلومات ومشاركتها
+      </h2>
+
+      <p>
+        تُستخدم المعلومات التقنية التي قد تتم معالجتها
+        للأغراض المرتبطة بتشغيل الخدمات وتقديم الإشعارات
+        وحماية الأنظمة ومعالجة المشكلات التقنية.
+      </p>
+
+      <p>
+        لا نبيع البيانات الشخصية للمستخدمين ولا نتاجر بها.
+        وقد تتم مشاركة المعلومات بالقدر اللازم مع مزودي
+        الخدمات التقنية أو عند وجود التزام قانوني.
+      </p>
+    </section>
+
+    <!-- 8 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">08</span>
+        حماية المعلومات والاحتفاظ بها
+      </h2>
+
+      <p>
+        نحرص على اتخاذ تدابير تقنية وتنظيمية مناسبة
+        للمساعدة في حماية المعلومات من الوصول غير المصرح به
+        أو الاستخدام غير المناسب.
+      </p>
+
+      <p>
+        تختلف فترات الاحتفاظ بالمعلومات التقنية بحسب
+        طبيعة الخدمة ومزودها وإعداداته، وتخضع المعلومات
+        التي تعالجها الخدمات الخارجية لسياسات الاحتفاظ
+        والحذف المعتمدة لديها.
+      </p>
+    </section>
+
+    <!-- 9 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">09</span>
+        حذف الحساب والبيانات
+      </h2>
+
+      <p>
+        لا يوفر تطبيق معدودات نظاماً لإنشاء حسابات مستخدمين،
+        ولذلك لا توجد حسابات داخل التطبيق تتطلب إجراء حذف.
+      </p>
+
+      <p>
+        أما المعلومات التقنية التي قد تعالجها الخدمات
+        الخارجية، فيمكن أن تخضع لإجراءات الحذف والاحتفاظ
+        المعتمدة لدى مزودي تلك الخدمات.
+      </p>
+
+      <p>
+        ويمكن التواصل معنا للاستفسار عن الخصوصية
+        أو طلب المساعدة بشأن المعلومات المرتبطة بالخدمات.
+      </p>
+    </section>
+
+    <!-- 10 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">10</span>
+        خصوصية الأطفال
+      </h2>
+
+      <p>
+        نحرص على احترام خصوصية المستخدمين من مختلف
+        الفئات العمرية. ولا نطلب إنشاء حساب أو تقديم
+        معلومات شخصية مباشرة لاستخدام الوظائف الأساسية.
+      </p>
+
+      <p>
+        إذا تبين لنا أن معلومات شخصية قد قُدمت إلينا
+        بطريقة غير مناسبة، فسنتعامل مع الأمر وفقاً
+        للأنظمة والالتزامات المعمول بها.
+      </p>
+    </section>
+
+    <!-- 11 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">11</span>
+        التعديلات على سياسة الخصوصية
+      </h2>
+
+      <p>
+        قد نقوم بتحديث هذه السياسة عند إضافة ميزات جديدة
+        أو تغيير الخدمات التقنية المستخدمة أو عند الحاجة
+        إلى توضيح طريقة التعامل مع المعلومات.
+      </p>
+
+      <p>
+        سيتم نشر النسخة المحدثة على هذه الصفحة مع تعديل
+        تاريخ آخر تحديث الموضح في الأعلى.
+      </p>
+    </section>
+
+    <!-- 12 -->
+    <section class="policy-section">
+      <h2>
+        <span class="section-number">12</span>
+        التواصل معنا
+      </h2>
+
+      <p>
+        إذا كانت لديك أسئلة أو استفسارات أو ملاحظات
+        تتعلق بسياسة الخصوصية أو حماية المعلومات،
+        يمكنك التواصل معنا عبر البريد الإلكتروني.
+      </p>
+
+      <div class="contact-card">
+        <h2>معدودات</h2>
+
+        <p>للاستفسارات المتعلقة بالخصوصية والدعم</p>
+
+        <a class="email-link"
+           href="mailto:sultan2021alamoudi@gmail.com">
+          sultan2021alamoudi@gmail.com
+        </a>
+
+        <p style="margin-top:18px">
+          الموقع الرسمي
+        </p>
+
+        <a href="https://numbered.casacam.net/">
+          numbered.casacam.net
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        © 2026 معدودات — جميع الحقوق محفوظة
+      </p>
+
+      <a href="https://numbered.casacam.net/">
+        الصفحة الرئيسية
+      </a>
+    </footer>
+
+  </main>
+
+</body>
+</html>
