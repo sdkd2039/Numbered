@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,8 +7,7 @@
 
   <title>سياسة الخصوصية | معدودات</title>
 
-  <meta name="description"
-        content="سياسة الخصوصية لتطبيق معدودات، توضح كيفية التعامل مع المعلومات والخدمات المرتبطة بالتطبيق.">
+  <meta name="description" content="سياسة الخصوصية لتطبيق معدودات وموقعه الإلكتروني.">
 
   <link rel="preconnect" href="https://file.garden">
   <link rel="preconnect" href="https://raw.githubusercontent.com">
@@ -18,7 +16,7 @@
     @font-face {
       font-family: "NumberedFont";
       src: url("https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/TheYearofHandicrafts-Bold.otf")
-           format("opentype");
+        format("opentype");
       font-weight: 700;
       font-display: swap;
     }
@@ -39,7 +37,7 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 90px;
+      scroll-padding-top: 100px;
     }
 
     body {
@@ -58,36 +56,38 @@
       direction: rtl;
     }
 
-    /* شعار معدودات الثابت */
+    /* الشعار الثابت - مستطيل أفقي */
     .fixed-logo {
       position: fixed;
       top: 17px;
-      left: 22px;
+      left: 20px;
       z-index: 1000;
 
-      width: 66px;
+      width: 150px;
       height: 66px;
-      padding: 7px;
+      padding: 9px 16px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      background: rgba(24,35,45,.94);
+      background: rgba(24,35,45,.96);
       border: 1px solid rgba(214,184,120,.35);
-      border-radius: 18px;
+      border-radius: 17px;
 
       box-shadow: 0 8px 30px rgba(0,0,0,.25);
       backdrop-filter: blur(12px);
 
-      transition: transform .25s ease;
+      transition: .25s ease;
     }
 
     .fixed-logo:hover {
       transform: translateY(-3px);
+      border-color: var(--accent);
     }
 
     .fixed-logo img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: contain;
@@ -103,7 +103,7 @@
     /* رأس الصفحة */
     .hero {
       text-align: center;
-      padding: 35px 20px 40px;
+      padding: 36px 20px 40px;
       margin-bottom: 28px;
 
       background: linear-gradient(
@@ -116,11 +116,13 @@
       border-radius: 26px;
     }
 
-    .hero .eyebrow {
-      display: inline-block;
-      color: var(--accent);
-      font-size: 14px;
-      margin-bottom: 8px;
+    /* شعار الموقع في المنتصف */
+    .hero-logo {
+      width: min(250px, 75%);
+      height: 105px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 18px;
     }
 
     .hero h1 {
@@ -133,19 +135,27 @@
     .hero p {
       color: var(--muted);
       margin: 12px auto 0;
-      max-width: 600px;
+      max-width: 620px;
       font-size: 15px;
     }
 
     .updated {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
       margin-top: 20px;
-      padding: 6px 16px;
+      padding: 8px 17px;
+
       color: var(--accent);
       background: rgba(214,184,120,.09);
       border: 1px solid rgba(214,184,120,.2);
       border-radius: 30px;
       font-size: 13px;
+    }
+
+    .updated svg {
+      width: 17px;
+      height: 17px;
     }
 
     /* أقسام السياسة */
@@ -155,7 +165,6 @@
       border-radius: 20px;
       padding: 25px 28px;
       margin-bottom: 17px;
-
       transition: border-color .25s ease;
     }
 
@@ -170,7 +179,7 @@
 
       color: var(--accent);
       font-size: 20px;
-      margin: 0 0 13px;
+      margin: 0 0 18px;
     }
 
     .section-number {
@@ -178,18 +187,30 @@
       align-items: center;
       justify-content: center;
 
-      width: 34px;
-      height: 34px;
+      width: 42px;
+      height: 42px;
       flex-shrink: 0;
 
       background: rgba(214,184,120,.12);
-      border-radius: 11px;
-      font-size: 15px;
+      border-radius: 13px;
+      font-size: 16px;
+    }
+
+    /* أيقونات SVG */
+    .section-icon {
+      width: 23px;
+      height: 23px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .policy-section p {
       color: var(--muted);
-      margin: 0 0 12px;
+      margin: 0 0 13px;
       font-size: 15px;
     }
 
@@ -206,7 +227,11 @@
 
     .policy-section li {
       padding-right: 5px;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
+    }
+
+    .policy-section li::marker {
+      color: var(--accent);
     }
 
     a {
@@ -219,40 +244,61 @@
       text-decoration: underline;
     }
 
+    /* بطاقة التواصل */
     .contact-card {
       text-align: center;
       background: var(--surface-light);
       border: 1px solid rgba(214,184,120,.25);
       border-radius: 20px;
-      padding: 28px 18px;
-      margin-top: 25px;
+      padding: 27px 18px;
+      margin-top: 20px;
     }
 
-    .contact-card h2 {
+    .contact-icon {
+      width: 39px;
+      height: 39px;
+      margin: 0 auto 12px;
       color: var(--accent);
-      margin: 0 0 8px;
-      font-size: 22px;
     }
 
     .contact-card p {
       color: var(--muted);
-      margin: 5px 0;
+      margin: 7px 0;
       font-size: 14px;
     }
 
     .email-link {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
       direction: ltr;
       margin-top: 10px;
-      padding: 10px 20px;
+      padding: 11px 20px;
 
       background: rgba(214,184,120,.10);
       border: 1px solid rgba(214,184,120,.25);
-      border-radius: 12px;
+      border-radius: 13px;
 
       font-size: 16px;
+      max-width: 100%;
     }
 
+    .email-link svg {
+      width: 19px;
+      height: 19px;
+      flex-shrink: 0;
+    }
+
+    .website-link {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 16px;
+      direction: ltr;
+    }
+
+    /* التذييل */
     footer {
       text-align: center;
       color: #84929c;
@@ -260,17 +306,14 @@
       font-size: 13px;
     }
 
-    footer a {
-      color: var(--muted);
-    }
-
-    /* تحسين الجوال */
+    /* الجوال */
     @media (max-width: 600px) {
       .fixed-logo {
         top: 12px;
         left: 12px;
-        width: 53px;
-        height: 53px;
+        width: 125px;
+        height: 57px;
+        padding: 8px 13px;
         border-radius: 14px;
       }
 
@@ -284,6 +327,12 @@
         border-radius: 20px;
       }
 
+      .hero-logo {
+        width: min(220px, 80%);
+        height: 85px;
+        margin-bottom: 14px;
+      }
+
       .policy-section {
         padding: 20px 17px;
         border-radius: 17px;
@@ -291,11 +340,32 @@
 
       .policy-section h2 {
         font-size: 18px;
+        gap: 9px;
+      }
+
+      .section-number {
+        width: 38px;
+        height: 38px;
       }
 
       .policy-section p,
       .policy-section ul {
         font-size: 14px;
+      }
+
+      .email-link {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        transition-duration: .01ms !important;
       }
     }
   </style>
@@ -306,43 +376,58 @@
   <!-- الشعار الثابت أعلى اليسار -->
   <a class="fixed-logo"
      href="https://numbered.casacam.net/"
-     aria-label="العودة إلى موقع معدودات">
+     aria-label="موقع معدودات">
 
     <img
       src="https://raw.githubusercontent.com/sdkd2039/Numbered/refs/heads/main/T401783946968724.png"
-      alt="شعار معدودات"
-    >
+      alt="شعار معدودات">
   </a>
 
   <main class="container">
 
-    <!-- عنوان الصفحة -->
+    <!-- رأس الموقع -->
     <header class="hero">
-      <span class="eyebrow">معدودات | الخصوصية والشفافية</span>
+
+      <img
+        class="hero-logo"
+        src="https://raw.githubusercontent.com/sdkd2039/Numbered/refs/heads/main/T401783946968724.png"
+        alt="شعار معدودات">
 
       <h1>سياسة الخصوصية</h1>
 
       <p>
-        نحرص في معدودات على احترام خصوصيتك وتوضيح
-        كيفية التعامل مع المعلومات المرتبطة باستخدام خدماتنا.
+        نحرص في معدودات على احترام خصوصيتك وتوضيح كيفية
+        التعامل مع المعلومات المرتبطة باستخدام خدماتنا.
       </p>
 
       <span class="updated">
+        <svg viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <rect x="3" y="5" width="18" height="16" rx="2"/>
+          <path d="M16 3v4M8 3v4M3 10h18"/>
+        </svg>
         آخر تحديث: 19 نوفمبر 2026
       </span>
+
     </header>
 
-    <!-- 1 -->
+    <!-- 01 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">01</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
         مقدمة
       </h2>
 
       <p>
         مرحباً بك في معدودات. توضح سياسة الخصوصية هذه
-        كيفية التعامل مع المعلومات عند استخدام تطبيق معدودات
-        وموقعه الإلكتروني والخدمات المرتبطة به.
+        كيفية التعامل مع المعلومات عند استخدام تطبيق
+        معدودات وموقعه الإلكتروني والخدمات المرتبطة به.
       </p>
 
       <p>
@@ -352,10 +437,14 @@
       </p>
     </section>
 
-    <!-- 2 -->
+    <!-- 02 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">02</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M5 21c0-4 3-7 7-7s7 3 7 7"/>
+        </svg>
         الحسابات والمعلومات الشخصية
       </h2>
 
@@ -372,10 +461,14 @@
       </p>
     </section>
 
-    <!-- 3 -->
+    <!-- 03 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">03</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <rect x="5" y="2" width="14" height="20" rx="2"/>
+          <path d="M9 18h6M9 5h6"/>
+        </svg>
         المعلومات التقنية
       </h2>
 
@@ -393,10 +486,14 @@
       </ul>
     </section>
 
-    <!-- 4 -->
+    <!-- 04 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">04</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+          <path d="M10 21h4"/>
+        </svg>
         الإشعارات
       </h2>
 
@@ -424,10 +521,14 @@
       </p>
     </section>
 
-    <!-- 5 -->
+    <!-- 05 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">05</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>
+        </svg>
         الخدمات والأطراف الخارجية
       </h2>
 
@@ -444,10 +545,14 @@
       </p>
     </section>
 
-    <!-- 6 -->
+    <!-- 06 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">06</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <path d="M3 6h18M5 6l1 14h12l1-14"/>
+          <path d="M9 6V4h6v2M10 11v5M14 11v5"/>
+        </svg>
         ملفات تعريف الارتباط
       </h2>
 
@@ -465,10 +570,15 @@
       </p>
     </section>
 
-    <!-- 7 -->
+    <!-- 07 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">07</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
         استخدام المعلومات ومشاركتها
       </h2>
 
@@ -485,10 +595,14 @@
       </p>
     </section>
 
-    <!-- 8 -->
+    <!-- 08 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">08</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
         حماية المعلومات والاحتفاظ بها
       </h2>
 
@@ -506,10 +620,15 @@
       </p>
     </section>
 
-    <!-- 9 -->
+    <!-- 09 -->
     <section class="policy-section">
       <h2>
         <span class="section-number">09</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M9 9a3 3 0 0 1 6 0c0 2-3 3-3 5"/>
+          <path d="M12 17h.01"/>
+        </svg>
         حذف الحساب والبيانات
       </h2>
 
@@ -534,6 +653,9 @@
     <section class="policy-section">
       <h2>
         <span class="section-number">10</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
+        </svg>
         خصوصية الأطفال
       </h2>
 
@@ -554,6 +676,12 @@
     <section class="policy-section">
       <h2>
         <span class="section-number">11</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <path d="M20 7v5h-5"/>
+          <path d="M4 17v-5h5"/>
+          <path d="M5.6 9a7 7 0 0 1 11.5-2L20 12"/>
+          <path d="M4 12l2.9 5a7 7 0 0 0 11.5-2"/>
+        </svg>
         التعديلات على سياسة الخصوصية
       </h2>
 
@@ -573,6 +701,10 @@
     <section class="policy-section">
       <h2>
         <span class="section-number">12</span>
+        <svg class="section-icon" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <path d="m3 7 9 6 9-6"/>
+        </svg>
         التواصل معنا
       </h2>
 
@@ -583,33 +715,56 @@
       </p>
 
       <div class="contact-card">
-        <h2>معدودات</h2>
+
+        <svg class="contact-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.5"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <path d="m3 7 9 6 9-6"/>
+        </svg>
 
         <p>للاستفسارات المتعلقة بالخصوصية والدعم</p>
 
         <a class="email-link"
            href="mailto:sultan2021alamoudi@gmail.com">
+
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <path d="m3 7 9 6 9-6"/>
+          </svg>
+
           sultan2021alamoudi@gmail.com
         </a>
 
-        <p style="margin-top:18px">
+        <p style="margin-top:22px">
+          <svg style="width:17px;height:17px;vertical-align:middle"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M3 12h18M12 3a15 15 0 0 1 0 18"/>
+          </svg>
           الموقع الرسمي
         </p>
 
-        <a href="https://numbered.casacam.net/">
+        <a class="website-link"
+           href="https://numbered.casacam.net/">
           numbered.casacam.net
         </a>
+
       </div>
     </section>
 
+    <!-- نهاية الصفحة -->
     <footer>
-      <p>
-        © 2026 معدودات — جميع الحقوق محفوظة
-      </p>
-
-      <a href="https://numbered.casacam.net/">
-        الصفحة الرئيسية
-      </a>
+      © 2026 معدودات — جميع الحقوق محفوظة
     </footer>
 
   </main>
