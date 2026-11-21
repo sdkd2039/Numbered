@@ -5,18 +5,13 @@
 
 import { json, validURL, htmlResponse } from "./shared/http.js";
 import { manifestResponse, swResponse, iconResponse } from "./pwa/handlers.js";
+import { readIndex, saveArchive, dateLabel, getNotification, deleteNotification } from "./notifications/archive.js";
+import { fileIndex, fileTypeAllowed, serveFile, listFiles, deleteStoredFile, cleanupExpired } from "./files/service.js";
 
-const APP_ID = "1f922d01-9839-40aa-a468-4aff02cf5b87";
-const ONESIGNAL_URL = "https://api.onesignal.com/notifications";
 const LOGO_URL = "https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Painting-numbered.png";
 const BADGE_URL = "https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/numbered72.png";
 const FONT_URL = "https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/TheYearofHandicrafts-Bold.otf";
-const ARCHIVE_INDEX = "archive:index";
-const MAX_ARCHIVE = 200;
-const FILE_INDEX = "files:index";
 const MAX_FILE_BYTES = 25 * 1024 * 1024; // حد محافظ لتوافق الرفع عبر Worker
-const FILE_TTLS = {"1d":86400000,"7d":604800000,"30d":2592000000,"90d":7776000000,"forever":0};
-const ALLOWED_FILES = new Set(["image/jpeg","image/png","image/webp","image/gif","image/avif","video/mp4","video/webm","application/pdf"]);
 // عند تغيير الشعار مستقبلًا ارفع هذا الرقم لكسر التخزين المؤقت للأيقونات والـ Service Worker
 const ASSET_VERSION = "5";
 const KEY_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -311,78 +306,6 @@ try{const saved=sessionStorage.getItem('np_token');if(saved){$('token').value=sa
 updatePreview();mode();
 if(FILES_ONLY){$('files').classList.add('active');loadFiles();}
 </script></body></html>`;}
-
-async function readIndex(env){try{return await env.NOTIFICATION_ARCHIVE.get(ARCHIVE_INDEX,'json')||[];}catch{return [];}}
-async function saveArchive(env,entry){
-  const items=await readIndex(env);items.unshift(entry);
-  const removed=items.splice(MAX_ARCHIVE);
-  await env.NOTIFICATION_ARCHIVE.put(ARCHIVE_INDEX,JSON.stringify(items));
-  // تنظيف مفاتيح السجلات القديمة
-  for(const old of removed){if(old.key)await env.NOTIFICATION_ARCHIVE.delete('item:'+old.key);}
-  await env.NOTIFICATION_ARCHIVE.put('item:'+entry.key,JSON.stringify(entry));
-}
-function dateLabel(value){if(!value)return '';try{return new Intl.DateTimeFormat('ar-SA',{timeZone:'Asia/Riyadh',dateStyle:'medium',timeStyle:'short'}).format(new Date(value));}catch{return '';}}
-
-// تكرار: يتحقق الـ Worker من رمز الإدارة (في المعالج) ثم يعيد بيانات الإشعار القابلة للتعديل فقط. لا يرسل شيئًا.
-async function getNotification(env,key){
-  const item=await env.NOTIFICATION_ARCHIVE.get('item:'+key,'json');
-  if(!item)return json({success:false,message:'الإشعار غير موجود في الأرشيف، ربما حُذف مسبقًا.'},404);
-  return json({success:true,item:{key:item.key,title:item.title||'',message:item.message||'',url:item.url||'',imageURL:item.imageURL||''}});
-}
-
-// إلغاء إشعار مجدول لدى OneSignal: DELETE /notifications/{id}?app_id=...
-// حذف سجل KV وحده لا يلغي الإرسال، لذلك الإلغاء يتم هنا صراحةً.
-async function cancelOneSignal(env,notificationId){
-  if(!env.ONESIGNAL_REST_API_KEY)return {ok:false,message:'مفتاح OneSignal غير مضبوط، لا يمكن إلغاء الجدولة.'};
-  if(!notificationId)return {ok:false,message:'لا يوجد معرّف OneSignal محفوظ لهذا الإشعار، لا يمكن إلغاء الجدولة.'};
-  let response;
-  try{
-    response=await fetch(`${ONESIGNAL_URL}/${encodeURIComponent(notificationId)}?app_id=${encodeURIComponent(APP_ID)}`,{method:'DELETE',headers:{'Authorization':`Key ${env.ONESIGNAL_REST_API_KEY}`}});
-  }catch(error){
-    console.error('OneSignal cancel network error',error);
-    return {ok:false,message:'تعذر الاتصال بـ OneSignal لإلغاء الجدولة.'};
-  }
-  let data={};try{data=await response.json();}catch{}
-  if(response.ok&&data.success===true)return {ok:true,state:'cancelled'};
-  if(response.status===404)return {ok:true,state:'missing'};
-  console.error('OneSignal cancel failed',response.status);
-  return {ok:false,status:response.status,message:`تعذر إلغاء الإشعار المجدول لدى OneSignal (رمز الخطأ: ${response.status}).`};
-}
-
-async function deleteNotification(env,key){
-  const item=await env.NOTIFICATION_ARCHIVE.get('item:'+key,'json');
-  // قراءة الفهرس بدون ابتلاع الأخطاء حتى لا نكتب فهرسًا فارغًا عند فشل KV
-  const index=(await env.NOTIFICATION_ARCHIVE.get(ARCHIVE_INDEX,'json'))||[];
-  const writeIndex=async()=>{await env.NOTIFICATION_ARCHIVE.put(ARCHIVE_INDEX,JSON.stringify(index.filter(row=>row.key!==key)));};
-  if(!item){
-    if(index.some(row=>row.key===key))await writeIndex();
-    return json({success:false,message:'الإشعار غير موجود في الأرشيف، ربما حُذف مسبقًا.'},404);
-  }
-  let message='تم حذف الإشعار من الأرشيف. الإشعارات التي وصلت للمستخدمين سابقًا لا تُسحب من أجهزتهم.';
-  if(item.status==='scheduled'){
-    const pending=Date.parse(item.sendAfter)>Date.now();
-    const result=await cancelOneSignal(env,item.notificationId);
-    if(!result.ok&&pending){
-      // لم يُلغَ الإرسال المستقبلي: لا نحذف السجل حتى لا يبقى إشعار مجدول بلا أثر في الأرشيف
-      return json({success:false,message:`${result.message} لم يُحذف الإشعار من الأرشيف حتى لا يبقى مجدولًا دون سجل. حاول مرة أخرى.`},502);
-    }
-    if(result.ok&&result.state==='cancelled')message='تم إلغاء الجدولة لدى OneSignal وحذف الإشعار من الأرشيف. لن يُرسل مستقبلًا.';
-    else if(result.ok)message='لم يعد الإشعار موجودًا لدى OneSignal، وتم حذفه من الأرشيف.';
-    else message='حان موعد هذا الإشعار وتعذر إلغاؤه لدى OneSignal لأنه أُرسل غالبًا، وتم حذفه من الأرشيف. الإشعارات التي وصلت للمستخدمين لا تُسحب من أجهزتهم.';
-  }
-  await writeIndex();
-  await env.NOTIFICATION_ARCHIVE.delete('item:'+key);
-  return json({success:true,message});
-}
-
-async function fileIndex(env){return await env.NOTIFICATION_ARCHIVE.get(FILE_INDEX,'json')||[];}
-function expiryLabel(expiresAt){return expiresAt?dateLabel(expiresAt):'دائم حتى الحذف';}
-function fileTypeAllowed(type){return ALLOWED_FILES.has(type);}
-async function serveFile(id,env){if(!/^[a-f0-9-]{36}$/i.test(id))return new Response('Not Found',{status:404});if(!env.NOTIFICATION_ARCHIVE)return new Response('File service unavailable',{status:503});const meta=await env.NOTIFICATION_ARCHIVE.get('file:'+id,'json');if(!meta)return new Response('Not Found',{status:404});if(meta.expiresAt&&Date.now()>=Date.parse(meta.expiresAt)){return new Response('انتهت صلاحية هذا الرابط.',{status:410,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});}if(!meta.url)return new Response('File unavailable',{status:502});const upstream=await fetch(meta.url,{headers:{'Accept':meta.type||'*/*'}});if(!upstream.ok)return new Response('تعذر جلب الملف من خدمة التخزين.',{status:upstream.status===404?404:502});const headers=new Headers({'Content-Type':meta.type||upstream.headers.get('Content-Type')||'application/octet-stream','Cache-Control':'private, no-store, max-age=0','X-Content-Type-Options':'nosniff','Content-Disposition':`inline; filename*=UTF-8''${encodeURIComponent(meta.name)}`,'Referrer-Policy':'no-referrer'});const len=upstream.headers.get('Content-Length');if(len)headers.set('Content-Length',len);return new Response(upstream.body,{headers});}
-async function listFiles(env,base){const ids=await fileIndex(env),items=[];for(const id of ids){const m=await env.NOTIFICATION_ARCHIVE.get('file:'+id,'json');if(!m)continue;if(m.expiresAt&&Date.now()>=Date.parse(m.expiresAt))continue;items.push({id:m.id,name:m.name,type:m.type,size:m.size,sizeLabel:(m.size<1048576?Math.max(1,Math.round(m.size/1024))+' KB':(m.size/1048576).toFixed(2)+' MB'),expiryLabel:expiryLabel(m.expiresAt),expiresAt:m.expiresAt||null,url:base+'/f/'+m.id,createdAt:m.createdAt});}return items;}
-async function x02Delete(meta,env){if(!env.X02_API_KEY||!meta?.filename)return false;const r=await fetch('https://up.x02.me/api/user/images/'+encodeURIComponent(meta.filename),{method:'DELETE',headers:{'x-api-key':env.X02_API_KEY}});if(r.ok)return true;const body=await r.text().catch(()=> '');console.error('X02 delete failed',r.status,body.slice(0,300));return false;}
-async function deleteStoredFile(id,env){const meta=await env.NOTIFICATION_ARCHIVE.get('file:'+id,'json');if(!meta)return false;if(!await x02Delete(meta,env))return false;await env.NOTIFICATION_ARCHIVE.delete('file:'+id);const ids=await fileIndex(env);await env.NOTIFICATION_ARCHIVE.put(FILE_INDEX,JSON.stringify(ids.filter(x=>x!==id)));return true;}
-async function cleanupExpired(env){if(!env.X02_API_KEY||!env.NOTIFICATION_ARCHIVE)return;const ids=await fileIndex(env),keep=[];for(const id of ids){const m=await env.NOTIFICATION_ARCHIVE.get('file:'+id,'json');if(!m)continue;if(m.expiresAt&&Date.now()>=Date.parse(m.expiresAt)){if(await x02Delete(m,env))await env.NOTIFICATION_ARCHIVE.delete('file:'+id);else keep.push(id);}else keep.push(id);}await env.NOTIFICATION_ARCHIVE.put(FILE_INDEX,JSON.stringify(keep));}
 
 export default {
  async fetch(request,env){
