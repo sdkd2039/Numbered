@@ -46,7 +46,7 @@ function bearer(request) {
 }
 async function userFor(request, env) {
   const token = bearer(request);
-  if (!token) return null;
+  if (!token || token.length > 256) return null;
   const tokenHash = await digest(token);
   const now = Math.floor(Date.now() / 1000);
   const row = await env.SHEETS_DB.prepare(
@@ -74,8 +74,9 @@ async function authRoute(request, env, url) {
     const salt = b64(crypto.getRandomValues(new Uint8Array(16)));
     const hash = await passwordHash(input.password, salt);
     const id = crypto.randomUUID();
-    await db.prepare("INSERT INTO users (id,username,password_hash,password_salt,role,is_active) VALUES (?,?,?,?, 'admin',1)")
+    const created = await db.prepare("INSERT INTO users (id,username,password_hash,password_salt,role,is_active) SELECT ?,?,?,?,'admin',1 WHERE NOT EXISTS (SELECT 1 FROM users)")
       .bind(id, input.username.trim(), hash, salt).run();
+    if (!created.meta?.changes) return fail("تم إنشاء حساب الإدارة مسبقًا؛ لا يمكن إعادة التهيئة.", 409);
     return json({ success: true, message: "تم إنشاء حساب الإدارة. سجّل الدخول الآن." }, 201);
   }
   if (url.pathname === "/api/sheets/auth/login" && request.method === "POST") {
@@ -83,6 +84,7 @@ async function authRoute(request, env, url) {
     if (!input || !validName(input.username, 40) || typeof input.password !== "string") return fail("بيانات الدخول غير مكتملة.");
     const usernameKey = (await digest(input.username.trim().toLowerCase())).slice(0, 64);
     const now = Math.floor(Date.now() / 1000);
+    await db.prepare("DELETE FROM login_attempts WHERE attempted_at<?").bind(now - 86400).run();
     const attempts = await db.prepare("SELECT COUNT(*) AS n FROM login_attempts WHERE username_key=? AND attempted_at>? AND succeeded=0")
       .bind(usernameKey, now - 900).first();
     if (Number(attempts?.n || 0) >= 8) return fail("محاولات كثيرة. انتظر 15 دقيقة ثم حاول مجددًا.", 429);
@@ -162,6 +164,7 @@ async function handleAuthenticated(request, env, url, user) {
     if (!sheet) return fail("الورقة غير موجودة.", 404);
     const statements = [];
     for (const cell of input.cells) {
+      if (!cell || typeof cell !== "object" || Array.isArray(cell)) return fail("صيغة إحدى الخلايا غير صالحة.");
       if (!Number.isInteger(cell.row) || cell.row < 0 || cell.row > 9999 || !Number.isInteger(cell.column) || cell.column < 0 || cell.column > 199)
         return fail("إحداثيات إحدى الخلايا غير صالحة.");
       const value = cell.value == null ? null : String(cell.value).slice(0, 10000);
