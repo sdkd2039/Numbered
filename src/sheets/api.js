@@ -95,9 +95,7 @@ async function authRoute(request, env, url) {
       return fail("أدخل اسم المستخدم ورمز الاستعادة وكلمة مرور جديدة من 12 خانة على الأقل.");
     if (!env.SHEETS_RECOVERY_CODE || !/^[A-Za-z0-9]{12}$/.test(env.SHEETS_RECOVERY_CODE))
       return fail("استعادة الحساب غير مهيأة. راجع إعدادات الإدارة في Cloudflare.", 503);
-    await db.prepare("CREATE TABLE IF NOT EXISTS sheets_recovery_state (id INTEGER PRIMARY KEY CHECK(id=1), used_at INTEGER)").run();
-    const state = await db.prepare("SELECT used_at FROM sheets_recovery_state WHERE id=1").first();
-    if (state?.used_at) return fail("تم استخدام رمز الاستعادة مسبقًا. أنشئ رمزًا جديدًا من إعدادات Cloudflare.", 410);
+    await db.prepare("CREATE TABLE IF NOT EXISTS sheets_recovery_codes (code_hash TEXT PRIMARY KEY, used_at INTEGER NOT NULL)").run();
     const usernameKey = (await digest("recovery:" + input.username.trim().toLowerCase())).slice(0, 64);
     const now = Math.floor(Date.now() / 1000);
     const attempts = await db.prepare("SELECT COUNT(*) AS n FROM login_attempts WHERE username_key=? AND attempted_at>? AND succeeded=0")
@@ -111,12 +109,11 @@ async function authRoute(request, env, url) {
     const valid = !!user && diff === 0;
     await db.prepare("INSERT INTO login_attempts (username_key,succeeded) VALUES (?,?)").bind(usernameKey, valid ? 1 : 0).run();
     if (!valid) return fail("تعذر التحقق من بيانات الاستعادة.", 401);
+    const consumed = await db.prepare("INSERT OR IGNORE INTO sheets_recovery_codes (code_hash,used_at) VALUES (?,?)").bind(expectedHash, now).run();
+    if (!consumed.meta?.changes) return fail("تم استخدام رمز الاستعادة مسبقًا. أنشئ رمزًا جديدًا من إعدادات Cloudflare.", 410);
     const salt = b64(crypto.getRandomValues(new Uint8Array(16)));
     const hash = await passwordHash(input.newPassword, salt);
     await db.prepare("UPDATE users SET password_hash=?,password_salt=? WHERE id=?").bind(hash, salt, user.id).run();
-    const consumed = await db.prepare("INSERT INTO sheets_recovery_state (id,used_at) VALUES (1,?) ON CONFLICT(id) DO UPDATE SET used_at=excluded.used_at WHERE sheets_recovery_state.used_at IS NULL")
-      .bind(now).run();
-    if (!consumed.meta?.changes) return fail("تم استخدام رمز الاستعادة مسبقًا.", 410);
     await db.prepare("DELETE FROM sessions WHERE user_id=?").bind(user.id).run();
     return json({ success: true, message: "تم تغيير كلمة المرور. سجّل الدخول من جديد." });
   }
