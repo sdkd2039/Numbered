@@ -85,7 +85,8 @@ async function authRoute(request, env, url) {
     await db.prepare("INSERT INTO login_attempts (username_key,succeeded) VALUES (?,?)").bind(usernameKey, ok ? 1 : 0).run();
     if (!ok) return fail("اسم المستخدم أو كلمة المرور غير صحيحة.", 401);
     const token = randomToken(32), tokenHash = await digest(token), sessionId = crypto.randomUUID();
-    await db.prepare("INSERT INTO sessions (id,user_id,token_hash,expires_at) VALUES (?,?,?,?)").bind(sessionId, user.id, tokenHash, now + SESSION_TTL).run();
+    await db.prepare("INSERT INTO sessions (id,user_id,token_hash,expires_at) VALUES (?,?,?,?)")
+      .bind(sessionId, user.id, tokenHash, now + SESSION_TTL).run();
     return json({ success: true, token, expiresAt: now + SESSION_TTL, user: { id: user.id, username: user.username } });
   }
   if (url.pathname === "/api/sheets/auth/recover" && request.method === "POST") {
@@ -94,6 +95,9 @@ async function authRoute(request, env, url) {
       return fail("أدخل اسم المستخدم ورمز الاستعادة وكلمة مرور جديدة من 12 خانة على الأقل.");
     if (!env.SHEETS_RECOVERY_CODE || !/^[A-Za-z0-9]{12}$/.test(env.SHEETS_RECOVERY_CODE))
       return fail("استعادة الحساب غير مهيأة. راجع إعدادات الإدارة في Cloudflare.", 503);
+    await db.prepare("CREATE TABLE IF NOT EXISTS sheets_recovery_state (id INTEGER PRIMARY KEY CHECK(id=1), used_at INTEGER)").run();
+    const state = await db.prepare("SELECT used_at FROM sheets_recovery_state WHERE id=1").first();
+    if (state?.used_at) return fail("تم استخدام رمز الاستعادة مسبقًا. أنشئ رمزًا جديدًا من إعدادات Cloudflare.", 410);
     const usernameKey = (await digest("recovery:" + input.username.trim().toLowerCase())).slice(0, 64);
     const now = Math.floor(Date.now() / 1000);
     const attempts = await db.prepare("SELECT COUNT(*) AS n FROM login_attempts WHERE username_key=? AND attempted_at>? AND succeeded=0")
@@ -102,36 +106,19 @@ async function authRoute(request, env, url) {
     const user = await db.prepare("SELECT id FROM users WHERE username=? AND is_active=1").bind(input.username.trim()).first();
     const suppliedHash = await digest(input.recoveryCode);
     const expectedHash = await digest(env.SHEETS_RECOVERY_CODE);
-    const validCode = suppliedHash.length === expectedHash.length && [...suppliedHash].reduce((n,c,i)=>n | (c.charCodeAt(0) ^ expectedHash.charCodeAt(i)),0) === 0;
-    const valid = !!user && validCode;
+    let diff = 0;
+    for (let i=0;i<expectedHash.length;i++) diff |= suppliedHash.charCodeAt(i) ^ expectedHash.charCodeAt(i);
+    const valid = !!user && diff === 0;
     await db.prepare("INSERT INTO login_attempts (username_key,succeeded) VALUES (?,?)").bind(usernameKey, valid ? 1 : 0).run();
     if (!valid) return fail("تعذر التحقق من بيانات الاستعادة.", 401);
     const salt = b64(crypto.getRandomValues(new Uint8Array(16)));
     const hash = await passwordHash(input.newPassword, salt);
     await db.prepare("UPDATE users SET password_hash=?,password_salt=? WHERE id=?").bind(hash, salt, user.id).run();
+    const consumed = await db.prepare("INSERT INTO sheets_recovery_state (id,used_at) VALUES (1,?) ON CONFLICT(id) DO UPDATE SET used_at=excluded.used_at WHERE sheets_recovery_state.used_at IS NULL")
+      .bind(now).run();
+    if (!consumed.meta?.changes) return fail("تم استخدام رمز الاستعادة مسبقًا.", 410);
     await db.prepare("DELETE FROM sessions WHERE user_id=?").bind(user.id).run();
     return json({ success: true, message: "تم تغيير كلمة المرور. سجّل الدخول من جديد." });
-  }
-
-    const input = await bodyJSON(request);
-    if (!input || !validName(input.username, 40) || typeof input.password !== "string") return fail("بيانات الدخول غير مكتملة.");
-    const usernameKey = (await digest(input.username.trim().toLowerCase())).slice(0, 64);
-    const now = Math.floor(Date.now() / 1000);
-    await db.prepare("DELETE FROM login_attempts WHERE attempted_at<?").bind(now - 86400).run();
-    const attempts = await db.prepare("SELECT COUNT(*) AS n FROM login_attempts WHERE username_key=? AND attempted_at>? AND succeeded=0")
-      .bind(usernameKey, now - 900).first();
-    if (Number(attempts?.n || 0) >= 8) return fail("محاولات كثيرة. انتظر 15 دقيقة ثم حاول مجددًا.", 429);
-    const user = await db.prepare("SELECT id,username,password_hash,password_salt,is_active FROM users WHERE username=?")
-      .bind(input.username.trim()).first();
-    const ok = !!user && user.is_active === 1 && await verifyPassword(input.password, user.password_salt, user.password_hash);
-    await db.prepare("INSERT INTO login_attempts (username_key,succeeded) VALUES (?,?)").bind(usernameKey, ok ? 1 : 0).run();
-    if (!ok) return fail("اسم المستخدم أو كلمة المرور غير صحيحة.", 401);
-    const token = randomToken(32);
-    const tokenHash = await digest(token);
-    const sessionId = crypto.randomUUID();
-    await db.prepare("INSERT INTO sessions (id,user_id,token_hash,expires_at) VALUES (?,?,?,?)")
-      .bind(sessionId, user.id, tokenHash, now + SESSION_TTL).run();
-    return json({ success: true, token, expiresAt: now + SESSION_TTL, user: { id: user.id, username: user.username } });
   }
   return null;
 }
