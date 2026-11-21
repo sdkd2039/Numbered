@@ -3,6 +3,8 @@
 // Cloudflare Workers + OneSignal + KV (NOTIFICATION_ARCHIVE) + X02 (X02_API_KEY)
 // ==========================================
 
+import { json, validURL, htmlResponse } from "./shared/http.js";
+
 const APP_ID = "1f922d01-9839-40aa-a468-4aff02cf5b87";
 const ONESIGNAL_URL = "https://api.onesignal.com/notifications";
 const LOGO_URL = "https://file.garden/aoLQp-Z9knG33grX/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B5%D9%88%D8%B1/Painting-numbered.png";
@@ -50,16 +52,9 @@ function icon(name) {
 }
 const ICON_SVGS = Object.fromEntries(Object.keys(ICON_PATHS).map(k => [k, icon(k)]));
 
-function json(data, status=200) {
-  return new Response(JSON.stringify(data), {status, headers:{"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
-}
-function validURL(value) {
-  try { const u=new URL(value); return ["https:","http:"].includes(u.protocol)&&!u.username&&!u.password; }
-  catch { return false; }
-}
-function htmlResponse(html) {
-  return new Response(html,{headers:{"Content-Type":"text/html; charset=utf-8","Cache-Control":"no-store","X-Content-Type-Options":"nosniff","Referrer-Policy":"strict-origin-when-cross-origin","X-Frame-Options":"DENY","Content-Security-Policy":"default-src 'self'; img-src 'self' https: data: blob:; media-src 'self' blob:; font-src https://file.garden; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; worker-src 'self'; manifest-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"}});
-}
+
+
+
 function manifestResponse(){
   return new Response(JSON.stringify({
     id:"/",
