@@ -4,6 +4,7 @@
 // ==========================================
 
 import { json, validURL, htmlResponse } from "./shared/http.js";
+import { manifestResponse, swResponse, iconResponse } from "./pwa/handlers.js";
 
 const APP_ID = "1f922d01-9839-40aa-a468-4aff02cf5b87";
 const ONESIGNAL_URL = "https://api.onesignal.com/notifications";
@@ -55,45 +56,11 @@ const ICON_SVGS = Object.fromEntries(Object.keys(ICON_PATHS).map(k => [k, icon(k
 
 
 
-function manifestResponse(){
-  return new Response(JSON.stringify({
-    id:"/",
-    name:"لوحة معدودات",
-    short_name:"معدودات",
-    description:"إدارة إشعارات معدودات",
-    lang:"ar",
-    dir:"rtl",
-    start_url:"/",
-    scope:"/",
-    display:"standalone",
-    background_color:"#090b14",
-    theme_color:"#0b0d18",
-    icons:[
-      {src:`/icon-192.png?v=${ASSET_VERSION}`,sizes:"192x192",type:"image/png",purpose:"any"},
-      {src:`/icon-512.png?v=${ASSET_VERSION}`,sizes:"512x512",type:"image/png",purpose:"any"}
-    ]
-  }),{headers:{"Content-Type":"application/manifest+json; charset=utf-8","Cache-Control":"no-store"}});
-}
-function swResponse(){
-  const js=`const CACHE='numbered-pwa-v${ASSET_VERSION}';
-self.addEventListener('install',e=>{self.skipWaiting();});
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{
-  const r=e.request,u=new URL(r.url);
-  if(r.method!=='GET'||u.origin!==location.origin)return;
-  if(!['/','/files','/manifest.webmanifest'].includes(u.pathname))return;
-  e.respondWith(fetch(r,{cache:'no-store'}).then(res=>{
-    if(res.ok){const copy=res.clone();caches.open(CACHE).then(c=>c.put(r,copy));}
-    return res;
-  }).catch(async()=>(await caches.match(r))||new Response('أنت غير متصل بالإنترنت',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}})));
-});`;
+
+);`;
   return new Response(js,{headers:{"Content-Type":"application/javascript; charset=utf-8","Cache-Control":"no-cache, no-store, must-revalidate","Service-Worker-Allowed":"/"}});
 }
-async function iconResponse(){
-  const r=await fetch(LOGO_URL,{cf:{cacheTtl:0,cacheEverything:false}});
-  if(!r.ok)return new Response("Logo unavailable",{status:502});
-  return new Response(r.body,{headers:{"Content-Type":r.headers.get("Content-Type")||"image/png","Cache-Control":"no-store, max-age=0","X-Content-Type-Options":"nosniff"}});
-}
+
 
 function renderPage(pageMode="home"){const filesOnly=pageMode==="files";return `<!doctype html><html lang="ar" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0d18"><meta name="description" content="لوحة إشعارات معدودات"><link rel="manifest" href="/manifest.webmanifest?v=${ASSET_VERSION}"><link rel="icon" href="/icon-192.png?v=${ASSET_VERSION}"><link rel="apple-touch-icon" href="/icon-192.png?v=${ASSET_VERSION}"><title>${filesOnly?"مركز الملفات | لوحة معدودات":"لوحة معدودات"}</title>
@@ -423,9 +390,9 @@ export default {
   if(request.method==='GET'){
    if(url.pathname.startsWith('/f/'))return serveFile(url.pathname.slice(3),env);
    if(url.pathname==='/'&&url.searchParams.get('action')==='files'){const token=request.headers.get('X-Admin-Token')||'';if(!env.ADMIN_TOKEN||token!==env.ADMIN_TOKEN)return json({success:false,message:'رمز الإدارة غير صحيح.'},401);if(!env.NOTIFICATION_ARCHIVE||!env.X02_API_KEY)return json({success:false,message:'أضف X02_API_KEY واربط KV باسم NOTIFICATION_ARCHIVE.'},500);return json({success:true,items:await listFiles(env,url.origin)});}
-   if(url.pathname==='/manifest.webmanifest')return manifestResponse();
-   if(url.pathname==='/sw.js')return swResponse();
-   if(url.pathname==='/icon-192.png'||url.pathname==='/icon-512.png')return iconResponse();
+   if(url.pathname==='/manifest.webmanifest')return manifestResponse(ASSET_VERSION);
+   if(url.pathname==='/sw.js')return swResponse(ASSET_VERSION);
+   if(url.pathname==='/icon-192.png'||url.pathname==='/icon-512.png')return iconResponse(LOGO_URL);
    if(url.pathname==='/'&&url.searchParams.get('action')==='archive'){
     const token=request.headers.get('X-Admin-Token')||'';
     if(!env.ADMIN_TOKEN||token!==env.ADMIN_TOKEN)return json({success:false,message:'رمز الإدارة غير صحيح.'},401);
