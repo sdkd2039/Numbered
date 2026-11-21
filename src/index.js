@@ -310,7 +310,26 @@ if(FILES_ONLY){$('files').classList.add('active');loadFiles();}
 </script></body></html>`;}
 
 export default {
- async fetch(request,env){
+ async fetch(request,env,ctx){
+  const origin=request.headers.get("Origin")||"";
+  const allowedOrigins=new Set(["https://numbered.casacam.net"]);
+  if(request.method==="OPTIONS"){
+   const headers=new Headers({
+    "Access-Control-Allow-Methods":"GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers":"Content-Type, Authorization, X-Admin-Token",
+    "Access-Control-Max-Age":"86400",
+    "Vary":"Origin"
+   });
+   if(allowedOrigins.has(origin))headers.set("Access-Control-Allow-Origin",origin);
+   return new Response(null,{status:204,headers});
+  }
+  const response=await this.handleRequest(request,env,ctx);
+  const headers=new Headers(response.headers);
+  if(allowedOrigins.has(origin))headers.set("Access-Control-Allow-Origin",origin);
+  headers.set("Vary","Origin");
+  return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
+ },
+ async handleRequest(request,env,ctx){
   const url=new URL(request.url);
   if(url.pathname.startsWith("/api/sheets/"))return handleSheets(request,env);
   if(request.method==='GET'){
