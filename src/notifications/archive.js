@@ -1,7 +1,7 @@
 import { json } from "../shared/http.js";
 
-const APP_ID = "1f922d01-9839-40aa-a468-4aff02cf5b87";
-const ONESIGNAL_URL = "https://api.onesignal.com/notifications";
+export const APP_ID = "1f922d01-9839-40aa-a468-4aff02cf5b87";
+export const ONESIGNAL_URL = "https://api.onesignal.com/notifications";
 const ARCHIVE_INDEX = "archive:index";
 const MAX_ARCHIVE = 200;
 
