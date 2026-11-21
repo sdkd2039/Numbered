@@ -11,7 +11,7 @@ function b64(bytes) {
   return btoa(binary);
 }
 function fromB64(value) {
-  return Uint8Array.from(atob(value), c => c.charCodeAt(0));
+  return Uint8Array.from(atob(value.replace(/-/g, "+").replace(/_/g, "/")), c => c.charCodeAt(0));
 }
 function randomToken(bytes = 32) {
   const data = crypto.getRandomValues(new Uint8Array(bytes));
@@ -28,9 +28,11 @@ async function passwordHash(password, salt) {
 }
 async function verifyPassword(password, salt, expected) {
   const actual = await passwordHash(password, salt);
-  return actual.length === expected.length && crypto.subtle.timingSafeEqual
-    ? crypto.subtle.timingSafeEqual(fromB64(actual), fromB64(expected))
-    : actual === expected;
+  if (actual.length !== expected.length) return false;
+  const a = fromB64(actual), b = fromB64(expected);
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
+  return diff === 0;
 }
 async function bodyJSON(request) {
   try { return await request.json(); } catch { return null; }
@@ -69,7 +71,7 @@ async function authRoute(request, env, url) {
       return fail("رمز التهيئة غير صحيح.", 403);
     const count = await db.prepare("SELECT COUNT(*) AS n FROM users").first();
     if (Number(count?.n || 0) > 0) return fail("تم إنشاء حساب الإدارة مسبقًا؛ لا يمكن إعادة التهيئة.", 409);
-    const salt = randomToken(16);
+    const salt = b64(crypto.getRandomValues(new Uint8Array(16)));
     const hash = await passwordHash(input.password, salt);
     const id = crypto.randomUUID();
     await db.prepare("INSERT INTO users (id,username,password_hash,password_salt,role,is_active) VALUES (?,?,?,?, 'admin',1)")
