@@ -34,7 +34,7 @@ self.addEventListener('fetch',e=>{
   }).catch(async()=>(await caches.match(r))||new Response('أنت غير متصل بالإنترنت',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}})));
 }
 
-async export async function iconResponse(logoUrl){
+export async function iconResponse(logoUrl){
   const r=await fetch(logoUrl,{cf:{cacheTtl:0,cacheEverything:false}});
   if(!r.ok)return new Response("Logo unavailable",{status:502});
   return new Response(r.body,{headers:{"Content-Type":r.headers.get("Content-Type")||"image/png","Cache-Control":"no-store, max-age=0","X-Content-Type-Options":"nosniff"}});
