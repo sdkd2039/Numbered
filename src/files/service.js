@@ -1,7 +1,7 @@
 import { dateLabel } from "../notifications/archive.js";
 
 const FILE_INDEX = "files:index";
-const FILE_TTLS = {"1d":86400000,"7d":604800000,"30d":2592000000,"90d":7776000000,"forever":0};
+export const FILE_TTLS = {"1d":86400000,"7d":604800000,"30d":2592000000,"90d":7776000000,"forever":0};
 const ALLOWED_FILES = new Set(["image/jpeg","image/png","image/webp","image/gif","image/avif","video/mp4","video/webm","application/pdf"]);
 
 export async function fileIndex(env){return await env.NOTIFICATION_ARCHIVE.get(FILE_INDEX,'json')||[];}
